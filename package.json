@@ -1,0 +1,20 @@
+{
+  "name": "wrhistory",
+  "version": "1.0.0",
+  "description": "wrhistory",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Craig Gordon",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^4.13.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.0.0-beta.1",
+    "webpack-cli": "^2.0.6",
+    "webpack-dev-middleware": "^2.0.5",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
