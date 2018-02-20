@@ -19,4 +19,5 @@ node_modules/
 package-lock.json
 
 # Webpack
+client/bundle.js
 client/bundle.js.map
