@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
+    "cors": "^2.8.4",
     "d3": "^4.13.0",
     "dotenv": "^5.0.0",
     "dotenv-webpack": "^1.5.4",
