@@ -1,4 +1,5 @@
 import React from 'react';
+import Chart from './chart.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -8,7 +9,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        Hello, World Record.
+        <div>Hello, World Record.</div>
+        <Chart />
+        {/* <div id="container" style="width:1000px; height:800px"></div> */}
       </div>
     )
   }
