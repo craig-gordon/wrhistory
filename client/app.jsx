@@ -11,7 +11,6 @@ class App extends React.Component {
       <div>
         <div>Hello, World Record.</div>
         <Chart />
-        {/* <div id="container" style="width:1000px; height:800px"></div> */}
       </div>
     )
   }
