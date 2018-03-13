@@ -12,6 +12,7 @@ class Chart extends React.Component {
       title: {
         text: 'Mega Man 2 Any% World Record History'
       },
+      credits: false,
       xAxis: {
         title: {
           text: 'Date'
@@ -48,6 +49,7 @@ class Chart extends React.Component {
         }
       },
       series: [{
+        step: 'left',
         data: [
           [Date.UTC(data[0].year, data[0].month, data[0].day), data[0].time * 1000],
           [Date.UTC(data[1].year, data[1].month, data[1].day), data[1].time * 1000],
