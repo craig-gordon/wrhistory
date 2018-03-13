@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
+import { tsToSecs } from './timeConversions.js';
 import data from './mm2data.js';
 
 class Chart extends React.Component {
