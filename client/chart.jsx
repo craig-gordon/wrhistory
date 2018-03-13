@@ -43,7 +43,7 @@ class Chart extends React.Component {
             `
               <div>
                 <div>Time: ${secsToTs(this.y / 1000)}</div><br/>
-                <div>Player: Lorem Ipsum</div><br/>
+                <div>Player: ${this.point.player}</div><br/>
                 <div>Date: ${(new Date(this.x)).toDateString().slice(4)}</div><br/>
               </div>
             `
@@ -54,17 +54,61 @@ class Chart extends React.Component {
         step: 'left',
         showInLegend: false,
         data: [
-          [Date.UTC(data[0].year, data[0].month, data[0].day), data[0].time * 1000],
-          [Date.UTC(data[1].year, data[1].month, data[1].day), data[1].time * 1000],
-          [Date.UTC(data[2].year, data[2].month, data[2].day), data[2].time * 1000],
-          [Date.UTC(data[3].year, data[3].month, data[3].day), data[3].time * 1000],
-          [Date.UTC(data[4].year, data[4].month, data[4].day), data[4].time * 1000],
-          [Date.UTC(data[5].year, data[5].month, data[5].day), data[5].time * 1000],
-          [Date.UTC(data[6].year, data[6].month, data[6].day), data[6].time * 1000],
-          [Date.UTC(data[7].year, data[7].month, data[7].day), data[7].time * 1000],
-          [Date.UTC(data[8].year, data[8].month, data[8].day), data[8].time * 1000],
-          [Date.UTC(data[9].year, data[9].month, data[9].day), data[9].time * 1000],
-          [Date.UTC(data[10].year, data[10].month, data[10].day), data[10].time * 1000],
+          {
+            x: Date.UTC(data[0].year, data[0].month, data[0].day),
+            y: data[0].time * 1000,
+            player: data[0].player
+          },
+          {
+            x: Date.UTC(data[1].year, data[1].month, data[1].day),
+            y: data[1].time * 1000,
+            player: data[1].player
+          },
+          {
+            x: Date.UTC(data[2].year, data[2].month, data[2].day),
+            y: data[2].time * 1000,
+            player: data[2].player
+          },
+          {
+            x: Date.UTC(data[3].year, data[3].month, data[3].day),
+            y: data[3].time * 1000,
+            player: data[3].player
+          },
+          {
+            x: Date.UTC(data[4].year, data[4].month, data[4].day),
+            y: data[4].time * 1000,
+            player: data[4].player
+          },
+          {
+            x: Date.UTC(data[5].year, data[5].month, data[5].day),
+            y: data[5].time * 1000,
+            player: data[5].player
+          },
+          {
+            x: Date.UTC(data[6].year, data[6].month, data[6].day),
+            y: data[6].time * 1000,
+            player: data[6].player
+          },
+          {
+            x: Date.UTC(data[7].year, data[7].month, data[7].day),
+            y: data[7].time * 1000,
+            player: data[7].player
+          },
+          {
+            x: Date.UTC(data[8].year, data[8].month, data[8].day),
+            y: data[8].time * 1000,
+            player: data[8].player
+          },
+          {
+            x: Date.UTC(data[9].year, data[9].month, data[9].day),
+            y: data[9].time * 1000,
+            player: data[9].player
+          },
+          {
+            x: Date.UTC(data[10].year, data[10].month, data[10].day),
+            y: data[10].time * 1000,
+            player: data[10].player
+          }
         ]
       }]
     }

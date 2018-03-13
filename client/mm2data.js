@@ -2,7 +2,7 @@ const data = [
   {
     id: 1,
     time: 1839,
-    runner: 'Richard Ureta',
+    player: 'Richard Ureta',
     platform: 'Nintendo Entertainment System',
     version: 'U',
     year: 2004,
@@ -12,7 +12,7 @@ const data = [
   {
     id: 2,
     time: 1671,
-    runner: 'Seth Glass',
+    player: 'Seth Glass',
     platform: 'Nintendo Entertainment System',
     version: 'U',
     year: 2010,
@@ -22,7 +22,7 @@ const data = [
   {
     id: 3,
     time: 1641,
-    runner: 'nou1',
+    player: 'nou1',
     platform: 'Nintendo Entertainment System',
     version: 'J',
     year: 2011,
@@ -32,7 +32,7 @@ const data = [
   {
     id: 4,
     time: 1637,
-    runner: 'cyghfer',
+    player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
     version: 'J',
     year: 2013,
@@ -42,7 +42,7 @@ const data = [
   {
     id: 5,
     time: 1628,
-    runner: 'shoka',
+    player: 'shoka',
     platform: 'Emulator',
     version: 'J',
     year: 2013,
@@ -52,7 +52,7 @@ const data = [
   {
     id: 6,
     time: 1621,
-    runner: 'cyghfer',
+    player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
     version: 'J',
     year: 2014,
@@ -62,7 +62,7 @@ const data = [
   {
     id: 7,
     time: 1617,
-    runner: 'Ellonija',
+    player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
     version: 'J',
     year: 2014,
@@ -72,7 +72,7 @@ const data = [
   {
     id: 8,
     time: 1616,
-    runner: 'Ellonija',
+    player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
     version: 'J',
     year: 2015,
@@ -82,7 +82,7 @@ const data = [
   {
     id: 9,
     time: 1615,
-    runner: 'Ellonija',
+    player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
     version: 'J',
     year: 2015,
@@ -92,7 +92,7 @@ const data = [
   {
     id: 10,
     time: 1608,
-    runner: 'Ellonija',
+    player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
     version: 'J',
     year: 2016,
@@ -102,7 +102,7 @@ const data = [
   {
     id: 11,
     time: 1602,
-    runner: 'cyghfer',
+    player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
     version: 'J',
     year: 2018,
