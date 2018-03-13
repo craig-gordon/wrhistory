@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
-import * as mm2Data from './mm2data.js';
+import data from './mm2data.js';
 
 class Chart extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Chart extends React.Component {
           text: 'Date'
         },
         type: 'datetime',
-        min: Date.UTC(1998, 0, 1),
+        min: Date.UTC(2004, 0, 1),
         dateTimeLabelFormats: {
           year: '%Y'
         }
@@ -30,23 +30,36 @@ class Chart extends React.Component {
         dateTimeLabelFormats: {
           milliseconds: '%H:%M:%S',
           second: '%H:%M:%S',
-          minute: '%H:%M:%S',
+          minute: '%M:%S',
           hour: '%H:%M:%S'
+        }
+      },
+      tooltip: {
+        formatter: function() {
+          return (
+            `
+              <div>
+                <div>Time: ${this.y}</div><br/>
+                <div>Player: Lorem Ipsum</div><br/>
+                <div>Date: ${this.x}</div><br/>
+              </div>
+            `
+          );
         }
       },
       series: [{
         data: [
-          [Date.UTC(2000, 0, 1), 1839000],
-          [Date.UTC(2005, 0, 1), 1671000],
-          [Date.UTC(2008, 0, 1), 1641000],
-          [Date.UTC(2009, 0, 1), 1637000],
-          [Date.UTC(2010, 0, 1), 1628000],
-          [Date.UTC(2013, 0, 1), 1621000],
-          [Date.UTC(2014, 0, 1), 1617000],
-          [Date.UTC(2015, 0, 1), 1616000],
-          [Date.UTC(2016, 0, 1), 1615000],
-          [Date.UTC(2017, 0, 1), 1608000],
-          [Date.UTC(2018, 0, 1), 1602000],
+          [Date.UTC(data[0].year, data[0].month, data[0].day), data[0].time * 1000],
+          [Date.UTC(data[1].year, data[1].month, data[1].day), data[1].time * 1000],
+          [Date.UTC(data[2].year, data[2].month, data[2].day), data[2].time * 1000],
+          [Date.UTC(data[3].year, data[3].month, data[3].day), data[3].time * 1000],
+          [Date.UTC(data[4].year, data[4].month, data[4].day), data[4].time * 1000],
+          [Date.UTC(data[5].year, data[5].month, data[5].day), data[5].time * 1000],
+          [Date.UTC(data[6].year, data[6].month, data[6].day), data[6].time * 1000],
+          [Date.UTC(data[7].year, data[7].month, data[7].day), data[7].time * 1000],
+          [Date.UTC(data[8].year, data[8].month, data[8].day), data[8].time * 1000],
+          [Date.UTC(data[9].year, data[9].month, data[9].day), data[9].time * 1000],
+          [Date.UTC(data[10].year, data[10].month, data[10].day), data[10].time * 1000],
         ]
       }]
     }
