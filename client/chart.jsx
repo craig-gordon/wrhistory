@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
-import { tsToSecs } from './timeConversions.js';
+import { secsToTs } from './timeConversions.js';
 import data from './mm2data.js';
 
 class Chart extends React.Component {
@@ -38,12 +38,13 @@ class Chart extends React.Component {
       },
       tooltip: {
         formatter: function() {
+          console.log('this:', this);
           return (
             `
               <div>
-                <div>Time: ${this.y}</div><br/>
+                <div>Time: ${secsToTs(this.y / 1000)}</div><br/>
                 <div>Player: Lorem Ipsum</div><br/>
-                <div>Date: ${this.x}</div><br/>
+                <div>Date: ${(new Date(this.x)).toDateString().slice(4)}</div><br/>
               </div>
             `
           );
@@ -51,6 +52,7 @@ class Chart extends React.Component {
       },
       series: [{
         step: 'left',
+        showInLegend: false,
         data: [
           [Date.UTC(data[0].year, data[0].month, data[0].day), data[0].time * 1000],
           [Date.UTC(data[1].year, data[1].month, data[1].day), data[1].time * 1000],
