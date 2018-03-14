@@ -67,12 +67,11 @@ class Chart extends React.Component {
         annotations: [{
           labels: [{
               point: {
-                  xAxis: 0,
-                  yAxis: 1,
-                  x: 1517943808450,
-                  y: 3.4162381858686803
+                  x: 723,
+                  y: 180
               },
-              text: 'LABEL'
+              y: 0,
+              text: 'JPN version standardized'
           }]
         }],
         series: [{
