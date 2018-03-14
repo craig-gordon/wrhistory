@@ -14,6 +14,13 @@ class Chart extends React.Component {
         text: 'Mega Man 2 Any% World Record History'
       },
       credits: false,
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
       xAxis: {
         title: {
           text: 'Date'
@@ -45,6 +52,7 @@ class Chart extends React.Component {
                 <div>Time: ${secsToTs(this.y / 1000)}</div><br/>
                 <div>Player: ${this.point.player}</div><br/>
                 <div>Date: ${(new Date(this.x)).toDateString().slice(4)}</div><br/>
+                ${this.point.note ? '<div>Note: ' + this.point.note + '</div><br/>' : ''}
               </div>
             `
           );
@@ -53,6 +61,7 @@ class Chart extends React.Component {
       series: [{
         step: 'left',
         showInLegend: false,
+        cursor: 'pointer',
         data: [
           {
             x: Date.UTC(data[0].year, data[0].month, data[0].day),
@@ -77,7 +86,9 @@ class Chart extends React.Component {
           {
             x: Date.UTC(data[4].year, data[4].month, data[4].day),
             y: data[4].time * 1000,
-            player: data[4].player
+            player: data[4].player,
+            color: '#FF0000',
+            note: 'This run was performed with 10hz turbo, though it was still recognized as the legitimate record.'
           },
           {
             x: Date.UTC(data[5].year, data[5].month, data[5].day),
@@ -107,7 +118,8 @@ class Chart extends React.Component {
           {
             x: Date.UTC(data[10].year, data[10].month, data[10].day),
             y: data[10].time * 1000,
-            player: data[10].player
+            player: data[10].player,
+            color: '#00FF00'
           }
         ]
       }]
