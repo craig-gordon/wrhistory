@@ -37,7 +37,49 @@ class Chart extends React.Component {
           min: Date.UTC(2004, 0, 1),
           dateTimeLabelFormats: {
             year: '%Y'
-          }
+          },
+          plotBands: [
+            {
+              from: Date.UTC(data[0].year, data[0].month, data[0].day),
+              to: Date.UTC(data[1].year, data[1].month, data[1].day),
+              color: 'lightgray'
+            },
+            {
+              from: Date.UTC(data[1].year, data[1].month, data[1].day),
+              to: Date.UTC(data[2].year, data[2].month, data[2].day),
+              color: 'mintcream'
+            },
+            {
+              from: Date.UTC(data[2].year, data[2].month, data[2].day),
+              to: Date.UTC(data[3].year, data[3].month, data[3].day),
+              color: 'lightgray'
+            },
+            {
+              from: Date.UTC(data[3].year, data[3].month, data[3].day),
+              to: Date.UTC(data[4].year, data[4].month, data[4].day),
+              color: 'mintcream'
+            },
+            {
+              from: Date.UTC(data[4].year, data[4].month, data[4].day),
+              to: Date.UTC(data[5].year, data[5].month, data[5].day),
+              color: 'lightgray'
+            },
+            {
+              from: Date.UTC(data[5].year, data[5].month, data[5].day),
+              to: Date.UTC(data[6].year, data[6].month, data[6].day),
+              color: 'mintcream'
+            },
+            {
+              from: Date.UTC(data[6].year, data[6].month, data[6].day),
+              to: Date.UTC(data[10].year, data[10].month, data[10].day),
+              color: 'lightgray'
+            },
+            {
+              from: Date.UTC(data[10].year, data[10].month, data[10].day),
+              to: Date.now(),
+              color: 'mintcream'
+            },
+          ]
         },
         yAxis: {
           title: {
@@ -83,7 +125,7 @@ class Chart extends React.Component {
           zones: [
             {
               value: Date.UTC(data[1].year, data[1].month, data[1].day),
-              color: 'black'
+              color: 'orange'
             },
             {
               value: Date.UTC(data[2].year, data[2].month, data[2].day),
