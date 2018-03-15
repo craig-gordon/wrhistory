@@ -2,10 +2,12 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import Annotations from 'highcharts/modules/annotations';
 import ReactHighcharts from 'react-highcharts';
+import DarkUnica from 'highcharts/themes/dark-unica';
 import { secsToTs } from './timeConversions.js';
 import data from './mm2data.js';
 
 Annotations(ReactHighcharts.Highcharts);
+DarkUnica(ReactHighcharts.Highcharts);
 
 class Chart extends React.Component {
   constructor(props) {
