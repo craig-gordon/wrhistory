@@ -207,7 +207,9 @@ class Chart extends React.Component {
               x: Date.UTC(data[10].year, data[10].month, data[10].day),
               y: data[10].time * 1000,
               player: data[10].player,
-              color: '#00FF00'
+              marker: {
+                symbol: 'url(assets/1st.png)'
+              }
             }
           ]
         }]
