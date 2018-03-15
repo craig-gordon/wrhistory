@@ -23,6 +23,9 @@ class Chart extends React.Component {
         title: {
           text: 'Mega Man 2 Any% World Record History'
         },
+        subtitle: {
+          text: 'Current WR — 26:42 by cyghfer'
+        },
         credits: false,
         plotOptions: {
           line: {
@@ -40,48 +43,48 @@ class Chart extends React.Component {
           dateTimeLabelFormats: {
             year: '%Y'
           },
-          plotBands: [
-            {
-              from: Date.UTC(data[0].year, data[0].month, data[0].day),
-              to: Date.UTC(data[1].year, data[1].month, data[1].day),
-              color: 'lightgray'
-            },
-            {
-              from: Date.UTC(data[1].year, data[1].month, data[1].day),
-              to: Date.UTC(data[2].year, data[2].month, data[2].day),
-              color: 'mintcream'
-            },
-            {
-              from: Date.UTC(data[2].year, data[2].month, data[2].day),
-              to: Date.UTC(data[3].year, data[3].month, data[3].day),
-              color: 'lightgray'
-            },
-            {
-              from: Date.UTC(data[3].year, data[3].month, data[3].day),
-              to: Date.UTC(data[4].year, data[4].month, data[4].day),
-              color: 'mintcream'
-            },
-            {
-              from: Date.UTC(data[4].year, data[4].month, data[4].day),
-              to: Date.UTC(data[5].year, data[5].month, data[5].day),
-              color: 'lightgray'
-            },
-            {
-              from: Date.UTC(data[5].year, data[5].month, data[5].day),
-              to: Date.UTC(data[6].year, data[6].month, data[6].day),
-              color: 'mintcream'
-            },
-            {
-              from: Date.UTC(data[6].year, data[6].month, data[6].day),
-              to: Date.UTC(data[10].year, data[10].month, data[10].day),
-              color: 'lightgray'
-            },
-            {
-              from: Date.UTC(data[10].year, data[10].month, data[10].day),
-              to: Date.now(),
-              color: 'mintcream'
-            },
-          ]
+          // plotBands: [
+          //   {
+          //     from: Date.UTC(data[0].year, data[0].month, data[0].day),
+          //     to: Date.UTC(data[1].year, data[1].month, data[1].day),
+          //     color: 'lightgray'
+          //   },
+          //   {
+          //     from: Date.UTC(data[1].year, data[1].month, data[1].day),
+          //     to: Date.UTC(data[2].year, data[2].month, data[2].day),
+          //     color: 'mintcream'
+          //   },
+          //   {
+          //     from: Date.UTC(data[2].year, data[2].month, data[2].day),
+          //     to: Date.UTC(data[3].year, data[3].month, data[3].day),
+          //     color: 'lightgray'
+          //   },
+          //   {
+          //     from: Date.UTC(data[3].year, data[3].month, data[3].day),
+          //     to: Date.UTC(data[4].year, data[4].month, data[4].day),
+          //     color: 'mintcream'
+          //   },
+          //   {
+          //     from: Date.UTC(data[4].year, data[4].month, data[4].day),
+          //     to: Date.UTC(data[5].year, data[5].month, data[5].day),
+          //     color: 'lightgray'
+          //   },
+          //   {
+          //     from: Date.UTC(data[5].year, data[5].month, data[5].day),
+          //     to: Date.UTC(data[6].year, data[6].month, data[6].day),
+          //     color: 'mintcream'
+          //   },
+          //   {
+          //     from: Date.UTC(data[6].year, data[6].month, data[6].day),
+          //     to: Date.UTC(data[10].year, data[10].month, data[10].day),
+          //     color: 'lightgray'
+          //   },
+          //   {
+          //     from: Date.UTC(data[10].year, data[10].month, data[10].day),
+          //     to: Date.now(),
+          //     color: 'mintcream'
+          //   },
+          // ]
         },
         yAxis: {
           title: {
@@ -110,14 +113,24 @@ class Chart extends React.Component {
           }
         },
         annotations: [{
-          labels: [{
+          labels: [
+            {
               point: {
-                  x: 723,
-                  y: 200
+                x: 800,
+                y: 200
               },
               y: 0,
               text: 'JPN version standardized'
-          }]
+            },
+            {
+              point: {
+                x: 969,
+                y: 225
+              },
+              y: -10,
+              text: 'First 26'
+            }
+          ]
         }],
         series: [{
           step: 'left',
@@ -150,7 +163,7 @@ class Chart extends React.Component {
               color: 'red'
             },
             {
-              color: 'purple'
+              color: 'plum'
             }
           ],
           data: [
@@ -210,7 +223,9 @@ class Chart extends React.Component {
               y: data[10].time * 1000,
               player: data[10].player,
               marker: {
-                symbol: 'url(assets/1st.png)'
+                symbol: 'url(assets/1st.png)',
+                height: 16,
+                width: 16
               }
             }
           ]
