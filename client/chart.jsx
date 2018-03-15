@@ -15,7 +15,8 @@ class Chart extends React.Component {
         chart: {
           type: 'line',
           zoomType: 'x',
-          panning: true
+          panning: true,
+          panKey: 'shift'
         },
         title: {
           text: 'Mega Man 2 Any% World Record History'
@@ -68,7 +69,7 @@ class Chart extends React.Component {
           labels: [{
               point: {
                   x: 723,
-                  y: 180
+                  y: 200
               },
               y: 0,
               text: 'JPN version standardized'
@@ -78,6 +79,36 @@ class Chart extends React.Component {
           step: 'left',
           showInLegend: false,
           cursor: 'pointer',
+          zoneAxis: 'x',
+          zones: [
+            {
+              value: Date.UTC(data[1].year, data[1].month, data[1].day),
+              color: 'black'
+            },
+            {
+              value: Date.UTC(data[2].year, data[2].month, data[2].day),
+              color: 'blue'
+            },
+            {
+              value: Date.UTC(data[3].year, data[3].month, data[3].day),
+              color: 'gray'              
+            },
+            {
+              value: Date.UTC(data[4].year, data[4].month, data[4].day),
+              color: 'red'
+            },
+            {
+              value: Date.UTC(data[5].year, data[5].month, data[5].day),
+              color: 'green'
+            },
+            {
+              value: Date.UTC(data[6].year, data[6].month, data[6].day),
+              color: 'red'
+            },
+            {
+              color: 'purple'
+            }
+          ],
           data: [
             {
               x: Date.UTC(data[0].year, data[0].month, data[0].day),
@@ -103,7 +134,6 @@ class Chart extends React.Component {
               x: Date.UTC(data[4].year, data[4].month, data[4].day),
               y: data[4].time * 1000,
               player: data[4].player,
-              color: '#FF0000',
               note: 'This run was performed with 10hz turbo, though it was still recognized as the legitimate record.'
             },
             {
