@@ -140,37 +140,47 @@ class Chart extends React.Component {
           zones: [
             {
               value: Date.UTC(data[1].year, data[1].month, data[1].day),
-              color: 'orange'
+              color: '#90ee7e'
             },
             {
               value: Date.UTC(data[2].year, data[2].month, data[2].day),
-              color: 'blue'
+              color: '#f45b5b'
             },
             {
               value: Date.UTC(data[3].year, data[3].month, data[3].day),
-              color: 'gray'              
+              color: '#2b908f'              
             },
             {
               value: Date.UTC(data[4].year, data[4].month, data[4].day),
-              color: 'red'
+              color: '#7798BF'
             },
             {
               value: Date.UTC(data[5].year, data[5].month, data[5].day),
-              color: 'green'
+              color: 'white'
             },
             {
               value: Date.UTC(data[6].year, data[6].month, data[6].day),
-              color: 'red'
+              color: '#7798BF'
             },
             {
+              value: Date.UTC(data[10].year, data[10].month, data[10].day),
               color: 'plum'
-            }
+            },
+            {
+              value: Date.now(),
+              color: '#7798BF'
+            },
           ],
           data: [
             {
               x: Date.UTC(data[0].year, data[0].month, data[0].day),
               y: data[0].time * 1000,
-              player: data[0].player
+              player: data[0].player,
+              events: {
+                click: () => {
+                  console.log('clicked Richard Ureta point');
+                }
+              }
             },
             {
               x: Date.UTC(data[1].year, data[1].month, data[1].day),
