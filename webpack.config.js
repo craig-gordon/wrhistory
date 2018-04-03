@@ -4,7 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 
-const config = {
+module.exports = {
   entry: './client/index.jsx',
   output: {
     path: path.join(__dirname + '/client'),
@@ -24,6 +24,10 @@ const config = {
             'transform-react-jsx-source'
           ]]
         }
+      },
+      {
+        test: /\.css$/,
+        loader: [ 'style-loader', 'css-loader' ]
       }
     ]
   },
@@ -37,6 +41,4 @@ const config = {
     fs: 'empty'
   },
   watch: true
-}
-
-module.exports = config;
+};
