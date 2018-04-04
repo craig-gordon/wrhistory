@@ -255,15 +255,7 @@ class Chart extends React.Component {
   }
 
   render() {
-    return <ReactHighcharts
-      config={this.state.config}
-      callback={
-        (chart) => {
-          chart.renderer.label(<ChartCarousel />, 1400, 110, null, null, null, true).add();
-        }
-      }
-      ref="chart"
-    />
+    return <ReactHighcharts config={this.state.config} ref="chart" />
   }
 }
 
