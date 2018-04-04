@@ -10,13 +10,37 @@ const ChartCarousel = (props) => (
     showIndicators={false}
   >
     <div>
-      <h1 style={{color: 'white'}}>Carousel Item 1</h1>
+      <h3 style={{color: 'white'}}>{data[0].detailed}</h3>
     </div>
     <div>
-      <h1 style={{color: 'white'}}>Carousel Item 2</h1>
+      <h3 style={{color: 'white'}}>{data[1].detailed}</h3>
     </div>
     <div>
-      <h1 style={{color: 'white'}}>Carousel Item 3</h1>
+      <h3 style={{color: 'white'}}>{data[2].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[3].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[4].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[5].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[6].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[7].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[8].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[9].detailed}</h3>
+    </div>
+    <div>
+      <h3 style={{color: 'white'}}>{data[10].detailed}</h3>
     </div>
   </Carousel>
 );

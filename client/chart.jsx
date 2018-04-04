@@ -211,7 +211,7 @@ class Chart extends React.Component {
               x: Date.UTC(data[4].year, data[4].month, data[4].day),
               y: data[4].time * 1000,
               player: data[4].player,
-              note: 'This run was performed with 10hz turbo, though it was still recognized as the legitimate record.'
+              note: data[4].note
             },
             {
               x: Date.UTC(data[5].year, data[5].month, data[5].day),

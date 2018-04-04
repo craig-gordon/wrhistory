@@ -22,7 +22,7 @@ const data = [
     month: 4,
     day: 26,
     note: 'Played on Normal mode.',
-    detailed:  `A landmark run that inspired many early speedrunners in the era before streaming.
+    detailed:  `A landmark run that inspired many early speedrunners in the era before Twitch.
     This run used the standard Robot Masters route starting with Flash, Heat, and Air, 
     and made full use of all glitches known to be possible in realtime.`
   },
@@ -134,7 +134,8 @@ const data = [
     note: null,
     detailed: `The first 26:4x. Incredibly, Ello achieved this run the first day back 
     doing attempts after a short break. This record stood for over 2 years, and it became 
-    an iconic run to newer runners due to its longevity.`
+    an iconic run to newer runners due to its longevity and its large time differential over
+    the next entries on the leaderboard.`
   },
   {
     id: 11,
