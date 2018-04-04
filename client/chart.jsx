@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import Annotations from 'highcharts/modules/annotations';
 import ReactHighcharts from 'react-highcharts';
 import DarkUnica from 'highcharts/themes/dark-unica';
+import ChartCarousel from './chartCarousel.jsx';
 import { secsToTs } from './timeConversions.js';
 import data from './mm2data.js';
 
@@ -34,6 +35,15 @@ class Chart extends React.Component {
             }
           }
         },
+        // labels: {
+        //   items: [{
+        //     html: <ChartCarousel />,
+        //     style: {
+        //       left: '100px',
+        //       top: '100px'
+        //     }
+        //   }]
+        // },
         xAxis: {
           title: {
             text: 'Date'
@@ -245,7 +255,15 @@ class Chart extends React.Component {
   }
 
   render() {
-    return <ReactHighcharts config={this.state.config} ref="chart" />
+    return <ReactHighcharts
+      config={this.state.config}
+      callback={
+        (chart) => {
+          chart.renderer.label(<ChartCarousel />, 1400, 110, null, null, null, true).add();
+        }
+      }
+      ref="chart"
+    />
   }
 }
 
