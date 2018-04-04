@@ -23,7 +23,7 @@ const data = [
     day: 26,
     note: 'Played on Normal mode.',
     detailed:  `A landmark run that inspired many early speedrunners in the era before Twitch.
-    This run used the standard Robot Masters route starting with Flash, Heat, and Air, 
+    This run used the now-standard Robot Masters route starting with Flash, Heat, and Air, 
     and made full use of all glitches known to be possible in realtime.`
   },
   {

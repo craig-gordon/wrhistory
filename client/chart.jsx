@@ -35,15 +35,6 @@ class Chart extends React.Component {
             }
           }
         },
-        // labels: {
-        //   items: [{
-        //     html: <ChartCarousel />,
-        //     style: {
-        //       left: '100px',
-        //       top: '100px'
-        //     }
-        //   }]
-        // },
         xAxis: {
           title: {
             text: 'Date'
@@ -147,6 +138,11 @@ class Chart extends React.Component {
           showInLegend: false,
           cursor: 'pointer',
           zoneAxis: 'x',
+          events: {
+            click: (e) => {
+              this.props.changeSelectedChartPoint(e);
+            }
+          },
           zones: [
             {
               value: Date.UTC(data[1].year, data[1].month, data[1].day),
