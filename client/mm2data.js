@@ -8,6 +8,7 @@ const data = [
     year: 2004,
     month: 7,
     day: 30,
+    vodUrl: undefined,
     note: 'Played on Normal mode.',
     detailed:  `This is the earliest known speedrun of Mega Man 2 with existing video. 
     This run forgoed the use of glitches in order to comply with the Twin Galaxies ruleset.`
@@ -21,6 +22,7 @@ const data = [
     year: 2010,
     month: 4,
     day: 26,
+    vodUrl: 'https://www.youtube.com/watch?v=nx473eyRmqQ',
     note: 'Played on Normal mode.',
     detailed:  `A landmark run that inspired many early speedrunners in the era before Twitch.
     This run used the now-standard Robot Masters route starting with Flash, Heat, and Air, 
@@ -35,7 +37,8 @@ const data = [
     year: 2011,
     month: 3,
     day: 26,
-    note: null,
+    vodUrl: 'http://www.nicovideo.jp/watch/sm13963118',
+    note: undefined,
     detailed: `This run's primary timesave over Seth's run was the incorporation of the 
     infamous Woodman megazip/deathwarp. There were also almost no visible mistakes in this 
     run, and thus, like Seth's record, nou1's final product was looked upon with much
@@ -50,7 +53,8 @@ const data = [
     year: 2013,
     month: 2,
     day: 6,
-    note: null,
+    vodUrl: 'https://www.twitch.tv/videos/49469322',
+    note: undefined,
     detailed: `cyghfer significantly tightened up the routing and general movement 
     compared to nou1's run, and also incorporated the exceedingly difficult 'TAS Clash' 
     trick. However, due to numerous mistakes and sloppy sections, this run clocked in 
@@ -65,6 +69,7 @@ const data = [
     year: 2013,
     month: 12,
     day: 8,
+    vodUrl: 'http://www.nicovideo.jp/watch/sm22414380',
     note: 'This run was performed with 10hz turbo, though it was still recognized as the legitimate record.',
     detailed: `This was something of a miraculous run, as Shoka had not gotten many attempts 
     past the Clashman stage before achieving this record. Nothing major was added - this run 
@@ -79,7 +84,8 @@ const data = [
     year: 2014,
     month: 7,
     day: 20,
-    note: null,
+    vodUrl: 'https://www.twitch.tv/videos/48172305',
+    note: undefined,
     detailed: `cyghfer struck back with a 27:01 half a year later. Again, the major difference
     was less sloppiness overall. With this, the race to 26 was on...`
   },
@@ -92,7 +98,8 @@ const data = [
     year: 2014,
     month: 11,
     day: 13,
-    note: null,
+    vodUrl: 'https://www.youtube.com/watch?v=mFEuLODUY-s',
+    note: undefined,
     detailed: `The first 26! Ellonija had been playing the game vigorously for 2 or so years 
     at this point. His dedication finally paid off in glorious fashion with this run.`
   },
@@ -105,7 +112,8 @@ const data = [
     year: 2015,
     month: 10,
     day: 21,
-    note: null,
+    vodUrl: 'https://www.youtube.com/watch?v=Sa8HR11Tjsc',
+    note: undefined,
     detailed: `While cyghfer and others stopped playing, Ello continued pushing onward. 
     He achieved this small improvement about a year after his original 26.`
   },
@@ -118,7 +126,8 @@ const data = [
     year: 2015,
     month: 10,
     day: 22,
-    note: null,
+    vodUrl: 'https://www.youtube.com/watch?v=IdLoUu1Cp6w',
+    note: undefined,
     detailed: `Ello improved the record by a second the very next day. He knew 26:4x was 
     only a matter of time...`
   },
@@ -131,7 +140,8 @@ const data = [
     year: 2016,
     month: 1,
     day: 29,
-    note: null,
+    vodUrl: 'https://www.youtube.com/watch?v=ZEpiWdPYsP0',
+    note: undefined,
     detailed: `The first 26:4x. Incredibly, Ello achieved this run the first day back 
     doing attempts after a short break. This record stood for over 2 years, and it became 
     an iconic run to newer runners due to its longevity and its large time differential over
@@ -146,11 +156,45 @@ const data = [
     year: 2018,
     month: 2,
     day: 6,
-    note: null,
+    vodUrl: 'https://www.youtube.com/watch?v=mVlNqzmTj3k',
+    note: undefined,
     detailed: `After a 3 year break, cyghfer returned to Rockman 2 speedrunning to play 
     in the AGDQ '18 Classic Mega Man relay. He continued on after the event to do WR 
     attempts and eventually achieved this run live on the Chase for the Record: Rockman 2 
     event on the SpeedGaming channel.`
+  },
+  {
+    id: 12,
+    time: 1601,
+    player: 'cyghfer',
+    platform: 'Nintendo Entertainment System',
+    version: 'J',
+    year: 2018,
+    month: 3,
+    day: 17,
+    vodUrl: 'https://www.twitch.tv/videos/239649947',
+    note: undefined,
+    detailed: `After the 26:42, cyghfer took a short break from speedrunning Mega Man 2 to 
+    sort out IRL matters but returned to attempts after a couple weeks. Searching for the 
+    elusive 26:3x, he achieved this small improvement in short order.`
+  },
+  {
+    id: 11,
+    time: 1602,
+    player: 'cyghfer',
+    platform: 'Nintendo Entertainment System',
+    version: 'J',
+    year: 2018,
+    month: 4,
+    day: 4,
+    vodUrl: 'https://www.youtube.com/watch?v=0sLJDE3-e0U',
+    note: undefined,
+    detailed: `cyghfer finally achieved a milestone once thought to be an unattainable 
+    dream, a time under 26:40 for Rockman 2. He may have lost the race vs Ello to the first 26 
+    back in 2014, but he was determined to be the first to 3x, and so he was. Despite 
+    accomplishing the dream goal he and Ello fantastized about in previous years, cyghfer 
+    asserts that 26:2x is the final frontier for Rockman 2. Only time will tell the truth of 
+    that assertion.`
   }
 ];
 
