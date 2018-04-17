@@ -6,9 +6,6 @@ import '../node_modules/react-responsive-carousel/lib/styles/carousel.css';
 class ChartCarousel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selected: 0
-    }
   }
 
   render() {
@@ -19,6 +16,7 @@ class ChartCarousel extends React.Component {
         showIndicators={false}
         width='50%'
         selectedItem={this.props.selected}
+        onChange={this.props.changeSelectedChartPoint}
       >
         <div>
           <h4 style={{color: 'white'}}>{data[0].detailed}</h4>

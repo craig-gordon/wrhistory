@@ -16,10 +16,11 @@ class App extends React.Component {
   }
 
   changeSelectedChartPoint(e) {
+    let pointIdx = typeof e === 'object' ? e.point.index : e;
     this.setState({
-      clickedChartPoint: e.point.index,
-      selectedCarouselItem: e.point.index,
-      selectedRun: data[e.point.index]
+      clickedChartPoint: pointIdx,
+      selectedCarouselItem: pointIdx,
+      selectedRun: data[pointIdx]
     });
   }
 
@@ -41,6 +42,7 @@ class App extends React.Component {
         >
           <ChartCarousel
             selected={this.state.selectedCarouselItem}
+            changeSelectedChartPoint={this.changeSelectedChartPoint}
           />
         </div>
         {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null}
