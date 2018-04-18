@@ -133,9 +133,24 @@ class Chart extends React.Component {
             }
           ]
         }],
+        legend: {
+          layout: 'horizontal'
+        },
         series: [{
+          grouping: false,
+          name: 'Richard Ureta',
+          color: '#90ee7e',
+          data: []
+        },
+        {
+          grouping: false,
+          name: 'Seth Glass',
+          color: '#f45b5b',
+          data: []
+        },
+        {
+          name: 'nou1',
           step: 'left',
-          showInLegend: false,
           cursor: 'pointer',
           zoneAxis: 'x',
           events: {
@@ -154,7 +169,7 @@ class Chart extends React.Component {
             },
             {
               value: Date.UTC(data[3].year, data[3].month, data[3].day),
-              color: '#2b908f'              
+              color: '#2b908f'
             },
             {
               value: Date.UTC(data[4].year, data[4].month, data[4].day),
@@ -245,6 +260,24 @@ class Chart extends React.Component {
               }
             }
           ]
+        },
+        {
+          grouping: false,
+          name: 'cyghfer',
+          color: '#7798BF',
+          data: []
+        },
+        {
+          grouping: false,
+          name: 'shoka',
+          color: 'white',
+          data: []
+        },
+        {
+          grouping: false,
+          name: 'Ellonija',
+          color: 'plum',
+          data: []
         }]
       }
     }

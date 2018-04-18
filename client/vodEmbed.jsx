@@ -10,7 +10,6 @@ class VodEmbed extends React.Component {
     return <ReactPlayer
       url={this.props.vodUrl}
       controls={true}
-      playing
     />
   }
 }
