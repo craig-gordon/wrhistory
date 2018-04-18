@@ -117,16 +117,16 @@ class Chart extends React.Component {
           labels: [
             {
               point: {
-                x: 800,
-                y: 200
+                x: 1100,
+                y: 170
               },
               y: 0,
               text: 'JPN version standardized'
             },
             {
               point: {
-                x: 969,
-                y: 225
+                x: 1317,
+                y: 198
               },
               y: -10,
               text: 'First 26'
@@ -284,7 +284,21 @@ class Chart extends React.Component {
   }
 
   render() {
-    return <ReactHighcharts config={this.state.config} ref="chart" />
+    return <ReactHighcharts
+      config={this.state.config}
+      callback={(chart) => {
+        chart.renderer.image(
+          './assets/rm2box.jpg',
+          300,
+          150,
+          '12.5%',
+          '25%'
+        ).attr({
+          zIndex: 10
+        }).add()
+      }}
+      ref="chart"
+    />
   }
 }
 

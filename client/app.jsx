@@ -36,7 +36,7 @@ class App extends React.Component {
           style={{
             'zIndex': 1000,
             'position': 'absolute',
-            'top': '100px',
+            'top': '70px',
             'left': '1200px'
           }}
         >
