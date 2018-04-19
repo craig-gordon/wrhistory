@@ -25,7 +25,8 @@ class Chart extends React.Component {
           text: 'Mega Man 2 Any% World Record History'
         },
         subtitle: {
-          text: 'Current WR — 26:42 by cyghfer'
+          useHTML: true,
+          text: `<div style='text-align:center'>Current WR — 26:42 by cyghfer</br><a href='http://www.megamanleaderboards.net/index.php?game=2' style='color:gray'>Current Leaderboard</a></div>`
         },
         credits: false,
         plotOptions: {
@@ -118,7 +119,7 @@ class Chart extends React.Component {
             {
               point: {
                 x: 1100,
-                y: 170
+                y: 165
               },
               y: 0,
               text: 'JPN version standardized'
@@ -126,7 +127,7 @@ class Chart extends React.Component {
             {
               point: {
                 x: 1317,
-                y: 198
+                y: 187
               },
               y: -10,
               text: 'First 26'
@@ -177,7 +178,7 @@ class Chart extends React.Component {
             },
             {
               value: Date.UTC(data[5].year, data[5].month, data[5].day),
-              color: 'white'
+              color: 'orange'
             },
             {
               value: Date.UTC(data[6].year, data[6].month, data[6].day),
@@ -270,7 +271,7 @@ class Chart extends React.Component {
         {
           grouping: false,
           name: 'shoka',
-          color: 'white',
+          color: 'orange',
           data: []
         },
         {
@@ -278,6 +279,24 @@ class Chart extends React.Component {
           name: 'Ellonija',
           color: 'plum',
           data: []
+        },
+        {
+          grouping: false,
+          name: 'Current TAS',
+          color: 'white',
+          dashStyle: 'ShortDash',
+          data: [
+            {
+              x: Date.UTC(2004, 1, 1),
+              y: 1428 * 1000,
+              player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'
+            },
+            {
+              x: Date.UTC(2018, 4, 18),
+              y: 1428 * 1000,
+              player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'              
+            }
+          ]
         }]
       }
     }
@@ -290,9 +309,9 @@ class Chart extends React.Component {
         chart.renderer.image(
           './assets/rm2box.jpg',
           300,
-          150,
-          '12.5%',
-          '25%'
+          135,
+          '15%',
+          '30%'
         ).attr({
           zIndex: 10
         }).add()
