@@ -8,6 +8,7 @@ const data = [
     year: 2004,
     month: 7,
     day: 30,
+    avatar: undefined,
     vodUrl: undefined,
     note: 'Played on Normal mode.',
     detailed:  `This is the earliest known speedrun of Mega Man 2 with existing video. 
@@ -22,6 +23,7 @@ const data = [
     year: 2010,
     month: 4,
     day: 26,
+    avatar: 'sethglass.jpg',
     vodUrl: 'https://www.youtube.com/watch?v=nx473eyRmqQ',
     note: 'Played on Normal mode.',
     detailed:  `A landmark run that inspired many early speedrunners in the era before Twitch.
@@ -37,6 +39,7 @@ const data = [
     year: 2011,
     month: 3,
     day: 26,
+    avatar: 'nou1.jpg',
     vodUrl: 'http://www.nicovideo.jp/watch/sm13963118',
     note: undefined,
     detailed: `This run's primary timesave over Seth's run was the incorporation of the 
@@ -53,6 +56,7 @@ const data = [
     year: 2013,
     month: 2,
     day: 6,
+    avatar: 'cyghfer.jpg',
     vodUrl: 'https://www.twitch.tv/videos/49469322',
     note: undefined,
     detailed: `cyghfer significantly tightened up the routing and general movement 
@@ -84,6 +88,7 @@ const data = [
     year: 2014,
     month: 7,
     day: 20,
+    avatar: 'cyghfer.jpg',
     vodUrl: 'https://www.twitch.tv/videos/48172305',
     note: undefined,
     detailed: `cyghfer struck back with a 27:01 half a year later. Again, the major difference
@@ -98,6 +103,7 @@ const data = [
     year: 2014,
     month: 11,
     day: 13,
+    avatar: 'ellonija.jpg',
     vodUrl: 'https://www.youtube.com/watch?v=mFEuLODUY-s',
     note: undefined,
     detailed: `The first 26! Ellonija had been playing the game vigorously for 2 or so years 
@@ -112,6 +118,7 @@ const data = [
     year: 2015,
     month: 10,
     day: 21,
+    avatar: 'ellonija.jpg',
     vodUrl: 'https://www.youtube.com/watch?v=Sa8HR11Tjsc',
     note: undefined,
     detailed: `While cyghfer and others stopped playing, Ello continued pushing onward. 
@@ -126,6 +133,7 @@ const data = [
     year: 2015,
     month: 10,
     day: 22,
+    avatar: 'ellonija.jpg',
     vodUrl: 'https://www.youtube.com/watch?v=IdLoUu1Cp6w',
     note: undefined,
     detailed: `Ello improved the record by a second the very next day. He knew 26:4x was 
@@ -140,6 +148,7 @@ const data = [
     year: 2016,
     month: 1,
     day: 29,
+    avatar: 'ellonija.jpg',
     vodUrl: 'https://www.youtube.com/watch?v=ZEpiWdPYsP0',
     note: undefined,
     detailed: `The first 26:4x. Incredibly, Ello achieved this run the first day back 
@@ -156,6 +165,7 @@ const data = [
     year: 2018,
     month: 2,
     day: 6,
+    avatar: 'cyghfer.jpg',
     vodUrl: 'https://www.youtube.com/watch?v=mVlNqzmTj3k',
     note: undefined,
     detailed: `After a 3 year break, cyghfer returned to Rockman 2 speedrunning to play 
@@ -172,6 +182,7 @@ const data = [
     year: 2018,
     month: 3,
     day: 17,
+    avatar: 'cyghfer.jpg',
     vodUrl: 'https://www.twitch.tv/videos/239649947',
     note: undefined,
     detailed: `After the 26:42, cyghfer took a short break from speedrunning Mega Man 2 to 
@@ -187,6 +198,7 @@ const data = [
     year: 2018,
     month: 4,
     day: 4,
+    avatar: 'cyghfer.jpg',
     vodUrl: 'https://www.youtube.com/watch?v=0sLJDE3-e0U',
     note: undefined,
     detailed: `cyghfer finally achieved a milestone once thought to be an unattainable 

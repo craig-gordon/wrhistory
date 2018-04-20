@@ -10,6 +10,24 @@ import data from './mm2data.js';
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
 
+const addImagesToChart = function() {
+  console.log('this:', this);
+  let boxArt = this.renderer.image(
+    './assets/rm2box.jpg',
+    300,
+    135,
+    '15%',
+    '30%'
+  ).attr({
+    zIndex: 10
+  });
+  boxArt.add();
+
+  console.log(boxArt);
+  console.log('this.series:', this.series);
+
+};
+
 class Chart extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +37,10 @@ class Chart extends React.Component {
           type: 'line',
           zoomType: 'x',
           panning: true,
-          panKey: 'shift'
+          panKey: 'shift',
+          events: {
+            load: addImagesToChart
+          }
         },
         title: {
           text: 'Mega Man 2 Any% World Record History'
@@ -102,7 +123,6 @@ class Chart extends React.Component {
         },
         tooltip: {
           formatter: function() {
-            console.log('tooltip this:', this);
             return (
               `
                 <div>
@@ -213,7 +233,12 @@ class Chart extends React.Component {
             {
               x: Date.UTC(data[1].year, data[1].month, data[1].day),
               y: data[1].time * 1000,
-              player: data[1].player
+              player: data[1].player,
+              events: {
+                mouseover: () => {
+
+                }
+              }
             },
             {
               x: Date.UTC(data[2].year, data[2].month, data[2].day),
@@ -311,17 +336,6 @@ class Chart extends React.Component {
   render() {
     return <ReactHighcharts
       config={this.state.config}
-      callback={(chart) => {
-        chart.renderer.image(
-          './assets/rm2box.jpg',
-          300,
-          135,
-          '15%',
-          '30%'
-        ).attr({
-          zIndex: 10
-        }).add()
-      }}
       ref="chart"
     />
   }
