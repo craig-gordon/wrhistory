@@ -1,7 +1,9 @@
 import React from 'react';
-import Chart from './chart.jsx';
-import ChartCarousel from './chartCarousel.jsx';
-import VodEmbed from './vodEmbed.jsx';
+import { Switch, Route } from 'react-router-dom';
+import HomePage from './HomePage.jsx';
+import Chart from './Chart.jsx';
+import ChartCarousel from './ChartCarousel.jsx';
+import VodEmbed from './VodEmbed.jsx';
 import data from './mm2data.js';
 
 class App extends React.Component {
@@ -27,8 +29,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div>Hello, World Record.</div>
-        <Chart
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route path='/mm2' component={Chart} />
+          <Route path='/mm2' component={ChartCarousel} />
+        {/* <Chart
           clicked={this.state.clickedChartPoint}
           changeSelectedChartPoint={this.changeSelectedChartPoint}
         />
@@ -45,7 +50,8 @@ class App extends React.Component {
             changeSelectedChartPoint={this.changeSelectedChartPoint}
           />
         </div>
-        {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null}
+        {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
+        </Switch>
       </div>
     )
   }
