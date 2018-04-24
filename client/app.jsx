@@ -1,9 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+
 import HomePage from './HomePage.jsx';
 import Chart from './Chart.jsx';
 import ChartCarousel from './ChartCarousel.jsx';
 import VodEmbed from './VodEmbed.jsx';
+
 import data from './mm2data.js';
 
 class App extends React.Component {

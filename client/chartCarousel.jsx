@@ -1,5 +1,6 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
+
 import data from './mm2data.js';
 import '../node_modules/react-responsive-carousel/lib/styles/carousel.css';
 

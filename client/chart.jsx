@@ -3,7 +3,9 @@ import Highcharts from 'highcharts';
 import Annotations from 'highcharts/modules/annotations';
 import ReactHighcharts from 'react-highcharts';
 import DarkUnica from 'highcharts/themes/dark-unica';
+
 import ChartCarousel from './chartCarousel.jsx';
+
 import { secsToTs } from './timeConversions.js';
 import data from './mm2data.js';
 
