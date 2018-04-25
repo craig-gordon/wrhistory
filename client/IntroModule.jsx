@@ -9,7 +9,7 @@ const IntroModule = (props) => {
         have the ability to create beautifully customizable charts plotting the evolution of strategies and world 
         records over time in a wiki-style collaborative setting.
       </div>
-      <br/>
+      <br />
       <div>
         Come in and explore the histories of your favorite speedrun and high score games.
       </div>
