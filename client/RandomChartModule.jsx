@@ -13,7 +13,7 @@ class RandomChartModule extends React.Component {
   render() {
     return (
       <div>
-        <h3 style={{textAlign: 'center'}}>Random Chart</h3>
+        <h3 style={{textAlign: 'center'}}>Featured History</h3>
         <Chart />
         <Link to='/mm2'>See full chart!</Link>
       </div>

@@ -11,7 +11,9 @@ class TopNav extends React.Component {
       <div>
         <span>Speedruns </span>
         <span>High Scores </span>
-        <span>More </span>
+        <span>Search </span>
+        <span>Log In </span>
+        <span>Register </span>
       </div>
     )
   }
