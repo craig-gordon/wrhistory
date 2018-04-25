@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import TopNav from './TopNav.jsx';
 import HomePage from './HomePage.jsx';
 import Chart from './Chart.jsx';
 import ChartCarousel from './ChartCarousel.jsx';
@@ -31,6 +32,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <TopNav />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/mm2' component={Chart} />
