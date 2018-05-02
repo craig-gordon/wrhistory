@@ -11,7 +11,7 @@ class RecentlyUpdatedModule extends React.Component {
   render() {
     return (
       <div>
-        <h3 style={{'text-align': 'center'}}>Recently Updated Histories</h3>
+        <h3 style={{textAlign: 'center'}}>Recently Updated Histories</h3>
         <div>Super Mario 64</div>
         <div>Super Metroid</div>
         <div>Ocarina of Time</div>

@@ -9,6 +9,7 @@ class TopNav extends React.Component {
   render() {
     return (
       <div>
+        <Link to='/'><span>Record History </span></Link>
         <Link to='/speedruns'><span>Speedruns </span></Link>
         <Link to='/highscores'><span>High Scores </span></Link>
         <span>Search </span>

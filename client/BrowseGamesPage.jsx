@@ -11,7 +11,8 @@ class BrowseGamesPage extends React.Component {
     if (scoresType === 's') {
       return (
         <div>
-          <div>Super Mario 64</div>
+          <h1 style={{textAlign: 'center'}}>Speedruns</h1>
+          <Link to='/mm2'><div>Mega Man 2</div></Link>
           <div>Super Metroid</div>
           <div>Ocarina of Time</div>
         </div>
@@ -19,6 +20,7 @@ class BrowseGamesPage extends React.Component {
     } else {
       return (
         <div>
+          <h1 style={{textAlign: 'center'}}>High Scores</h1>
           <div>Donkey Kong (Arcade)</div>
           <div>Pac-Man (Arcade)</div>
           <div>Galaga (Arcade)</div>

@@ -3,10 +3,12 @@ import { Switch, Route } from 'react-router-dom';
 
 import TopNav from './TopNav.jsx';
 import HomePage from './HomePage.jsx';
+import AboutPage from './AboutPage.jsx';
 import BrowseGamesPage from './BrowseGamesPage.jsx';
 import Chart from './Chart.jsx';
 import ChartCarousel from './ChartCarousel.jsx';
 import VodEmbed from './VodEmbed.jsx';
+import BottomAbout from './BottomAbout.jsx';
 
 import data from './mm2data.js';
 
@@ -36,6 +38,7 @@ class App extends React.Component {
         <TopNav />
         <Switch>
           <Route exact path='/' component={HomePage} />
+          <Route path='/about' component={AboutPage} />
           <Route path='/speedruns' component={BrowseGamesPage} />
           <Route path='/highscores' component={BrowseGamesPage} />
           <Route path='/mm2' component={Chart} />
@@ -59,6 +62,7 @@ class App extends React.Component {
         </div>
         {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
         </Switch>
+        <BottomAbout />
       </div>
     )
   }
