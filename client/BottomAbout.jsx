@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const BottomAbout = (props) => (
-  <div>© 2018 · <Link to='/about'>About</Link></div>
+  <div style={{textAlign: 'center'}}>© 2018 · <Link to='/about'>About</Link></div>
 );
 
 export default BottomAbout;

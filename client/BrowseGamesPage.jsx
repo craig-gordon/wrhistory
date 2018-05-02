@@ -21,9 +21,9 @@ class BrowseGamesPage extends React.Component {
       return (
         <div>
           <h1 style={{textAlign: 'center'}}>High Scores</h1>
-          <div>Donkey Kong (Arcade)</div>
-          <div>Pac-Man (Arcade)</div>
-          <div>Galaga (Arcade)</div>
+          <div>Donkey Kong</div>
+          <div>Pac-Man</div>
+          <div>Galaga</div>
         </div>
       )
     }
