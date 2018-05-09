@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import IntroModule from './IntroModule.jsx';
-import RandomChartModule from './RandomChartModule.jsx';
+import FeaturedChartModule from './FeaturedChartModule.jsx';
 import RecentlyUpdatedModule from './RecentlyUpdatedModule.jsx';
 
 const HomePageHeader = styled.h1`
@@ -26,7 +26,7 @@ class HomePage extends React.Component {
           Record History
         </HomePageHeader>
         <IntroModule />
-        <RandomChartModule />
+        <FeaturedChartModule />
         <RecentlyUpdatedModule />
       </div>
     )

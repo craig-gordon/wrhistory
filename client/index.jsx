@@ -11,8 +11,8 @@ injectGlobal`
   }
   body {
     font-family: 'Varela Round', sans-serif;
-    margin: 5% 8%;
-    background: 'azure';
+    margin: 0 8%;
+    background: whitesmoke;
   }
 `;
 

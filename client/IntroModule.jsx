@@ -11,7 +11,7 @@ const IntroModule = (props) => {
       </div>
       <br />
       <div>
-        Come in and explore the histories of your favorite speedrun and high score games.
+        Come in and explore the histories of your favorite speedruns and high scores.
       </div>
     </div>
   )
