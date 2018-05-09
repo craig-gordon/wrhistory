@@ -22,9 +22,6 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <HomePageHeader>
-          Record History
-        </HomePageHeader>
         <IntroModule />
         <FeaturedChartModule />
         <RecentlyUpdatedModule />

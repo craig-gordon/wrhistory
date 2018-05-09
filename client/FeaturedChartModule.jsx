@@ -22,7 +22,7 @@ class FeaturedChartModule extends React.Component {
   render() {
     return (
       <Module>
-        <h3 style={{textAlign: 'center'}}>Featured Chart</h3>
+        <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>
         <Chart />
         <Link to='/mm2'>See full chart!</Link>
       </Module>

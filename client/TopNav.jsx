@@ -11,8 +11,16 @@ const TopNavWrapper = styled.div`
   background: lightgray;
 `;
 
+const SiteLink = styled(Link)`
+  color: magenta;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 4% auto;
+`
+
 const StyledLink = styled(Link)`
   color: blue;
+  text-decoration: none;
   font-weight: bold;
   margin: 4% auto;
 `;
@@ -30,7 +38,7 @@ class TopNav extends React.Component {
   render() {
     return (
       <TopNavWrapper>
-        <StyledLink to='/'>Record History</StyledLink>
+        <SiteLink to='/'>Record History</SiteLink>
         <StyledLink to='/speedruns'>Speedruns</StyledLink>
         <StyledLink to='/highscores'>High Scores</StyledLink>
         <StyledInput type='text' placeholder='Search for Games, Users, etc...'></StyledInput>
