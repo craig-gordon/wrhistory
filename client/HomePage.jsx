@@ -12,7 +12,7 @@ const HomePageHeader = styled.h1`
   color: darkblue
 `;
 
-class HomePage extends React.Component {
+export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,8 +26,6 @@ class HomePage extends React.Component {
         <FeaturedChartModule />
         <RecentlyUpdatedModule />
       </div>
-    )
+    );
   }
-}
-
-export default HomePage;
+};

@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom';
 import Chart from './Chart.jsx';
 
 const Module = styled.div`
+  margin: 1% 0;
   background: honeydew;
   border-style: solid;
   border-color: mediumaquamarine;
   border-width: 2px;
-  padding: 0 2% 1% 2%;
+  padding: 0% 2% 1% 2%;
 `;
 
-class FeaturedChartModule extends React.Component {
+export default class FeaturedChartModule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,8 +27,6 @@ class FeaturedChartModule extends React.Component {
         <Chart />
         <Link to='/mm2'>See full chart!</Link>
       </Module>
-    )
+    );
   }
-}
-
-export default FeaturedChartModule;
+};

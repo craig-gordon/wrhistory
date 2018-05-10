@@ -24,7 +24,7 @@ const IntroModule = (props) => {
         Come in and explore the histories of your favorite speedruns and high scores.
       </div>
     </Module>
-  )
-}
+  );
+};
 
 export default IntroModule;

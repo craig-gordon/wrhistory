@@ -30,7 +30,7 @@ const StyledInput = styled.input`
   margin: 2% 0;
 `
 
-class TopNav extends React.Component {
+export default class TopNav extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -45,8 +45,6 @@ class TopNav extends React.Component {
         <StyledLink to='/'>Log In</StyledLink>
         <StyledLink to='/'>Register</StyledLink>
       </TopNavWrapper>
-    )
+    );
   }
-}
-
-export default TopNav;
+};

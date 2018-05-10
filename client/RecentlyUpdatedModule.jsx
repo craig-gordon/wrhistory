@@ -1,7 +1,24 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-class RecentlyUpdatedModule extends React.Component {
+import GamePreviewButton from './GamePreviewButton.jsx';
+
+const Module = styled.div`
+  margin: 1% 0;
+  background: #f4e2ff;
+  border-style: solid;
+  border-color: #d19bef;
+  border-width: 2px;
+  padding: 0 2% 1% 2%;
+`;
+
+const ButtonsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+`;
+
+export default class RecentlyUpdatedModule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,14 +27,14 @@ class RecentlyUpdatedModule extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3 style={{textAlign: 'center'}}>Recently Updated Histories</h3>
-        <div>Super Mario 64</div>
-        <div>Super Metroid</div>
-        <div>Ocarina of Time</div>
-      </div>
-    )
+      <Module>
+        <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Recently Updated Histories</h3>
+        <ButtonsContainer>
+          <GamePreviewButton code='mm2' />
+          <GamePreviewButton code='sm64' />
+          <GamePreviewButton code='supermetroid' />
+        </ButtonsContainer>
+      </Module>
+    );
   }
-}
-
-export default RecentlyUpdatedModule;
+};

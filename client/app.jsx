@@ -12,14 +12,14 @@ import BottomAbout from './BottomAbout.jsx';
 
 import data from './mm2data.js';
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       clickedChartPoint: null,
       selectedCarouselItem: 0,
       selectedRun: null
-    }
+    };
     this.changeSelectedChartPoint = this.changeSelectedChartPoint.bind(this);
   }
 
@@ -64,8 +64,6 @@ class App extends React.Component {
         </Switch>
         <BottomAbout />
       </div>
-    )
+    );
   }
-}
-
-export default App;
+};
