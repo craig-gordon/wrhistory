@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import GamePreviewButton from './GamePreviewButton.jsx';
+
 class BrowseGamesPage extends React.Component {
   constructor() {
     super();
@@ -12,9 +14,9 @@ class BrowseGamesPage extends React.Component {
       return (
         <div>
           <h1 style={{textAlign: 'center'}}>Speedruns</h1>
-          <Link to='/mm2'><div>Mega Man 2</div></Link>
-          <div>Super Metroid</div>
-          <div>Ocarina of Time</div>
+          <GamePreviewButton code='mm2' />
+          <GamePreviewButton code='sm64' />
+          <GamePreviewButton code='supermetroid' />
         </div>
       )
     } else {
