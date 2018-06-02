@@ -6,11 +6,14 @@ import DarkUnica from 'highcharts/themes/dark-unica';
 
 import ChartCarousel from './chartCarousel.jsx';
 
+import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from './timeConversions.js';
 import data from './mm2data.js';
 
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
+
+ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 
 const addImagesToChart = function() {
   console.log('this:', this);
