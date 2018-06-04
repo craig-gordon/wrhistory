@@ -48,11 +48,11 @@ class Chart extends React.Component {
           }
         },
         title: {
-          text: 'Mega Man 2 Any% World Record History'
+          text: 'Mega Man 2 — Any%'
         },
         subtitle: {
           useHTML: true,
-          text: `<div style='text-align:center'>Current WR — 26:42 by cyghfer</br><a href='http://www.megamanleaderboards.net/index.php?game=2' style='color:gray'>Current Leaderboard</a></div>`
+          text: `<div>Current WR — 26:42 by cyghfer</br><a href='http://www.megamanleaderboards.net/index.php?game=2' style='color:#A0A0A3'>Leaderboard</a></div>`
         },
         credits: false,
         plotOptions: {
@@ -315,25 +315,25 @@ class Chart extends React.Component {
           name: 'Ellonija',
           color: 'plum',
           data: []
-        },
-        {
-          grouping: false,
-          name: 'Current TAS',
-          color: 'white',
-          dashStyle: 'ShortDash',
-          data: [
-            {
-              x: Date.UTC(2004, 1, 1),
-              y: 1428 * 1000,
-              player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'
-            },
-            {
-              x: Date.UTC(2018, 4, 18),
-              y: 1428 * 1000,
-              player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'              
-            }
-          ]
         }]
+        // {
+        //   grouping: false,
+        //   name: 'Current TAS',
+        //   color: 'white',
+        //   dashStyle: 'ShortDash',
+        //   data: [
+        //     {
+        //       x: Date.UTC(2004, 1, 1),
+        //       y: 1428 * 1000,
+        //       player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'
+        //     },
+        //     {
+        //       x: Date.UTC(2018, 4, 18),
+        //       y: 1428 * 1000,
+        //       player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'              
+        //     }
+        //   ]
+        // }
       }
     }
   }
