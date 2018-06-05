@@ -10,9 +10,9 @@ const darkUnicaMod = {
   },
   plotOptions: {
     series: {
-      lineWidth: 4,
+      lineWidth: 5,
       marker: {
-        radius: 6,
+        radius: 7,
         symbol: 'circle'
       }
     }

@@ -39,7 +39,7 @@ class Chart extends React.Component {
           panning: true,
           panKey: 'shift',
           events: {
-            load: addImagesToChart
+            // load: addImagesToChart
           }
         },
         title: {
@@ -144,22 +144,33 @@ class Chart extends React.Component {
             );
           }
         },
+        /**************
+        * ANNOTATIONS *
+        **************/
         annotations: [{
+          labelOptions: {
+            backgroundColor: '#f2f2f2'
+          },
           labels: [
             {
               point: {
-                x: 1100,
-                y: 165
+                x: Date.UTC(data[3].year, data[3].month, data[3].day),
+                y: data[3].time * 1000,
+                xAxis: 0,
+                yAxis: 0
               },
-              y: 0,
+              y: -12,
+              shape: 'rect',
               text: 'JPN version standardized'
             },
             {
               point: {
-                x: 1317,
-                y: 187
+                x: Date.UTC(data[6].year, data[6].month, data[6].day),
+                y: data[6].time * 1000,
+                xAxis: 0,
+                yAxis: 0
               },
-              y: -10,
+              y: -15,
               text: 'First 26'
             }
           ]
