@@ -2,7 +2,11 @@ const darkUnicaMod = {
   chart: {
     style: {
       fontFamily: 'Franklin Gothic, sans-serif'
-    }
+    },
+    borderColor: '#1c1c1c',
+    borderWidth: 3,
+    borderRadius: 2,
+    spacingRight: 20
   },
   plotOptions: {
     series: {
@@ -41,7 +45,7 @@ const darkUnicaMod = {
     },
     title: {
       style: {
-        fontSize: '13px'
+        fontSize: '14px'
       }
     },
     tickInterval: 60 * 1000

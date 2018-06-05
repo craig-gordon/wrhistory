@@ -16,9 +16,8 @@ DarkUnica(ReactHighcharts.Highcharts);
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 
 const addImagesToChart = function() {
-  console.log('this:', this);
   let boxArt = this.renderer.image(
-    './assets/rm2box.jpg',
+    './assets/mm2box.jpg',
     300,
     135,
     '15%',
@@ -27,10 +26,6 @@ const addImagesToChart = function() {
     zIndex: 10
   });
   boxArt.add();
-
-  console.log(boxArt);
-  console.log('this.series:', this.series);
-
 };
 
 class Chart extends React.Component {
@@ -52,7 +47,11 @@ class Chart extends React.Component {
         },
         subtitle: {
           useHTML: true,
-          text: `<div>Current WR — 26:42 by cyghfer</br><a href='http://www.megamanleaderboards.net/index.php?game=2' style='color:#A0A0A3'>Leaderboard</a></div>`
+          text: `
+            <div>
+              <div>Current WR — <a href='https://www.youtube.com/watch?v=mVlNqzmTj3k' class='chartLink score'>26:42</a> by cyghfer</div>
+              <a href='http://www.megamanleaderboards.net/index.php?game=2' class='chartLink lblink'>LEADERBOARD</a>
+            </div>`
         },
         credits: false,
         plotOptions: {

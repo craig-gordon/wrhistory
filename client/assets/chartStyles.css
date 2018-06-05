@@ -1,0 +1,16 @@
+.chartLink {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.chartLink:hover {
+  text-decoration: underline;
+}
+
+.chartLink.score {
+  color: #E0E0E3
+}
+
+.chartLink.lblink {
+  color: #A0A0A3
+}
