@@ -6,6 +6,7 @@ const darkUnicaMod = {
     borderColor: '#1c1c1c',
     borderWidth: 3,
     borderRadius: 2,
+    height: 500,
     spacingRight: 20
   },
   plotOptions: {
