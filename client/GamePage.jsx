@@ -1,10 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import Chart from './Chart.jsx';
 import ChartCarousel from './ChartCarousel.jsx';
 import VodEmbed from './VodEmbed.jsx';
 
 import data from './mm2data.js';
+
+const CarouselWrapper = styled.div`
+  position: absolute;
+  top: 130px;
+  left: 1070px;
+`;
 
 export default class GamePage extends React.Component {
   constructor(props) {
@@ -18,6 +25,7 @@ export default class GamePage extends React.Component {
   }
 
   changeSelectedChartPoint(e) {
+    console.log('event fire:', e);
     let pointIdx = typeof e === 'object' ? e.point.index : e;
     this.setState({
       clickedChartPoint: pointIdx,
@@ -33,19 +41,12 @@ export default class GamePage extends React.Component {
           clicked={this.state.clickedChartPoint}
           changeSelectedChartPoint={this.changeSelectedChartPoint}
         />
-        <div
-          style={{
-            'zIndex': 1000,
-            'position': 'absolute',
-            'top': '70px',
-            'left': '1200px'
-          }}
-        >
-        <ChartCarousel
-          selected={this.state.selectedCarouselItem}
-          changeSelectedChartPoint={this.changeSelectedChartPoint}
-        />
-        </div>
+        <CarouselWrapper>
+          <ChartCarousel
+            selected={this.state.selectedCarouselItem}
+            changeSelectedChartPoint={this.changeSelectedChartPoint}
+          />
+        </CarouselWrapper>
         {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null}
       </div>
     )

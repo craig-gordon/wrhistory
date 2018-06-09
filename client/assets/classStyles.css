@@ -1,0 +1,38 @@
+/*********
+* CHARTS *
+*********/
+
+.chartLink {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.chartLink:hover {
+  text-decoration: underline;
+}
+
+.chartLink.score {
+  color: #E0E0E3
+}
+
+.chartLink.lblink {
+  color: #A0A0A3
+}
+
+/************
+* CAROUSELS *
+************/
+
+.carousel {
+  border-radius: 10px;
+  border: 2px purple solid;
+}
+
+.carousel.carousel-slider .control-arrow {
+  opacity: 1;
+  background-color: purple;
+}
+
+.carousel.carousel-slider .control-arrow:hover {
+  background-color: purple;
+}
