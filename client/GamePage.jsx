@@ -9,8 +9,8 @@ import data from './mm2data.js';
 
 const CarouselWrapper = styled.div`
   position: absolute;
-  top: 130px;
-  left: 1070px;
+  top: 120px;
+  left: 1060px;
 `;
 
 export default class GamePage extends React.Component {
@@ -47,7 +47,7 @@ export default class GamePage extends React.Component {
             changeSelectedChartPoint={this.changeSelectedChartPoint}
           />
         </CarouselWrapper>
-        {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null}
+        {/* {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
       </div>
     )
   }

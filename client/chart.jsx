@@ -6,6 +6,7 @@ import DarkUnica from 'highcharts/themes/dark-unica';
 
 import ChartCarousel from './chartCarousel.jsx';
 
+import './assets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from './timeConversions.js';
 import data from './mm2data.js';
@@ -42,15 +43,19 @@ class Chart extends React.Component {
         }
       },
       title: {
-        text: 'Mega Man 2 — Any%'
+        useHTML: true,
+        text: `
+          <div class='chartTitle'>Mega Man 2 — Any%</div>
+        `
       },
       subtitle: {
         useHTML: true,
         text: `
-          <div>
+          <div class='chartSubtitle'>
             <div>Current WR — <a href='https://www.youtube.com/watch?v=mVlNqzmTj3k' class='chartLink score'>26:42</a> by cyghfer</div>
-            <a href='http://www.megamanleaderboards.net/index.php?game=2' class='chartLink lblink'>LEADERBOARD</a>
-          </div>`
+            <a href='http://www.megamanleaderboards.net/index.php?game=2' class='chartLink lbLink'>LEADERBOARD</a>
+          </div>
+        `
       },
       credits: false,
       plotOptions: {

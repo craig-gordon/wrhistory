@@ -2,6 +2,14 @@
 * CHARTS *
 *********/
 
+.chartTitle {
+  font-size: 28px;
+}
+
+.chartSubtitle {
+  font-size: 13px;
+}
+
 .chartLink {
   font-weight: bold;
   text-decoration: none;
@@ -15,7 +23,7 @@
   color: #E0E0E3
 }
 
-.chartLink.lblink {
+.chartLink.lbLink {
   color: #A0A0A3
 }
 
@@ -23,9 +31,11 @@
 * CAROUSELS *
 ************/
 
-.carousel {
-  border-radius: 10px;
-  border: 2px purple solid;
+.carousel .slide {
+  border-radius: 12px;
+  border: 3px purple solid;
+  background-color: #1b1b1c;
+  overflow: hidden;
 }
 
 .carousel.carousel-slider .control-arrow {
@@ -33,6 +43,25 @@
   background-color: purple;
 }
 
+.carousel.carousel-slider .control-arrow.control-next {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.carousel.carousel-slider .control-arrow.control-prev {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
 .carousel.carousel-slider .control-arrow:hover {
+  opacity: 1;
   background-color: purple;
+}
+
+.carousel .slider.animated {
+  -webkit-transition: all 0.45s ease-in-out;
+  -moz-transition: all 0.45s ease-in-out;
+  -ms-transition: all 0.45s ease-in-out;
+  -o-transition: all 0.45s ease-in-out;
+  transition: all 0.45s ease-in-out;
 }

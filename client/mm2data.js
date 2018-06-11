@@ -12,7 +12,8 @@ const data = [
     vodUrl: undefined,
     note: 'Played on Normal mode.',
     detailed:  `This is the earliest known speedrun of Mega Man 2 with existing video. 
-    This run forgoed the use of glitches in order to comply with the Twin Galaxies ruleset.`
+    This run was played on Normal mode and forgoed the use of glitches in order to comply 
+    with the Twin Galaxies ruleset.`
   },
   {
     id: 2,

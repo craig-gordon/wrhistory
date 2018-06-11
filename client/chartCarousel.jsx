@@ -8,8 +8,7 @@ import '../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
 import './assets/classStyles.css';
 
 const Slide = styled.div`
-  border-color: white;
-  border-width: 3px;
+  margin: 0 7%;
 `;
 
 const Header = styled.h2`
