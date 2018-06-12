@@ -6,7 +6,7 @@ import { secsToTs } from './timeConversions.js';
 import { document as dkDocument } from './dkDocument.js';
 import { document as mm2Document } from './mm2document.js';
 import '../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
-import './assets/classStyles.css';
+import './assets/stylesheets/classStyles.css';
 
 const Slide = styled.div`
   margin: 0 7%;

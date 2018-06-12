@@ -6,7 +6,7 @@ import DarkUnica from 'highcharts/themes/dark-unica';
 
 import ChartCarousel from './chartCarousel.jsx';
 
-import './assets/classStyles.css';
+import './assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from './timeConversions.js';
 import { document as dkDocument } from './dkDocument.js';
@@ -21,7 +21,7 @@ const documents = {dkDocument, mm2Document};
 
 const addImagesToChart = function() {
   let boxArt = this.renderer.image(
-    './assets/mm2box.jpg',
+    './assets/images/covers/mm2.jpg',
     300,
     135,
     '15%',
