@@ -16,16 +16,15 @@ const Module = styled.div`
 export default class FeaturedChartModule extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
+    this.randomGameCode = Math.random() > 1 ? 'dk' : 'mm2';
   }
 
   render() {
     return (
       <Module>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>
-        <Chart />
-        <Link to='/mm2'>See full chart!</Link>
+        <Chart gameCode={this.randomGameCode} />
+        <Link to={'/' + this.randomGameCode}>See full chart!</Link>
       </Module>
     );
   }

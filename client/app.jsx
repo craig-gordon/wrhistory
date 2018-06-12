@@ -23,6 +23,7 @@ export default class App extends React.Component {
           <Route path='/speedruns' component={BrowseGamesPage} />
           <Route path='/highscores' component={BrowseGamesPage} />
           <Route path='/mm2' component={GamePage} />
+          <Route path='/dk' component={GamePage} />
         </Switch>
         <BottomAbout />
       </div>

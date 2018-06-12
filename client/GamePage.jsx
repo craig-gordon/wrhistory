@@ -5,8 +5,6 @@ import Chart from './Chart.jsx';
 import ChartCarousel from './ChartCarousel.jsx';
 import VodEmbed from './VodEmbed.jsx';
 
-import data from './mm2data.js';
-
 const CarouselWrapper = styled.div`
   position: absolute;
   top: 120px;

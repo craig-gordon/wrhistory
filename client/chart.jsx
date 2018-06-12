@@ -9,12 +9,15 @@ import ChartCarousel from './chartCarousel.jsx';
 import './assets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from './timeConversions.js';
-import data from './mm2data.js';
+import { document as dkDocument } from './dkDocument.js';
+import { document as mm2Document } from './mm2Document.js';
 
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
 
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
+
+const documents = {dkDocument, mm2Document};
 
 const addImagesToChart = function() {
   let boxArt = this.renderer.image(
@@ -32,6 +35,10 @@ const addImagesToChart = function() {
 class Chart extends React.Component {
   constructor(props) {
     super(props);
+    this.gameCode = this.props.gameCode || 'mm2';
+    this.document = documents[`${this.gameCode}Document`];
+    console.log('this.document:', this.document);
+    console.log('this.document.data:', this.document.data);
     this.config = {
       chart: {
         type: 'line',
@@ -45,7 +52,7 @@ class Chart extends React.Component {
       title: {
         useHTML: true,
         text: `
-          <div class='chartTitle'>Mega Man 2 — Any%</div>
+          <div class='chartTitle'>${this.document.title} — ${this.document.category}</div>
         `
       },
       subtitle: {
@@ -70,7 +77,7 @@ class Chart extends React.Component {
           text: 'Date'
         },
         type: 'datetime',
-        min: Date.UTC(2004, 0, 1),
+        min: Date.UTC(this.document.data[0].year, 0, 1),
         dateTimeLabelFormats: {
           year: '%Y'
         },
@@ -129,6 +136,9 @@ class Chart extends React.Component {
           hour: '%H:%M:%S'
         }
       },
+      /**********
+      * TOOLTIP *
+      **********/
       tooltip: {
         formatter: function() {
           return (
@@ -138,9 +148,9 @@ class Chart extends React.Component {
                 <div>Player: ${this.point.player}</div><br/>
                 <div>Date: ${(new Date(this.x)).toDateString().slice(4)}</div><br/>
                 <div>Duration as WR: ${(Date.UTC(
-                  data[this.point.index + 1].year,
-                  data[this.point.index + 1].month,
-                  data[this.point.index + 1].day
+                  documents['mm2Document'].data[this.point.index + 1].year,
+                  documents['mm2Document'].data[this.point.index + 1].month,
+                  documents['mm2Document'].data[this.point.index + 1].day
                 ) - this.x) / 86400000} Days</div><br/>
                 ${this.point.note ? '<div>Note: ' + this.point.note + '</div><br/>' : ''}
               </div>
@@ -161,8 +171,8 @@ class Chart extends React.Component {
         labels: [
           {
             point: {
-              x: Date.UTC(data[3].year, data[3].month, data[3].day),
-              y: data[3].time * 1000,
+              x: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day),
+              y: this.document.data[3].time * 1000,
               xAxis: 0,
               yAxis: 0
             },
@@ -172,8 +182,8 @@ class Chart extends React.Component {
           },
           {
             point: {
-              x: Date.UTC(data[6].year, data[6].month, data[6].day),
-              y: data[6].time * 1000,
+              x: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day),
+              y: this.document.data[6].time * 1000,
               xAxis: 0,
               yAxis: 0
             },
@@ -209,31 +219,31 @@ class Chart extends React.Component {
         },
         zones: [
           {
-            value: Date.UTC(data[1].year, data[1].month, data[1].day),
+            value: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day),
             color: '#90ee7e'
           },
           {
-            value: Date.UTC(data[2].year, data[2].month, data[2].day),
+            value: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day),
             color: '#f45b5b'
           },
           {
-            value: Date.UTC(data[3].year, data[3].month, data[3].day),
+            value: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day),
             color: '#2b908f'
           },
           {
-            value: Date.UTC(data[4].year, data[4].month, data[4].day),
+            value: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day),
             color: '#7798BF'
           },
           {
-            value: Date.UTC(data[5].year, data[5].month, data[5].day),
+            value: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day),
             color: 'orange'
           },
           {
-            value: Date.UTC(data[6].year, data[6].month, data[6].day),
+            value: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day),
             color: '#7798BF'
           },
           {
-            value: Date.UTC(data[10].year, data[10].month, data[10].day),
+            value: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day),
             color: 'plum'
           },
           {
@@ -243,60 +253,60 @@ class Chart extends React.Component {
         ],
         data: [
           {
-            x: Date.UTC(data[0].year, data[0].month, data[0].day),
-            y: data[0].time * 1000,
-            player: data[0].player
+            x: Date.UTC(this.document.data[0].year, this.document.data[0].month, this.document.data[0].day),
+            y: this.document.data[0].time * 1000,
+            player: this.document.data[0].player
           },
           {
-            x: Date.UTC(data[1].year, data[1].month, data[1].day),
-            y: data[1].time * 1000,
-            player: data[1].player
+            x: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day),
+            y: this.document.data[1].time * 1000,
+            player: this.document.data[1].player
           },
           {
-            x: Date.UTC(data[2].year, data[2].month, data[2].day),
-            y: data[2].time * 1000,
-            player: data[2].player
+            x: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day),
+            y: this.document.data[2].time * 1000,
+            player: this.document.data[2].player
           },
           {
-            x: Date.UTC(data[3].year, data[3].month, data[3].day),
-            y: data[3].time * 1000,
-            player: data[3].player
+            x: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day),
+            y: this.document.data[3].time * 1000,
+            player: this.document.data[3].player
           },
           {
-            x: Date.UTC(data[4].year, data[4].month, data[4].day),
-            y: data[4].time * 1000,
-            player: data[4].player,
-            note: data[4].note
+            x: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day),
+            y: this.document.data[4].time * 1000,
+            player: this.document.data[4].player,
+            note: this.document.data[4].note
           },
           {
-            x: Date.UTC(data[5].year, data[5].month, data[5].day),
-            y: data[5].time * 1000,
-            player: data[5].player
+            x: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day),
+            y: this.document.data[5].time * 1000,
+            player: this.document.data[5].player
           },
           {
-            x: Date.UTC(data[6].year, data[6].month, data[6].day),
-            y: data[6].time * 1000,
-            player: data[6].player
+            x: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day),
+            y: this.document.data[6].time * 1000,
+            player: this.document.data[6].player
           },
           {
-            x: Date.UTC(data[7].year, data[7].month, data[7].day),
-            y: data[7].time * 1000,
-            player: data[7].player
+            x: Date.UTC(this.document.data[7].year, this.document.data[7].month, this.document.data[7].day),
+            y: this.document.data[7].time * 1000,
+            player: this.document.data[7].player
           },
           {
-            x: Date.UTC(data[8].year, data[8].month, data[8].day),
-            y: data[8].time * 1000,
-            player: data[8].player
+            x: Date.UTC(this.document.data[8].year, this.document.data[8].month, this.document.data[8].day),
+            y: this.document.data[8].time * 1000,
+            player: this.document.data[8].player
           },
           {
-            x: Date.UTC(data[9].year, data[9].month, data[9].day),
-            y: data[9].time * 1000,
-            player: data[9].player
+            x: Date.UTC(this.document.data[9].year, this.document.data[9].month, this.document.data[9].day),
+            y: this.document.data[9].time * 1000,
+            player: this.document.data[9].player
           },
           {
-            x: Date.UTC(data[10].year, data[10].month, data[10].day),
-            y: data[10].time * 1000,
-            player: data[10].player,
+            x: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day),
+            y: this.document.data[10].time * 1000,
+            player: this.document.data[10].player,
             marker: {
               symbol: 'url(assets/1st.png)',
               height: 16,
@@ -342,12 +352,6 @@ class Chart extends React.Component {
       //   ]
       // }
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('this.props:', this.props, 'nextProps:', nextProps);
-    console.log('true or false?:', this.props.clicked === nextProps.clicked);
-    return this.props.clicked === nextProps.clicked;
   }
 
   render() {

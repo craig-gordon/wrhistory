@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Carousel } from 'react-responsive-carousel';
 
 import { secsToTs } from './timeConversions.js';
-import data from './mm2data.js';
+import { document as dkDocument } from './dkDocument.js';
+import { document as mm2Document } from './mm2document.js';
 import '../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
 import './assets/classStyles.css';
 
@@ -19,9 +20,13 @@ const Text = styled.h4`
   color: white;
 `;
 
+const documents = {dkDocument, mm2Document};
+
 class ChartCarousel extends React.Component {
   constructor(props) {
     super(props);
+    this.gameCode = this.props.gameCode || 'mm2';
+    this.document = documents[`${this.gameCode}Document`];
   }
 
   render() {
@@ -35,48 +40,48 @@ class ChartCarousel extends React.Component {
         onChange={this.props.changeSelectedChartPoint}
       >
         <Slide>
-          <Header>{data[0].player} — {secsToTs(data[0].time)}</Header>
-          <Text>{data[0].detailed}</Text>
+          <Header>{this.document.data[0].player} — {secsToTs(this.document.data[0].time)}</Header>
+          <Text>{this.document.data[0].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[1].player} — {secsToTs(data[1].time)}</Header>
-          <Text>{data[1].detailed}</Text>
+          <Header>{this.document.data[1].player} — {secsToTs(this.document.data[1].time)}</Header>
+          <Text>{this.document.data[1].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[2].player} — {secsToTs(data[2].time)}</Header>
-          <Text>{data[2].detailed}</Text>
+          <Header>{this.document.data[2].player} — {secsToTs(this.document.data[2].time)}</Header>
+          <Text>{this.document.data[2].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[3].player} — {secsToTs(data[3].time)}</Header>
-          <Text>{data[3].detailed}</Text>
+          <Header>{this.document.data[3].player} — {secsToTs(this.document.data[3].time)}</Header>
+          <Text>{this.document.data[3].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[4].player} — {secsToTs(data[4].time)}</Header>
-          <Text>{data[4].detailed}</Text>
+          <Header>{this.document.data[4].player} — {secsToTs(this.document.data[4].time)}</Header>
+          <Text>{this.document.data[4].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[5].player} — {secsToTs(data[5].time)}</Header>
-          <Text>{data[5].detailed}</Text>
+          <Header>{this.document.data[5].player} — {secsToTs(this.document.data[5].time)}</Header>
+          <Text>{this.document.data[5].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[6].player} — {secsToTs(data[6].time)}</Header>
-          <Text>{data[6].detailed}</Text>
+          <Header>{this.document.data[6].player} — {secsToTs(this.document.data[6].time)}</Header>
+          <Text>{this.document.data[6].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[7].player} — {secsToTs(data[7].time)}</Header>
-          <Text>{data[7].detailed}</Text>
+          <Header>{this.document.data[7].player} — {secsToTs(this.document.data[7].time)}</Header>
+          <Text>{this.document.data[7].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[8].player} — {secsToTs(data[8].time)}</Header>
-          <Text>{data[8].detailed}</Text>
+          <Header>{this.document.data[8].player} — {secsToTs(this.document.data[8].time)}</Header>
+          <Text>{this.document.data[8].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[9].player} — {secsToTs(data[9].time)}</Header>
-          <Text>{data[9].detailed}</Text>
+          <Header>{this.document.data[9].player} — {secsToTs(this.document.data[9].time)}</Header>
+          <Text>{this.document.data[9].detailed}</Text>
         </Slide>
         <Slide>
-          <Header>{data[10].player} — {secsToTs(data[10].time)}</Header>
-          <Text>{data[10].detailed}</Text>
+          <Header>{this.document.data[10].player} — {secsToTs(this.document.data[10].time)}</Header>
+          <Text>{this.document.data[10].detailed}</Text>
         </Slide>
       </Carousel>
     )
