@@ -1,6 +1,6 @@
 const data = [
   {
-    id: 1,
+    id: 0,
     time: 1839,
     player: 'Richard Ureta',
     platform: 'Nintendo Entertainment System',
@@ -16,7 +16,7 @@ const data = [
     with the Twin Galaxies ruleset.`
   },
   {
-    id: 2,
+    id: 1,
     time: 1671,
     player: 'Seth Glass',
     platform: 'Nintendo Entertainment System',
@@ -32,7 +32,7 @@ const data = [
     and made full use of all glitches known to be possible in realtime.`
   },
   {
-    id: 3,
+    id: 2,
     time: 1641,
     player: 'nou1',
     platform: 'Nintendo Entertainment System',
@@ -49,7 +49,7 @@ const data = [
     admiration.`
   },
   {
-    id: 4,
+    id: 3,
     time: 1637,
     player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
@@ -66,7 +66,7 @@ const data = [
     only 4 seconds faster than nou1.`
   },
   {
-    id: 5,
+    id: 4,
     time: 1628,
     player: 'shoka',
     platform: 'Emulator',
@@ -81,7 +81,7 @@ const data = [
     was simply significantly less sloppy than cyghfer's 27:17.`
   },
   {
-    id: 6,
+    id: 5,
     time: 1621,
     player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
@@ -96,7 +96,7 @@ const data = [
     was less sloppiness overall. With this, the race to 26 was on...`
   },
   {
-    id: 7,
+    id: 6,
     time: 1617,
     player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
@@ -111,7 +111,7 @@ const data = [
     at this point. His dedication finally paid off in glorious fashion with this run.`
   },
   {
-    id: 8,
+    id: 7,
     time: 1616,
     player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
@@ -126,7 +126,7 @@ const data = [
     He achieved this small improvement about a year after his original 26.`
   },
   {
-    id: 9,
+    id: 8,
     time: 1615,
     player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
@@ -141,7 +141,7 @@ const data = [
     only a matter of time...`
   },
   {
-    id: 10,
+    id: 9,
     time: 1608,
     player: 'Ellonija',
     platform: 'Nintendo Entertainment System (Flash Cart)',
@@ -158,7 +158,7 @@ const data = [
     the next entries on the leaderboard.`
   },
   {
-    id: 11,
+    id: 10,
     time: 1602,
     player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
@@ -175,7 +175,7 @@ const data = [
     event on the SpeedGaming channel.`
   },
   {
-    id: 12,
+    id: 11,
     time: 1601,
     player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
@@ -191,8 +191,8 @@ const data = [
     elusive 26:3x, he achieved this small improvement in short order.`
   },
   {
-    id: 11,
-    time: 1602,
+    id: 12,
+    time: 1597,
     player: 'cyghfer',
     platform: 'Nintendo Entertainment System',
     version: 'J',
@@ -208,6 +208,23 @@ const data = [
     accomplishing the dream goal he and Ello fantastized about in previous years, cyghfer 
     asserts that 26:2x is the final frontier for Rockman 2. Only time will tell the truth of 
     that assertion.`
+  },
+  {
+    id: 13,
+    time: 1596,
+    player: 'coolkid',
+    platform: 'Nintendo Entertainment System',
+    version: 'J',
+    year: 2018,
+    month: 5,
+    day: 8,
+    avatar: undefined,
+    vodUrl: 'https://www.twitch.tv/videos/259202535',
+    note: undefined,
+    detailed: `After some 8500 attempts and months of dedicated grinding, coolkid finally 
+    obtained the Rockman 2 record with a 26:36. Remarkably, this was the first time someone 
+    had held the main category records in both Mega Man and Mega Man 2 since Seth Glass in 
+    2010, when both games had almost no competition.`
   }
 ];
 
