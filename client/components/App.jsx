@@ -2,11 +2,11 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import TopNav from './TopNav.jsx';
-import HomePage from './HomePage.jsx';
-import AboutPage from './AboutPage.jsx';
-import BrowseGamesPage from './BrowseGamesPage.jsx';
-import GamePage from './GamePage.jsx';
-import BottomAbout from './BottomAbout.jsx';
+import HomePage from './pages/home/HomePage.jsx';
+import AboutPage from './pages/about/AboutPage.jsx';
+import BrowseGamesPage from './pages/browse/BrowseGamesPage.jsx';
+import GamePage from './pages/game/GamePage.jsx';
+import Footer from './Footer.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ export default class App extends React.Component {
           <Route path='/mm2' component={GamePage} />
           <Route path='/dk' component={GamePage} />
         </Switch>
-        <BottomAbout />
+        <Footer />
       </div>
     );
   }

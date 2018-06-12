@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Chart from './Chart.jsx';
-import ChartCarousel from './ChartCarousel.jsx';
+import Chart from '../../charts/Chart.jsx';
+import ChartCarousel from '../../charts/ChartCarousel.jsx';
 import VodEmbed from './VodEmbed.jsx';
 
 const CarouselWrapper = styled.div`

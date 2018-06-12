@@ -6,11 +6,11 @@ import DarkUnica from 'highcharts/themes/dark-unica';
 
 import ChartCarousel from './chartCarousel.jsx';
 
-import './assets/stylesheets/classStyles.css';
+import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
-import { secsToTs } from './timeConversions.js';
-import { document as dkDocument } from './dkDocument.js';
-import { document as mm2Document } from './mm2Document.js';
+import { secsToTs } from '../../functions/timeConversions.js';
+import { document as dkDocument } from '../../data/dkDocument.js';
+import { document as mm2Document } from '../../data/mm2Document.js';
 
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);

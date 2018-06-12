@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import GamePreviewButton from './GamePreviewButton.jsx';
+import GamePreviewButton from '../../GamePreviewButton.jsx';
 
 const Module = styled.div`
   margin: 1% 0;
@@ -30,9 +30,9 @@ export default class RecentlyUpdatedModule extends React.Component {
       <Module>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Recently Updated Histories</h3>
         <ButtonsContainer>
-          <GamePreviewButton code='mm2' />
-          <GamePreviewButton code='sm64' />
-          <GamePreviewButton code='supermetroid' />
+          <GamePreviewButton gameCode='mm2' />
+          <GamePreviewButton gameCode='sm64' />
+          <GamePreviewButton gameCode='supermetroid' />
         </ButtonsContainer>
       </Module>
     );

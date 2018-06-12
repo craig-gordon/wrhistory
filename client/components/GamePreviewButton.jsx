@@ -20,7 +20,7 @@ const Image = styled.img`
 const GamePreviewButton = (props) => (
   <Link to={props.gameCode === 'mm2' ? '/mm2' : (props.gameCode === 'dk' ? '/dk' : '/')}>
     <Button>
-      <Image src={`./assets/images/covers/${props.gameCode}.jpg`} />
+      <Image src={`../assets/images/covers/${props.gameCode}.jpg`} />
     </Button>
   </Link>
 );

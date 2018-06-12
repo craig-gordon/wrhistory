@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Carousel } from 'react-responsive-carousel';
 
-import { secsToTs } from './timeConversions.js';
-import { document as dkDocument } from './dkDocument.js';
-import { document as mm2Document } from './mm2document.js';
-import '../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
-import './assets/stylesheets/classStyles.css';
+import { secsToTs } from '../../functions/timeConversions.js';
+import { document as dkDocument } from '../../data/dkDocument.js';
+import { document as mm2Document } from '../../data/mm2document.js';
+import '../../../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
+import '../../assets/stylesheets/classStyles.css';
 
 const Slide = styled.div`
   margin: 0 7%;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import GamePreviewButton from './GamePreviewButton.jsx';
+import GamePreviewButton from '../../GamePreviewButton.jsx';
 
 const Header = styled.h1`
   text-align: center;

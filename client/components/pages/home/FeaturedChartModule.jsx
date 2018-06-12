@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import Chart from './Chart.jsx';
+import Chart from '../../charts/Chart.jsx';
 
 const Module = styled.div`
   margin: 1% 0;
