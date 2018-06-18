@@ -9,6 +9,7 @@ import ChartCarousel from './chartCarousel.jsx';
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../functions/timeConversions.js';
+import { tooltipFormatter } from '../../functions/chartFunctions.js';
 import { document as dkDocument } from '../../data/dkDocument.js';
 import { document as mm2Document } from '../../data/mm2Document.js';
 
@@ -18,6 +19,7 @@ DarkUnica(ReactHighcharts.Highcharts);
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 
 const documents = {dkDocument, mm2Document};
+console.log('documents:', documents);
 
 const addImagesToChart = function() {
   let boxArt = this.renderer.image(
@@ -140,23 +142,7 @@ class Chart extends React.Component {
       * TOOLTIP *
       **********/
       tooltip: {
-        formatter: function() {
-          return (
-            `
-              <div>
-                <div>Time: ${secsToTs(this.y / 1000)}</div><br/>
-                <div>Player: ${this.point.player}</div><br/>
-                <div>Date: ${(new Date(this.x)).toDateString().slice(4)}</div><br/>
-                <div>Duration as WR: ${(Date.UTC(
-                  documents['mm2Document'].data[this.point.index + 1].year,
-                  documents['mm2Document'].data[this.point.index + 1].month,
-                  documents['mm2Document'].data[this.point.index + 1].day
-                ) - this.x) / 86400000} Days</div><br/>
-                ${this.point.note ? '<div>Note: ' + this.point.note + '</div><br/>' : ''}
-              </div>
-            `
-          );
-        }
+        formatter: tooltipFormatter
       },
       /**************
       * ANNOTATIONS *
@@ -255,60 +241,71 @@ class Chart extends React.Component {
           {
             x: Date.UTC(this.document.data[0].year, this.document.data[0].month, this.document.data[0].day),
             y: this.document.data[0].time * 1000,
-            player: this.document.data[0].player
+            data: this.document.data[0],
+            nextDate: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day)
           },
           {
             x: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day),
             y: this.document.data[1].time * 1000,
-            player: this.document.data[1].player
+            data: this.document.data[1],
+            nextDate: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day)
           },
           {
             x: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day),
             y: this.document.data[2].time * 1000,
-            player: this.document.data[2].player
+            data: this.document.data[2],
+            nextDate: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day)
           },
           {
             x: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day),
             y: this.document.data[3].time * 1000,
-            player: this.document.data[3].player
+            data: this.document.data[3],
+            nextDate: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day)
           },
           {
             x: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day),
             y: this.document.data[4].time * 1000,
-            player: this.document.data[4].player,
+            data: this.document.data[4],
+            nextDate: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day),
             note: this.document.data[4].note
           },
           {
             x: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day),
             y: this.document.data[5].time * 1000,
-            player: this.document.data[5].player
+            data: this.document.data[5],
+            nextDate: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day)
           },
           {
             x: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day),
             y: this.document.data[6].time * 1000,
-            player: this.document.data[6].player
+            data: this.document.data[6],
+            nextDate: Date.UTC(this.document.data[7].year, this.document.data[7].month, this.document.data[7].day)
           },
           {
             x: Date.UTC(this.document.data[7].year, this.document.data[7].month, this.document.data[7].day),
             y: this.document.data[7].time * 1000,
-            player: this.document.data[7].player
+            data: this.document.data[7],
+            nextDate: Date.UTC(this.document.data[8].year, this.document.data[8].month, this.document.data[8].day)
           },
           {
             x: Date.UTC(this.document.data[8].year, this.document.data[8].month, this.document.data[8].day),
             y: this.document.data[8].time * 1000,
-            player: this.document.data[8].player
+            data: this.document.data[8],
+            nextDate: Date.UTC(this.document.data[9].year, this.document.data[9].month, this.document.data[9].day)
           },
           {
             x: Date.UTC(this.document.data[9].year, this.document.data[9].month, this.document.data[9].day),
             y: this.document.data[9].time * 1000,
-            player: this.document.data[9].player
+            data: this.document.data[9],
+            nextDate: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day)
           },
           {
             x: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day),
             y: this.document.data[10].time * 1000,
-            player: this.document.data[10].player,
+            data: this.document.data[10],
+            nextDate: Date.now(),
             marker: {
-              symbol: 'url(assets/1st.png)',
+              symbol: 'url(assets/images/icons/1st.png)',
               height: 16,
               width: 16
             }
@@ -342,12 +339,12 @@ class Chart extends React.Component {
       //     {
       //       x: Date.UTC(2004, 1, 1),
       //       y: 1428 * 1000,
-      //       player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'
+      //       data: 'aglasscage (Seth GlanalFighter, pirohiko, & Shinryuu'
       //     },
       //     {
       //       x: Date.UTC(2018, 4, 18),
       //       y: 1428 * 1000,
-      //       player: 'aglasscage (Seth Glass), FinalFighter, pirohiko, & Shinryuu'              
+      //       data: 'aglasscage (Seth GlanalFighter, pirohiko, & Shinryuu'              
       //     }
       //   ]
       // }

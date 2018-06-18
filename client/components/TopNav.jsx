@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const TopNavWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   border-style: solid;
   border-color: darkgray;
   border-width: 0 2px 2px 2px;
@@ -41,6 +41,8 @@ export default class TopNav extends React.Component {
         <SiteLink to='/'>Record History</SiteLink>
         <StyledLink to='/speedruns'>Speedruns</StyledLink>
         <StyledLink to='/highscores'>High Scores</StyledLink>
+        <StyledLink to='/'>Articles</StyledLink>
+        <StyledLink to='/'>Statistics</StyledLink>
         <StyledInput type='text' placeholder='Search for Games, Users, etc...'></StyledInput>
         <StyledLink to='/'>Log In</StyledLink>
         <StyledLink to='/'>Register</StyledLink>
