@@ -37,3 +37,19 @@ export const formatTooltip = function() {
     </div>
   `;
 };
+
+export const produceChartData = function(records) {
+  return records.map((record, i, records) => 
+    ({
+      x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+      y: record.time * 1000,
+      data: record,
+      nextDate: i === records.length - 1 ? Date.now() + utcOffsetMS : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
+      marker: i === records.length - 1 ? {
+        symbol: 'url(assets/images/icons/1st.png)',
+        height: 16,
+        width: 16
+      } : null
+    })
+  )
+}

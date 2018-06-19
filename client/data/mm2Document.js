@@ -3,7 +3,7 @@ export const document = {
   title: 'Mega Man 2',
   category: 'Any%',
   leaderboard: 'http://www.megamanleaderboards.net/index.php?game=2',
-  data: [
+  records: [
     {
       id: 0,
       time: 1839,

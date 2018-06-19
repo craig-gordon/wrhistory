@@ -2,7 +2,7 @@ export const document = {
   type: 'highscore',
   title: 'Donkey Kong',
   category: undefined,
-  data: [
+  records: [
     {
       id: 0,
       score: 874300,
