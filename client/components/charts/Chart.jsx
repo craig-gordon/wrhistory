@@ -9,7 +9,7 @@ import ChartCarousel from './chartCarousel.jsx';
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../functions/timeConversions.js';
-import { tooltipFormatter } from '../../functions/chartFunctions.js';
+import { formatTooltip } from '../../functions/chartFunctions.js';
 import { document as dkDocument } from '../../data/dkDocument.js';
 import { document as mm2Document } from '../../data/mm2Document.js';
 
@@ -19,7 +19,6 @@ DarkUnica(ReactHighcharts.Highcharts);
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 
 const documents = {dkDocument, mm2Document};
-console.log('documents:', documents);
 
 const addImagesToChart = function() {
   let boxArt = this.renderer.image(
@@ -39,8 +38,8 @@ class Chart extends React.Component {
     super(props);
     this.gameCode = this.props.gameCode || 'mm2';
     this.document = documents[`${this.gameCode}Document`];
-    console.log('this.document:', this.document);
-    console.log('this.document.data:', this.document.data);
+    this.data = this.document.data;
+    this.currentRecord = this.data[this.data.length - 1];
     this.config = {
       chart: {
         type: 'line',
@@ -61,8 +60,8 @@ class Chart extends React.Component {
         useHTML: true,
         text: `
           <div class='chartSubtitle'>
-            <div>Current WR — <a href='https://www.youtube.com/watch?v=mVlNqzmTj3k' class='chartLink score'>26:42</a> by cyghfer</div>
-            <a href='http://www.megamanleaderboards.net/index.php?game=2' class='chartLink lbLink'>LEADERBOARD</a>
+            <div>Current WR — <a href=${this.currentRecord.vodUrl} class='chartLink score'>${secsToTs(this.currentRecord.time)}</a> by ${this.currentRecord.player}</div>
+            <a href=${this.document.leaderboard} class='chartLink lbLink'>LEADERBOARD</a>
           </div>
         `
       },
@@ -79,48 +78,48 @@ class Chart extends React.Component {
           text: 'Date'
         },
         type: 'datetime',
-        min: Date.UTC(this.document.data[0].year, 0, 1),
+        min: Date.UTC(this.data[0].year, 0, 1),
         dateTimeLabelFormats: {
           year: '%Y'
         },
         // plotBands: [
         //   {
-        //     from: Date.UTC(data[0].year, data[0].month, data[0].day),
-        //     to: Date.UTC(data[1].year, data[1].month, data[1].day),
+        //     from: Date.UTC(data[0].year, data[0].month, data[0].day) + utcOffsetMS,
+        //     to: Date.UTC(data[1].year, data[1].month, data[1].day) + utcOffsetMS,
         //     color: 'lightgray'
         //   },
         //   {
-        //     from: Date.UTC(data[1].year, data[1].month, data[1].day),
-        //     to: Date.UTC(data[2].year, data[2].month, data[2].day),
+        //     from: Date.UTC(data[1].year, data[1].month, data[1].day) + utcOffsetMS,
+        //     to: Date.UTC(data[2].year, data[2].month, data[2].day) + utcOffsetMS,
         //     color: 'mintcream'
         //   },
         //   {
-        //     from: Date.UTC(data[2].year, data[2].month, data[2].day),
-        //     to: Date.UTC(data[3].year, data[3].month, data[3].day),
+        //     from: Date.UTC(data[2].year, data[2].month, data[2].day) + utcOffsetMS,
+        //     to: Date.UTC(data[3].year, data[3].month, data[3].day) + utcOffsetMS,
         //     color: 'lightgray'
         //   },
         //   {
-        //     from: Date.UTC(data[3].year, data[3].month, data[3].day),
-        //     to: Date.UTC(data[4].year, data[4].month, data[4].day),
+        //     from: Date.UTC(data[3].year, data[3].month, data[3].day) + utcOffsetMS,
+        //     to: Date.UTC(data[4].year, data[4].month, data[4].day) + utcOffsetMS,
         //     color: 'mintcream'
         //   },
         //   {
-        //     from: Date.UTC(data[4].year, data[4].month, data[4].day),
-        //     to: Date.UTC(data[5].year, data[5].month, data[5].day),
+        //     from: Date.UTC(data[4].year, data[4].month, data[4].day) + utcOffsetMS,
+        //     to: Date.UTC(data[5].year, data[5].month, data[5].day) + utcOffsetMS,
         //     color: 'lightgray'
         //   },
         //   {
-        //     from: Date.UTC(data[5].year, data[5].month, data[5].day),
-        //     to: Date.UTC(data[6].year, data[6].month, data[6].day),
+        //     from: Date.UTC(data[5].year, data[5].month, data[5].day) + utcOffsetMS,
+        //     to: Date.UTC(data[6].year, data[6].month, data[6].day) + utcOffsetMS,
         //     color: 'mintcream'
         //   },
         //   {
-        //     from: Date.UTC(data[6].year, data[6].month, data[6].day),
-        //     to: Date.UTC(data[10].year, data[10].month, data[10].day),
+        //     from: Date.UTC(data[6].year, data[6].month, data[6].day) + utcOffsetMS,
+        //     to: Date.UTC(data[10].year, data[10].month, data[10].day) + utcOffsetMS,
         //     color: 'lightgray'
         //   },
         //   {
-        //     from: Date.UTC(data[10].year, data[10].month, data[10].day),
+        //     from: Date.UTC(data[10].year, data[10].month, data[10].day) + utcOffsetMS,
         //     to: Date.now(),
         //     color: 'mintcream'
         //   },
@@ -142,7 +141,8 @@ class Chart extends React.Component {
       * TOOLTIP *
       **********/
       tooltip: {
-        formatter: tooltipFormatter
+        useHTML: true,
+        formatter: formatTooltip
       },
       /**************
       * ANNOTATIONS *
@@ -157,7 +157,7 @@ class Chart extends React.Component {
         labels: [
           {
             point: {
-              x: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day),
+              x: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day) + utcOffsetMS,
               y: this.document.data[3].time * 1000,
               xAxis: 0,
               yAxis: 0
@@ -168,7 +168,7 @@ class Chart extends React.Component {
           },
           {
             point: {
-              x: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day),
+              x: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day) + utcOffsetMS,
               y: this.document.data[6].time * 1000,
               xAxis: 0,
               yAxis: 0
@@ -181,155 +181,184 @@ class Chart extends React.Component {
       legend: {
         layout: 'horizontal'
       },
-      series: [{
-        grouping: false,
-        name: 'Richard Ureta',
-        color: '#90ee7e',
-        data: []
-      },
-      {
-        grouping: false,
-        name: 'Seth Glass',
-        color: '#f45b5b',
-        data: []
-      },
-      {
-        name: 'nou1',
-        step: 'left',
-        cursor: 'pointer',
-        zoneAxis: 'x',
-        events: {
-          click: (e) => {
-            this.props.changeSelectedChartPoint(e);
-          }
+      series: [
+        {
+          grouping: false,
+          name: 'Richard Ureta',
+          color: '#90ee7e',
+          data: []
         },
-        zones: [
-          {
-            value: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day),
-            color: '#90ee7e'
-          },
-          {
-            value: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day),
-            color: '#f45b5b'
-          },
-          {
-            value: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day),
-            color: '#2b908f'
-          },
-          {
-            value: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day),
-            color: '#7798BF'
-          },
-          {
-            value: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day),
-            color: 'orange'
-          },
-          {
-            value: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day),
-            color: '#7798BF'
-          },
-          {
-            value: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day),
-            color: 'plum'
-          },
-          {
-            value: Date.now(),
-            color: '#7798BF'
-          },
-        ],
-        data: [
-          {
-            x: Date.UTC(this.document.data[0].year, this.document.data[0].month, this.document.data[0].day),
-            y: this.document.data[0].time * 1000,
-            data: this.document.data[0],
-            nextDate: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day)
-          },
-          {
-            x: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day),
-            y: this.document.data[1].time * 1000,
-            data: this.document.data[1],
-            nextDate: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day)
-          },
-          {
-            x: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day),
-            y: this.document.data[2].time * 1000,
-            data: this.document.data[2],
-            nextDate: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day)
-          },
-          {
-            x: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day),
-            y: this.document.data[3].time * 1000,
-            data: this.document.data[3],
-            nextDate: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day)
-          },
-          {
-            x: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day),
-            y: this.document.data[4].time * 1000,
-            data: this.document.data[4],
-            nextDate: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day),
-            note: this.document.data[4].note
-          },
-          {
-            x: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day),
-            y: this.document.data[5].time * 1000,
-            data: this.document.data[5],
-            nextDate: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day)
-          },
-          {
-            x: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day),
-            y: this.document.data[6].time * 1000,
-            data: this.document.data[6],
-            nextDate: Date.UTC(this.document.data[7].year, this.document.data[7].month, this.document.data[7].day)
-          },
-          {
-            x: Date.UTC(this.document.data[7].year, this.document.data[7].month, this.document.data[7].day),
-            y: this.document.data[7].time * 1000,
-            data: this.document.data[7],
-            nextDate: Date.UTC(this.document.data[8].year, this.document.data[8].month, this.document.data[8].day)
-          },
-          {
-            x: Date.UTC(this.document.data[8].year, this.document.data[8].month, this.document.data[8].day),
-            y: this.document.data[8].time * 1000,
-            data: this.document.data[8],
-            nextDate: Date.UTC(this.document.data[9].year, this.document.data[9].month, this.document.data[9].day)
-          },
-          {
-            x: Date.UTC(this.document.data[9].year, this.document.data[9].month, this.document.data[9].day),
-            y: this.document.data[9].time * 1000,
-            data: this.document.data[9],
-            nextDate: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day)
-          },
-          {
-            x: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day),
-            y: this.document.data[10].time * 1000,
-            data: this.document.data[10],
-            nextDate: Date.now(),
-            marker: {
-              symbol: 'url(assets/images/icons/1st.png)',
-              height: 16,
-              width: 16
+        {
+          grouping: false,
+          name: 'Seth Glass',
+          color: '#f45b5b',
+          data: []
+        },
+        {
+          name: 'nou1',
+          step: 'left',
+          cursor: 'pointer',
+          zoneAxis: 'x',
+          events: {
+            click: (e) => {
+              this.props.changeSelectedChartPoint(e);
             }
-          }
-        ]
-      },
-      {
-        grouping: false,
-        name: 'cyghfer',
-        color: '#7798BF',
-        data: []
-      },
-      {
-        grouping: false,
-        name: 'shoka',
-        color: 'orange',
-        data: []
-      },
-      {
-        grouping: false,
-        name: 'Ellonija',
-        color: 'plum',
-        data: []
-      }]
+          },
+          zones: [
+            {
+              value: Date.UTC(this.document.data[1].year, this.document.data[1].month, this.document.data[1].day) + utcOffsetMS,
+              color: '#90ee7e'
+            },
+            {
+              value: Date.UTC(this.document.data[2].year, this.document.data[2].month, this.document.data[2].day) + utcOffsetMS,
+              color: '#f45b5b'
+            },
+            {
+              value: Date.UTC(this.document.data[3].year, this.document.data[3].month, this.document.data[3].day) + utcOffsetMS,
+              color: '#2b908f'
+            },
+            {
+              value: Date.UTC(this.document.data[4].year, this.document.data[4].month, this.document.data[4].day) + utcOffsetMS,
+              color: '#7798BF'
+            },
+            {
+              value: Date.UTC(this.document.data[5].year, this.document.data[5].month, this.document.data[5].day) + utcOffsetMS,
+              color: 'orange'
+            },
+            {
+              value: Date.UTC(this.document.data[6].year, this.document.data[6].month, this.document.data[6].day) + utcOffsetMS,
+              color: '#7798BF'
+            },
+            {
+              value: Date.UTC(this.document.data[10].year, this.document.data[10].month, this.document.data[10].day) + utcOffsetMS,
+              color: 'plum'
+            },
+            {
+              value: Date.now(),
+              color: '#7798BF'
+            },
+          ],
+          /*********
+          * SCORES *
+          *********/
+          data: [
+            {
+              x: Date.UTC(this.data[0].year, this.data[0].month, this.data[0].day) + utcOffsetMS,
+              y: this.data[0].time * 1000,
+              data: this.data[0],
+              nextDate: Date.UTC(this.data[1].year, this.data[1].month, this.data[1].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[1].year, this.data[1].month, this.data[1].day) + utcOffsetMS,
+              y: this.data[1].time * 1000,
+              data: this.data[1],
+              nextDate: Date.UTC(this.data[2].year, this.data[2].month, this.data[2].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[2].year, this.data[2].month, this.data[2].day) + utcOffsetMS,
+              y: this.data[2].time * 1000,
+              data: this.data[2],
+              nextDate: Date.UTC(this.data[3].year, this.data[3].month, this.data[3].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[3].year, this.data[3].month, this.data[3].day) + utcOffsetMS,
+              y: this.data[3].time * 1000,
+              data: this.data[3],
+              nextDate: Date.UTC(this.data[4].year, this.data[4].month, this.data[4].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[4].year, this.data[4].month, this.data[4].day) + utcOffsetMS,
+              y: this.data[4].time * 1000,
+              data: this.data[4],
+              nextDate: Date.UTC(this.data[5].year, this.data[5].month, this.data[5].day) + utcOffsetMS,
+              note: this.data[4].note
+            },
+            {
+              x: Date.UTC(this.data[5].year, this.data[5].month, this.data[5].day) + utcOffsetMS,
+              y: this.data[5].time * 1000,
+              data: this.data[5],
+              nextDate: Date.UTC(this.data[6].year, this.data[6].month, this.data[6].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[6].year, this.data[6].month, this.data[6].day) + utcOffsetMS,
+              y: this.data[6].time * 1000,
+              data: this.data[6],
+              nextDate: Date.UTC(this.data[7].year, this.data[7].month, this.data[7].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[7].year, this.data[7].month, this.data[7].day) + utcOffsetMS,
+              y: this.data[7].time * 1000,
+              data: this.data[7],
+              nextDate: Date.UTC(this.data[8].year, this.data[8].month, this.data[8].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[8].year, this.data[8].month, this.data[8].day) + utcOffsetMS,
+              y: this.data[8].time * 1000,
+              data: this.data[8],
+              nextDate: Date.UTC(this.data[9].year, this.data[9].month, this.data[9].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[9].year, this.data[9].month, this.data[9].day) + utcOffsetMS,
+              y: this.data[9].time * 1000,
+              data: this.data[9],
+              nextDate: Date.UTC(this.data[10].year, this.data[10].month, this.data[10].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[10].year, this.data[10].month, this.data[10].day) + utcOffsetMS,
+              y: this.data[10].time * 1000,
+              data: this.data[10],
+              nextDate: Date.UTC(this.data[11].year, this.data[11].month, this.data[11].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[11].year, this.data[11].month, this.data[11].day) + utcOffsetMS,
+              y: this.data[11].time * 1000,
+              data: this.data[11],
+              nextDate: Date.UTC(this.data[12].year, this.data[12].month, this.data[12].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[12].year, this.data[12].month, this.data[12].day) + utcOffsetMS,
+              y: this.data[12].time * 1000,
+              data: this.data[12],
+              nextDate: Date.UTC(this.data[13].year, this.data[13].month, this.data[13].day) + utcOffsetMS
+            },
+            {
+              x: Date.UTC(this.data[13].year, this.data[13].month, this.data[13].day) + utcOffsetMS,
+              y: this.data[13].time * 1000,
+              data: this.data[13],
+              nextDate: Date.now(),
+              marker: {
+                symbol: 'url(assets/images/icons/1st.png)',
+                height: 16,
+                width: 16
+              }
+            }
+          ]
+        },
+        {
+          grouping: false,
+          name: 'cyghfer',
+          color: '#7798BF',
+          data: []
+        },
+        {
+          grouping: false,
+          name: 'shoka',
+          color: 'orange',
+          data: []
+        },
+        {
+          grouping: false,
+          name: 'Ellonija',
+          color: 'plum',
+          data: []
+        },
+        {
+          grouping: false,
+          name: 'coolkid',
+          color: 'white',
+          data: []
+        }
+      ]
       // {
       //   grouping: false,
       //   name: 'Current TAS',

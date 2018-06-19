@@ -20,11 +20,17 @@
 }
 
 .chartLink.score {
-  color: #E0E0E3
+  color: #E0E0E3;
 }
 
 .chartLink.lbLink {
-  color: #A0A0A3
+  color: #A0A0A3;
+}
+
+.ttCategory {
+  color: #A0A0A3;
+  font-weight: bold;
+  margin-right: 3px;
 }
 
 /************

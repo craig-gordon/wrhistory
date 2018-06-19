@@ -16,6 +16,8 @@ injectGlobal`
   }
 `;
 
+window.utcOffsetMS = new Date().getTimezoneOffset() * 60 * 1000;
+
 render(
   <BrowserRouter>
     <App />
