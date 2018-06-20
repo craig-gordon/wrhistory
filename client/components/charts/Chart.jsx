@@ -9,7 +9,7 @@ import ChartCarousel from './chartCarousel.jsx';
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../functions/timeConversions.js';
-import { formatTooltip, produceChartData } from '../../functions/chartFunctions.js';
+import { formatTooltip, produceChartData, produceChartZones } from '../../functions/chartFunctions.js';
 import { document as dkDocument } from '../../data/dkDocument.js';
 import { document as mm2Document } from '../../data/mm2Document.js';
 
@@ -207,44 +207,45 @@ class Chart extends React.Component {
           /********
           * ZONES *
           ********/
-          zones: [
-            {
-              value: Date.UTC(this.records[1].year, this.records[1].month, this.records[1].day) + utcOffsetMS,
-              color: '#90ee7e'
-            },
-            {
-              value: Date.UTC(this.records[2].year, this.records[2].month, this.records[2].day) + utcOffsetMS,
-              color: '#f45b5b'
-            },
-            {
-              value: Date.UTC(this.records[3].year, this.records[3].month, this.records[3].day) + utcOffsetMS,
-              color: '#2b908f'
-            },
-            {
-              value: Date.UTC(this.records[4].year, this.records[4].month, this.records[4].day) + utcOffsetMS,
-              color: '#7798BF'
-            },
-            {
-              value: Date.UTC(this.records[5].year, this.records[5].month, this.records[5].day) + utcOffsetMS,
-              color: 'orange'
-            },
-            {
-              value: Date.UTC(this.records[6].year, this.records[6].month, this.records[6].day) + utcOffsetMS,
-              color: '#7798BF'
-            },
-            {
-              value: Date.UTC(this.records[10].year, this.records[10].month, this.records[10].day) + utcOffsetMS,
-              color: 'plum'
-            },
-            {
-              value: Date.UTC(this.records[13].year, this.records[13].month, this.records[13].day) + utcOffsetMS,
-              color: '#7798BF'
-            },
-            {
-              value: Date.now() + utcOffsetMS,
-              color: 'white'
-            }
-          ],
+          zones: produceChartZones(this.records),
+          // [
+          //   {
+          //     value: Date.UTC(this.records[1].year, this.records[1].month, this.records[1].day) + utcOffsetMS,
+          //     color: '#90ee7e'
+          //   },
+          //   {
+          //     value: Date.UTC(this.records[2].year, this.records[2].month, this.records[2].day) + utcOffsetMS,
+          //     color: '#f45b5b'
+          //   },
+          //   {
+          //     value: Date.UTC(this.records[3].year, this.records[3].month, this.records[3].day) + utcOffsetMS,
+          //     color: '#2b908f'
+          //   },
+          //   {
+          //     value: Date.UTC(this.records[4].year, this.records[4].month, this.records[4].day) + utcOffsetMS,
+          //     color: '#7798BF'
+          //   },
+          //   {
+          //     value: Date.UTC(this.records[5].year, this.records[5].month, this.records[5].day) + utcOffsetMS,
+          //     color: 'orange'
+          //   },
+          //   {
+          //     value: Date.UTC(this.records[6].year, this.records[6].month, this.records[6].day) + utcOffsetMS,
+          //     color: '#7798BF'
+          //   },
+          //   {
+          //     value: Date.UTC(this.records[10].year, this.records[10].month, this.records[10].day) + utcOffsetMS,
+          //     color: 'plum'
+          //   },
+          //   {
+          //     value: Date.UTC(this.records[13].year, this.records[13].month, this.records[13].day) + utcOffsetMS,
+          //     color: '#7798BF'
+          //   },
+          //   {
+          //     value: Date.now() + utcOffsetMS,
+          //     color: 'white'
+          //   }
+          // ],
           /*******
           * DATA *
           *******/

@@ -6,7 +6,7 @@ export const formatTooltip = function() {
   dateStrRaw = dateStrRaw.slice(0, 6) + ', ' + dateStrRaw.slice(7);
   dateStrRaw = dateStrRaw[4] === '0' ? dateStrRaw.slice(0, 4) + dateStrRaw.slice(5) : dateStrRaw;
   let dateStr;
-  let monthMap = {
+  const monthMap = {
     'Jan': 'January',
     'Feb': 'February',
     'Mar': 'March',
@@ -25,31 +25,73 @@ export const formatTooltip = function() {
       let dateArr = dateStrRaw.split(' ');
       dateArr[0] = monthMap[month];
       dateStr = dateArr.join(' ');
+      break;
     }
   }
   return `
     <div>
-      <div><span class='ttCategory'>Time</span> ${secsToTs(this.y / 1000)}</div>
-      <div><span class='ttCategory'>Player</span> ${this.point.data.player}</div>
-      <div><span class='ttCategory'>Date</span> ${dateStr}</div>
-      <div><span class='ttCategory'>Duration</span> ${daysToYMDFormat(this.x, this.point.nextDate)}</div>
-      ${this.point.note ? `<div><span class='ttCategory'>Note</span> ${this.point.note}</div>` : ``}
+      <div><span class='ttCategory'>Time</span>${secsToTs(this.y / 1000)}</div>
+      <div><span class='ttCategory'>Player</span>${this.point.data.player}</div>
+      <div><span class='ttCategory'>Date</span>${dateStr}</div>
+      <div><span class='ttCategory'>Duration</span>${daysToYMDFormat(this.x, this.point.nextDate)} ${this.point.isCurrentRecord ? ' and counting!' : ''}</div>
+      ${this.point.note ? `<div><span class='ttCategory'>Note</span>${this.point.note}</div>` : ``}
     </div>
   `;
 };
 
 export const produceChartData = function(records) {
-  return records.map((record, i, records) => 
-    ({
+  return records.map((record, i) => {
+    let isCurrentRecord = i === records.length - 1;
+    return {
       x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
       y: record.time * 1000,
       data: record,
-      nextDate: i === records.length - 1 ? Date.now() + utcOffsetMS : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
-      marker: i === records.length - 1 ? {
+      isCurrentRecord,
+      nextDate: isCurrentRecord ? Date.now() + utcOffsetMS : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
+      marker: isCurrentRecord ? {
         symbol: 'url(assets/images/icons/1st.png)',
         height: 16,
         width: 16
       } : null
-    })
-  )
+    };
+  });
+};
+
+export const produceChartZones = function(records) {
+  const mappings = {
+    '#90ee7e': undefined,
+    '#f45b5b': undefined,
+    '#2b908f': undefined,
+    '#7798BF': undefined,
+    'orange': undefined,
+    'plum': undefined,
+    'white': undefined
+  };
+
+  let nonRepeatRecords = records.filter((record, i) => {
+    if (i === 0) return true;
+    else return records[i-1].player !== record.player;
+  });
+
+  return nonRepeatRecords.map((record, i) => {
+    console.log('iteration');
+    let playerColor;
+    for (var color in mappings) {
+      if (mappings[color] === record.player) playerColor = color;
+    }
+    if (playerColor === undefined) {
+      for (var color in mappings) {
+        if (mappings[color] === undefined) {
+          mappings[color] = record.player;
+          playerColor = color;
+          break;
+        }
+      }
+    }
+    let next = nonRepeatRecords[i+1];
+    return {
+      value: next ? Date.UTC(records[next.id].year, records[next.id].month, records[next.id].day) + utcOffsetMS : Date.now() + utcOffsetMS,
+      color: playerColor
+    }
+  });
 }
