@@ -9,7 +9,7 @@ import ChartCarousel from './chartCarousel.jsx';
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../functions/timeConversions.js';
-import { formatTooltip, produceChartData, produceChartZones } from '../../functions/chartFunctions.js';
+import { formatTooltip, generateYAxisConfig, generateChartData, generateChartZones } from '../../functions/chartFunctions.js';
 import { document as dkDocument } from '../../data/dkDocument.js';
 import { document as mm2Document } from '../../data/mm2Document.js';
 
@@ -58,8 +58,8 @@ const addImagesToChart = function() {
 class Chart extends React.Component {
   constructor(props) {
     super(props);
-    this.gameCode = this.props.gameCode || 'mm2';
-    // this.gameCode = 'dk';
+    // this.gameCode = this.props.gameCode || 'mm2';
+    this.gameCode = 'dk';
     this.document = documents[`${this.gameCode}Document`];
     this.records = this.document.records;
     this.currentRecord = this.records[this.records.length - 1];
@@ -83,7 +83,7 @@ class Chart extends React.Component {
         useHTML: true,
         text: `
           <div class='chartSubtitle'>
-            <div>Current WR — <a href=${this.currentRecord.vodUrl} class='chartLink score'>${secsToTs(this.currentRecord.time)}</a> by ${this.currentRecord.player}</div>
+            <div>Current WR — <a href=${this.currentRecord.vodUrl} class='chartLink score'>${secsToTs(this.currentRecord.mark)}</a> by ${this.currentRecord.player}</div>
             <a href=${this.document.leaderboard} class='chartLink lbLink'>LEADERBOARD</a>
           </div>
         `
@@ -148,28 +148,11 @@ class Chart extends React.Component {
         //   },
         // ]
       },
-      yAxis: {
-        title: {
-          text: 'Time'
-        },
-        type: 'datetime',
-        dateTimeLabelFormats: {
-          milliseconds: '%H:%M:%S',
-          second: '%H:%M:%S',
-          minute: '%M:%S',
-          hour: '%H:%M:%S'
-        }
-      },
-      /**********
-      * TOOLTIP *
-      **********/
+      yAxis: generateYAxisConfig(this.document.type),
       tooltip: {
         useHTML: true,
         formatter: formatTooltip
       },
-      /**************
-      * ANNOTATIONS *
-      **************/
       annotations: [{
         labelOptions: {
           backgroundColor: '#f2f2f2',
@@ -181,7 +164,7 @@ class Chart extends React.Component {
           {
             point: {
               x: Date.UTC(this.records[3].year, this.records[3].month, this.records[3].day) + utcOffsetMS,
-              y: this.records[3].time * 1000,
+              y: this.records[3].mark * 1000,
               xAxis: 0,
               yAxis: 0
             },
@@ -192,7 +175,7 @@ class Chart extends React.Component {
           {
             point: {
               x: Date.UTC(this.records[6].year, this.records[6].month, this.records[6].day) + utcOffsetMS,
-              y: this.records[6].time * 1000,
+              y: this.records[6].mark * 1000,
               xAxis: 0,
               yAxis: 0
             },
@@ -227,14 +210,8 @@ class Chart extends React.Component {
               this.props.changeSelectedChartPoint(e);
             }
           },
-          /********
-          * ZONES *
-          ********/
-          zones: produceChartZones(this.records),
-          /*******
-          * DATA *
-          *******/
-          data: produceChartData(this.records)
+          zones: generateChartZones(this.records),
+          data: generateChartData(this.records, this.document.type)
         },
         {
           grouping: false,

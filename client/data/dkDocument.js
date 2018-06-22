@@ -5,7 +5,8 @@ export const document = {
   records: [
     {
       id: 0,
-      score: 874300,
+      type: 'score',
+      mark: 874300,
       player: 'Billy Mitchell',
       platform: 'Arcade',
       verified: true,
@@ -23,7 +24,8 @@ export const document = {
     },
     {
       id: 1,
-      score: 879200,
+      type: 'score',
+      mark: 879200,
       player: 'Tim Sczerby',
       platform: 'Arcade',
       verified: true,
@@ -41,7 +43,8 @@ export const document = {
     },
     {
       id: 2,
-      score: 947200,
+      type: 'score',
+      mark: 947200,
       player: 'Steve Wiebe',
       platform: 'Arcade (Double Donkey Kong)',
       verified: false,
@@ -59,7 +62,8 @@ export const document = {
     },
     {
       id: 3,
-      score: 933900,
+      type: 'score',
+      mark: 933900,
       player: 'Billy Mitchell',
       platform: 'Arcade',
       verified: true,
@@ -77,7 +81,8 @@ export const document = {
     },
     {
       id: 4,
-      score: 985000,
+      type: 'score',
+      mark: 985000,
       player: 'Steve Wiebe',
       platform: 'Arcade',
       verified: false,
@@ -95,7 +100,8 @@ export const document = {
     },
     {
       id: 5,
-      score: 999500,
+      type: 'score',
+      mark: 999500,
       player: 'Steve Wiebe',
       platform: 'Arcade',
       verified: false,
@@ -112,7 +118,8 @@ export const document = {
     },
     {
       id: 6,
-      score: 1006600,
+      type: 'score',
+      mark: 1006600,
       player: 'Steve Wiebe',
       platform: 'Arcade',
       verified: false,
@@ -122,7 +129,7 @@ export const document = {
       day: 4,
       avatar: undefined,
       vodUrl: undefined,
-      isMilestone: false,
+      isMilestone: true,
       note: `The first legitimate 1 million point score!`,
       detailed: `The first 1 million point game believed to be legitimate. This score, as well as the 
       previous two scores that remained unverified, were played on a genuine original Donkey Kong PCB. 
@@ -131,7 +138,8 @@ export const document = {
     },
     {
       id: 7,
-      score: 985600,
+      type: 'score',
+      mark: 985600,
       player: 'Steve Wiebe',
       platform: 'Arcade',
       verified: true,
@@ -150,7 +158,8 @@ export const document = {
     },
     {
       id: 8,
-      score: 1047200,
+      type: 'score',
+      mark: 1047200,
       player: 'Billy Mitchell',
       platform: 'Arcade',
       verified: true,
@@ -173,7 +182,8 @@ export const document = {
     },
     {
       id: 9,
-      score: 1049100,
+      type: 'score',
+      mark: 1049100,
       player: 'Steve Wiebe',
       platform: 'Arcade',
       verified: true,
@@ -190,7 +200,8 @@ export const document = {
     },
     {
       id: 10,
-      score: 1050200,
+      type: 'score',
+      mark: 1050200,
       player: 'Billy Mitchell',
       platform: 'Arcade',
       verified: true,
@@ -210,7 +221,8 @@ export const document = {
     },
     {
       id: 11,
-      score: 1061700,
+      type: 'score',
+      mark: 1061700,
       player: 'Hank Chien',
       platform: 'Arcade',
       verified: true,
@@ -229,7 +241,8 @@ export const document = {
     },
     {
       id: 12,
-      score: 1062800,
+      type: 'score',
+      mark: 1062800,
       player: 'Billy Mitchell',
       platform: 'Arcade',
       verified: true,
@@ -248,7 +261,8 @@ export const document = {
     },
     {
       id: 13,
-      score: 1064500,
+      type: 'score',
+      mark: 1064500,
       player: 'Steve Wiebe',
       platform: 'Arcade',
       verified: true,
@@ -266,7 +280,8 @@ export const document = {
     },
     {
       id: 14,
-      score: 1068000,
+      type: 'score',
+      mark: 1068000,
       player: 'Hank Chien',
       platform: 'Arcade',
       verified: true,
@@ -282,7 +297,8 @@ export const document = {
     },
     {
       id: 15,
-      score: 1090400,
+      type: 'score',
+      mark: 1090400,
       player: 'Hank Chien',
       platform: 'Arcade',
       verified: true,
@@ -301,7 +317,8 @@ export const document = {
     },
     {
       id: 16,
-      score: 1110100,
+      type: 'score',
+      mark: 1110100,
       player: 'Hank Chien',
       platform: 'Arcade',
       verified: true,
@@ -311,13 +328,14 @@ export const document = {
       day: 18,
       avatar: undefined,
       vodUrl: undefined,
-      isMilestone: false,
+      isMilestone: true,
       note: 'First 1.1 million score.',
       detailed: `Chien achieved this milestone score while training for Kong Off 2.`    
     },
     {
       id: 17,
-      score: 1127700,
+      type: 'score',
+      mark: 1127700,
       player: 'Hank Chien',
       platform: 'Arcade',
       verified: true,
@@ -334,7 +352,8 @@ export const document = {
     },
     {
       id: 18,
-      score: 1138600,
+      type: 'score',
+      mark: 1138600,
       player: 'Hank Chien',
       platform: 'Arcade',
       verified: true,
@@ -351,7 +370,8 @@ export const document = {
     },
     {
       id: 19,
-      score: 1141800,
+      type: 'score',
+      mark: 1141800,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,
@@ -369,7 +389,8 @@ export const document = {
     },
     {
       id: 20,
-      score: 1144800,
+      type: 'score',
+      mark: 1144800,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,
@@ -385,7 +406,8 @@ export const document = {
     },
     {
       id: 21,
-      score: 1158400,
+      type: 'score',
+      mark: 1158400,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,
@@ -404,7 +426,8 @@ export const document = {
     },
     {
       id: 22,
-      score: 1170500,
+      type: 'score',
+      mark: 1170500,
       player: 'Wes Copeland',
       platform: 'Arcade',
       verified: true,
@@ -423,7 +446,8 @@ export const document = {
     },
     {
       id: 23,
-      score: 1172100,
+      type: 'score',
+      mark: 1172100,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,
@@ -442,7 +466,8 @@ export const document = {
     },
     {
       id: 24,
-      score: 1177200,
+      type: 'score',
+      mark: 1177200,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,
@@ -459,7 +484,8 @@ export const document = {
     },
     {
       id: 25,
-      score: 1190000,
+      type: 'score',
+      mark: 1190000,
       player: 'Wes Copeland',
       platform: 'Arcade',
       verified: true,
@@ -477,7 +503,8 @@ export const document = {
     },
     {
       id: 26,
-      score: 1190200,
+      type: 'score',
+      mark: 1190200,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,
@@ -494,7 +521,8 @@ export const document = {
     },
     {
       id: 27,
-      score: 1195100,
+      type: 'score',
+      mark: 1195100,
       player: 'Wes Copeland',
       platform: 'Arcade',
       verified: true,
@@ -512,7 +540,8 @@ export const document = {
     },
     {
       id: 28,
-      score: 1218000,
+      type: 'score',
+      mark: 1218000,
       player: 'Wes Copeland',
       platform: 'Arcade',
       verified: true,
@@ -522,7 +551,7 @@ export const document = {
       day: 5,
       avatar: undefined,
       vodUrl: undefined,
-      isMilestone: false,
+      isMilestone: true,
       note: `The first 1.2 million point score.`,
       detailed: `Finally, Copeland did it, positively smashing past the 1.2 barrier. News outlets proceeded 
       to declare the Donkey Kong high score record "dead" with Copeland's "perfect game." Although Copeland's 
@@ -531,7 +560,8 @@ export const document = {
     },
     {
       id: 29,
-      score: 1230100,
+      type: 'score',
+      mark: 1230100,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,
@@ -551,7 +581,8 @@ export const document = {
     },
     {
       id: 30,
-      score: 1247700,
+      type: 'score',
+      mark: 1247700,
       player: 'Robbie Lakeman',
       platform: 'Arcade',
       verified: true,

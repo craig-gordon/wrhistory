@@ -7,7 +7,8 @@ export const document = {
   records: [
     {
       id: 0,
-      time: 1839,
+      type: 'time',
+      mark: 1839,
       player: 'Richard Ureta',
       platform: 'Nintendo Entertainment System',
       version: 'U',
@@ -24,7 +25,8 @@ export const document = {
     },
     {
       id: 1,
-      time: 1671,
+      type: 'time',
+      mark: 1671,
       player: 'Seth Glass',
       platform: 'Nintendo Entertainment System',
       version: 'U',
@@ -41,7 +43,8 @@ export const document = {
     },
     {
       id: 2,
-      time: 1641,
+      type: 'time',
+      mark: 1641,
       player: 'nou1',
       platform: 'Nintendo Entertainment System',
       version: 'J',
@@ -59,7 +62,8 @@ export const document = {
     },
     {
       id: 3,
-      time: 1637,
+      type: 'time',
+      mark: 1637,
       player: 'cyghfer',
       platform: 'Nintendo Entertainment System',
       version: 'J',
@@ -77,7 +81,8 @@ export const document = {
     },
     {
       id: 4,
-      time: 1628,
+      type: 'time',
+      mark: 1628,
       player: 'shoka',
       platform: 'Emulator',
       version: 'J',
@@ -93,7 +98,8 @@ export const document = {
     },
     {
       id: 5,
-      time: 1621,
+      type: 'time',
+      mark: 1621,
       player: 'cyghfer',
       platform: 'Nintendo Entertainment System',
       version: 'J',
@@ -109,7 +115,8 @@ export const document = {
     },
     {
       id: 6,
-      time: 1617,
+      type: 'time',
+      mark: 1617,
       player: 'Ellonija',
       platform: 'Nintendo Entertainment System (Flash Cart)',
       version: 'J',
@@ -125,7 +132,8 @@ export const document = {
     },
     {
       id: 7,
-      time: 1616,
+      type: 'time',
+      mark: 1616,
       player: 'Ellonija',
       platform: 'Nintendo Entertainment System (Flash Cart)',
       version: 'J',
@@ -141,7 +149,8 @@ export const document = {
     },
     {
       id: 8,
-      time: 1615,
+      type: 'time',
+      mark: 1615,
       player: 'Ellonija',
       platform: 'Nintendo Entertainment System (Flash Cart)',
       version: 'J',
@@ -157,7 +166,8 @@ export const document = {
     },
     {
       id: 9,
-      time: 1608,
+      type: 'time',
+      mark: 1608,
       player: 'Ellonija',
       platform: 'Nintendo Entertainment System (Flash Cart)',
       version: 'J',
@@ -175,7 +185,8 @@ export const document = {
     },
     {
       id: 10,
-      time: 1602,
+      type: 'time',
+      mark: 1602,
       player: 'cyghfer',
       platform: 'Nintendo Entertainment System',
       version: 'J',
@@ -193,7 +204,8 @@ export const document = {
     },
     {
       id: 11,
-      time: 1601,
+      type: 'time',
+      mark: 1601,
       player: 'cyghfer',
       platform: 'Nintendo Entertainment System',
       version: 'J',
@@ -210,7 +222,8 @@ export const document = {
     },
     {
       id: 12,
-      time: 1597,
+      type: 'time',
+      mark: 1597,
       player: 'cyghfer',
       platform: 'Nintendo Entertainment System',
       version: 'J',
@@ -230,7 +243,8 @@ export const document = {
     },
     {
       id: 13,
-      time: 1596,
+      type: 'time',
+      mark: 1596,
       player: 'coolkid',
       platform: 'Nintendo Entertainment System',
       version: 'J',

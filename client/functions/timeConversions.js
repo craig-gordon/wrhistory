@@ -26,7 +26,7 @@ export const secsToTs = (secs) => {
   return tsArr.join(':');
 };
 
-export const daysToYMDFormat = (currDateMS, nextDateMS) => {
+export const daysToYMD = (currDateMS, nextDateMS) => {
   let currDateMoment = moment(currDateMS);
   let nextDateMoment = moment(nextDateMS);
   let diff = moment.duration(nextDateMoment.diff(currDateMoment));
