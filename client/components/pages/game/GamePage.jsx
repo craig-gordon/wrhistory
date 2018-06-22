@@ -8,7 +8,7 @@ import VodEmbed from './VodEmbed.jsx';
 const CarouselWrapper = styled.div`
   position: absolute;
   top: 120px;
-  left: 1060px;
+  left: ${props => props.docType === 'speedrun' ? '1060px' : '300px'};
 `;
 
 export default class GamePage extends React.Component {
@@ -19,16 +19,17 @@ export default class GamePage extends React.Component {
       selectedCarouselItem: 0,
       selectedRun: null
     };
+    this.gameCode = this.props.location.pathname.slice(1);
     this.changeSelectedChartPoint = this.changeSelectedChartPoint.bind(this);
   }
 
-  changeSelectedChartPoint(e) {
+  changeSelectedChartPoint(e, records) {
     console.log('event fire:', e);
     let pointIdx = typeof e === 'object' ? e.point.index : e;
     this.setState({
       clickedChartPoint: pointIdx,
       selectedCarouselItem: pointIdx,
-      selectedRun: data[pointIdx]
+      selectedRun: records[pointIdx]
     });
   }
 
@@ -36,11 +37,13 @@ export default class GamePage extends React.Component {
     return (
       <div>
         <Chart
+          gameCode={this.gameCode}
           clicked={this.state.clickedChartPoint}
           changeSelectedChartPoint={this.changeSelectedChartPoint}
         />
-        <CarouselWrapper>
+        <CarouselWrapper docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}>
           <ChartCarousel
+            gameCode={this.gameCode}
             selected={this.state.selectedCarouselItem}
             changeSelectedChartPoint={this.changeSelectedChartPoint}
           />

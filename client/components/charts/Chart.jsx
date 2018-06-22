@@ -9,7 +9,7 @@ import ChartCarousel from './chartCarousel.jsx';
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../functions/timeConversions.js';
-import { formatTooltip, generateYAxisConfig, generateChartData, generateChartZones } from '../../functions/chartFunctions.js';
+import { formatTooltip, generatePowSymbol, generateTitleHTML, generateSubtitleHTML, generateYAxisConfig, generateChartData, generateChartZones } from '../../functions/chartFunctions.js';
 import { document as dkDocument } from '../../data/dkDocument.js';
 import { document as mm2Document } from '../../data/mm2Document.js';
 
@@ -18,49 +18,27 @@ DarkUnica(ReactHighcharts.Highcharts);
 
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 
-ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = function(x, y, w, h) {
-  return [
-    'M', x+3, y+3,
-    'L', x+9, y+5,
-    'L', x+12, y+0,
-    'L', x+15, y+5, 
-    'L', x+21, y+3, 
-    'L', x+19, y+9, 
-    'L', x+24, y+12, 
-    'L', x+19, y+15, 
-    'L', x+21, y+21, 
-    'L', x+15, y+19, 
-    'L', x+12, y+24, 
-    'L', x+9, y+19, 
-    'L', x+3, y+21, 
-    'L', x+5, y+15, 
-    'L', x+0, y+12, 
-    'L', x+5, y+9,
-    'z'
-  ]
-}
+ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = generatePowSymbol;
 
 const documents = {dkDocument, mm2Document};
 
-const addImagesToChart = function() {
-  let boxArt = this.renderer.image(
-    './assets/images/covers/mm2.jpg',
-    300,
-    135,
-    '15%',
-    '30%'
-  ).attr({
-    zIndex: 10
-  });
-  boxArt.add();
-};
+// const addImagesToChart = function() {
+//   let boxArt = this.renderer.image(
+//     './assets/images/covers/mm2.jpg',
+//     300,
+//     135,
+//     '15%',
+//     '30%'
+//   ).attr({
+//     zIndex: 10
+//   });
+//   boxArt.add();
+// };
 
 class Chart extends React.Component {
   constructor(props) {
     super(props);
-    // this.gameCode = this.props.gameCode || 'mm2';
-    this.gameCode = 'dk';
-    this.document = documents[`${this.gameCode}Document`];
+    this.document = documents[`${this.props.gameCode}Document`];
     this.records = this.document.records;
     this.currentRecord = this.records[this.records.length - 1];
     this.config = {
@@ -75,18 +53,11 @@ class Chart extends React.Component {
       },
       title: {
         useHTML: true,
-        text: `
-          <div class='chartTitle'>${this.document.title} — ${this.document.category}</div>
-        `
+        text: generateTitleHTML(this.document)
       },
       subtitle: {
         useHTML: true,
-        text: `
-          <div class='chartSubtitle'>
-            <div>Current WR — <a href=${this.currentRecord.vodUrl} class='chartLink score'>${secsToTs(this.currentRecord.mark)}</a> by ${this.currentRecord.player}</div>
-            <a href=${this.document.leaderboard} class='chartLink lbLink'>LEADERBOARD</a>
-          </div>
-        `
+        text: generateSubtitleHTML(this.document, this.currentRecord)
       },
       credits: false,
       plotOptions: {
@@ -207,7 +178,7 @@ class Chart extends React.Component {
           zoneAxis: 'x',
           events: {
             click: (e) => {
-              this.props.changeSelectedChartPoint(e);
+              this.props.changeSelectedChartPoint(e, this.records);
             }
           },
           zones: generateChartZones(this.records),

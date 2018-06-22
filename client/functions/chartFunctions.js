@@ -1,6 +1,21 @@
 import { secsToTs, daysToYMD } from './timeConversions.js';
 import '../assets/stylesheets/classStyles.css';
 
+const formatHighScore = function(score) {
+  let scoreStr = score.toString();
+  let scoreArr = [];
+  while (scoreStr.length > 0) {
+    if (scoreStr.length > 3) {
+      scoreArr.unshift(scoreStr.slice(-3));
+      scoreStr = scoreStr.slice(0, -3);
+    } else {
+      scoreArr.unshift(scoreStr);
+      scoreStr = '';
+    }
+  }
+  return scoreArr.join(',');
+};
+
 export const formatTooltip = function() {
   let dateStrRaw = new Date(this.x).toDateString().slice(4);
   dateStrRaw = dateStrRaw.slice(0, 6) + ', ' + dateStrRaw.slice(7);
@@ -28,15 +43,40 @@ export const formatTooltip = function() {
       break;
     }
   }
+
+  const typeLabel = this.point.data.type === 'time' ? 'Time' : 'Score';
+  const formattedMark = this.point.data.type === 'time' ? secsToTs(this.y / 1000) : formatHighScore(this.y);
   return `
     <div>
-      <div><span class='ttCategory'>Time</span>${this.point.data.type === 'time' ? secsToTs(this.y / 1000) : this.y}</div>
+      <div><span class='ttCategory'>${typeLabel}</span>${formattedMark}</div>
       <div><span class='ttCategory'>Player</span>${this.point.data.player}</div>
       <div><span class='ttCategory'>Date</span>${dateStr}</div>
       <div><span class='ttCategory'>Duration</span>${daysToYMD(this.x, this.point.nextDate)} ${this.point.isCurrentRecord ? ' and counting!' : ''}</div>
       ${this.point.note ? `<div><span class='ttCategory'>Note</span>${this.point.note}</div>` : ``}
     </div>
   `;
+};
+
+export const generatePowSymbol = function(x, y) {
+  return [
+    'M', x+3, y+3,
+    'L', x+9, y+5,
+    'L', x+12, y+0,
+    'L', x+15, y+5, 
+    'L', x+21, y+3, 
+    'L', x+19, y+9, 
+    'L', x+24, y+12, 
+    'L', x+19, y+15, 
+    'L', x+21, y+21, 
+    'L', x+15, y+19, 
+    'L', x+12, y+24, 
+    'L', x+9, y+19, 
+    'L', x+3, y+21, 
+    'L', x+5, y+15, 
+    'L', x+0, y+12, 
+    'L', x+5, y+9,
+    'z'
+  ];
 };
 
 const determineMarker = function(record, isCurrentRecord) {
@@ -51,6 +91,22 @@ const determineMarker = function(record, isCurrentRecord) {
       symbol: 'pow'
     };
   }
+};
+
+export const generateTitleHTML = function(document) {
+  return `
+    <div class='chartTitle'>${document.title}${document.category ? `— ${document.category}` : ``}</div>
+  `
+};
+
+export const generateSubtitleHTML = function(document, currentRecord) {
+  let formattedMark = document.type === 'speedrun' ? secsToTs(currentRecord.mark) : formatHighScore(currentRecord.mark);
+  return `
+    <div class='chartSubtitle'>
+      <div>Current WR — <a href=${currentRecord.vodUrl} class='chartLink score'>${formattedMark}</a> by ${currentRecord.player}</div>
+      <a href=${document.leaderboard} class='chartLink lbLink'>LEADERBOARD</a>
+    </div>
+  `
 };
 
 export const generateYAxisConfig = function(type) {
@@ -136,4 +192,4 @@ export const generateChartZones = function(records) {
       color: playerColor
     }
   });
-}
+};

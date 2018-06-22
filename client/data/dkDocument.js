@@ -2,6 +2,8 @@ export const document = {
   type: 'highscore',
   title: 'Donkey Kong',
   category: undefined,
+  leaderboard: 'http://donkeykongforum.com/index.php?topic=366.0',
+  recordCount: 31,
   records: [
     {
       id: 0,
@@ -591,7 +593,7 @@ export const document = {
       month: 2,
       day: 2,
       avatar: undefined,
-      vodUrl: undefined,
+      vodUrl: 'https://www.youtube.com/watch?v=bgLGvAuJY8g',
       isMilestone: false,
       note: `Current world record.`,
       detailed: `Lakeman was not content simply beating what had been called "the perfect game." He once again 

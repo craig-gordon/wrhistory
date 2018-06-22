@@ -25,8 +25,7 @@ const documents = {dkDocument, mm2Document};
 class ChartCarousel extends React.Component {
   constructor(props) {
     super(props);
-    this.gameCode = this.props.gameCode || 'mm2';
-    this.document = documents[`${this.gameCode}Document`];
+    this.document = documents[`${this.props.gameCode}Document`];
     this.records = this.document.records;
   }
 
@@ -38,7 +37,7 @@ class ChartCarousel extends React.Component {
         showIndicators={false}
         width='50%'
         selectedItem={this.props.selected}
-        onChange={this.props.changeSelectedChartPoint}
+        onChange={(e) => this.props.changeSelectedChartPoint(e, this.records)}
       >
         <Slide>
           <Header>{this.records[0].player} — {secsToTs(this.records[0].mark)}</Header>
