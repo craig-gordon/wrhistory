@@ -18,6 +18,28 @@ DarkUnica(ReactHighcharts.Highcharts);
 
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 
+ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = function(x, y, w, h) {
+  return [
+    'M', x+3, y+3,
+    'L', x+9, y+5,
+    'L', x+12, y+0,
+    'L', x+15, y+5, 
+    'L', x+21, y+3, 
+    'L', x+19, y+9, 
+    'L', x+24, y+12, 
+    'L', x+19, y+15, 
+    'L', x+21, y+21, 
+    'L', x+15, y+19, 
+    'L', x+12, y+24, 
+    'L', x+9, y+19, 
+    'L', x+3, y+21, 
+    'L', x+5, y+15, 
+    'L', x+0, y+12, 
+    'L', x+5, y+9,
+    'z'
+  ]
+}
+
 const documents = {dkDocument, mm2Document};
 
 const addImagesToChart = function() {
@@ -37,6 +59,7 @@ class Chart extends React.Component {
   constructor(props) {
     super(props);
     this.gameCode = this.props.gameCode || 'mm2';
+    // this.gameCode = 'dk';
     this.document = documents[`${this.gameCode}Document`];
     this.records = this.document.records;
     this.currentRecord = this.records[this.records.length - 1];
@@ -208,44 +231,6 @@ class Chart extends React.Component {
           * ZONES *
           ********/
           zones: produceChartZones(this.records),
-          // [
-          //   {
-          //     value: Date.UTC(this.records[1].year, this.records[1].month, this.records[1].day) + utcOffsetMS,
-          //     color: '#90ee7e'
-          //   },
-          //   {
-          //     value: Date.UTC(this.records[2].year, this.records[2].month, this.records[2].day) + utcOffsetMS,
-          //     color: '#f45b5b'
-          //   },
-          //   {
-          //     value: Date.UTC(this.records[3].year, this.records[3].month, this.records[3].day) + utcOffsetMS,
-          //     color: '#2b908f'
-          //   },
-          //   {
-          //     value: Date.UTC(this.records[4].year, this.records[4].month, this.records[4].day) + utcOffsetMS,
-          //     color: '#7798BF'
-          //   },
-          //   {
-          //     value: Date.UTC(this.records[5].year, this.records[5].month, this.records[5].day) + utcOffsetMS,
-          //     color: 'orange'
-          //   },
-          //   {
-          //     value: Date.UTC(this.records[6].year, this.records[6].month, this.records[6].day) + utcOffsetMS,
-          //     color: '#7798BF'
-          //   },
-          //   {
-          //     value: Date.UTC(this.records[10].year, this.records[10].month, this.records[10].day) + utcOffsetMS,
-          //     color: 'plum'
-          //   },
-          //   {
-          //     value: Date.UTC(this.records[13].year, this.records[13].month, this.records[13].day) + utcOffsetMS,
-          //     color: '#7798BF'
-          //   },
-          //   {
-          //     value: Date.now() + utcOffsetMS,
-          //     color: 'white'
-          //   }
-          // ],
           /*******
           * DATA *
           *******/

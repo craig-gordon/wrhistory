@@ -39,6 +39,20 @@ export const formatTooltip = function() {
   `;
 };
 
+const determineMarker = function(record, isCurrentRecord) {
+  if (record.isMilestone) {
+    return {
+      symbol: 'pow'
+    };
+  } else if (isCurrentRecord) {
+    return {
+      symbol: 'url(assets/images/icons/1st.png)',
+      height: 16,
+      width: 16
+    };
+  }
+};
+
 export const produceChartData = function(records) {
   return records.map((record, i) => {
     let isCurrentRecord = i === records.length - 1;
@@ -48,11 +62,7 @@ export const produceChartData = function(records) {
       data: record,
       isCurrentRecord,
       nextDate: isCurrentRecord ? Date.now() + utcOffsetMS : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
-      marker: isCurrentRecord ? {
-        symbol: 'url(assets/images/icons/1st.png)',
-        height: 16,
-        width: 16
-      } : null
+      marker: determineMarker(record, isCurrentRecord)
     };
   });
 };
@@ -74,7 +84,6 @@ export const produceChartZones = function(records) {
   });
 
   return nonRepeatRecords.map((record, i) => {
-    console.log('iteration');
     let playerColor;
     for (var color in mappings) {
       if (mappings[color] === record.player) playerColor = color;
