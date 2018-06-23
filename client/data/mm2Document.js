@@ -3,6 +3,7 @@ export const document = {
   title: 'Mega Man 2',
   category: 'Any%',
   leaderboard: 'http://www.megamanleaderboards.net/index.php?game=2',
+  yAxisTickInterval: null,
   recordCount: 14,
   records: [
     {
@@ -235,11 +236,10 @@ export const document = {
       isMilestone: false,
       note: undefined,
       detailed: `cyghfer finally achieved a milestone once thought to be an unattainable 
-      dream, a time under 26:40 for Rockman 2. He may have lost the race vs Ello to the first 26 
-      back in 2014, but he was determined to be the first to 3x, and so he was. Despite 
-      accomplishing the dream goal he and Ello fantastized about in previous years, cyghfer 
-      asserts that 26:2x is the final frontier for Rockman 2. Only time will tell the truth of 
-      that assertion.`
+      dream, a time under 26:40 for Rockman 2. Although he was not the first to 26, he was 
+      determined to be the first to 3x, and so he was. Despite accomplishing a dream goal from 
+      bygone previous years, cyghfer asserts that 26:2x is the final frontier for Rockman 2. 
+      Only time will tell the truth of that assertion.`
     },
     {
       id: 13,

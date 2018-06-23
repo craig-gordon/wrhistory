@@ -1,3 +1,6 @@
+import React from 'react';
+import styled from 'styled-components';
+
 import { secsToTs, daysToYMD } from './timeConversions.js';
 import '../assets/stylesheets/classStyles.css';
 
@@ -109,7 +112,7 @@ export const generateSubtitleHTML = function(document, currentRecord) {
   `
 };
 
-export const generateYAxisConfig = function(type) {
+export const generateYAxisConfig = function(document) {
   const configs = {
 
     speedrun: {
@@ -117,6 +120,9 @@ export const generateYAxisConfig = function(type) {
         text: 'Time'
       },
       type: 'datetime',
+      alternateGridColor: '#3f3f3f',
+      tickInterval: document.yAxisTickInterval,
+      tickLength: 0,
       dateTimeLabelFormats: {
         milliseconds: '%H:%M:%S',
         second: '%H:%M:%S',
@@ -129,12 +135,21 @@ export const generateYAxisConfig = function(type) {
       title: {
         text: 'Score'
       },
-      type: 'linear'
+      labels: {
+        rotation: 25,
+        formatter: function() {
+          return formatHighScore(this.value);
+        }
+      },
+      type: 'linear',
+      alternateGridColor: '#3f3f3f',
+      tickInterval: document.yAxisTickInterval,
+      tickLength: 0
     }
 
   };
 
-  return configs[type];
+  return configs[document.type];
 };
 
 export const generateChartData = function(records, type) {
@@ -193,3 +208,40 @@ export const generateChartZones = function(records) {
     }
   });
 };
+
+const Slide = styled.div`
+  margin: 0 7%;
+`;
+
+const Header = styled.h2`
+  color: white;
+`;
+
+const Text = styled.h4`
+  color: white;
+`;
+
+export const generateCarouselSlides = function(records) {
+  return records.map((record, i) => {
+    let formattedMark = record.type === 'time' ? secsToTs(record.mark) : formatHighScore(record.mark);
+    return (
+      <Slide key={i}>
+        <Header>{record.player} — {formattedMark}</Header>
+        <Text>{record.detailed}</Text>
+      </Slide>
+    );
+  });
+};
+
+// const addImagesToChart = function() {
+//   let boxArt = this.renderer.image(
+//     './assets/images/covers/mm2.jpg',
+//     300,
+//     135,
+//     '15%',
+//     '30%'
+//   ).attr({
+//     zIndex: 10
+//   });
+//   boxArt.add();
+// };

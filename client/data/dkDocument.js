@@ -3,6 +3,7 @@ export const document = {
   title: 'Donkey Kong',
   category: undefined,
   leaderboard: 'http://donkeykongforum.com/index.php?topic=366.0',
+  yAxisTickInterval: 50000,
   recordCount: 31,
   records: [
     {
@@ -173,14 +174,14 @@ export const document = {
       vodUrl: undefined,
       isMilestone: false,
       note: `Now known to have been played on emulator.`,
-      detailed: `The infamous taped Billy Mitchell score. This was allegedly played on 
-      June 7, 2004, but Mitchell held the tape in his own possession until Wiebe achieved his 
-      new officially recognized record score at Funspot. Chronologically, this was the first 
-      million point game ever played, as its claimed performance date is before Wiebe's rejected 
-      1.006 score. However, in 2017, it was conclusively discovered by the Donkey Kong Forum that 
-      this score had been played on emulator, likely MAME. After verifying this fact, Twin Galaxies 
-      removed all of Billy's scores from their database and retroactively acknowledged Steve Wiebe 
-      as the official first person in history to score over a million points in Donkey Kong.`
+      detailed: `The infamous taped score. This was allegedly played on June 7, 2004, 
+      but Mitchell held the tape in secret until Wiebe achieved his new official record at Funspot. 
+      For a long time, this was believed to be the first million point game ever played, as its claimed 
+      performance date is before Wiebe's rejected 1.006 score. However, in 2017, it was conclusively 
+      discovered by the Donkey Kong Forum that this score had been played on emulator. After verifying 
+      this fact, Twin Galaxies removed all of Billy's scores from their database and retroactively 
+      acknowledged Steve Wiebe as the official first person in history to score a million points in 
+      Donkey Kong.`
     },
     {
       id: 9,
@@ -501,7 +502,7 @@ export const document = {
       note: undefined,
       detailed: `After the unexpected and abrupt rebuke administered to him by Lakeman a few months prior, 
       Copeland proceeded to close the majority of the gap to the vaunted "1.2", bringing the record from 
-      1.177 to an even 1.9 in one fell swoop.`
+      1.177 to an even 1.19 in one fell swoop.`
     },
     {
       id: 26,

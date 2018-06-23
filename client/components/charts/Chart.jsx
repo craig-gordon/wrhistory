@@ -17,23 +17,9 @@ Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
 
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
-
 ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = generatePowSymbol;
 
 const documents = {dkDocument, mm2Document};
-
-// const addImagesToChart = function() {
-//   let boxArt = this.renderer.image(
-//     './assets/images/covers/mm2.jpg',
-//     300,
-//     135,
-//     '15%',
-//     '30%'
-//   ).attr({
-//     zIndex: 10
-//   });
-//   boxArt.add();
-// };
 
 class Chart extends React.Component {
   constructor(props) {
@@ -119,7 +105,7 @@ class Chart extends React.Component {
         //   },
         // ]
       },
-      yAxis: generateYAxisConfig(this.document.type),
+      yAxis: generateYAxisConfig(this.document),
       tooltip: {
         useHTML: true,
         formatter: formatTooltip
