@@ -60,7 +60,7 @@ export const formatTooltip = function() {
   `;
 };
 
-export const generatePowSymbol = function(x, y) {
+export const createPowSymbol = function(x, y) {
   return [
     'M', x+3, y+3,
     'L', x+9, y+5,
@@ -96,13 +96,13 @@ const determineMarker = function(record, isCurrentRecord) {
   }
 };
 
-export const generateTitleHTML = function(document) {
+export const createTitleHTML = function(document) {
   return `
-    <div class='chartTitle'>${document.title}${document.category ? `— ${document.category}` : ``}</div>
+    <div class='chartTitle'>${document.title}${document.category ? ` — ${document.category}` : ``}</div>
   `
 };
 
-export const generateSubtitleHTML = function(document, currentRecord) {
+export const createSubtitleHTML = function(document, currentRecord) {
   let formattedMark = document.type === 'speedrun' ? secsToTs(currentRecord.mark) : formatHighScore(currentRecord.mark);
   return `
     <div class='chartSubtitle'>
@@ -112,7 +112,7 @@ export const generateSubtitleHTML = function(document, currentRecord) {
   `
 };
 
-export const generateYAxisConfig = function(document) {
+export const createYAxisConfig = function(document) {
   const configs = {
 
     speedrun: {
@@ -152,7 +152,7 @@ export const generateYAxisConfig = function(document) {
   return configs[document.type];
 };
 
-export const generateChartData = function(records, type) {
+export const createChartData = function(records, type) {
   const yMultipliers = {
     speedrun: 1000,
     highscore: 1
@@ -171,7 +171,7 @@ export const generateChartData = function(records, type) {
   });
 };
 
-export const generateChartZones = function(records) {
+export const createChartZones = function(records) {
   const mappings = {
     '#90ee7e': undefined,
     '#f45b5b': undefined,
@@ -221,7 +221,7 @@ const Text = styled.h4`
   color: white;
 `;
 
-export const generateCarouselSlides = function(records) {
+export const createCarouselSlides = function(records) {
   return records.map((record, i) => {
     let formattedMark = record.type === 'time' ? secsToTs(record.mark) : formatHighScore(record.mark);
     return (

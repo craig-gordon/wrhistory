@@ -9,23 +9,18 @@ import ChartCarousel from './chartCarousel.jsx';
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../functions/timeConversions.js';
-import { formatTooltip, generatePowSymbol, generateTitleHTML, generateSubtitleHTML, generateYAxisConfig, generateChartData, generateChartZones } from '../../functions/chartFunctions.js';
-import { document as dkDocument } from '../../data/dkDocument.js';
-import { document as mm2Document } from '../../data/mm2Document.js';
+import { formatTooltip, createPowSymbol, createTitleHTML, createSubtitleHTML, createYAxisConfig, createChartData, createChartZones } from '../../functions/chartFunctions.js';
 
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
 
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
-ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = generatePowSymbol;
-
-const documents = {dkDocument, mm2Document};
+ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 
 class Chart extends React.Component {
   constructor(props) {
     super(props);
-    this.document = documents[`${this.props.gameCode}Document`];
-    this.records = this.document.records;
+    this.records = this.props.document.records;
     this.currentRecord = this.records[this.records.length - 1];
     this.config = {
       chart: {
@@ -39,11 +34,11 @@ class Chart extends React.Component {
       },
       title: {
         useHTML: true,
-        text: generateTitleHTML(this.document)
+        text: createTitleHTML(this.props.document)
       },
       subtitle: {
         useHTML: true,
-        text: generateSubtitleHTML(this.document, this.currentRecord)
+        text: createSubtitleHTML(this.props.document, this.currentRecord)
       },
       credits: false,
       plotOptions: {
@@ -105,7 +100,7 @@ class Chart extends React.Component {
         //   },
         // ]
       },
-      yAxis: generateYAxisConfig(this.document),
+      yAxis: createYAxisConfig(this.props.document),
       tooltip: {
         useHTML: true,
         formatter: formatTooltip
@@ -167,8 +162,8 @@ class Chart extends React.Component {
               this.props.changeSelectedChartPoint(e, this.records);
             }
           },
-          zones: generateChartZones(this.records),
-          data: generateChartData(this.records, this.document.type)
+          zones: createChartZones(this.records),
+          data: createChartData(this.records, this.props.document.type)
         },
         {
           grouping: false,

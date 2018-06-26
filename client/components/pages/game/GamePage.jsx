@@ -1,13 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
+import GamePageHeader from './GamePageHeader.jsx';
 import Chart from '../../charts/Chart.jsx';
 import ChartCarousel from '../../charts/ChartCarousel.jsx';
 import VodEmbed from './VodEmbed.jsx';
 
+import { document as dkDocument } from '../../../data/dkDocument.js';
+import { document as mm2Document } from '../../../data/mm2Document.js';
+
+const documents = {dkDocument, mm2Document};
+
 const CarouselWrapper = styled.div`
   position: absolute;
-  top: 120px;
+  top: -500px;
   left: ${props => props.docType === 'speedrun' ? '1060px' : '300px'};
 `;
 
@@ -20,6 +28,7 @@ export default class GamePage extends React.Component {
       selectedRun: null
     };
     this.gameCode = this.props.location.pathname.slice(1);
+    this.document = documents[`${this.gameCode}Document`];
     this.changeSelectedChartPoint = this.changeSelectedChartPoint.bind(this);
   }
 
@@ -36,19 +45,37 @@ export default class GamePage extends React.Component {
   render() {
     return (
       <div>
-        <Chart
+        <GamePageHeader
           gameCode={this.gameCode}
-          clicked={this.state.clickedChartPoint}
-          changeSelectedChartPoint={this.changeSelectedChartPoint}
+          document={this.document}
         />
-        <CarouselWrapper docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}>
-          <ChartCarousel
-            gameCode={this.gameCode}
-            selected={this.state.selectedCarouselItem}
-            changeSelectedChartPoint={this.changeSelectedChartPoint}
-          />
-        </CarouselWrapper>
-        {/* {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
+        <Tabs>
+          <TabList>
+            <Tab>Chart</Tab>
+            <Tab>Table</Tab>
+          </TabList>
+
+          <TabPanel>
+            <Chart
+              gameCode={this.gameCode}
+              document={this.document}
+              clicked={this.state.clickedChartPoint}
+              changeSelectedChartPoint={this.changeSelectedChartPoint}
+            />
+            <CarouselWrapper docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}>
+              <ChartCarousel
+                gameCode={this.gameCode}
+                document={this.document}
+                selected={this.state.selectedCarouselItem}
+                changeSelectedChartPoint={this.changeSelectedChartPoint}
+              />
+            </CarouselWrapper>
+            {/* {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
+          </TabPanel>
+          <TabPanel>
+            <h2>Any content 2</h2>
+          </TabPanel>
+        </Tabs>
       </div>
     )
   }
