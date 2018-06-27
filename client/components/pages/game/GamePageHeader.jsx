@@ -5,8 +5,8 @@ import path from 'path';
 import { LightBlueModule } from '../../styledComponents.js';
 
 const GameCover = styled.img`
-  height: 7.5%;
-  width: 7.5%;
+  height: 7%;
+  width: 7%;
 `;
 
 const GamePageHeader = (props) => (

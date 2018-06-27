@@ -4,8 +4,6 @@ import Annotations from 'highcharts/modules/annotations';
 import ReactHighcharts from 'react-highcharts';
 import DarkUnica from 'highcharts/themes/dark-unica';
 
-import ChartCarousel from './chartCarousel.jsx';
-
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../functions/timeConversions.js';

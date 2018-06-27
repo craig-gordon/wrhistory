@@ -5,7 +5,8 @@ import 'react-tabs/style/react-tabs.css';
 
 import GamePageHeader from './GamePageHeader.jsx';
 import Chart from '../../charts/Chart.jsx';
-import ChartCarousel from '../../charts/ChartCarousel.jsx';
+import EmbeddedCarousel from '../../charts/EmbeddedCarousel.jsx';
+import RecordsTable from '../../charts/RecordsTable.jsx';
 import VodEmbed from './VodEmbed.jsx';
 
 import { document as dkDocument } from '../../../data/dkDocument.js';
@@ -62,8 +63,10 @@ export default class GamePage extends React.Component {
               clicked={this.state.clickedChartPoint}
               changeSelectedChartPoint={this.changeSelectedChartPoint}
             />
-            <CarouselWrapper docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}>
-              <ChartCarousel
+            <CarouselWrapper
+              docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}
+            >
+              <EmbeddedCarousel
                 gameCode={this.gameCode}
                 document={this.document}
                 selected={this.state.selectedCarouselItem}
@@ -73,7 +76,10 @@ export default class GamePage extends React.Component {
             {/* {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
           </TabPanel>
           <TabPanel>
-            <h2>Any content 2</h2>
+            <RecordsTable
+              gameCode={this.gameCode}
+              document={this.document}
+            />
           </TabPanel>
         </Tabs>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Carousel } from 'react-responsive-carousel';
 
 import { createCarouselSlides } from '../../functions/chartFunctions.js';
@@ -7,7 +6,7 @@ import { secsToTs } from '../../functions/timeConversions.js';
 import '../../../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
 import '../../assets/stylesheets/classStyles.css';
 
-class ChartCarousel extends React.Component {
+class EmbeddedCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.records = this.props.document.records;
@@ -29,4 +28,4 @@ class ChartCarousel extends React.Component {
   }
 };
 
-export default ChartCarousel;
+export default EmbeddedCarousel;
