@@ -10,10 +10,10 @@ const GameCover = styled.img`
 `;
 
 const GamePageHeader = (props) => (
-  <LightBlueModule>
+  <div>
     <h3>{props.document.title}</h3>
     <GameCover src={`../../../assets/images/covers/${props.gameCode}.jpg`} />
-  </LightBlueModule>
+  </div>
 );
 
 export default GamePageHeader;

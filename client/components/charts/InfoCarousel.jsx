@@ -6,7 +6,7 @@ import { secsToTs } from '../../functions/timeConversions.js';
 import '../../../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
 import '../../assets/stylesheets/classStyles.css';
 
-class EmbeddedCarousel extends React.Component {
+class InfoCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.records = this.props.document.records;
@@ -18,7 +18,7 @@ class EmbeddedCarousel extends React.Component {
         showThumbs={false}
         showStatus={false}
         showIndicators={false}
-        width='600px'
+        width={this.props.embedded ? '600px' : null}
         selectedItem={this.props.selected}
         onChange={(e) => this.props.changeSelectedChartPoint(e, this.records)}
       >
@@ -28,4 +28,4 @@ class EmbeddedCarousel extends React.Component {
   }
 };
 
-export default EmbeddedCarousel;
+export default InfoCarousel;
