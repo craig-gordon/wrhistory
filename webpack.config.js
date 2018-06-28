@@ -19,15 +19,28 @@ module.exports = {
         query: {
           babelrc: false,
           presets: ['es2015', 'react'],
-          plugins: [[
-            'transform-object-rest-spread',
-            'transform-react-jsx-source'
-          ]]
+          plugins: [
+            [
+              'transform-object-rest-spread',
+              'transform-react-jsx-source'
+            ],
+            [
+              'import',
+              {
+                libraryName: 'antd',
+                style: true
+              }
+            ]
+          ]
         }
       },
       {
         test: /\.css$/,
         loader: [ 'style-loader', 'css-loader' ]
+      },
+      {
+        test: /\.less$/,
+        loader: [ 'style-loader', 'css-loader', 'less-loader' ]
       }
     ]
   },

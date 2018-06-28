@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+import { Collapse } from 'antd';
+import 'antd/lib/collapse/style/index.css';
+import { Tabs } from 'antd';
+import 'antd/lib/tabs/style/index.css';
+
+// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+// import 'react-tabs/style/react-tabs.css';
 
 import GamePageHeader from './GamePageHeader.jsx';
 import Chart from '../../charts/Chart.jsx';
@@ -13,6 +18,9 @@ import { document as dkDocument } from '../../../data/dkDocument.js';
 import { document as mm2Document } from '../../../data/mm2Document.js';
 
 const documents = {dkDocument, mm2Document};
+
+const Panel = Collapse.Panel;
+const TabPane = Tabs.TabPane;
 
 const CarouselWrapper = styled.div`
   position: absolute;
@@ -45,18 +53,55 @@ export default class GamePage extends React.Component {
 
   render() {
     return (
-      <div>
-        <GamePageHeader
-          gameCode={this.gameCode}
-          document={this.document}
-        />
-        <Tabs>
-          <TabList>
-            <Tab>Chart</Tab>
-            <Tab>Table</Tab>
-          </TabList>
+      // <div>
+      //   <GamePageHeader
+      //     gameCode={this.gameCode}
+      //     document={this.document}
+      //   />
+      //   <Tabs>
+      //     <TabList>
+      //       <Tab>Chart</Tab>
+      //       <Tab>Table</Tab>
+      //     </TabList>
 
-          <TabPanel>
+      //     <TabPanel>
+      //       <Chart
+      //         gameCode={this.gameCode}
+      //         document={this.document}
+      //         clicked={this.state.clickedChartPoint}
+      //         changeSelectedChartPoint={this.changeSelectedChartPoint}
+      //       />
+      //       <CarouselWrapper
+      //         docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}
+      //       >
+      //         <EmbeddedCarousel
+      //           gameCode={this.gameCode}
+      //           document={this.document}
+      //           selected={this.state.selectedCarouselItem}
+      //           changeSelectedChartPoint={this.changeSelectedChartPoint}
+      //         />
+      //       </CarouselWrapper>
+      //       {/* {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
+      //     </TabPanel>
+      //     <TabPanel>
+      //       <RecordsTable
+      //         gameCode={this.gameCode}
+      //         document={this.document}
+      //       />
+      //     </TabPanel>
+      //   </Tabs>
+      // </div>
+      <div>
+        <Collapse defaultActiveKey={['1']}>
+          <Panel header='Game Information' key='1' showArrow={false}>
+            <GamePageHeader
+              gameCode={this.gameCode}
+              document={this.document}
+            />
+          </Panel>
+        </Collapse>
+        <Tabs size='large' type='card'>
+          <TabPane tab={<i class="fas fa-chart-line"></i>} key='1'>
             <Chart
               gameCode={this.gameCode}
               document={this.document}
@@ -74,13 +119,13 @@ export default class GamePage extends React.Component {
               />
             </CarouselWrapper>
             {/* {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
-          </TabPanel>
-          <TabPanel>
+          </TabPane>
+          <TabPane tab={<i class="fas fa-table"></i>} key='2'>
             <RecordsTable
               gameCode={this.gameCode}
               document={this.document}
             />
-          </TabPanel>
+          </TabPane>
         </Tabs>
       </div>
     )
