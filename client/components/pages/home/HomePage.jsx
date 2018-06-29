@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import IntroModule from './IntroModule.jsx';
+import WelcomeModule from './WelcomeModule.jsx';
+import OnThisDayModule from './OnThisDayModule.jsx';
 import FeaturedChartModule from './FeaturedChartModule.jsx';
 import RecentlyUpdatedModule from './RecentlyUpdatedModule.jsx';
 
-const HomePageHeader = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: darkblue
+const TopRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 export default class HomePage extends React.Component {
@@ -22,7 +22,10 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <IntroModule />
+        <TopRow>
+          <WelcomeModule />
+          <OnThisDayModule />
+        </TopRow>
         <FeaturedChartModule />
         <RecentlyUpdatedModule />
       </div>

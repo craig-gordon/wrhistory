@@ -29,7 +29,7 @@ export const formatTooltip = function() {
       <div><span class='ttCategory'>Player</span>${this.point.data.player}</div>
       <div><span class='ttCategory'>Date</span>${dateStr}</div>
       <div><span class='ttCategory'>Duration</span>${daysToYMD(this.x, this.point.nextDate)} ${this.point.isCurrentRecord ? ' and counting!' : ''}</div>
-      ${this.point.note ? `<div><span class='ttCategory'>Note</span>${this.point.note}</div>` : ``}
+      ${this.point.data.note ? `<div><span class='ttCategory'>Note</span>${this.point.data.note}</div>` : ``}
     </div>
   `;
 };
@@ -139,7 +139,7 @@ export const createChartData = function(records, type) {
       y: record.mark * yMultipliers[type],
       data: record,
       isCurrentRecord,
-      nextDate: isCurrentRecord ? Date.now() + utcOffsetMS : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
+      nextDate: isCurrentRecord ? Date.now() : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
       marker: determineMarker(record, isCurrentRecord)
     };
   });
@@ -177,7 +177,7 @@ export const createChartZones = function(records) {
     }
     let next = nonRepeatRecords[i+1];
     return {
-      value: next ? Date.UTC(records[next.id].year, records[next.id].month, records[next.id].day) + utcOffsetMS : Date.now() + utcOffsetMS,
+      value: next ? Date.UTC(records[next.id].year, records[next.id].month, records[next.id].day) + utcOffsetMS : Date.now(),
       color: playerColor
     }
   });

@@ -67,3 +67,9 @@ export const formatUTCMillisecsToDateStr = function(utcMs) {
   }
   return dateStr;
 };
+
+export const formatNowToDayMonth = function(utcMs) {
+  let fullDateStr = formatUTCMillisecsToDateStr(utcMs);
+  let commaIdx = fullDateStr.indexOf(',');
+  return fullDateStr.slice(0, commaIdx);
+}
