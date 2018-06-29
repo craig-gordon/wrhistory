@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { LightPurpleModule } from '../../styledComponents.js';
-import GamePreviewButton from '../../GamePreviewButton.jsx';
+import { LightPurpleModule } from '../../common/styledComponents.js';
+import GamePreviewButton from '../../common/GamePreviewButton.jsx';
 
 const ButtonsContainer = styled.div`
   display: grid;

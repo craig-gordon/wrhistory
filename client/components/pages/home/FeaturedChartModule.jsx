@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { LightGreenModule } from '../../styledComponents.js';
+import { LightGreenModule } from '../../common/styledComponents.js';
 import Chart from '../../charts/Chart.jsx';
 
 import { document as dkDocument } from '../../../data/dkDocument.js';

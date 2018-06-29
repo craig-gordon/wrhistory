@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { LightBlueModule } from '../../styledComponents.js';
+import { LightBlueModule } from '../../common/styledComponents.js';
 
 const WelcomeModule = (props) => {
   return (

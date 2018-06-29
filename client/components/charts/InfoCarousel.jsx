@@ -1,8 +1,8 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 
-import { createCarouselSlides } from '../../functions/chartFunctions.js';
-import { secsToTs } from '../../functions/timeConversions.js';
+import { createCarouselSlides } from './chartUtils.js';
+import { secsToTs } from '../../utils/datetimeUtils.js';
 import '../../../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
 import '../../assets/stylesheets/classStyles.css';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { secsToTs, daysToYMD, formatUTCMillisecsToDateStr } from './timeConversions.js';
-import '../assets/stylesheets/classStyles.css';
+import { secsToTs, daysToYMD, formatUTCMillisecsToDateStr } from '../../utils/datetimeUtils.js';
+import '../../assets/stylesheets/classStyles.css';
 
 export const formatHighScore = function(score) {
   let scoreStr = score.toString();

@@ -6,8 +6,8 @@ import DarkUnica from 'highcharts/themes/dark-unica';
 
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
-import { secsToTs } from '../../functions/timeConversions.js';
-import { formatTooltip, createPowSymbol, createTitleHTML, createSubtitleHTML, createYAxisConfig, createChartData, createChartZones } from '../../functions/chartFunctions.js';
+import { secsToTs } from '../../utils/datetimeUtils.js';
+import { formatTooltip, createPowSymbol, createTitleHTML, createSubtitleHTML, createYAxisConfig, createChartData, createChartZones } from './chartUtils.js';
 
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);

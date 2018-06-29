@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import ReactTable from 'react-table';
 
-import { formatHighScore } from '../../functions/chartFunctions.js';
-import { secsToTs, formatUTCMillisecsToDateStr } from '../../functions/timeConversions.js';
+import { formatHighScore } from './chartUtils.js';
+import { secsToTs, formatUTCMillisecsToDateStr } from '../../utils/datetimeUtils.js';
 import '../../../node_modules/react-table/react-table.css';
 import '../../assets/stylesheets/classStyles.css';
 

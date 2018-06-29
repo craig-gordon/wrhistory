@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { LightBlueModule } from '../../styledComponents.js';
-import { formatNowToDayMonth } from '../../../functions/timeConversions.js';
-import { createOnThisDayList } from './homePageFunctions.js';
+import { LightBlueModule } from '../../common/styledComponents.js';
+import { formatNowToDayMonth } from '../../../utils/datetimeUtils.js';
+import { createOnThisDayHTML } from './homePageUtils.js';
 
 import { document as dkDocument } from '../../../data/dkDocument.js';
 import { document as mm2Document } from '../../../data/mm2Document.js';
@@ -22,7 +22,6 @@ const findCurrentDateEvents = (docs) => {
       }
     });
   }
-  console.log(events);
   return events;
 }
 
@@ -37,7 +36,7 @@ export default class OnThisDayModule extends React.Component {
       <LightBlueModule>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>On this day...</h3>
         <h4>{formatNowToDayMonth(Date.now())}:</h4>
-        {createOnThisDayList(this.currentDateEvents)}
+        {createOnThisDayHTML(this.currentDateEvents)}
       </LightBlueModule>
     );
   }
