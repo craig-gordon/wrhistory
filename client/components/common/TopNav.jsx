@@ -41,8 +41,7 @@ export default class TopNav extends React.Component {
         <SiteLink to='/'>Record History</SiteLink>
         <StyledLink to='/speedruns'>Speedruns</StyledLink>
         <StyledLink to='/highscores'>High Scores</StyledLink>
-        <StyledLink to='/'>Articles</StyledLink>
-        <StyledLink to='/'>Statistics</StyledLink>
+        <StyledLink to='/features'>Features</StyledLink>
         <StyledInput type='text' placeholder='Search for Games, Users, etc...'></StyledInput>
         <StyledLink to='/'>Log In</StyledLink>
         <StyledLink to='/'>Register</StyledLink>
