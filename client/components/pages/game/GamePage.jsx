@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Collapse } from 'antd';
+import Collapse from 'antd/lib/collapse';
 import 'antd/lib/collapse/style/index.css';
-import { Tabs } from 'antd';
+import Tabs from 'antd/lib/tabs';
 import 'antd/lib/tabs/style/index.css';
 
 // import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';

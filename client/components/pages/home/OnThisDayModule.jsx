@@ -22,7 +22,7 @@ const findCurrentDateEvents = (docs) => {
       }
     });
   }
-  return events;
+  return events.length > 0 ? events : [mm2Document.records[0]];
 }
 
 export default class OnThisDayModule extends React.Component {

@@ -23,13 +23,6 @@ module.exports = {
             [
               'transform-object-rest-spread',
               'transform-react-jsx-source'
-            ],
-            [
-              'import',
-              {
-                libraryName: 'antd',
-                style: true
-              }
             ]
           ]
         }
@@ -40,7 +33,20 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: [ 'style-loader', 'css-loader', 'less-loader' ]
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader',
+            options: { 
+              javascriptEnabled: true
+            }
+          }
+        ]
       }
     ]
   },
