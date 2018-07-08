@@ -1,5 +1,6 @@
 export const articles = [
   {
+    id: 0,
     title: `How did Karl Jobst Break this 15 Year Old World Record in Speedrunning? | Dam 52 EXPLAINED`,
     creator: 'RWhiteGoose',
     submitter: 'RWhiteGoose',
@@ -15,6 +16,7 @@ export const articles = [
     publicationTimestamp: new Date(Date.now())
   },
   {
+    id: 1,
     title: `Article by Prier`,
     creator: 'prier',
     submitter: 'cyghfer',
@@ -35,6 +37,7 @@ export const articles = [
     publicationTimestamp: new Date(Date.now())
   },
   {
+    id: 2,
     title: `4-2: The History of Super Mario Bros.' Most Infamous Level`,
     creator: 'Summoning Salt',
     submitter: 'Summoning Salt',

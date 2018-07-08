@@ -28,16 +28,16 @@ const FullArticleLink = styled.div`
   padding: 12px 0 0 0;
 `;
 
-const ArticlesPageListItem = (props) => {
+const BrowseArticlesPageListItem = (props) => {
   let coverImage = props.article.videoUrl ? `https://i.ytimg.com/vi/${props.article.videoId}/hqdefault.jpg` : `../../../assets/images/articles/${props.article.coverImage}`;
   let bodyText = props.article.description || props.article.detailedText;
   let bodyTextCutoff = bodyText.slice(0, bodyText.slice(0, 300).lastIndexOf('.') + 1);
   bodyTextCutoff = bodyTextCutoff || bodyText.slice(0, bodyText.slice(0, 300).lastIndexOf(')') + 1);
   bodyTextCutoff = bodyTextCutoff || bodyText.slice(0, bodyText.slice(0, 300).lastIndexOf('!') + 1);
   return (
-    // <Link to='/'>
-      <LightPurpleModule>
-        <Row gutter={16}>
+    <LightPurpleModule>
+      <Row gutter={16}>
+        <Link to={`/articles/${props.article.id}`}>
           <Col span={3}>
             <img
               src={coverImage}
@@ -45,29 +45,33 @@ const ArticlesPageListItem = (props) => {
               width='100%'
             />
           </Col>
-          <Col span={21}>
+        </Link>
+        <Col span={21}>
+          <Link to={`/articles/${props.article.id}`}>
             <b>
               {props.article.title}
             </b>
-            <div>
-              <AuthorText>
-                by {props.article.creator}
-              </AuthorText>
-              <DateText>
-                {formatUTCMillisecsToDateStr(props.article.publicationTimestamp)}
-              </DateText>
-            </div>
-            <BodyText>
-              {bodyTextCutoff}
-            </BodyText>
+          </Link>
+          <div>
+            <AuthorText>
+              by {props.article.creator}
+            </AuthorText>
+            <DateText>
+              {formatUTCMillisecsToDateStr(props.article.publicationTimestamp)}
+            </DateText>
+          </div>
+          <BodyText>
+            {bodyTextCutoff}
+          </BodyText>
+          <Link to={`/articles/${props.article.id}`}>
             <FullArticleLink>
               View Full Article
             </FullArticleLink>
-          </Col>
-        </Row>
-      </LightPurpleModule>
-    // </Link>
+          </Link>
+        </Col>
+      </Row>
+    </LightPurpleModule>
   )
 };
 
-export default ArticlesPageListItem;
+export default BrowseArticlesPageListItem;
