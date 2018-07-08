@@ -2,15 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
-import { Link } from 'react-router-dom';
 
-import { LightPurpleModule } from '../../common/styledComponents.js';
+import ArticlesPageList from './ArticlesPageList.jsx';
+
+import { articles } from '../../../data/sampleArticles.js';
 
 const Header = styled.h1`
   text-align: center;
 `;
 
-export default class FeaturesPage extends React.Component {
+export default class ArticlesPage extends React.Component {
   constructor() {
     super();
   }
@@ -19,30 +20,24 @@ export default class FeaturesPage extends React.Component {
     return (
       <div>
         <Header>
-          Features
+          Articles
         </Header>
         <div style={{'textAlign': 'center'}}>
           <Button.Group size='large'>
             <Button type='primary'>
-              Previous Feature
+              <i className="fas fa-arrow-left"></i>
             </Button>
             <Button type='primary'>
-              {<i class="fas fa-home"></i>}
+              <i className="fas fa-home"></i>
             </Button>
             <Button type='primary'>
-              Next Feature
+              <i className="fas fa-arrow-right"></i>
             </Button>
           </Button.Group>
         </div>
-        <LightPurpleModule>
-          Goose Video
-        </LightPurpleModule>
-        <LightPurpleModule>
-          Article by Prier
-        </LightPurpleModule>
-        <LightPurpleModule>
-          Summoningsalt Video
-        </LightPurpleModule>
+        <ArticlesPageList
+          articles={articles}
+        />
       </div>
     )
   }

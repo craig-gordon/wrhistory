@@ -6,7 +6,7 @@ export const LightBlueModule = styled.div`
   border-style: solid;
   border-color: skyblue;
   border-width: 2px;
-  padding: 0 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
 `;
 
 export const LightGreenModule = styled.div`
@@ -15,7 +15,7 @@ export const LightGreenModule = styled.div`
   border-style: solid;
   border-color: mediumaquamarine;
   border-width: 2px;
-  padding: 0 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
 `;
 
 export const LightPurpleModule = styled.div`
@@ -24,5 +24,5 @@ export const LightPurpleModule = styled.div`
   border-style: solid;
   border-color: #d19bef;
   border-width: 2px;
-  padding: 0 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
 `;

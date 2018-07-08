@@ -1,10 +1,11 @@
-export const features = [
+export const articles = [
   {
-    name: `How did Karl Jobst Break this 15 Year Old World Record in Speedrunning? | Dam 52 EXPLAINED`,
+    title: `How did Karl Jobst Break this 15 Year Old World Record in Speedrunning? | Dam 52 EXPLAINED`,
     creator: 'RWhiteGoose',
     submitter: 'RWhiteGoose',
     coverImage: null,
     videoUrl: 'https://www.youtube.com/watch?v=hT0kXWd4jV0',
+    videoId: 'hT0kXWd4jV0',
     type: 'text',
     description: `You may have heard about a speedrunner named Karl Jobst who earlier this month, broke 
     a 15 year old speedrunning World Record, when he completed a Dam Agent speedrun in 52 seconds.  But 
@@ -14,12 +15,13 @@ export const features = [
     publicationTimestamp: new Date(Date.now())
   },
   {
-    name: `Article by Prier`,
+    title: `Article by Prier`,
     creator: 'prier',
     submitter: 'cyghfer',
     type: 'text',
-    coverImage: null,
+    coverImage: 'lorem.jpg',
     videoUrl: null,
+    videoId: null,
     description: null,
     detailedText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer blandit est at arcu elementum, sit amet vulputate sapien elementum. Vestibulum vel pulvinar nisi. Curabitur hendrerit sodales scelerisque. Vestibulum vitae est aliquam, imperdiet nisl in, aliquet mi. Nam hendrerit maximus mi eu iaculis. Proin tellus ipsum, volutpat ac ornare at, facilisis at dolor. Duis a metus aliquet, rhoncus magna id, egestas libero. Maecenas vel nibh elit. Quisque ut luctus risus, at pulvinar libero. Duis a mi nisi. Aenean ligula quam, bibendum sed erat eget, maximus laoreet nulla. Cras quis ornare dolor. Maecenas eu aliquam leo. Maecenas consequat blandit porta. Maecenas cursus lorem nisi, quis suscipit urna molestie in.
 
@@ -33,12 +35,13 @@ export const features = [
     publicationTimestamp: new Date(Date.now())
   },
   {
-    name: `4-2: The History of Super Mario Bros.' Most Infamous Level`,
+    title: `4-2: The History of Super Mario Bros.' Most Infamous Level`,
     creator: 'Summoning Salt',
     submitter: 'Summoning Salt',
     type: 'video',
     coverImage: null,
     videoUrl: 'https://www.youtube.com/watch?v=i1AHCaokqhg',
+    videoId: 'i1AHCaokqhg',
     description: `Thanks to andrewg1990 and kosmic for research help!  
     (also I asked xx_420_blazit_xx about a couple of things so shoutout to him too!)`,
     detailedText: null,
