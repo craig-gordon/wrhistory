@@ -13,6 +13,13 @@ export const articles = [
     what does it all mean? What implications does this have? How big of a deal was this, really?  This 
     video looks at all of these questions and more!`,
     detailedText: null,
+    relatedGameAbbrevs: [
+      'goldeneye'
+    ],
+    relatedTopicAbbrevs: [
+      'il',
+      'wr'
+    ],
     publicationTimestamp: new Date(Date.now())
   },
   {
@@ -34,6 +41,12 @@ export const articles = [
     Cras cursus mauris quis ligula vehicula varius. Vivamus sed magna vitae quam aliquet lobortis vel et erat. Integer vel dapibus diam. Morbi tristique augue a semper porta. Nulla imperdiet suscipit elit sed sodales. Quisque vestibulum quam quis sollicitudin dapibus. Sed eget aliquam leo, et semper lorem. Nullam volutpat, neque a posuere semper, nunc lacus ultrices magna, in fermentum purus metus sed purus. Integer sed varius nisl, tincidunt vulputate diam. Integer commodo arcu lorem, ac euismod turpis maximus et. Sed porta aliquet justo, sit amet porta purus venenatis vitae. Sed pulvinar venenatis sapien, sed vestibulum magna ultricies at. Etiam nisi nibh, tincidunt nec lectus ut, lobortis iaculis nunc. Etiam mi urna, fringilla quis sagittis quis, dictum eu quam. Vivamus sed orci eget augue congue laoreet.
     
     Morbi ullamcorper, sem vel fringilla imperdiet, nisi est consectetur magna, sit amet posuere velit eros non neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec rutrum eleifend quam, blandit bibendum ipsum dignissim a. Nunc tristique metus mauris. Curabitur hendrerit velit felis, id elementum nisl sagittis at. Nam tempor cursus sapien id elementum. Sed non dignissim est. Pellentesque hendrerit malesuada eros, imperdiet suscipit leo feugiat at. Pellentesque massa arcu, hendrerit at risus sit amet, mattis vestibulum ex. Phasellus convallis massa eu arcu sollicitudin, ac pretium urna rhoncus. Praesent diam augue, porta vitae rhoncus eget, feugiat et lorem. Sed id ante justo. Vivamus nunc dui, pretium quis fringilla id, consectetur non dui. Phasellus pellentesque nunc felis. Vivamus eu neque mollis, dignissim felis quis, euismod lacus. Proin nec nisl elit.`,
+    relatedGameAbbrevs: [
+
+    ],
+    relatedTopicAbbrevs: [
+
+    ],
     publicationTimestamp: new Date(Date.now())
   },
   {
@@ -48,6 +61,12 @@ export const articles = [
     description: `Thanks to andrewg1990 and kosmic for research help!  
     (also I asked xx_420_blazit_xx about a couple of things so shoutout to him too!)`,
     detailedText: null,
+    relatedGameAbbrevs: [
+      'smb1'
+    ],
+    relatedTopicAbbrevs: [
+      'il'
+    ],
     publicationTimestamp: new Date(Date.now())
   }
 ];

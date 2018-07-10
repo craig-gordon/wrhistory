@@ -14,6 +14,9 @@ injectGlobal`
     margin: 0 8%;
     background: whitesmoke;
   }
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+  }
 `;
 
 window.utcOffsetMS = new Date().getTimezoneOffset() * 60 * 1000;

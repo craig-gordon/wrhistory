@@ -5,6 +5,8 @@ import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import 'antd/lib/grid/style/index.css';
 
+import ArticleTagsList from './ArticleTagsList.jsx';
+
 import { LightPurpleModule } from '../../common/styledComponents.js';
 import { formatUTCMillisecsToDateStr } from '../../../utils/datetimeUtils.js';
 
@@ -23,9 +25,10 @@ const BodyText = styled.div`
   padding: 18px 0 0 0;
 `;
 
-const FullArticleLink = styled.div`
+const FullArticleLink = styled(Link)`
   color: gray;
   padding: 12px 0 0 0;
+  text-decoration-line: none;
 `;
 
 const BrowseArticlesPageListItem = (props) => {
@@ -37,15 +40,15 @@ const BrowseArticlesPageListItem = (props) => {
   return (
     <LightPurpleModule>
       <Row gutter={16}>
-        <Link to={`/articles/${props.article.id}`}>
-          <Col span={3}>
+        <Col span={3}>
+          <Link to={`/articles/${props.article.id}`}>
             <img
               src={coverImage}
               height='100%'
               width='100%'
             />
-          </Col>
-        </Link>
+          </Link>
+        </Col>
         <Col span={21}>
           <Link to={`/articles/${props.article.id}`}>
             <b>
@@ -63,11 +66,10 @@ const BrowseArticlesPageListItem = (props) => {
           <BodyText>
             {bodyTextCutoff}
           </BodyText>
-          <Link to={`/articles/${props.article.id}`}>
-            <FullArticleLink>
-              View Full Article
-            </FullArticleLink>
-          </Link>
+          <ArticleTagsList
+            relatedGameAbbrevs={props.article.relatedGameAbbrevs}
+            relatedTopicAbbrevs={props.article.relatedTopicAbbrevs}
+          />
         </Col>
       </Row>
     </LightPurpleModule>
