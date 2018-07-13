@@ -4,10 +4,10 @@ export const articles = [
     title: `How did Karl Jobst Break this 15 Year Old World Record in Speedrunning? | Dam 52 EXPLAINED`,
     creator: 'RWhiteGoose',
     submitter: 'RWhiteGoose',
+    type: 'video',
     coverImage: null,
     videoUrl: 'https://www.youtube.com/watch?v=hT0kXWd4jV0',
     videoId: 'hT0kXWd4jV0',
-    type: 'text',
     description: `You may have heard about a speedrunner named Karl Jobst who earlier this month, broke 
     a 15 year old speedrunning World Record, when he completed a Dam Agent speedrun in 52 seconds.  But 
     what does it all mean? What implications does this have? How big of a deal was this, really?  This 

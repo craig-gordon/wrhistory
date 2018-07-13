@@ -8,12 +8,23 @@ import 'antd/lib/button/style/index.css';
 // import Col from 'antd/lib/col';
 // import 'antd/lib/grid/style/index.css';
 
+import { LightBlueModule } from '../../common/styledComponents.js';
 import { articles } from '../../../data/sampleArticles.js';
+
+const ArticlePageWrapper = styled.div`
+  text-align: center;
+  margin-top: 50px;
+`;
+
+const VideoWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const ArticlePage = (props) => {
   let article = articles[props.match.params.id]
   return (
-    <div style={{'textAlign': 'center'}}>
+    <ArticlePageWrapper>
       <Button.Group size='large'>
         <Button
           type='primary'
@@ -34,9 +45,18 @@ const ArticlePage = (props) => {
           <i className="fas fa-arrow-right"></i>
         </Button>
       </Button.Group>
-      <div>{article.title}</div>
-      <ReactPlayer url={article.videoUrl} />
-    </div>
+      <LightBlueModule>
+        <h2>{article.title}</h2>
+        <VideoWrapper>
+          <ReactPlayer
+            url={article.videoUrl}
+            height='540px'
+            width='960px'
+          />
+        </VideoWrapper>
+        <div>{article.description}</div>
+      </LightBlueModule>
+    </ArticlePageWrapper>
   );
 };
 
