@@ -10,23 +10,25 @@ const ButtonsContainer = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
+const Module = LightPurpleModule.extend`
+  margin: 20px 0;
+`;
+
 export default class RecentlyUpdatedModule extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
   }
 
   render() {
     return (
-      <LightPurpleModule>
+      <Module>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Recently Updated Histories</h3>
         <ButtonsContainer>
           <GamePreviewButton gameCode='mm2' />
           <GamePreviewButton gameCode='sm64' />
           <GamePreviewButton gameCode='supermetroid' />
         </ButtonsContainer>
-      </LightPurpleModule>
+      </Module>
     );
   }
 };

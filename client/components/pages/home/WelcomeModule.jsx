@@ -3,9 +3,15 @@ import styled from 'styled-components';
 
 import { LightBlueModule } from '../../common/styledComponents.js';
 
+const Module = LightBlueModule.extend`
+  display: block;
+  height: 180px;
+  margin-right: 10px;
+`;
+
 const WelcomeModule = (props) => {
   return (
-    <LightBlueModule>
+    <Module>
       <h3 style={{'textAlign': 'center'}}>Welcome!</h3>
       <div>
         Welcome to <b>Record History</b>! The aim of this site is to allow members of the Speedrunning and High Score
@@ -17,7 +23,7 @@ const WelcomeModule = (props) => {
       <div>
         Come in and explore the histories of your favorite speedruns and high scores.
       </div>
-    </LightBlueModule>
+    </Module>
   );
 };
 

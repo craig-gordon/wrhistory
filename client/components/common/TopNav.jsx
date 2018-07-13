@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Input from 'antd/lib/input';
+import 'antd/lib/input/style/index.css';
 
 import SignupForm from './SignupForm.jsx';
 import LoginForm from './LoginForm.jsx';
@@ -8,10 +10,13 @@ import LoginForm from './LoginForm.jsx';
 const TopNavWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
   border-style: solid;
   border-color: darkgray;
-  border-width: 0 2px 2px 2px;
+  border-width: 0 0 2px 0;
   background: lightgray;
+  padding: 0 5%;
+  margin-bottom: 10px;
 `;
 
 const SiteLink = styled(Link)`
@@ -28,7 +33,7 @@ const StyledReactLink = styled(Link)`
   margin: 4% auto;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled(Input)`
   border-radius: 4px;
   margin: 2% 0;
 `;

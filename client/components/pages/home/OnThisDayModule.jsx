@@ -23,7 +23,13 @@ const findCurrentDateEvents = (docs) => {
     });
   }
   return events.length > 0 ? events : [mm2Document.records[0]];
-}
+};
+
+const Module = LightBlueModule.extend`
+  display: block;
+  height: 180px;
+  margin-left: 10px;
+`;
 
 export default class OnThisDayModule extends React.Component {
   constructor(props) {
@@ -33,11 +39,11 @@ export default class OnThisDayModule extends React.Component {
 
   render() {
     return (
-      <LightBlueModule>
+      <Module>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>On this day...</h3>
         <h4>{formatNowToDayMonth(Date.now())}:</h4>
         {createOnThisDayHTML(this.currentDateEvents)}
-      </LightBlueModule>
+      </Module>
     );
   }
 };
