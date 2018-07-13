@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Modal from 'react-responsive-modal';
-import Input from 'antd/lib/input';
-import 'antd/lib/input/style/index.css';
-import Button from 'antd/lib/button';
-import 'antd/lib/button/style/index.css';
+
+import SignupForm from './SignupForm.jsx';
+import LoginForm from './LoginForm.jsx';
 
 const TopNavWrapper = styled.div`
   display: grid;
@@ -23,7 +21,7 @@ const SiteLink = styled(Link)`
   margin: 4% auto;
 `
 
-const StyledLink = styled(Link)`
+const StyledReactLink = styled(Link)`
   color: blue;
   text-decoration: none;
   font-weight: bold;
@@ -35,104 +33,66 @@ const StyledInput = styled.input`
   margin: 2% 0;
 `;
 
-const StyledText = styled.div`
+const StyledLink = styled.div`
   color: blue;
   text-decoration: none;
   font-weight: bold;
   margin: 4% auto;
-`;
-
-const LineWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 25% 75%;
-  align-items: center;
-  margin: 15px 0;
-`;
-
-const Label = styled.div`
-  font-weight: bold;
-  justify-self: right;
-  padding-right: 15px;
-`;
-
-const ButtonsPanel = styled.div`
-  display: inline;
-  margin: 15px 0;
-  float: right;
-`;
-
-const ButtonWrapper = styled.span`
-  margin-left: 15px;
+  &:hover {
+    cursor: pointer
+  }
 `;
 
 export default class TopNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginFormOpen: false,
-      registerFormOpen: false
+      loginOpen: false,
+      signupOpen: false
     };
-    this.showLoginForm = this.showLoginForm.bind(this);
-    this.closeLoginForm = this.closeLoginForm.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+    this.closeLogin = this.closeLogin.bind(this);
+    this.showSignup = this.showSignup.bind(this);
+    this.closeSignup = this.closeSignup.bind(this);
   }
 
-  showLoginForm() {
-    this.setState({loginFormOpen: true});
+  showLogin() {
+    this.setState({loginOpen: true});
   }
 
-  closeLoginForm() {
-    this.setState({loginFormOpen: false});
+  closeLogin() {
+    this.setState({loginOpen: false});
+  }
+
+  showSignup() {
+    this.setState({signupOpen: true});
+  }
+
+  closeSignup() {
+    this.setState({signupOpen: false});
   }
 
   render() {
-    const registerModalStyles = {
-      modal: {
-        height: '270px',
-        width: '600px',
-        padding: '30px',
-        borderRadius: '8px'
-      }
-    };
     return (
       <div>
-        <Modal
-          open={this.state.loginFormOpen}
-          onClose={this.closeLoginForm}
-          showCloseIcon={false}
-          styles={registerModalStyles}
-        >
-          <h2>Register</h2>
-          <hr />
-          <LineWrapper>
-            <Label>Username</Label>
-            <Input placeholder='Username' />
-          </LineWrapper>
-          <LineWrapper>
-            <Label>Email</Label>
-            <Input placeholder='you@example.com' />
-          </LineWrapper>
-          <LineWrapper>
-            <Label>Confirm Email</Label>
-            <Input placeholder='you@example.com' />
-          </LineWrapper>
-          <hr />
-          <ButtonsPanel>
-            <ButtonWrapper>
-              <Button type='primary' size='large'>Sign Up</Button>
-            </ButtonWrapper>
-            <ButtonWrapper>
-              <Button type='default' size='large'>Cancel</Button>
-            </ButtonWrapper>
-          </ButtonsPanel>
-        </Modal>
+        <SignupForm
+          signupOpen={this.state.signupOpen}
+          showSignup={this.showSignup}
+          closeSignup={this.closeSignup}
+        />
+        <LoginForm
+          loginOpen={this.state.loginOpen}
+          showLogin={this.showLogin}
+          closeLogin={this.closeLogin}
+        />
         <TopNavWrapper>
           <SiteLink to='/'>Record History</SiteLink>
-          <StyledLink to='/speedruns'>Speedruns</StyledLink>
-          <StyledLink to='/highscores'>High Scores</StyledLink>
-          <StyledLink to='/articles'>Articles</StyledLink>
+          <StyledReactLink to='/speedruns'>Speedruns</StyledReactLink>
+          <StyledReactLink to='/highscores'>High Scores</StyledReactLink>
+          <StyledReactLink to='/articles'>Articles</StyledReactLink>
           <StyledInput type='text' placeholder='Search for Games, Users, etc...'></StyledInput>
-          <StyledText onClick={this.showLoginForm}>Register</StyledText>
-          <StyledText>Log In</StyledText>
+          <StyledLink onClick={this.showSignup}>Sign Up</StyledLink>
+          <StyledLink onClick={this.showLogin}>Log In</StyledLink>
         </TopNavWrapper>
       </div>
     );
