@@ -6,6 +6,8 @@ const cors = require('cors');
 const compression = require('compression');
 const app = express();
 
+const db = require('./db.js');
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(compression());
