@@ -27,6 +27,8 @@ sequelize
 const Player = sequelize.define('player', {
   username: {type: Sequelize.STRING, unique: true},
   realname: Sequelize.STRING
+}, {
+  freezeTableName: true
 });
 
 Player.sync({force: true});
@@ -39,6 +41,8 @@ const User = sequelize.define('user', {
   username: {type: Sequelize.STRING, unique: true},
   password: Sequelize.STRING,
   email: {type: Sequelize.STRING, unique: true},
+}, {
+  freezeTableName: true
 });
 
 User.belongsTo(Player);
@@ -54,6 +58,8 @@ const Game = sequelize.define('game', {
   abbrev: Sequelize.STRING,
   releasedate: Sequelize.DATEONLY,
   coverimage: Sequelize.STRING
+}, {
+  freezeTableName: true
 });
 
 Game.sync({force: true});
@@ -65,11 +71,11 @@ Game.sync({force: true});
 const Topic = sequelize.define('topic', {
   name: Sequelize.STRING,
   abbrev: Sequelize.STRING,
+}, {
+  freezeTableName: true
 });
 
 Topic.sync({force: true});
-
-console.log('after Topic model definition');
 
 // ~~~~~~~~ //
 // Document //
@@ -80,14 +86,14 @@ const Document = sequelize.define('document', {
   title: Sequelize.STRING,
   category: Sequelize.STRING,
   leaderboardurl: Sequelize.STRING
+}, {
+  freezeTableName: true
 });
 
 Document.belongsTo(Game);
 Document.belongsTo(Topic);
 
 Document.sync({force: true});
-
-console.log('after Document model definition');
 
 // ~~~~~~ //
 // Record //
@@ -104,13 +110,13 @@ const Record = sequelize.define('record', {
   note: Sequelize.STRING,
   detailed: Sequelize.TEXT,
   version: Sequelize.STRING
+}, {
+  freezeTableName: true
 });
 
 Record.belongsTo(Game);
 
 Record.sync({force: true});
-
-console.log('after Record model definition');
 
 // ~~~~~~~ //
 // Article //
@@ -118,6 +124,8 @@ console.log('after Record model definition');
 
 const Article = sequelize.define('article', {
   title: Sequelize.STRING
+}, {
+  freezeTableName: true
 });
 
 Article.belongsTo(Player);
@@ -125,14 +133,14 @@ Article.belongsTo(User);
 
 Article.sync({force: true});
 
-console.log('after Article model definition');
-
 // ~~~~~~~~ //
 // Platform //
 // ~~~~~~~~ //
 
 const Platform = sequelize.define('platform', {
   name: Sequelize.STRING
+}, {
+  freezeTableName: true
 });
 
 Platform.sync({force: true});
@@ -142,6 +150,8 @@ Platform.sync({force: true});
 // ~~~ //
 
 const Tag = sequelize.define('tag', {
+}, {
+  freezeTableName: true
 });
 
 Tag.belongsTo(Game);
@@ -149,13 +159,13 @@ Tag.belongsTo(Topic);
 
 Tag.sync({force: true});
 
-console.log('before all join table definitions');
-
 // ~~~~~~~~~~~~~~~~~ //
 // Document / Record //
 // ~~~~~~~~~~~~~~~~~ //
 
 const DocumentRecord = sequelize.define('documentrecord', {
+}, {
+  freezeTableName: true
 });
 
 Document.belongsToMany(Record, {through: 'documentrecord'});
@@ -168,6 +178,8 @@ DocumentRecord.sync({force: true});
 // ~~~~~~~~~~~~~~~~~ //
 
 const PlatformRecord = sequelize.define('platformrecord', {
+}, {
+  freezeTableName: true
 });
 
 Platform.belongsToMany(Record, {through: 'platformrecord'});
@@ -179,7 +191,9 @@ PlatformRecord.sync({force: true});
 // Platform / Game //
 // ~~~~~~~~~~~~~~~ //
 
-const PlatformGame = sequelize.define('key', {
+const PlatformGame = sequelize.define('platformgame', {
+}, {
+  freezeTableName: true
 });
 
 Platform.belongsToMany(Game, {through: 'platformgame'});
@@ -192,6 +206,8 @@ PlatformGame.sync({force: true});
 // ~~~~~~~~~~~~~ //
 
 const ArticleTag = sequelize.define('articletag', {
+}, {
+  freezeTableName: true
 });
 
 Article.belongsToMany(Tag, {through: 'articletag'});
@@ -199,7 +215,6 @@ Tag.belongsToMany(Article, {through: 'articletag'});
 
 ArticleTag.sync({force: true});
 
-console.log('after all Model definitions');
 
 
 module.exports = {
