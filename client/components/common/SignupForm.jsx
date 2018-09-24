@@ -59,7 +59,6 @@ export default class SignupForm extends React.Component {
   submitNewAccount(e) {
     console.log(this.state.typedUsername, this.state.typedPassword, this.state.typedEmail)
     e.preventDefault();
-    console.log('submitNewAccount ACTIVATED');
     // axios.post('/signup', {
     //   username: this.state.typedUsername,
     //   password: this.state.typedPassword,
