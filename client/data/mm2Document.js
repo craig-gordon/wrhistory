@@ -20,6 +20,7 @@ export const document = {
       vodUrl: undefined,
       isMilestone: false,
       note: 'Played on Normal mode.',
+      labelText: undefined,
       detailed:  `This is the earliest known speedrun of Mega Man 2 with existing video. 
       This run was played on Normal mode and forgoed the use of glitches in order to comply 
       with the Twin Galaxies ruleset.`
@@ -38,6 +39,7 @@ export const document = {
       vodUrl: 'https://www.youtube.com/watch?v=nx473eyRmqQ',
       isMilestone: false,
       note: 'Played on Normal mode.',
+      labelText: undefined,
       detailed:  `A landmark run that inspired many early speedrunners in the era before Twitch.
       This run used the now-standard Robot Masters route starting with Flash, Heat, and Air, 
       and made full use of all glitches known to be possible in realtime.`
@@ -56,6 +58,7 @@ export const document = {
       vodUrl: 'http://www.nicovideo.jp/watch/sm13963118',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `This run's primary timesave over Seth's run was the incorporation of the 
       infamous Woodman megazip/deathwarp. There were also almost no visible mistakes in this 
       run, and thus, like Seth's record, nou1's final product was looked upon with much
@@ -75,6 +78,7 @@ export const document = {
       vodUrl: 'https://www.twitch.tv/videos/49469322',
       isMilestone: false,
       note: undefined,
+      labelText: 'JPN version standardized',
       detailed: `cyghfer significantly tightened up the routing and general movement 
       compared to nou1's run, and also incorporated the exceedingly difficult 'TAS Clash' 
       trick. However, due to numerous mistakes and sloppy sections, this run clocked in 
@@ -93,6 +97,7 @@ export const document = {
       vodUrl: 'http://www.nicovideo.jp/watch/sm22414380',
       isMilestone: false,
       note: 'This run was performed with 10hz turbo, though it was still recognized as the legitimate record.',
+      labelText: undefined,
       detailed: `This was something of a miraculous run, as Shoka had not gotten many attempts 
       past the Clashman stage before achieving this record. Nothing major was added - this run 
       was simply significantly less sloppy than cyghfer's 27:17.`
@@ -111,6 +116,7 @@ export const document = {
       vodUrl: 'https://www.twitch.tv/videos/48172305',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `cyghfer struck back with a 27:01 half a year later. Again, the major difference
       was less sloppiness overall. With this, the race to 26 was on...`
     },
@@ -128,6 +134,7 @@ export const document = {
       vodUrl: 'https://www.youtube.com/watch?v=mFEuLODUY-s',
       isMilestone: true,
       note: undefined,
+      labelText: 'First 26',
       detailed: `The first 26! Ellonija had been playing the game vigorously for 2 or so years 
       at this point. His dedication finally paid off in glorious fashion with this run.`
     },
@@ -145,6 +152,7 @@ export const document = {
       vodUrl: 'https://www.youtube.com/watch?v=Sa8HR11Tjsc',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `While cyghfer and others stopped playing, Ello continued pushing onward. 
       He achieved this small improvement about a year after his original 26.`
     },
@@ -162,6 +170,7 @@ export const document = {
       vodUrl: 'https://www.youtube.com/watch?v=IdLoUu1Cp6w',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `Ello improved the record by a second the very next day. He knew 26:4x was 
       only a matter of time...`
     },
@@ -179,6 +188,7 @@ export const document = {
       vodUrl: 'https://www.youtube.com/watch?v=ZEpiWdPYsP0',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `The first 26:4x. Incredibly, Ello achieved this run the first day back 
       doing attempts after a short break. This record stood for over 2 years, and it became 
       an iconic run to newer runners due to its longevity and its large time differential over
@@ -198,6 +208,7 @@ export const document = {
       vodUrl: 'https://www.youtube.com/watch?v=mVlNqzmTj3k',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `After a 3 year break, cyghfer returned to Rockman 2 speedrunning to play 
       in the AGDQ '18 Classic Mega Man relay. He continued on after the event to do WR 
       attempts and eventually achieved this run live on the Chase for the Record: Rockman 2 
@@ -217,6 +228,7 @@ export const document = {
       vodUrl: 'https://www.twitch.tv/videos/239649947',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `After the 26:42, cyghfer took a short break from speedrunning Mega Man 2 to 
       sort out IRL matters but returned to attempts after a couple weeks. Searching for the 
       elusive 26:3x, he achieved this small improvement in short order.`
@@ -235,6 +247,7 @@ export const document = {
       vodUrl: 'https://www.youtube.com/watch?v=0sLJDE3-e0U',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `cyghfer finally achieved a milestone once thought to be an unattainable 
       dream, a time under 26:40 for Rockman 2. Although he was not the first to 26, he was 
       determined to be the first to 3x, and so he was. Despite accomplishing a dream goal from 
@@ -255,6 +268,7 @@ export const document = {
       vodUrl: 'https://www.twitch.tv/videos/259202535',
       isMilestone: false,
       note: undefined,
+      labelText: undefined,
       detailed: `After some 8500 attempts and months of dedicated grinding, coolkid finally 
       obtained the Rockman 2 record with a 26:36. Remarkably, this was the first time someone 
       had held the main category records in both Mega Man and Mega Man 2 since Seth Glass in 

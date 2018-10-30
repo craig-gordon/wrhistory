@@ -7,7 +7,16 @@ import DarkUnica from 'highcharts/themes/dark-unica';
 import '../../assets/stylesheets/classStyles.css';
 import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../utils/datetimeUtils.js';
-import { formatTooltip, createPowSymbol, createTitleHTML, createSubtitleHTML, createYAxisConfig, createChartData, createChartZones } from './chartUtils.js';
+import {
+  formatTooltip,
+  createPowSymbol,
+  createTitleHTML,
+  createSubtitleHTML,
+  createYAxisConfig,
+  createChartLabels,
+  createChartData,
+  createChartZones
+} from './chartUtils.js';
 
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
@@ -110,29 +119,7 @@ class Chart extends React.Component {
             fontSize: '13px'
           }
         },
-        labels: [
-          {
-            point: {
-              x: Date.UTC(this.records[3].year, this.records[3].month, this.records[3].day) + utcOffsetMS,
-              y: this.records[3].mark * 1000,
-              xAxis: 0,
-              yAxis: 0
-            },
-            y: -15,
-            shape: 'rect',
-            text: 'JPN version standardized'
-          },
-          {
-            point: {
-              x: Date.UTC(this.records[6].year, this.records[6].month, this.records[6].day) + utcOffsetMS,
-              y: this.records[6].mark * 1000,
-              xAxis: 0,
-              yAxis: 0
-            },
-            y: -15,
-            text: 'First 26'
-          }
-        ]
+        labels: createChartLabels(this.records)
       }],
       legend: {
         layout: 'horizontal'

@@ -72,7 +72,9 @@ const determineMarker = function(record, isCurrentRecord) {
 
 export const createTitleHTML = function(document) {
   return `
-    <div class='chartTitle'>${document.title}${document.category ? ` — ${document.category}` : ``}</div>
+    <div class='chartTitle'>
+      ${document.title}${document.category ? ` — ${document.category}` : ``}
+    </div>
   `
 };
 
@@ -124,6 +126,21 @@ export const createYAxisConfig = function(document) {
   };
 
   return configs[document.type];
+};
+
+export const createChartLabels = function(records) {
+  return records.filter((record, i) => record.labelText !== undefined).map((record, i) => {
+    return {
+      point: {
+        x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+        y: record.mark * 1000,
+        xAxis: 0,
+        yAxis: 0
+      },
+      y: -15,
+      text: record.labelText
+    }
+  });
 };
 
 export const createChartData = function(records, type) {
