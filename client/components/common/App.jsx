@@ -7,6 +7,7 @@ import HomePage from '../pages/home/HomePage.jsx';
 import AboutPage from '../pages/about/AboutPage.jsx';
 import BrowseGamesPage from '../pages/browse/BrowseGamesPage.jsx';
 import BrowseArticlesPage from '../pages/articles/BrowseArticlesPage.jsx';
+import CreateChartPage from '../pages/create/CreateChartPage.jsx';
 import ArticlePage from '../pages/articles/ArticlePage.jsx';
 import GamePage from '../pages/game/GamePage.jsx';
 import Footer from './Footer.jsx';
@@ -30,6 +31,7 @@ export default class App extends React.Component {
             <Route path='/about' component={AboutPage} />
             <Route path='/speedruns' component={BrowseGamesPage} />
             <Route path='/highscores' component={BrowseGamesPage} />
+            <Route path='/create' component={CreateChartPage} />
             <Route exact path='/articles' component={BrowseArticlesPage} />
             <Route path='/articles/:id' component={ArticlePage} />
             <Route path='/mm2' component={GamePage} />
