@@ -6,6 +6,7 @@ import 'antd/lib/input/style/index.css';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
 
+import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
 import Chart from '../../charts/Chart.jsx';
 
 import { document } from '../../../data/genericDocument.js';
@@ -40,7 +41,7 @@ export default class CreateChartPage extends React.Component {
         <Header>Create Chart</Header>
         <CreateChartPageWrapper>
           <OptionsColumn>
-            <Input />
+            <CreateChartPageUserInputs />
           </OptionsColumn>
           <ChartColumn>
             <Chart gameCode='mm2' document={document} />

@@ -3,7 +3,7 @@ export const document = {
   title: 'Game',
   category: 'Category',
   leaderboard: 'Leaderboard URL',
-  yAxisTickInterval: null,
+  yAxisTickInterval: 600000,
   recordCount: 1,
   records: [
     {
@@ -13,7 +13,7 @@ export const document = {
       player: 'Speedrunner',
       platform: 'Arcade',
       version: 'U',
-      year: 2004,
+      year: 2000,
       month: 0,
       day: 1,
       avatar: undefined,
