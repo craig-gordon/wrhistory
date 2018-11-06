@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "webpack -w",
     "start": "node server/index.js",
+    "start:dev": "webpack-dev-server",
     "test": "test"
   },
   "author": "Craig Gordon",
@@ -21,6 +22,7 @@
     "dotenv-webpack": "^1.5.4",
     "express": "^4.16.2",
     "highcharts": "^6.0.7",
+    "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "nodemailer": "^4.6.8",
     "pg": "^7.4.3",

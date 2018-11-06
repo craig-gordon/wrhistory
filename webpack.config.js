@@ -10,6 +10,7 @@ module.exports = {
     path: path.join(__dirname + '/client'),
     filename: 'bundle.js'
   },
+  devtool: 'inline-source-map',
   module: {
     loaders: [
       {
@@ -50,6 +51,9 @@ module.exports = {
       }
     ]
   },
+  // devServer: {
+  //   port: 3000
+  // },
   plugins: [
     new Dotenv({
       path: './.env',

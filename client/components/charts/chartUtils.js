@@ -143,7 +143,7 @@ export const createChartLabels = function(records) {
   });
 };
 
-export const createChartData = function(records, type) {
+export const createChartData = function(records, documentType) {
   const yMultipliers = {
     speedrun: 1000,
     highscore: 1
@@ -153,7 +153,7 @@ export const createChartData = function(records, type) {
     let isCurrentRecord = i === records.length - 1;
     return {
       x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
-      y: record.mark * yMultipliers[type],
+      y: record.mark * yMultipliers[documentType],
       data: record,
       isCurrentRecord,
       nextDate: isCurrentRecord ? Date.now() : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
@@ -163,7 +163,7 @@ export const createChartData = function(records, type) {
 };
 
 export const createChartZones = function(records) {
-  const mappings = {
+  const playerColorMappings = {
     '#90ee7e': undefined,
     '#f45b5b': undefined,
     '#2b908f': undefined,
@@ -180,13 +180,13 @@ export const createChartZones = function(records) {
 
   return nonRepeatRecords.map((record, i) => {
     let playerColor;
-    for (var color in mappings) {
-      if (mappings[color] === record.player) playerColor = color;
+    for (var color in playerColorMappings) {
+      if (playerColorMappings[color] === record.player) playerColor = color;
     }
     if (playerColor === undefined) {
-      for (var color in mappings) {
-        if (mappings[color] === undefined) {
-          mappings[color] = record.player;
+      for (var color in playerColorMappings) {
+        if (playerColorMappings[color] === undefined) {
+          playerColorMappings[color] = record.player;
           playerColor = color;
           break;
         }
@@ -196,6 +196,54 @@ export const createChartZones = function(records) {
     return {
       value: next ? Date.UTC(records[next.id].year, records[next.id].month, records[next.id].day) + utcOffsetMS : Date.now(),
       color: playerColor
+    }
+  });
+};
+
+export const createChartSeries = function(records, documentType, changeSelectedChartPoint) {
+  const playerColors = [
+    '#90ee7e',
+    '#f45b5b',
+    '#2b908f',
+    '#7798BF',
+    'orange',
+    'plum',
+    'white'
+  ];
+
+  let playerList = [];
+  
+  return records.filter((record, i) => {
+    if (playerList.indexOf(record.player) > -1) {
+      return false;
+    } else {
+      playerList.push(record.player);
+      return true;
+    }
+  }).map((record, i) => {
+    if (i === 0) {
+      return {
+        grouping: false,
+        name: record.player,
+        color: playerColors[i],
+        step: 'left',
+        cursor: 'pointer',
+        zoneAxis: 'x',
+        events: {
+          click: (e) => {
+            changeSelectedChartPoint(e, records);
+          }
+        },
+        zones: createChartZones(records),
+        data: createChartData(records, documentType)
+      };
+    } else {
+      return {
+        grouping: false,
+        name: record.player,
+        color: playerColors[i],
+        data: []
+      };
     }
   });
 };
