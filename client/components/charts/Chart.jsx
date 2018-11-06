@@ -1,6 +1,7 @@
 import React from 'react';
-import Annotations from 'highcharts/modules/annotations';
 import ReactHighcharts from 'react-highcharts';
+import MulticolorSeries from 'highcharts-multicolor-series';
+import Annotations from 'highcharts/modules/annotations';
 import DarkUnica from 'highcharts/themes/dark-unica';
 
 import '../../assets/stylesheets/classStyles.css';
@@ -18,6 +19,9 @@ import {
   createChartSeries
 } from './chartUtils.js';
 
+console.log('MulticolorSeries:', MulticolorSeries);
+
+MulticolorSeries(ReactHighcharts.Highcharts);
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
 
@@ -84,24 +88,6 @@ class Chart extends React.Component {
         layout: 'horizontal'
       },
       series: createChartSeries(this.records, this.props.document.type, this.props.changeSelectedChartPoint)
-      // {
-      //   grouping: false,
-      //   name: 'Current TAS',
-      //   color: 'white',
-      //   dashStyle: 'ShortDash',
-      //   data: [
-      //     {
-      //       x: Date.UTC(2004, 1, 1),
-      //       y: 1428 * 1000,
-      //       data: 'aglasscage (Seth GlanalFighter, pirohiko, & Shinryuu'
-      //     },
-      //     {
-      //       x: Date.UTC(2018, 4, 18),
-      //       y: 1428 * 1000,
-      //       data: 'aglasscage (Seth GlanalFighter, pirohiko, & Shinryuu'              
-      //     }
-      //   ]
-      // }
     }
   }
 

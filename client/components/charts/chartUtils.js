@@ -149,21 +149,7 @@ export const createChartData = function(records, documentType) {
     highscore: 1
   };
 
-  return records.map((record, i) => {
-    let isCurrentRecord = i === records.length - 1;
-    return {
-      x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
-      y: record.mark * yMultipliers[documentType],
-      data: record,
-      isCurrentRecord,
-      nextDate: isCurrentRecord ? Date.now() : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
-      marker: determineMarker(record, isCurrentRecord)
-    };
-  });
-};
-
-export const createChartZones = function(records) {
-  const playerColorMappings = {
+  const mappings = {
     '#90ee7e': undefined,
     '#f45b5b': undefined,
     '#2b908f': undefined,
@@ -173,32 +159,74 @@ export const createChartZones = function(records) {
     'white': undefined
   };
 
-  let nonRepeatRecords = records.filter((record, i) => {
-    if (i === 0) return true;
-    else return records[i-1].player !== record.player;
-  });
-
-  return nonRepeatRecords.map((record, i) => {
+  return records.map((record, i) => {
     let playerColor;
-    for (var color in playerColorMappings) {
-      if (playerColorMappings[color] === record.player) playerColor = color;
+
+    for (var color in mappings) {
+      if (mappings[color] === record.player) playerColor = color;
     }
     if (playerColor === undefined) {
-      for (var color in playerColorMappings) {
-        if (playerColorMappings[color] === undefined) {
-          playerColorMappings[color] = record.player;
+      for (var color in mappings) {
+        if (mappings[color] === undefined) {
+          mappings[color] = record.player;
           playerColor = color;
           break;
         }
       }
     }
-    let next = nonRepeatRecords[i+1];
+
+    let isCurrentRecord = i === records.length - 1;
+
     return {
-      value: next ? Date.UTC(records[next.id].year, records[next.id].month, records[next.id].day) + utcOffsetMS : Date.now(),
-      color: playerColor
-    }
+      x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+      y: record.mark * yMultipliers[documentType],
+      segmentColor: playerColor,
+      color: playerColor,
+      data: record,
+      isCurrentRecord,
+      nextDate: isCurrentRecord ? Date.now() : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
+      marker: determineMarker(record, isCurrentRecord)
+    };
   });
 };
+
+// export const createChartZones = function(records) {
+//   const mappings = {
+//     '#90ee7e': undefined,
+//     '#f45b5b': undefined,
+//     '#2b908f': undefined,
+//     '#7798BF': undefined,
+//     'orange': undefined,
+//     'plum': undefined,
+//     'white': undefined
+//   };
+
+//   let nonRepeatRecords = records.filter((record, i) => {
+//     if (i === 0) return true;
+//     else return records[i-1].player !== record.player;
+//   });
+
+//   return nonRepeatRecords.map((record, i) => {
+//     let playerColor;
+//     for (var color in mappings) {
+//       if (mappings[color] === record.player) playerColor = color;
+//     }
+//     if (playerColor === undefined) {
+//       for (var color in mappings) {
+//         if (mappings[color] === undefined) {
+//           mappings[color] = record.player;
+//           playerColor = color;
+//           break;
+//         }
+//       }
+//     }
+//     let next = nonRepeatRecords[i+1];
+//     return {
+//       value: next ? Date.UTC(records[next.id].year, records[next.id].month, records[next.id].day) + utcOffsetMS : Date.now(),
+//       color: playerColor
+//     }
+//   });
+// };
 
 export const createChartSeries = function(records, documentType, changeSelectedChartPoint) {
   const playerColors = [
@@ -212,7 +240,7 @@ export const createChartSeries = function(records, documentType, changeSelectedC
   ];
 
   let playerList = [];
-  
+
   return records.filter((record, i) => {
     if (playerList.indexOf(record.player) > -1) {
       return false;
@@ -224,6 +252,7 @@ export const createChartSeries = function(records, documentType, changeSelectedC
     if (i === 0) {
       return {
         grouping: false,
+        type: 'coloredline',
         name: record.player,
         color: playerColors[i],
         step: 'left',
@@ -234,7 +263,7 @@ export const createChartSeries = function(records, documentType, changeSelectedC
             changeSelectedChartPoint(e, records);
           }
         },
-        zones: createChartZones(records),
+        // zones: createChartZones(records),
         data: createChartData(records, documentType)
       };
     } else {
