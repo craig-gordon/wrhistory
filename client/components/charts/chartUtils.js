@@ -143,6 +143,11 @@ export const createChartLabels = function(records) {
   });
 };
 
+const convertTransparentToSolid = function(colorStr) {
+  let lastCommaIdx = colorStr.lastIndexOf(',');
+  return colorStr.slice(0, lastCommaIdx) + ')';
+};
+
 export const createChartData = function(records, documentType) {
   const yMultipliers = {
     speedrun: 1000,
@@ -150,13 +155,13 @@ export const createChartData = function(records, documentType) {
   };
 
   const mappings = {
-    '#90ee7e': undefined,
-    '#f45b5b': undefined,
-    '#2b908f': undefined,
-    '#7798BF': undefined,
-    'orange': undefined,
-    'plum': undefined,
-    'white': undefined
+    'rgb(144, 238, 126, 0.65)': undefined,
+    'rgb(244, 91, 91, 0.65)': undefined,
+    'rgb(43, 144, 143, 0.65)': undefined,
+    'rgb(119, 152, 191, 0.65)': undefined,
+    'rgb(255, 165, 0, 0.65)': undefined,
+    'rgb(221, 160, 221, 0.65)': undefined,
+    'rgb(255, 255, 255, 0.65)': undefined
   };
 
   return records.map((record, i) => {
@@ -181,7 +186,7 @@ export const createChartData = function(records, documentType) {
       x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
       y: record.mark * yMultipliers[documentType],
       segmentColor: playerColor,
-      color: playerColor,
+      color: convertTransparentToSolid(playerColor),
       data: record,
       isCurrentRecord,
       nextDate: isCurrentRecord ? Date.now() : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
@@ -192,13 +197,13 @@ export const createChartData = function(records, documentType) {
 
 // export const createChartZones = function(records) {
 //   const mappings = {
-//     '#90ee7e': undefined,
-//     '#f45b5b': undefined,
-//     '#2b908f': undefined,
-//     '#7798BF': undefined,
-//     'orange': undefined,
-//     'plum': undefined,
-//     'white': undefined
+//     'rgb(144, 238, 126, 0.65)': undefined,
+//     'rgb(244, 91, 91, 0.65)': undefined,
+//     'rgb(43, 144, 143, 0.65)': undefined,
+//     'rgb(119, 152, 191, 0.65)': undefined,
+//     'rgb(255, 165, 0, 0.65)': undefined,
+//     'rgb(221, 160, 221, 0.65)': undefined,
+//     'rgb(255, 255, 255, 0.65)': undefined
 //   };
 
 //   let nonRepeatRecords = records.filter((record, i) => {
@@ -230,13 +235,13 @@ export const createChartData = function(records, documentType) {
 
 export const createChartSeries = function(records, documentType, changeSelectedChartPoint) {
   const playerColors = [
-    '#90ee7e',
-    '#f45b5b',
-    '#2b908f',
-    '#7798BF',
-    'orange',
-    'plum',
-    'white'
+    'rgb(144, 238, 126, 0.65)',
+    'rgb(244, 91, 91, 0.65)',
+    'rgb(43, 144, 143, 0.65)',
+    'rgb(119, 152, 191, 0.65)',
+    'rgb(255, 165, 0, 0.65)',
+    'rgb(221, 160, 221, 0.65)',
+    'rgb(255, 255, 255, 0.65)'
   ];
 
   let playerList = [];
@@ -254,7 +259,7 @@ export const createChartSeries = function(records, documentType, changeSelectedC
         grouping: false,
         type: 'coloredline',
         name: record.player,
-        color: playerColors[i],
+        color: convertTransparentToSolid(playerColors[i]),
         step: 'left',
         cursor: 'pointer',
         zoneAxis: 'x',
@@ -270,7 +275,7 @@ export const createChartSeries = function(records, documentType, changeSelectedC
       return {
         grouping: false,
         name: record.player,
-        color: playerColors[i],
+        color: convertTransparentToSolid(playerColors[i]),
         data: []
       };
     }

@@ -19,8 +19,6 @@ import {
   createChartSeries
 } from './chartUtils.js';
 
-console.log('MulticolorSeries:', MulticolorSeries);
-
 MulticolorSeries(ReactHighcharts.Highcharts);
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
