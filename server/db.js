@@ -31,7 +31,7 @@ const Player = database.define('player', {
   freezeTableName: true
 });
 
-Player.sync({force: false});
+Player.sync({force: true});
 
 // ~~~~ //
 // User //
@@ -47,7 +47,20 @@ const User = database.define('user', {
 
 User.belongsTo(Player);
 
-User.sync({force: false});
+User.sync({force: true});
+
+// ~~~~~~~ //
+// Console //
+// ~~~~~~~ //
+
+const Console = database.define('console', {
+  name: Sequelize.STRING,
+  abbrev: Sequelize.STRING
+}, {
+  freezeTableName: true
+});
+
+Console.sync({force: true});
 
 // ~~~~ //
 // Game //
@@ -62,20 +75,7 @@ const Game = database.define('game', {
   freezeTableName: true
 });
 
-Game.sync({force: false});
-
-// ~~~~~ //
-// Topic //
-// ~~~~~ //
-
-const Topic = database.define('topic', {
-  name: Sequelize.STRING,
-  abbrev: Sequelize.STRING,
-}, {
-  freezeTableName: true
-});
-
-Topic.sync({force: false});
+Game.sync({force: true});
 
 // ~~~~~~~~ //
 // Document //
@@ -91,9 +91,8 @@ const Document = database.define('document', {
 });
 
 Document.belongsTo(Game);
-Document.belongsTo(Topic);
 
-Document.sync({force: false});
+Document.sync({force: true});
 
 // ~~~~~~ //
 // Record //
@@ -102,21 +101,25 @@ Document.sync({force: false});
 const Record = database.define('record', {
   type: Sequelize.STRING,
   mark: Sequelize.INTEGER,
+  platform: Sequelize.STRING,
+  version: Sequelize.STRING,
+  region: Sequelize.STRING,
   verified: Sequelize.BOOLEAN,
   venue: Sequelize.STRING,
   date: Sequelize.DATE,
   vodurl: Sequelize.STRING,
   ismilestone: Sequelize.BOOLEAN,
   note: Sequelize.STRING,
-  detailed: Sequelize.TEXT,
-  version: Sequelize.STRING
+  detailed: Sequelize.TEXT
 }, {
   freezeTableName: true
 });
 
+Record.belongsTo(Player);
+Record.belongsTo(Console);
 Record.belongsTo(Game);
 
-Record.sync({force: false});
+Record.sync({force: true});
 
 // ~~~~~~~ //
 // Article //
@@ -131,33 +134,22 @@ const Article = database.define('article', {
 Article.belongsTo(Player);
 Article.belongsTo(User);
 
-Article.sync({force: false});
-
-// ~~~~~~~~ //
-// Platform //
-// ~~~~~~~~ //
-
-const Platform = database.define('platform', {
-  name: Sequelize.STRING
-}, {
-  freezeTableName: true
-});
-
-Platform.sync({force: false});
+Article.sync({force: true});
 
 // ~~~ //
 // Tag //
 // ~~~ //
 
 const Tag = database.define('tag', {
+  name: Sequelize.STRING,
+  abbrev: Sequelize.STRING
 }, {
   freezeTableName: true
 });
 
 Tag.belongsTo(Game);
-Tag.belongsTo(Topic);
 
-Tag.sync({force: false});
+Tag.sync({force: true});
 
 // ~~~~~~~~~~~~~~~~~ //
 // Document / Record //
@@ -171,35 +163,35 @@ const DocumentRecord = database.define('documentrecord', {
 Document.belongsToMany(Record, {through: 'documentrecord'});
 Record.belongsToMany(Document, {through: 'documentrecord'});
 
-DocumentRecord.sync({force: false});
+DocumentRecord.sync({force: true});
 
-// ~~~~~~~~~~~~~~~~~ //
-// Platform / Record //
-// ~~~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~ //
+// Document / Tag //
+// ~~~~~~~~~~~~~~ //
 
-const PlatformRecord = database.define('platformrecord', {
+const DocumentTag = database.define('documenttag', {
 }, {
   freezeTableName: true
 });
 
-Platform.belongsToMany(Record, {through: 'platformrecord'});
-Record.belongsToMany(Platform, {through: 'platformrecord'});
+Document.belongsToMany(Tag, {through: 'documenttag'});
+Tag.belongsToMany(Document, {through: 'documenttag'});
 
-PlatformRecord.sync({force: false});
+DocumentTag.sync({force: true});
 
-// ~~~~~~~~~~~~~~~ //
-// Platform / Game //
-// ~~~~~~~~~~~~~~~ //
+// ~~~~~~~~~~~~~~ //
+// Console / Game //
+// ~~~~~~~~~~~~~~ //
 
-const PlatformGame = database.define('platformgame', {
+const ConsoleGame = database.define('consolegame', {
 }, {
   freezeTableName: true
 });
 
-Platform.belongsToMany(Game, {through: 'platformgame'});
-Game.belongsToMany(Platform, {through: 'platformgame'})
+Console.belongsToMany(Game, {through: 'consolegame'});
+Game.belongsToMany(Console, {through: 'consolegame'})
 
-PlatformGame.sync({force: false});
+ConsoleGame.sync({force: true});
 
 // ~~~~~~~~~~~~~ //
 // Article / Tag //
@@ -213,7 +205,7 @@ const ArticleTag = database.define('articletag', {
 Article.belongsToMany(Tag, {through: 'articletag'});
 Tag.belongsToMany(Article, {through: 'articletag'});
 
-ArticleTag.sync({force: false});
+ArticleTag.sync({force: true});
 
 
 
@@ -223,13 +215,12 @@ module.exports = {
   Player,
   Document,
   Record,
+  Console,
   Game,
-  Topic,
   Article,
-  Platform,
   Tag,
   DocumentRecord,
-  PlatformRecord,
-  PlatformGame,
+  DocumentTag,
+  ConsoleGame,
   ArticleTag
 };

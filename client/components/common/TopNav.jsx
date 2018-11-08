@@ -9,7 +9,7 @@ import LoginForm from './LoginForm.jsx';
 
 const TopNavWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
   border-style: solid;
   border-color: darkgray;
@@ -95,7 +95,7 @@ export default class TopNav extends React.Component {
           <StyledReactLink to='/speedruns'>Speedruns</StyledReactLink>
           <StyledReactLink to='/highscores'>High Scores</StyledReactLink>
           <StyledReactLink to='/create'>Create Chart</StyledReactLink>
-          <StyledReactLink to='/articles'>Articles</StyledReactLink>
+          {/* <StyledReactLink to='/articles'>Articles</StyledReactLink> */}
           <StyledInput type='text' placeholder='Search for Games, Users, etc...'></StyledInput>
           <StyledLink onClick={this.showSignup}>Sign Up</StyledLink>
           <StyledLink onClick={this.showLogin}>Log In</StyledLink>

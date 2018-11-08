@@ -58,11 +58,12 @@ export const createPowSymbol = function(x, y) {
 
 const determineMarker = function(record, isCurrentRecord) {
   if (isCurrentRecord) {
-    return {
-      symbol: 'url(assets/images/icons/1st.png)',
-      height: 16,
-      width: 16
-    };
+    return undefined;
+    // {
+    //   symbol: 'url(assets/images/icons/1st.png)',
+    //   height: 16,
+    //   width: 16
+    // };
   } else if (record.isMilestone) {
     return {
       symbol: 'pow'
@@ -155,13 +156,13 @@ export const createChartData = function(records, documentType) {
   };
 
   const mappings = {
-    'rgb(144, 238, 126, 0.65)': undefined,
-    'rgb(244, 91, 91, 0.65)': undefined,
-    'rgb(43, 144, 143, 0.65)': undefined,
-    'rgb(119, 152, 191, 0.65)': undefined,
-    'rgb(255, 165, 0, 0.65)': undefined,
-    'rgb(221, 160, 221, 0.65)': undefined,
-    'rgb(255, 255, 255, 0.65)': undefined
+    'rgb(144, 238, 126, 0.7)': undefined,
+    'rgb(244, 91, 91, 0.7)': undefined,
+    'rgb(43, 144, 143, 0.7)': undefined,
+    'rgb(119, 152, 191, 0.7)': undefined,
+    'rgb(255, 165, 0, 0.7)': undefined,
+    'rgb(221, 160, 221, 0.7)': undefined,
+    'rgb(255, 255, 255, 0.7)': undefined
   };
 
   return records.map((record, i) => {
@@ -197,13 +198,13 @@ export const createChartData = function(records, documentType) {
 
 // export const createChartZones = function(records) {
 //   const mappings = {
-//     'rgb(144, 238, 126, 0.65)': undefined,
-//     'rgb(244, 91, 91, 0.65)': undefined,
-//     'rgb(43, 144, 143, 0.65)': undefined,
-//     'rgb(119, 152, 191, 0.65)': undefined,
-//     'rgb(255, 165, 0, 0.65)': undefined,
-//     'rgb(221, 160, 221, 0.65)': undefined,
-//     'rgb(255, 255, 255, 0.65)': undefined
+//     'rgb(144, 238, 126, 0.7)': undefined,
+//     'rgb(244, 91, 91, 0.7)': undefined,
+//     'rgb(43, 144, 143, 0.7)': undefined,
+//     'rgb(119, 152, 191, 0.7)': undefined,
+//     'rgb(255, 165, 0, 0.7)': undefined,
+//     'rgb(221, 160, 221, 0.7)': undefined,
+//     'rgb(255, 255, 255, 0.7)': undefined
 //   };
 
 //   let nonRepeatRecords = records.filter((record, i) => {
@@ -235,13 +236,13 @@ export const createChartData = function(records, documentType) {
 
 export const createChartSeries = function(records, documentType, changeSelectedChartPoint) {
   const playerColors = [
-    'rgb(144, 238, 126, 0.65)',
-    'rgb(244, 91, 91, 0.65)',
-    'rgb(43, 144, 143, 0.65)',
-    'rgb(119, 152, 191, 0.65)',
-    'rgb(255, 165, 0, 0.65)',
-    'rgb(221, 160, 221, 0.65)',
-    'rgb(255, 255, 255, 0.65)'
+    'rgb(144, 238, 126, 0.7)',
+    'rgb(244, 91, 91, 0.7)',
+    'rgb(43, 144, 143, 0.7)',
+    'rgb(119, 152, 191, 0.7)',
+    'rgb(255, 165, 0, 0.7)',
+    'rgb(221, 160, 221, 0.7)',
+    'rgb(255, 255, 255, 0.7)'
   ];
 
   let playerList = [];

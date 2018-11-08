@@ -14,16 +14,18 @@ const CreateChartUserInputForms = (props) => {
         <div>Leaderboard Link: <Input /></div>
       </div>
     )
-  } else if (props.page === 2) {
-    return (
-      <div>
-        <div>Y-Axis Tick Interval: <Input /></div>
-        <div>Associate Each Player with a Color: <Input /></div>
-        <div>Show Player Avatars: <Input /></div>
-        <div>Show VOD URLs: <Input /></div>
-      </div>
-    )
-  } else {
+  } 
+  // else if (props.page === 2) {
+  //   return (
+  //     <div>
+  //       <div>Y-Axis Tick Interval: <Input /></div>
+  //       <div>Associate Each Player with a Color: <Input /></div>
+  //       <div>Show Player Avatars: <Input /></div>
+  //       <div>Show VOD URLs: <Input /></div>
+  //     </div>
+  //   )
+  // } 
+  else {
     return (
       <div>
         <div>Enter Run Information: <Input /></div>
