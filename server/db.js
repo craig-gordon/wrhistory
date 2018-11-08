@@ -31,7 +31,7 @@ const Player = database.define('player', {
   freezeTableName: true
 });
 
-Player.sync({force: true});
+Player.sync({force: false});
 
 // ~~~~ //
 // User //
@@ -47,7 +47,7 @@ const User = database.define('user', {
 
 User.belongsTo(Player);
 
-User.sync({force: true});
+User.sync({force: false});
 
 // ~~~~~~~ //
 // Console //
@@ -60,7 +60,7 @@ const Console = database.define('console', {
   freezeTableName: true
 });
 
-Console.sync({force: true});
+Console.sync({force: false});
 
 // ~~~~ //
 // Game //
@@ -75,7 +75,7 @@ const Game = database.define('game', {
   freezeTableName: true
 });
 
-Game.sync({force: true});
+Game.sync({force: false});
 
 // ~~~~~~~~ //
 // Document //
@@ -92,7 +92,7 @@ const Document = database.define('document', {
 
 Document.belongsTo(Game);
 
-Document.sync({force: true});
+Document.sync({force: false});
 
 // ~~~~~~ //
 // Record //
@@ -119,7 +119,7 @@ Record.belongsTo(Player);
 Record.belongsTo(Console);
 Record.belongsTo(Game);
 
-Record.sync({force: true});
+Record.sync({force: false});
 
 // ~~~~~~~ //
 // Article //
@@ -134,7 +134,7 @@ const Article = database.define('article', {
 Article.belongsTo(Player);
 Article.belongsTo(User);
 
-Article.sync({force: true});
+Article.sync({force: false});
 
 // ~~~ //
 // Tag //
@@ -149,7 +149,7 @@ const Tag = database.define('tag', {
 
 Tag.belongsTo(Game);
 
-Tag.sync({force: true});
+Tag.sync({force: false});
 
 // ~~~~~~~~~~~~~~~~~ //
 // Document / Record //
@@ -163,7 +163,7 @@ const DocumentRecord = database.define('documentrecord', {
 Document.belongsToMany(Record, {through: 'documentrecord'});
 Record.belongsToMany(Document, {through: 'documentrecord'});
 
-DocumentRecord.sync({force: true});
+DocumentRecord.sync({force: false});
 
 // ~~~~~~~~~~~~~~ //
 // Document / Tag //
@@ -177,7 +177,7 @@ const DocumentTag = database.define('documenttag', {
 Document.belongsToMany(Tag, {through: 'documenttag'});
 Tag.belongsToMany(Document, {through: 'documenttag'});
 
-DocumentTag.sync({force: true});
+DocumentTag.sync({force: false});
 
 // ~~~~~~~~~~~~~~ //
 // Console / Game //
@@ -191,7 +191,7 @@ const ConsoleGame = database.define('consolegame', {
 Console.belongsToMany(Game, {through: 'consolegame'});
 Game.belongsToMany(Console, {through: 'consolegame'})
 
-ConsoleGame.sync({force: true});
+ConsoleGame.sync({force: false});
 
 // ~~~~~~~~~~~~~ //
 // Article / Tag //
@@ -205,7 +205,7 @@ const ArticleTag = database.define('articletag', {
 Article.belongsToMany(Tag, {through: 'articletag'});
 Tag.belongsToMany(Article, {through: 'articletag'});
 
-ArticleTag.sync({force: true});
+ArticleTag.sync({force: false});
 
 
 
