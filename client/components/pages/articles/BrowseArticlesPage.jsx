@@ -2,12 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import BrowseArticlesPageList from './BrowseArticlesPageList.jsx';
+import { PageHeader } from '../../common/styledComponents.js';
 
 import { articles } from '../../../data/sampleArticles.js';
 
-const Header = styled.h1`
-  text-align: center;
-`;
 
 export default class BrowseArticlesPage extends React.Component {
   constructor() {
@@ -17,9 +15,9 @@ export default class BrowseArticlesPage extends React.Component {
   render() {
     return (
       <div>
-        <Header>
+        <PageHeader>
           Articles
-        </Header>
+        </PageHeader>
         <BrowseArticlesPageList
           articles={articles}
         />

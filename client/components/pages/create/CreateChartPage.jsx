@@ -8,12 +8,10 @@ import 'antd/lib/button/style/index.css';
 
 import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
 import Chart from '../../charts/Chart.jsx';
+import { LightBlueModule, LightGreenModule, PageHeader } from '../../common/styledComponents.js';
 
 import { document } from '../../../data/genericDocument.js';
 
-const Header = styled.h1`
-  text-align: center;
-`;
 
 const ColumnHeader = styled.h3`
   text-align: center;
@@ -21,16 +19,17 @@ const ColumnHeader = styled.h3`
 
 const CreateChartPageWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 36% 64%;
 `;
 
-const InputsColumn = styled.div`
-
+const LeftColumn = LightBlueModule.extend`
+  margin-right: 10px;
 `;
 
-const ChartColumn = styled.div`
-
+const RightColumn = LightGreenModule.extend`
+  margin-left: 10px;
 `;
+
 
 export default class CreateChartPage extends React.Component {
   constructor(props) {
@@ -110,9 +109,9 @@ export default class CreateChartPage extends React.Component {
   render() {
     return (
       <div>
-        <Header>Create Chart</Header>
+        <PageHeader>Create Chart</PageHeader>
         <CreateChartPageWrapper>
-          <InputsColumn>
+          <LeftColumn>
             <ColumnHeader>{this.state.page === 1 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
             <CreateChartPageUserInputs
               page={this.state.page}
@@ -121,11 +120,11 @@ export default class CreateChartPage extends React.Component {
               submitData={this.submitData}
               changeSimpleInput={this.changeSimpleInput}
             />
-          </InputsColumn>
-          <ChartColumn>
+          </LeftColumn>
+          <RightColumn>
             <ColumnHeader>Template Chart</ColumnHeader>
             <Chart gameCode='mm2' document={document} />
-          </ChartColumn>
+          </RightColumn>
         </CreateChartPageWrapper>
       </div>
     );

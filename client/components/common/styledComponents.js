@@ -26,3 +26,8 @@ export const LightPurpleModule = styled.div`
   border-width: 2px;
   padding: 20px;
 `;
+
+export const PageHeader = styled.h1`
+  text-align: center;
+  margin-top: 30px;
+`;

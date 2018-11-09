@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import GamePreviewButton from '../../common/GamePreviewButton.jsx';
+import { PageHeader } from '../../common/styledComponents.js';
 
-const Header = styled.h1`
-  text-align: center;
-`;
 
 class BrowseGamesPage extends React.Component {
   constructor() {
@@ -18,7 +16,7 @@ class BrowseGamesPage extends React.Component {
     if (scoresType === 's') {
       return (
         <div>
-          <Header>Speedruns</Header>
+          <PageHeader>Speedruns</PageHeader>
           <GamePreviewButton gameCode='mm2' />
           <GamePreviewButton gameCode='sm64' />
           <GamePreviewButton gameCode='supermetroid' />
@@ -27,7 +25,7 @@ class BrowseGamesPage extends React.Component {
     } else {
       return (
         <div>
-          <Header>High Scores</Header>
+          <PageHeader>High Scores</PageHeader>
           <div>Donkey Kong</div>
           <div>Pac-Man</div>
           <div>Galaga</div>
