@@ -19,9 +19,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: 'This is an example detailed description of this run.'
+      detailedText: 'This is an example detailed description of this run.'
     }
   ]
 };

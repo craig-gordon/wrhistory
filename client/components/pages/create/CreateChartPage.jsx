@@ -15,12 +15,16 @@ const Header = styled.h1`
   text-align: center;
 `;
 
+const ColumnHeader = styled.h3`
+  text-align: center;
+`;
+
 const CreateChartPageWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
 `;
 
-const OptionsColumn = styled.div`
+const InputsColumn = styled.div`
 
 `;
 
@@ -32,7 +36,75 @@ export default class CreateChartPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
+      chartInput: {
+        title: '',
+        category: '',
+        leaderboardLink: ''
+      },
+      recordInput: {
+        player: '',
+        mark: '',
+        platform: '',
+        version: '',
+        year: '',
+        month: '',
+        day: '',
+        vodUrl: '',
+        isMilestone: '',
+        tooltipNote: '',
+        labelText: '',
+        detailedText: ''
+      }
     };
+    this.changePage = this.changePage.bind(this);
+    this.submitData = this.submitData.bind(this);
+    this.changeSimpleInput = this.changeSimpleInput.bind(this);
+  }
+
+  changePage() {
+    this.setState(
+      {
+        page: this.state.page + 1,
+        chartInput: this.state.chartInput,
+        recordInput: {
+          player: '',
+          mark: '',
+          platform: '',
+          version: '',
+          year: '',
+          month: '',
+          day: '',
+          vodUrl: '',
+          isMilestone: '',
+          tooltipNote: '',
+          labelText: '',
+          detailedText: ''
+        }
+      }
+    );
+  }
+
+  submitData() {
+    let dataObj;
+
+    if (this.state.page === 1) dataObj = this.state.chartInput;
+    else dataObj = this.state.recordInput
+
+    axios.post('/api/create/newDocument', dataObj)
+      .then((res) => {
+        console.log('response:', res);
+        this.changePage();
+      })
+      .catch((err) => {
+        console.log('error:', err);
+      });
+  }
+
+  changeSimpleInput(chartOrRecord, type, e) {
+    let stateObj = this.state[chartOrRecord];
+    stateObj[type] = e.target.value;
+    this.setState(stateObj);
   }
 
   render() {
@@ -40,10 +112,18 @@ export default class CreateChartPage extends React.Component {
       <div>
         <Header>Create Chart</Header>
         <CreateChartPageWrapper>
-          <OptionsColumn>
-            <CreateChartPageUserInputs />
-          </OptionsColumn>
+          <InputsColumn>
+            <ColumnHeader>{this.state.page === 1 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
+            <CreateChartPageUserInputs
+              page={this.state.page}
+              chartInput={this.state.chartInput}
+              recordInput={this.state.recordInput}
+              submitData={this.submitData}
+              changeSimpleInput={this.changeSimpleInput}
+            />
+          </InputsColumn>
           <ChartColumn>
+            <ColumnHeader>Template Chart</ColumnHeader>
             <Chart gameCode='mm2' document={document} />
           </ChartColumn>
         </CreateChartPageWrapper>

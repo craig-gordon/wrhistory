@@ -29,7 +29,7 @@ export const formatTooltip = function() {
       <div><span class='ttCategory'>Player</span>${this.point.data.player}</div>
       <div><span class='ttCategory'>Date</span>${dateStr}</div>
       <div><span class='ttCategory'>Duration</span>${daysToYMD(this.x, this.point.nextDate)} ${this.point.isCurrentRecord ? ' and counting!' : ''}</div>
-      ${this.point.data.note ? `<div><span class='ttCategory'>Note</span>${this.point.data.note}</div>` : ``}
+      ${this.point.data.tooltipNote ? `<div><span class='ttCategory'>Note</span>${this.point.data.tooltipNote}</div>` : ``}
     </div>
   `;
 };
@@ -301,7 +301,7 @@ export const createCarouselSlides = function(records) {
     return (
       <Slide key={i}>
         <Header>{record.player} — {formattedMark}</Header>
-        <Text>{record.detailed}</Text>
+        <Text>{record.detailedText}</Text>
       </Slide>
     );
   });

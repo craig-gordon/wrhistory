@@ -6,85 +6,36 @@ import 'antd/lib/input/style/index.css';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
 
+
 export default class CreateChartPageUserInputs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      title: '',
-      category: '',
-      leaderboardLink: '',
-      player: '',
-      mark: '',
-      platform: '',
-      version: '',
-      year: '',
-      month: '',
-      day: '',
-      vodUrl: '',
-      isMilestone: '',
-      note: '',
-      labelText: '',
-      detailed: ''
-    };
-    this.changePage = this.changePage.bind(this);
-    this.submitData = this.submitData.bind(this);
-    this.changeSimpleInput = this.changeSimpleInput.bind(this);
-  }
-
-  changePage() {
-    this.setState({page: this.state.page + 1});
-  }
-
-  submitData() {
-    let dataObj;
-
-    if (this.state.page === 1) {
-      dataObj = {
-        title: this.state.title,
-        category: this.state.category,
-        leaderboardLink: this.state.leaderboardLink
-      };
     }
-
-    axios.post('/api/create/newDocument', dataObj)
-      .then((res) => {
-        console.log('response:', res);
-        this.changePage();
-      })
-      .catch((err) => {
-        console.log('error:', err);
-      });
-  }
-
-  changeSimpleInput(type, e) {
-    let stateObj = {};
-    stateObj[type] = e.target.value;
-    this.setState(stateObj);
   }
 
   render() {
     let inputForms;
 
-    if (this.state.page === 1) {
+    if (this.props.page === 1) {
       inputForms = (
         <div>
           <div>
             Game Title: <Input
-              value={this.state.title}
-              onChange={(e) => this.changeSimpleInput('title', e)}
+              value={this.props.chartInput.title}
+              onChange={(e) => this.props.changeSimpleInput('chartInput', 'title', e)}
             />
           </div>
           <div>
             Category Title: <Input
-              value={this.state.category}
-              onChange={(e) => this.changeSimpleInput('category', e)}
+              value={this.props.chartInput.category}
+              onChange={(e) => this.props.changeSimpleInput('chartInput', 'category', e)}
             />
           </div>
           <div>
             Leaderboard Link: <Input
-              value={this.state.leaderboardLink}
-              onChange={(e) => this.changeSimpleInput('leaderboardLink', e)}
+              value={this.props.chartInput.leaderboardLink}
+              onChange={(e) => this.props.changeSimpleInput('chartInput', 'leaderboardLink', e)}
             />
           </div>
         </div>
@@ -92,7 +43,78 @@ export default class CreateChartPageUserInputs extends React.Component {
     } else {
       inputForms = (
         <div>
-          <div>Enter Run Information: <Input /></div>
+          <div>
+            Player: <Input
+              value={this.props.recordInput.player}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'player', e)}
+            />
+          </div>
+          <div>
+            Mark: <Input
+              value={this.props.recordInput.mark}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'mark', e)}
+            />
+          </div>
+          <div>
+            Platform: <Input
+              value={this.props.recordInput.platform}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'platform', e)}
+            />
+          </div>
+          <div>
+            Version: <Input
+              value={this.props.recordInput.version}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'version', e)}
+            />
+          </div>
+          <div>
+            Year: <Input
+              value={this.props.recordInput.year}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'year', e)}
+            />
+          </div>
+          <div>
+            Month: <Input
+              value={this.props.recordInput.month}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'month', e)}
+            />
+          </div>
+          <div>
+            Day: <Input
+              value={this.props.recordInput.day}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'day', e)}
+            />
+          </div>
+          <div>
+            VOD URL: <Input
+              value={this.props.recordInput.vodUrl}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'vodUrl', e)}
+            />
+          </div>
+          <div>
+            Is Milestone?: <Input
+              value={this.props.recordInput.isMilestone}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'isMilestone', e)}
+            />
+          </div>
+          <div>
+            Tooltip Note: <Input
+              value={this.props.recordInput.tooltipNote}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'tooltipNote', e)}
+            />
+          </div>
+          <div>
+            Label Text: <Input
+              value={this.props.recordInput.labelText}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'labelText', e)}
+            />
+          </div>
+          <div>
+            Detailed Text: <Input
+              value={this.props.recordInput.detailedText}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'detailedText', e)}
+            />
+          </div>
         </div>
       );
     }
@@ -102,7 +124,7 @@ export default class CreateChartPageUserInputs extends React.Component {
         {inputForms}
         <Button
           type='primary'
-          onClick={this.submitData}>Save & Continue</Button>
+          onClick={this.props.submitData}>Save & Continue</Button>
       </div>
     );
   }

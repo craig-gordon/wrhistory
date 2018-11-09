@@ -109,8 +109,9 @@ const Record = database.define('record', {
   date: Sequelize.DATE,
   vodurl: Sequelize.STRING,
   ismilestone: Sequelize.BOOLEAN,
-  note: Sequelize.STRING,
-  detailed: Sequelize.TEXT
+  tooltipnote: Sequelize.STRING,
+  labeltext: Sequelize.STRING,
+  detailedtext: Sequelize.TEXT
 }, {
   freezeTableName: true
 });
@@ -119,7 +120,7 @@ Record.belongsTo(Player);
 Record.belongsTo(Console);
 Record.belongsTo(Game);
 
-Record.sync({force: false});
+Record.sync({force: true});
 
 // ~~~~~~~ //
 // Article //

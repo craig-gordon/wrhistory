@@ -20,9 +20,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed:  `This was an historic record set during the famous Time magazine photoshoot 
+      detailedText:  `This was an historic record set during the famous Time magazine photoshoot 
       gathering. Mitchell's score, which dwarfed any proven, existing Donkey Kong score, stood 
       for 18 years.`
     },
@@ -40,9 +40,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Tim Sczerby would only hold the DK record this one time, unlike every other 
+      detailedText: `Tim Sczerby would only hold the DK record this one time, unlike every other 
       competitor that has held the title. This score was notably omitted from the King of Kong 
       documentary.`
     },
@@ -60,9 +60,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `TG verification redacted due to the use of DDK board.`,
+      tooltipNote: `TG verification redacted due to the use of DDK board.`,
       labelText: undefined,
-      detailed: `Steve Wiebe's first DK record. This score was initially verified by Twin 
+      detailedText: `Steve Wiebe's first DK record. This score was initially verified by Twin 
       Galaxies, but was later redacted due to the discovery that Wiebe had played on a Double 
       Donkey Kong board, which has both Donkey Kong and Donkey Kong Jr on it.`
     },
@@ -80,9 +80,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Officially recognized by TG over Wiebe's 947,200 score.`,
+      tooltipNote: `Officially recognized by TG over Wiebe's 947,200 score.`,
       labelText: undefined,
-      detailed: `This score was performed live at the Midwest Gaming Classic event. Although 
+      detailedText: `This score was performed live at the Midwest Gaming Classic event. Although 
       this score was lower than Wiebe's 947,200 score, it was recognized by TG as the official
       record.`
     },
@@ -100,9 +100,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Submitted to TG but not verified before Wiebe's next submission.`,
+      tooltipNote: `Submitted to TG but not verified before Wiebe's next submission.`,
       labelText: undefined,
-      detailed: `Twin Galaxies adjudication took a longer time to verify Wiebe's next submissions 
+      detailedText: `Twin Galaxies adjudication took a longer time to verify Wiebe's next submissions 
       after the DDK score debacle. This score was never officially verified because Wiebe submitted 
       another improvement before the verification process had concluded.`
     },
@@ -120,9 +120,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Submitted to TG but again not verified before Wiebe's next submission.`,
+      tooltipNote: `Submitted to TG but again not verified before Wiebe's next submission.`,
       labelText: undefined,
-      detailed: `Oh so close to 1 million! This score suffered the same fate as the previous score – 
+      detailedText: `Oh so close to 1 million! This score suffered the same fate as the previous score – 
       Wiebe submitted yet another improvement before TG could finish its verification process.`
     },
     {
@@ -139,9 +139,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: true,
-      note: `The first legitimate 1 million point score!`,
+      tooltipNote: `The first legitimate 1 million point score!`,
       labelText: undefined,
-      detailed: `The first 1 million point game believed to be legitimate. This score, as well as the 
+      detailedText: `The first 1 million point game believed to be legitimate. This score, as well as the 
       previous two scores that remained unverified, were played on a genuine original Donkey Kong PCB. 
       This score was submitted to TG, but was ultimately rejected because the DK PCB Wiebe had played 
       on had been provided to him by Roy Schildt, who was greatly mistrusted by the personnel at TG.`
@@ -160,9 +160,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Steve's first officially verified record.`,
+      tooltipNote: `Steve's first officially verified record.`,
       labelText: undefined,
-      detailed: `Fed up with all the rejected and unverified scores, Steve traveled to the 7th 
+      detailedText: `Fed up with all the rejected and unverified scores, Steve traveled to the 7th 
       Annual American Classic Arcade Museum Tournament, held at the famous Funspot arcade. This 
       score was immediately verified and unquestionably proved Wiebe's prowess to the entire 
       classic gaming community.`
@@ -181,9 +181,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Now known to have been played on emulator.`,
+      tooltipNote: `Now known to have been played on emulator.`,
       labelText: undefined,
-      detailed: `The infamous taped score. This was allegedly played on June 7, 2004, 
+      detailedText: `The infamous taped score. This was allegedly played on June 7, 2004, 
       but Mitchell held the tape in secret until Wiebe achieved his new official record at Funspot. 
       For a long time, this was believed to be the first million point game ever played, as its claimed 
       performance date is before Wiebe's rejected 1.006 score. However, in 2017, it was conclusively 
@@ -206,9 +206,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Steve's first wholly undisputed record in Donkey Kong, unaffected by verification 
+      detailedText: `Steve's first wholly undisputed record in Donkey Kong, unaffected by verification 
       rejections or secret score tapes.`
     },
     {
@@ -225,9 +225,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Now known to have been played on emulator.`,
+      tooltipNote: `Now known to have been played on emulator.`,
       labelText: undefined,
-      detailed: `This score was reportedly played live at a mortgage broker's convention with the 
+      detailedText: `This score was reportedly played live at a mortgage broker's convention with the 
       video feed projected on a screen at the event. Mitchell was purportedly playing from another 
       room, but no known witnesses have surfaced that can independently verify this to be the case. 
       Like Mitchell's previous 1.047 score, this score was later discovered to have been played on 
@@ -247,9 +247,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `The first time a relatively unknown competitor claimed the DK Arcade record since 
+      detailedText: `The first time a relatively unknown competitor claimed the DK Arcade record since 
       King of Kong had propelled the game into the public eye. Hank had previously been playing on 
       MAME, but made the switch to Arcade and achieved this 11k improvement over Billy's previous 
       score.`
@@ -268,9 +268,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Now known to have been played on emulator.`,
+      tooltipNote: `Now known to have been played on emulator.`,
       labelText: undefined,
-      detailed: `Allegedly played at a Boomers theme park in Florida. Billy claimed that immediately 
+      detailedText: `Allegedly played at a Boomers theme park in Florida. Billy claimed that immediately 
       after achieving this score, he started a Donkey Kong Jr game and reclaimed that record as well 
       from Mark Kiehl. However, this score, too, was found by the Donkey Kong community to have been 
       played on emulator, and so it was removed from Twin Galaxies' leaderboard.`
@@ -289,9 +289,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Wiebe's last DK record. This set an additional milestone as the quickest to beat the 
+      detailedText: `Wiebe's last DK record. This set an additional milestone as the quickest to beat the 
       incumbent score in the history of competitive Donkey Kong, happening only 30 days after Billy's 
       1.062 score.`
     },
@@ -309,9 +309,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `The beginning of Hank's nearly 4 year reign as the champion of Donkey Kong.`
+      detailedText: `The beginning of Hank's nearly 4 year reign as the champion of Donkey Kong.`
     },
     {
       id: 15,
@@ -327,9 +327,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: 'Played on the legendary Funspot DK machine.',
+      tooltipNote: 'Played on the legendary Funspot DK machine.',
       labelText: undefined,
-      detailed: `This score was performed live at Funspot on the same Donkey Kong machine that Wiebe 
+      detailedText: `This score was performed live at Funspot on the same Donkey Kong machine that Wiebe 
       had achieved his first "official" record, the 985k score. Despite the increasing rarity of new 
       DK records being set during live performances, this would not be the last time a new DK record 
       was set on Funspot's venerable machine.`
@@ -348,9 +348,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: true,
-      note: 'First 1.1 million score.',
+      tooltipNote: 'First 1.1 million score.',
       labelText: undefined,
-      detailed: `Chien achieved this milestone score while training for Kong Off 2.`    
+      detailedText: `Chien achieved this milestone score while training for Kong Off 2.`    
     },
     {
       id: 17,
@@ -366,9 +366,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Chien tightened his stranglehold on the DK record with this relatively small improvement 
+      detailedText: `Chien tightened his stranglehold on the DK record with this relatively small improvement 
       of 17k points.`
     },
     {
@@ -385,9 +385,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Chien improved the record one last time. After this, the baton would be passed to new 
+      detailedText: `Chien improved the record one last time. After this, the baton would be passed to new 
       blood.`
     },
     {
@@ -404,9 +404,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Robbie Lakeman, a golfer and professional poker player, declared in August 2013 that he 
+      detailedText: `Robbie Lakeman, a golfer and professional poker player, declared in August 2013 that he 
       felt capable of "taking on Hank." He would make good on that declaration a little more than a year 
       later, besting Hank's score by 3200 points.`
     },
@@ -424,9 +424,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Lakeman achieved this small improvement a few months after initially claiming the record.`
+      detailedText: `Lakeman achieved this small improvement a few months after initially claiming the record.`
     },
     {
       id: 21,
@@ -442,9 +442,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Played on the legendary Funspot DK machine`,
+      tooltipNote: `Played on the legendary Funspot DK machine`,
       labelText: undefined,
-      detailed: `10 years prior, Steve Wiebe achieved his first officially recognized DK record on Funspot's 
+      detailedText: `10 years prior, Steve Wiebe achieved his first officially recognized DK record on Funspot's 
       DK machine. 5 years prior, Hank Chien obtained his own live performance DK record, also on Funspot's 
       machine. Lakeman followed in his predecessors' footsteps by achieving the 3rd live DK record to be set 
       on Funspot's hallowed Donkey Kong machine. This also happened to be Lakeman's 3rd DK record.`
@@ -463,9 +463,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `It was assumed at this point that Lakeman would soon reach the mythical 1.2 million mark, 
+      detailedText: `It was assumed at this point that Lakeman would soon reach the mythical 1.2 million mark, 
       effectively shutting down any competitor's chances. Wes Copeland had started playing Donkey Kong near 
       the end of 2013, and 2 years later, he finally took the crown during a Donkey Kong Online Open 
       tournament.`
@@ -484,9 +484,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: `Achieved 6 hours after Copeland's previous record.`,
+      tooltipNote: `Achieved 6 hours after Copeland's previous record.`,
       labelText: undefined,
-      detailed: `In one of the most stunning rebuttals in the history of videogame record-chasing, Lakeman 
+      detailedText: `In one of the most stunning rebuttals in the history of videogame record-chasing, Lakeman 
       fired back with a 1600 point improvement a mere 6 hours after Copeland obtained his first record score. 
       Copeland remarked feeling "mentally scarred" from being beaten so swiftly after his long road to the 
       top.`
@@ -505,9 +505,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Lakeman would not give Copeland any breathing room to regain the top score, improving his 
+      detailedText: `Lakeman would not give Copeland any breathing room to regain the top score, improving his 
       own previous mark by 5100 points.`
     },
     {
@@ -524,9 +524,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `After the unexpected and abrupt rebuke administered to him by Lakeman a few months prior, 
+      detailedText: `After the unexpected and abrupt rebuke administered to him by Lakeman a few months prior, 
       Copeland proceeded to close the majority of the gap to the vaunted "1.2", bringing the record from 
       1.177 to an even 1.19 in one fell swoop.`
     },
@@ -544,9 +544,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Lakeman struck back 3 months later, squeaking by Copeland's score with the smallest record 
+      detailedText: `Lakeman struck back 3 months later, squeaking by Copeland's score with the smallest record 
       improvement in Donkey Kong to date, a diminutive 200 points.`    
     },
     {
@@ -563,9 +563,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `The Copeland/Lakeman rivalry continued to rage on fiercely, with 1.2 ever on the horizon. 
+      detailedText: `The Copeland/Lakeman rivalry continued to rage on fiercely, with 1.2 ever on the horizon. 
       Who would be the first to cross that fabled rubicon? Copeland once again took back the record, but he 
       was unable to close the deal, stopping at the doorstep of 1.2 with a tantalizing 1.195 score.`
     },
@@ -583,9 +583,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: true,
-      note: `The first 1.2 million point score.`,
+      tooltipNote: `The first 1.2 million point score.`,
       labelText: undefined,
-      detailed: `Finally, Copeland did it, positively smashing past the 1.2 barrier. News outlets proceeded 
+      detailedText: `Finally, Copeland did it, positively smashing past the 1.2 barrier. News outlets proceeded 
       to declare the Donkey Kong high score record "dead" with Copeland's "perfect game." Although Copeland's 
       game was impeccably executed, as history has proven time and time again, no high score or speedrun worth 
       its salt is ever truly dead...`
@@ -604,9 +604,9 @@ export const document = {
       avatar: undefined,
       vodUrl: undefined,
       isMilestone: false,
-      note: undefined,
+      tooltipNote: undefined,
       labelText: undefined,
-      detailed: `Copeland's 1.218 mark stood for 1.5 years, certainly a long tenure for modern Donkey Kong. 
+      detailedText: `Copeland's 1.218 mark stood for 1.5 years, certainly a long tenure for modern Donkey Kong. 
       While Copeland "retired" from the game and rested on his laurels, Lakeman eventually retaliated with a 
       staggering 1.23 score, proving that the Donkey Kong high score can always be beaten with enough tenacity. 
       Incredibly, Lakeman achieved this score on his first credit of that day's session, streaming his gameplay 
@@ -626,9 +626,9 @@ export const document = {
       avatar: undefined,
       vodUrl: 'https://www.youtube.com/watch?v=bgLGvAuJY8g',
       isMilestone: false,
-      note: `Current world record.`,
+      tooltipNote: `Current world record.`,
       labelText: undefined,
-      detailed: `Lakeman was not content simply beating what had been called "the perfect game." He once again 
+      detailedText: `Lakeman was not content simply beating what had been called "the perfect game." He once again 
       crushed the existing mark with the current best score ever achieved in Donkey Kong: 1,247,700.`
     }
   ]
