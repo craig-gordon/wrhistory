@@ -2,7 +2,7 @@ export const document = {
   type: 'speedrun',
   title: 'Mega Man 2',
   category: 'Any%',
-  leaderboard: 'http://www.megamanleaderboards.net/index.php?game=2',
+  leaderboardUrl: 'http://www.megamanleaderboards.net/index.php?game=2',
   yAxisTickInterval: null,
   recordCount: 14,
   records: [

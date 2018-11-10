@@ -39,7 +39,7 @@ export default class CreateChartPage extends React.Component {
       chartInput: {
         title: '',
         category: '',
-        leaderboardLink: ''
+        leaderboardUrl: ''
       },
       recordInput: {
         player: '',

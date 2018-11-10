@@ -84,7 +84,7 @@ export const createSubtitleHTML = function(document, currentRecord) {
   return `
     <div class='chartSubtitle'>
       <div>Current WR — <a href=${currentRecord.vodUrl} class='chartLink score'>${formattedMark}</a> by ${currentRecord.player}</div>
-      <a href=${document.leaderboard} class='chartLink lbLink'>LEADERBOARD</a>
+      <a href=${document.leaderboardUrl} class='chartLink lbLink'>LEADERBOARD</a>
     </div>
   `
 };

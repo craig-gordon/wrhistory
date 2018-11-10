@@ -2,7 +2,7 @@ export const document = {
   type: 'speedrun',
   title: 'Game',
   category: 'Category',
-  leaderboard: 'Leaderboard URL',
+  leaderboardUrl: 'Leaderboard URL',
   yAxisTickInterval: 600000,
   recordCount: 1,
   records: [

@@ -2,7 +2,7 @@ export const document = {
   type: 'highscore',
   title: 'Donkey Kong',
   category: undefined,
-  leaderboard: 'http://donkeykongforum.com/index.php?topic=366.0',
+  leaderboardUrl: 'http://donkeykongforum.com/index.php?topic=366.0',
   yAxisTickInterval: 100000,
   recordCount: 31,
   records: [
