@@ -37,14 +37,17 @@ export default class CreateChartPage extends React.Component {
     this.state = {
       page: 1,
       chartInput: {
-        title: '',
+        chartType: '',
+        gameTitle: '',
         category: '',
         leaderboardUrl: ''
       },
       recordInput: {
         player: '',
         mark: '',
+        console: '',
         platform: '',
+        region: '',
         version: '',
         year: '',
         month: '',
@@ -54,6 +57,10 @@ export default class CreateChartPage extends React.Component {
         tooltipNote: '',
         labelText: '',
         detailedText: ''
+      },
+      dbIds: {
+        documentId: undefined,
+        gameId: undefined
       }
     };
     this.changePage = this.changePage.bind(this);
@@ -69,7 +76,9 @@ export default class CreateChartPage extends React.Component {
         recordInput: {
           player: '',
           mark: '',
+          console: '',
           platform: '',
+          region: '',
           version: '',
           year: '',
           month: '',
@@ -87,17 +96,30 @@ export default class CreateChartPage extends React.Component {
   submitData() {
     let dataObj;
 
-    if (this.state.page === 1) dataObj = this.state.chartInput;
-    else dataObj = this.state.recordInput
-
-    axios.post('/api/create/newDocument', dataObj)
-      .then((res) => {
-        console.log('response:', res);
-        this.changePage();
-      })
-      .catch((err) => {
-        console.log('error:', err);
-      });
+    if (this.state.page === 1) {
+      dataObj = this.state.chartInput;
+      axios.post('/api/create/newDocument', dataObj)
+        .then(res => {
+          console.log('response:', res);
+          let dbIdsObj = {documentId: res.data.id, gameId: res.data.gameId};
+          let stateObj = {...this.state, dbIds: dbIdsObj};
+          this.setState(stateObj);
+          this.changePage();
+        })
+        .catch(err => {
+          console.log('error:', err);
+        });
+    } else {
+      dataObj = {...this.state.recordInput, ...this.state.dbIds, type: this.state.chartInput.chartType === 'speedrun' ? 'time' : 'score'};
+      axios.post('/api/create/newRecord', dataObj)
+        .then(res => {
+          console.log('response:', res);
+          this.changePage();
+        })
+        .catch(err => {
+          console.log('error:', err);
+        });
+    }
   }
 
   changeSimpleInput(chartOrRecord, type, e) {

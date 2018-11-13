@@ -16,6 +16,13 @@ export default class FeaturedChartModule extends React.Component {
     this.document = documents[`${this.gameCode}Document`];
   }
 
+  // componentDidMount() {
+  //   axios.get('/api/home/getRandomFeaturedChart')
+  //     .then(res => {
+
+  //     })
+  // }
+
   render() {
     return (
       <LightGreenModule>

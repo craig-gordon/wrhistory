@@ -69,8 +69,7 @@ Console.sync({force: false});
 const Game = database.define('game', {
   title: Sequelize.STRING,
   abbrev: Sequelize.STRING,
-  releasedate: Sequelize.DATEONLY,
-  coverimage: Sequelize.STRING
+  releaseDate: Sequelize.DATEONLY
 }, {
   freezeTableName: true
 });
@@ -85,7 +84,7 @@ const Document = database.define('document', {
   type: Sequelize.STRING,
   title: Sequelize.STRING,
   category: Sequelize.STRING,
-  leaderboardurl: Sequelize.STRING
+  leaderboardUrl: Sequelize.STRING
 }, {
   freezeTableName: true
 });
@@ -108,10 +107,10 @@ const Record = database.define('record', {
   venue: Sequelize.STRING,
   date: Sequelize.DATE,
   vodurl: Sequelize.STRING,
-  ismilestone: Sequelize.BOOLEAN,
-  tooltipnote: Sequelize.STRING,
-  labeltext: Sequelize.STRING,
-  detailedtext: Sequelize.TEXT
+  isMilestone: Sequelize.BOOLEAN,
+  tooltipNote: Sequelize.STRING,
+  labelText: Sequelize.STRING,
+  detailedText: Sequelize.TEXT
 }, {
   freezeTableName: true
 });
@@ -120,7 +119,7 @@ Record.belongsTo(Player);
 Record.belongsTo(Console);
 Record.belongsTo(Game);
 
-Record.sync({force: true});
+Record.sync({force: false});
 
 // ~~~~~~~ //
 // Article //
@@ -208,6 +207,23 @@ Tag.belongsToMany(Article, {through: 'articletag'});
 
 ArticleTag.sync({force: false});
 
+
+Game.findOrCreate({where: {
+  title: 'Mega Man 2',
+  abbrev: 'mm2',
+  releaseDate: Date.UTC(1988, 11, 24),
+}});
+
+Game.findOrCreate({where: {
+  title: 'Donkey Kong',
+  abbrev: 'dk',
+  releaseDate: Date.UTC(1981, 6, 9)
+}});
+
+Console.findOrCreate({where: {
+  name: 'Nintendo Entertainment System',
+  abbrev: 'NES'
+}});
 
 
 module.exports = {

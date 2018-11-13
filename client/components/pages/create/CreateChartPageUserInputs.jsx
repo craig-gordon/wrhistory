@@ -21,9 +21,15 @@ export default class CreateChartPageUserInputs extends React.Component {
       inputForms = (
         <div>
           <div>
+            Chart Type: <Input
+              value={this.props.chartInput.chartType}
+              onChange={(e) => this.props.changeSimpleInput('chartInput', 'chartType', e)}
+            />
+          </div>
+          <div>
             Game Title: <Input
-              value={this.props.chartInput.title}
-              onChange={(e) => this.props.changeSimpleInput('chartInput', 'title', e)}
+              value={this.props.chartInput.gameTitle}
+              onChange={(e) => this.props.changeSimpleInput('chartInput', 'gameTitle', e)}
             />
           </div>
           <div>
@@ -56,6 +62,12 @@ export default class CreateChartPageUserInputs extends React.Component {
             />
           </div>
           <div>
+            Console: <Input
+              value={this.props.recordInput.console}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'console', e)}
+            />
+          </div>
+          <div>
             Platform: <Input
               value={this.props.recordInput.platform}
               onChange={(e) => this.props.changeSimpleInput('recordInput', 'platform', e)}
@@ -65,6 +77,12 @@ export default class CreateChartPageUserInputs extends React.Component {
             Version: <Input
               value={this.props.recordInput.version}
               onChange={(e) => this.props.changeSimpleInput('recordInput', 'version', e)}
+            />
+          </div>
+          <div>
+            Region: <Input
+              value={this.props.recordInput.region}
+              onChange={(e) => this.props.changeSimpleInput('recordInput', 'region', e)}
             />
           </div>
           <div>
