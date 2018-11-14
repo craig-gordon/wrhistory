@@ -99,7 +99,7 @@ Document.sync({force: false});
 
 const Record = database.define('record', {
   type: Sequelize.STRING,
-  mark: Sequelize.INTEGER,
+  mark: Sequelize.DECIMAL,
   platform: Sequelize.STRING,
   version: Sequelize.STRING,
   region: Sequelize.STRING,

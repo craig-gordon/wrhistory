@@ -30,6 +30,18 @@ const RightColumn = LightGreenModule.extend`
   margin-left: 10px;
 `;
 
+// Change emptry string state values to null
+// Convert 'mark' state value to a number
+const convertInputs = (obj) => {
+  let newObj = {};
+  for (var key in obj) {
+    if (key === 'mark') newObj[key] = Number(obj[key]);
+    else if (obj[key] === '') newObj[key] = null;
+    else newObj[key] = obj[key];
+  }
+  return newObj;
+};
+
 
 export default class CreateChartPage extends React.Component {
   constructor(props) {
@@ -97,7 +109,7 @@ export default class CreateChartPage extends React.Component {
     let dataObj;
 
     if (this.state.page === 1) {
-      dataObj = this.state.chartInput;
+      dataObj = convertInputs(this.state.chartInput);
       axios.post('/api/create/newDocument', dataObj)
         .then(res => {
           console.log('response:', res);
@@ -111,6 +123,7 @@ export default class CreateChartPage extends React.Component {
         });
     } else {
       dataObj = {...this.state.recordInput, ...this.state.dbIds, type: this.state.chartInput.chartType === 'speedrun' ? 'time' : 'score'};
+      dataObj = convertInputs(dataObj);
       axios.post('/api/create/newRecord', dataObj)
         .then(res => {
           console.log('response:', res);
