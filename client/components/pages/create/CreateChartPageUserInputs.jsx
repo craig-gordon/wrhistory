@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
 import Input from 'antd/lib/input';
 import 'antd/lib/input/style/index.css';
 import Button from 'antd/lib/button';
@@ -17,15 +15,9 @@ export default class CreateChartPageUserInputs extends React.Component {
   render() {
     let inputForms;
 
-    if (this.props.page === 1) {
+    if (this.props.page === 2) {
       inputForms = (
         <div>
-          <div>
-            Chart Type: <Input
-              value={this.props.chartInput.chartType}
-              onChange={(e) => this.props.changeSimpleInput('chartInput', 'chartType', e)}
-            />
-          </div>
           <div>
             Game Title: <Input
               value={this.props.chartInput.gameTitle}

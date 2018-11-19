@@ -6,11 +6,12 @@ import 'antd/lib/input/style/index.css';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
 
+import CreateChartPageInitialButtons from './CreateChartPageInitialButtons.jsx';
 import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
 import Chart from '../../charts/Chart.jsx';
 import { LightBlueModule, LightGreenModule, PageHeader } from '../../common/styledComponents.js';
 
-import { document } from '../../../data/genericDocument.js';
+import { speedrunDocument, highscoreDocument } from '../../../data/genericDocument.js';
 
 
 const ColumnHeader = styled.h3`
@@ -48,8 +49,8 @@ export default class CreateChartPage extends React.Component {
     super(props);
     this.state = {
       page: 1,
+      chartType: undefined,
       chartInput: {
-        chartType: '',
         gameTitle: '',
         category: '',
         leaderboardUrl: ''
@@ -75,9 +76,10 @@ export default class CreateChartPage extends React.Component {
         gameId: undefined
       },
       templateChartGameCode: 'dk',
-      templateChartDoc: document
+      templateChartDoc: undefined
     };
     this.changePage = this.changePage.bind(this);
+    this.setChartType = this.setChartType.bind(this);
     this.submitData = this.submitData.bind(this);
     this.changeSimpleInput = this.changeSimpleInput.bind(this);
   }
@@ -86,11 +88,18 @@ export default class CreateChartPage extends React.Component {
     this.setState({page: this.state.page + 1});
   }
 
+  setChartType(type) {
+    let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
+    this.setState({chartType: type, templateChartDoc: doc});
+    this.changePage();
+  }
+
   submitData() {
     let dataObj;
 
-    if (this.state.page === 1) {
-      dataObj = convertInputs(this.state.chartInput);
+    if (this.state.page === 2) {
+      let convertedChartInputs = convertInputs(this.state.chartInput);
+      dataObj = {...convertedChartInputs, chartType: this.state.chartType};
       axios.post('/api/create/newDocument', dataObj)
         .then(res => {
           console.log('response:', res);
@@ -107,7 +116,7 @@ export default class CreateChartPage extends React.Component {
           console.log('error:', err);
         });
     } else {
-      dataObj = {...this.state.recordInput, ...this.state.dbIds, type: this.state.chartInput.chartType === 'speedrun' ? 'time' : 'score'};
+      dataObj = {...this.state.recordInput, ...this.state.dbIds, recordType: this.state.chartType === 'speedrun' ? 'time' : 'score'};
       dataObj = convertInputs(dataObj);
       axios.post('/api/create/newRecord', dataObj)
         .then(res => {
@@ -127,28 +136,36 @@ export default class CreateChartPage extends React.Component {
   }
 
   render() {
+    let page = this.state.page;
     return (
       <div>
         <PageHeader>Create Chart</PageHeader>
-        <CreateChartPageWrapper>
-          <LeftColumn>
-            <ColumnHeader>{this.state.page === 1 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
-            <CreateChartPageUserInputs
-              page={this.state.page}
-              chartInput={this.state.chartInput}
-              recordInput={this.state.recordInput}
-              submitData={this.submitData}
-              changeSimpleInput={this.changeSimpleInput}
+        {
+          page === 1 ?
+            <CreateChartPageInitialButtons
+              setChartType={this.setChartType}
             />
-          </LeftColumn>
-          <RightColumn>
-            <ColumnHeader>Template Chart</ColumnHeader>
-            <Chart
-              gameCode={this.state.templateChartGameCode}
-              document={this.state.templateChartDoc}
-            />
-          </RightColumn>
-        </CreateChartPageWrapper>
+          :
+            (<CreateChartPageWrapper>
+              <LeftColumn>
+                <ColumnHeader>{page === 2 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
+                <CreateChartPageUserInputs
+                  page={page}
+                  chartInput={this.state.chartInput}
+                  recordInput={this.state.recordInput}
+                  submitData={this.submitData}
+                  changeSimpleInput={this.changeSimpleInput}
+                />
+              </LeftColumn>
+              <RightColumn>
+                <ColumnHeader>Template Chart</ColumnHeader>
+                <Chart
+                  gameCode={this.state.templateChartGameCode}
+                  document={this.state.templateChartDoc}
+                />
+              </RightColumn>
+            </CreateChartPageWrapper>)
+        }
       </div>
     );
   }

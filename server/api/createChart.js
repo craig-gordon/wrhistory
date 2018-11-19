@@ -54,7 +54,7 @@ router.post('/newRecord', (req, res) => {
       let consoleId = data[1].dataValues.id;
 
       return Record.create({
-        type: req.body.type,
+        type: req.body.recordType,
         mark: req.body.mark,
         platform: req.body.platform,
         version: req.body.version,
