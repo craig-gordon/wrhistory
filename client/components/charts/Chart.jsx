@@ -30,9 +30,13 @@ ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 class Chart extends React.Component {
   constructor(props) {
     super(props);
-    this.records = this.props.document.records;
-    this.currentRecord = this.records[this.records.length - 1];
-    this.config = {
+  }
+
+  render() {
+    let document = this.props.document;
+    let records = document.records;
+    let currentRecord = records[records.length - 1];
+    let config = {
       chart: {
         type: 'line',
         zoomType: 'x',
@@ -44,11 +48,11 @@ class Chart extends React.Component {
       },
       title: {
         useHTML: true,
-        text: createTitleHTML(this.props.document)
+        text: createTitleHTML(document)
       },
       subtitle: {
         useHTML: true,
-        text: createSubtitleHTML(this.props.document, this.currentRecord)
+        text: createSubtitleHTML(document, currentRecord)
       },
       credits: false,
       plotOptions: {
@@ -63,12 +67,12 @@ class Chart extends React.Component {
           text: 'Date'
         },
         type: 'datetime',
-        min: Date.UTC(this.records[0].year, 0, 1),
+        min: Date.UTC(records[0].year, 0, 1),
         dateTimeLabelFormats: {
           year: '%Y'
         }
       },
-      yAxis: createYAxisConfig(this.props.document),
+      yAxis: createYAxisConfig(document),
       tooltip: {
         useHTML: true,
         formatter: formatTooltip
@@ -80,22 +84,16 @@ class Chart extends React.Component {
             fontSize: '13px'
           }
         },
-        labels: createChartLabels(this.records)
+        labels: createChartLabels(records)
       }],
       legend: {
         layout: 'horizontal'
       },
-      series: createChartSeries(this.records, this.props.document.type, this.props.changeSelectedChartPoint)
+      series: createChartSeries(records, document.type, this.props.changeSelectedChartPoint)
     }
-  }
 
-  componentDidMount() {
-    
-  }
-
-  render() {
     return <ReactHighcharts
-      config={this.config}
+      config={config}
       ref="chart"
     />
   }

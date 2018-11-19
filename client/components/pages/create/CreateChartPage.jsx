@@ -73,7 +73,9 @@ export default class CreateChartPage extends React.Component {
       dbIds: {
         documentId: undefined,
         gameId: undefined
-      }
+      },
+      templateChartGameCode: 'dk',
+      templateChartDoc: document
     };
     this.changePage = this.changePage.bind(this);
     this.submitData = this.submitData.bind(this);
@@ -81,28 +83,7 @@ export default class CreateChartPage extends React.Component {
   }
 
   changePage() {
-    this.setState(
-      {
-        page: this.state.page + 1,
-        chartInput: this.state.chartInput,
-        recordInput: {
-          player: '',
-          mark: '',
-          console: '',
-          platform: '',
-          region: '',
-          version: '',
-          year: '',
-          month: '',
-          day: '',
-          vodUrl: '',
-          isMilestone: '',
-          tooltipNote: '',
-          labelText: '',
-          detailedText: ''
-        }
-      }
-    );
+    this.setState({page: this.state.page + 1});
   }
 
   submitData() {
@@ -114,7 +95,11 @@ export default class CreateChartPage extends React.Component {
         .then(res => {
           console.log('response:', res);
           let dbIdsObj = {documentId: res.data.id, gameId: res.data.gameId};
-          let stateObj = {...this.state, dbIds: dbIdsObj};
+          let templateChartDocObj = {...this.state.templateChartDoc, ...res.data};
+          let stateObj = {
+            dbIds: dbIdsObj,
+            templateChartDoc: templateChartDocObj
+          };
           this.setState(stateObj);
           this.changePage();
         })
@@ -158,7 +143,10 @@ export default class CreateChartPage extends React.Component {
           </LeftColumn>
           <RightColumn>
             <ColumnHeader>Template Chart</ColumnHeader>
-            <Chart gameCode='mm2' document={document} />
+            <Chart
+              gameCode={this.state.templateChartGameCode}
+              document={this.state.templateChartDoc}
+            />
           </RightColumn>
         </CreateChartPageWrapper>
       </div>

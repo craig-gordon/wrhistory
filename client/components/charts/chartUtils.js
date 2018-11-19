@@ -120,7 +120,8 @@ export const createYAxisConfig = function(document) {
       },
       type: 'linear',
       alternateGridColor: '#3f3f3f',
-      tickInterval: document.yAxisTickInterval,
+      // tickInterval: document.yAxisTickInterval,
+      tickInterval: 100000,
       tickLength: 0
     }
 
