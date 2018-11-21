@@ -67,7 +67,11 @@ class Chart extends React.Component {
           text: 'Date'
         },
         type: 'datetime',
+        endOnTick: false,
         min: Date.UTC(records[0].year, 0, 1),
+        max: Date.now() + utcOffsetMS,
+        minTickInterval: 86400000,
+        // tickInterval: 31104000000,
         dateTimeLabelFormats: {
           year: '%Y'
         }

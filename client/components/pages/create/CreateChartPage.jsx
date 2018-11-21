@@ -34,9 +34,10 @@ const RightColumn = LightGreenModule.extend`
 // Change emptry string state values to null
 // Convert 'mark' state value to a number
 const convertInputs = (obj) => {
+  let convertToNumbers = ['mark', 'year', 'month', 'day'];
   let newObj = {};
   for (var key in obj) {
-    if (key === 'mark') newObj[key] = Number(obj[key]);
+    if (convertToNumbers.indexOf(key) > -1) newObj[key] = Number(obj[key]);
     else if (obj[key] === '') newObj[key] = null;
     else newObj[key] = obj[key];
   }
@@ -121,6 +122,29 @@ export default class CreateChartPage extends React.Component {
       axios.post('/api/create/newRecord', dataObj)
         .then(res => {
           console.log('response:', res);
+          let templateChartDocObj = {...this.state.templateChartDoc};
+          templateChartDocObj.records.push(res.data);
+          if (templateChartDocObj.records[0].createdAt === undefined) {
+            templateChartDocObj.records.shift();
+          }
+          console.log('templateChartDocObj after submitting new Record to DB, before updating State:', templateChartDocObj);
+          let emptyRecordInputObj = {
+            player: '',
+            mark: '',
+            console: '',
+            platform: '',
+            region: '',
+            version: '',
+            year: '',
+            month: '',
+            day: '',
+            vodUrl: '',
+            isMilestone: '',
+            tooltipNote: '',
+            labelText: '',
+            detailedText: ''
+          }
+          this.setState({recordInput: emptyRecordInputObj, templateChartDoc: templateChartDocObj});
           this.changePage();
         })
         .catch(err => {

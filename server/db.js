@@ -105,7 +105,11 @@ const Record = database.define('record', {
   region: Sequelize.STRING,
   verified: Sequelize.BOOLEAN,
   venue: Sequelize.STRING,
-  date: Sequelize.DATE,
+  year: Sequelize.INTEGER,
+  month: Sequelize.INTEGER,
+  day: Sequelize.INTEGER,
+  hour: Sequelize.INTEGER,
+  minute: Sequelize.INTEGER,
   vodurl: Sequelize.STRING,
   isMilestone: Sequelize.BOOLEAN,
   tooltipNote: Sequelize.STRING,
@@ -119,7 +123,7 @@ Record.belongsTo(Player);
 Record.belongsTo(Console);
 Record.belongsTo(Game);
 
-Record.sync({force: false});
+Record.sync({force: true});
 
 // ~~~~~~~ //
 // Article //
@@ -208,10 +212,15 @@ Tag.belongsToMany(Article, {through: 'articletag'});
 ArticleTag.sync({force: false});
 
 
+
+// ~~~~~~~~~~~~~~~~~ //
+// HARD DATA INSERTS //
+// ~~~~~~~~~~~~~~~~~ //
+
 Game.findOrCreate({where: {
   title: 'Mega Man 2',
   abbrev: 'mm2',
-  releaseDate: Date.UTC(1988, 11, 24),
+  releaseDate: Date.UTC(1988, 11, 24)
 }});
 
 Game.findOrCreate({where: {
@@ -224,6 +233,12 @@ Console.findOrCreate({where: {
   name: 'Nintendo Entertainment System',
   abbrev: 'NES'
 }});
+
+Console.findOrCreate({where: {
+  name: 'Arcade',
+  abbrev: 'Arcade'
+}});
+
 
 
 module.exports = {

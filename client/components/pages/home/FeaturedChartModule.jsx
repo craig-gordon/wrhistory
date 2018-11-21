@@ -25,7 +25,7 @@ export default class FeaturedChartModule extends React.Component {
       .then(res => {
         console.log('response:', res);
         let document = res.data;
-        this.setState({document});
+        // this.setState({document});
       })
       .catch(err => {
         console.log('Error retrieving Document from database:', err);

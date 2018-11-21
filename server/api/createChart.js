@@ -47,10 +47,12 @@ router.post('/newRecord', (req, res) => {
   let newRecordEntry;
   let playerEntry = Player.findOrCreate({where: {username: req.body.player}});
   let consoleEntry = Console.findOne({where: {name: req.body.console}});
+  let playerName;
 
   Promise.all([playerEntry, consoleEntry])
     .then(data => {
       let playerId = data[0][0].dataValues.id;
+      playerName = data[0][0].dataValues.username;
       let consoleId = data[1].dataValues.id;
 
       return Record.create({
@@ -82,7 +84,7 @@ router.post('/newRecord', (req, res) => {
       });
     })
     .then(newDocumentRecord => {
-      res.send(newRecordEntry);
+      res.send({...newRecordEntry, player: playerName});
     })
     .catch(err => {
       console.log('Error inserting new Record into the database:', err);

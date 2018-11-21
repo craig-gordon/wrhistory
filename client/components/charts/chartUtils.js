@@ -166,7 +166,7 @@ export const createChartData = function(records, documentType) {
     'rgb(255, 255, 255, 0.7)': undefined
   };
 
-  return records.map((record, i) => {
+  let recordsArray = records.map((record, i) => {
     let playerColor;
 
     for (var color in mappings) {
@@ -195,6 +195,11 @@ export const createChartData = function(records, documentType) {
       marker: determineMarker(record, isCurrentRecord)
     };
   });
+
+  let finalDummyRecord = {...recordsArray[recordsArray.length - 1]};
+  finalDummyRecord.x = Date.now() + 2592000000;
+
+  return recordsArray.concat(finalDummyRecord);
 };
 
 // export const createChartZones = function(records) {

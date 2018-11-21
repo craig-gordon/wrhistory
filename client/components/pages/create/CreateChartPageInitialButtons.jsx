@@ -11,8 +11,7 @@ const CreateChartPageInitialButtons = (props) => {
         onClick={() => props.setChartType('speedrun')}
       >
         Speedrun
-      </Button>
-      <Button
+      </Button> <Button
         type='primary'
         size='large'
         onClick={() => props.setChartType('highscore')}
