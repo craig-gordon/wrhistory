@@ -27,11 +27,7 @@ ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 
 
-class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+class Chart extends React.PureComponent {
   render() {
     let document = this.props.document;
     let records = document.records;
@@ -94,12 +90,14 @@ class Chart extends React.Component {
         layout: 'horizontal'
       },
       series: createChartSeries(records, document.type, this.props.changeSelectedChartPoint)
-    }
+    };
 
-    return <ReactHighcharts
-      config={config}
-      ref="chart"
-    />
+    return (
+      <ReactHighcharts
+        config={config}
+        ref="chart"
+      />
+    );
   }
 }
 

@@ -31,7 +31,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             />
           </div>
           <div>
-            Leaderboard Link: <Input
+            Leaderboard URL: <Input
               value={this.props.chartInput.leaderboardUrl}
               onChange={(e) => this.props.changeSimpleInput('chartInput', 'leaderboardUrl', e)}
             />

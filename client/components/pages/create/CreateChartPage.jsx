@@ -8,6 +8,7 @@ import 'antd/lib/button/style/index.css';
 
 import CreateChartPageInitialButtons from './CreateChartPageInitialButtons.jsx';
 import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
+import DownshiftForm from './DownshiftForm.jsx';
 import Chart from '../../charts/Chart.jsx';
 import { LightBlueModule, LightGreenModule, PageHeader } from '../../common/styledComponents.js';
 
@@ -76,7 +77,6 @@ export default class CreateChartPage extends React.Component {
         documentId: undefined,
         gameId: undefined
       },
-      templateChartGameCode: 'dk',
       templateChartDoc: undefined
     };
     this.changePage = this.changePage.bind(this);
@@ -160,35 +160,35 @@ export default class CreateChartPage extends React.Component {
   }
 
   render() {
-    let page = this.state.page;
     return (
       <div>
         <PageHeader>Create Chart</PageHeader>
         {
-          page === 1 ?
-            <CreateChartPageInitialButtons
-              setChartType={this.setChartType}
-            />
-          :
-            (<CreateChartPageWrapper>
-              <LeftColumn>
-                <ColumnHeader>{page === 2 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
-                <CreateChartPageUserInputs
-                  page={page}
-                  chartInput={this.state.chartInput}
-                  recordInput={this.state.recordInput}
-                  submitData={this.submitData}
-                  changeSimpleInput={this.changeSimpleInput}
-                />
-              </LeftColumn>
-              <RightColumn>
-                <ColumnHeader>Template Chart</ColumnHeader>
-                <Chart
-                  gameCode={this.state.templateChartGameCode}
-                  document={this.state.templateChartDoc}
-                />
-              </RightColumn>
-            </CreateChartPageWrapper>)
+          this.state.page === 1
+            ?
+              <CreateChartPageInitialButtons
+                setChartType={this.setChartType}
+              />
+            :
+              (<CreateChartPageWrapper>
+                <LeftColumn>
+                  <ColumnHeader>{this.state.page === 2 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
+                  <CreateChartPageUserInputs
+                    page={this.state.page}
+                    chartInput={this.state.chartInput}
+                    recordInput={this.state.recordInput}
+                    submitData={this.submitData}
+                    changeSimpleInput={this.changeSimpleInput}
+                  />
+                  <DownshiftForm />
+                </LeftColumn>
+                <RightColumn>
+                  <ColumnHeader>Template Chart</ColumnHeader>
+                  <Chart
+                    document={this.state.templateChartDoc}
+                  />
+                </RightColumn>
+              </CreateChartPageWrapper>)
         }
       </div>
     );

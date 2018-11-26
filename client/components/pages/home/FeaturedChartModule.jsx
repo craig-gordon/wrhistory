@@ -13,10 +13,9 @@ const documents = {dkDocument, mm2Document};
 export default class FeaturedChartModule extends React.Component {
   constructor(props) {
     super(props);
-    let code = Math.random() >= 1 ? 'dk' : 'mm2';
+    this.code = Math.random() >= 1 ? 'dk' : 'mm2';
     this.state = {
-      gameCode: code,
-      document: documents[`${code}Document`]
+      document: documents[`${this.code}Document`]
     };
   }
 
@@ -36,8 +35,8 @@ export default class FeaturedChartModule extends React.Component {
     return (
       <LightGreenModule>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>
-        <Chart gameCode={this.state.gameCode} document={this.state.document} />
-        <Link to={'/' + this.gameCode}>See full chart!</Link>
+        <Chart document={this.state.document} />
+        <Link to={'/' + this.code}>See full chart!</Link>
       </LightGreenModule>
     );
   }
