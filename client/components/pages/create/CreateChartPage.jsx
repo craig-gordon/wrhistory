@@ -175,12 +175,13 @@ export default class CreateChartPage extends React.Component {
                   <ColumnHeader>{this.state.page === 2 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
                   <CreateChartPageUserInputs
                     page={this.state.page}
+                    chartType={this.state.chartType}
                     chartInput={this.state.chartInput}
                     recordInput={this.state.recordInput}
                     submitData={this.submitData}
                     changeSimpleInput={this.changeSimpleInput}
                   />
-                  <DownshiftForm />
+                  {/* <DownshiftForm /> */}
                 </LeftColumn>
                 <RightColumn>
                   <ColumnHeader>Template Chart</ColumnHeader>
