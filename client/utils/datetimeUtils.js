@@ -1,5 +1,11 @@
 import moment from 'moment';
 
+export const convertHMSMsToSeconds = (h, m, s, ms) => {
+  let totalSeconds = (h * 3600) + (m * 60) + s;
+  if (ms) totalSeconds = totalSeconds + Number(`0.${ms}`);
+  return totalSeconds;
+};
+
 export const tsToSecs = (ts) => {
   let tsArr = ts.split(':');
   let secs = Number(tsArr[tsArr.length - 1]);

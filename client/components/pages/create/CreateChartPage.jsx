@@ -64,9 +64,9 @@ export default class CreateChartPage extends React.Component {
         platform: '',
         region: '',
         version: '',
-        year: '',
-        month: '',
-        day: '',
+        year: undefined,
+        month: undefined,
+        day: undefined,
         vodUrl: '',
         isMilestone: '',
         tooltipNote: '',
@@ -82,7 +82,7 @@ export default class CreateChartPage extends React.Component {
     this.changePage = this.changePage.bind(this);
     this.setChartType = this.setChartType.bind(this);
     this.submitData = this.submitData.bind(this);
-    this.changeSimpleInput = this.changeSimpleInput.bind(this);
+    this.changeInput = this.changeInput.bind(this);
   }
 
   changePage() {
@@ -93,6 +93,14 @@ export default class CreateChartPage extends React.Component {
     let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
     this.setState({chartType: type, templateChartDoc: doc});
     this.changePage();
+  }
+
+  changeInput(chartOrRecord, type, e) {
+    console.log('e:', e);
+    let value = e.target ? (e.target.checked !== undefined ? e.target.checked : e.target.value) : e;
+    let stateObj = this.state[chartOrRecord];
+    stateObj[type] = value;
+    this.setState(stateObj);
   }
 
   submitData() {
@@ -153,12 +161,6 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  changeSimpleInput(chartOrRecord, type, e) {
-    let stateObj = this.state[chartOrRecord];
-    stateObj[type] = e.target.value;
-    this.setState(stateObj);
-  }
-
   render() {
     return (
       <div>
@@ -179,7 +181,7 @@ export default class CreateChartPage extends React.Component {
                     chartInput={this.state.chartInput}
                     recordInput={this.state.recordInput}
                     submitData={this.submitData}
-                    changeSimpleInput={this.changeSimpleInput}
+                    changeInput={this.changeInput}
                   />
                   {/* <DownshiftForm /> */}
                 </LeftColumn>

@@ -1,18 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
+import Select from 'antd/lib/select';
+import 'antd/lib/select/style/index.css';
 import Input from 'antd/lib/input';
+const { TextArea } = Input;
 import 'antd/lib/input/style/index.css';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
+import Checkbox from 'antd/lib/checkbox';
+import 'antd/lib/checkbox/style/index.css';
+
+import { convertHMSMsToSeconds } from '../../../utils/datetimeUtils.js';
+
+import {
+  hoursOptions,
+  minutesSecondsOptions,
+  createYearDropdownOptions,
+  monthOptions,
+  dayOptions
+} from './createChartUtils.js';
 
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.page === 2 ? '35% 65%' : '30% 70%'};
+  grid-template-columns: ${props => props.page === 2 ? '35% 65%' : '27% 73%'};
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 `;
 
-const StyledLabel = styled.label`
+const DropdownsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+`;
+
+const StyledLabel = styled.div`
   margin-right: 20px;
   font-weight: bold;
   font-size: 18px;
@@ -29,6 +49,22 @@ export default class CreateChartPageUserInputs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hours: undefined,
+      minutes: undefined,
+      seconds: undefined,
+      milliseconds: undefined
+    }
+    this.changeTimeInput = this.changeTimeInput.bind(this);
+  }
+
+  changeTimeInput(type, e) {
+    let stateObj = {};
+    stateObj[type] = e;
+    this.setState(stateObj);
+
+    if (this.state.hours && this.state.minutes && this.state.seconds) {
+      let totalSeconds = convertHMSMsToSeconds(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
+      this.props.changeInput('recordInput', 'mark', totalSeconds);
     }
   }
 
@@ -44,7 +80,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.chartInput.gameTitle}
-              onChange={(e) => this.props.changeSimpleInput('chartInput', 'gameTitle', e)}
+              onChange={(e) => this.props.changeInput('chartInput', 'gameTitle', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -53,7 +89,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.chartInput.category}
-              onChange={(e) => this.props.changeSimpleInput('chartInput', 'category', e)}
+              onChange={(e) => this.props.changeInput('chartInput', 'category', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -62,7 +98,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.chartInput.leaderboardUrl}
-              onChange={(e) => this.props.changeSimpleInput('chartInput', 'leaderboardUrl', e)}
+              onChange={(e) => this.props.changeInput('chartInput', 'leaderboardUrl', e)}
             />
           </InputContainer>
         </div>
@@ -76,25 +112,53 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.recordInput.player}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'player', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'player', e)}
             />
           </InputContainer>
-          <InputContainer page={this.props.page}>
-            <StyledLabel>
-              {this.props.chartType === 'speedrun' ? 'Time' : 'Score'}
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.mark}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'mark', e)}
-            />
-          </InputContainer>
+          {this.props.chartType === 'speedrun'
+            ? <InputContainer page={this.props.page}>
+                <StyledLabel>
+                  Time
+                </StyledLabel>
+                <DropdownsContainer>
+                  <Select
+                    style={{marginRight: '10px'}}
+                    placeholder='Hours'
+                    onChange={(e) => this.props.changeTimeInput('hours', e)}
+                  >
+                    {hoursOptions}
+                  </Select>
+                  <Select
+                    placeholder='Minutes'
+                    onChange={(e) => this.props.changeTimeInput('minutes', e)}
+                  >
+                    {minutesSecondsOptions}
+                  </Select>
+                  <Select
+                    style={{marginLeft: '10px'}}
+                    placeholder='Seconds'
+                    onChange={(e) => this.props.changeTimeInput('seconds', e)}
+                  >
+                    {minutesSecondsOptions}
+                  </Select>
+                </DropdownsContainer>
+              </InputContainer>
+            : <InputContainer page={this.props.page}>
+                <StyledLabel>
+                  Score
+                </StyledLabel>
+                <Input
+                  value={this.props.recordInput.mark}
+                  onChange={(e) => this.props.changeInput('recordInput', 'mark', e)}
+                />
+              </InputContainer>}
           {/* <InputContainer page={this.props.page}>
             <StyledLabel>
               Console
             </StyledLabel>
             <Input
               value={this.props.recordInput.console}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'console', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'console', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -103,7 +167,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.recordInput.platform}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'platform', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'platform', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -112,7 +176,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.recordInput.version}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'version', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'version', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -121,35 +185,35 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.recordInput.region}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'region', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'region', e)}
             />
           </InputContainer> */}
           <InputContainer page={this.props.page}>
             <StyledLabel>
-              Year
+              Date
             </StyledLabel>
-            <Input
-              value={this.props.recordInput.year}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'year', e)}
-            />
-          </InputContainer>
-          <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Month
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.month}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'month', e)}
-            />
-          </InputContainer>
-          <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Day
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.day}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'day', e)}
-            />
+            <DropdownsContainer>
+              <Select
+                style={{marginRight: '10px'}}
+                placeholder='Year'
+                onChange={(e) => this.props.changeInput('recordInput', 'year', e)}
+              >
+                {createYearDropdownOptions()}
+              </Select>
+              <Select
+                placeholder='Month'
+                onChange={(e) => this.props.changeInput('recordInput', 'month', e)}
+              >
+                {monthOptions}
+              </Select>
+              <Select
+                style={{marginLeft: '10px'}}
+                placeholder='Day'
+                onChange={(e) => this.props.changeInput('recordInput', 'day', e)}
+              >
+                {dayOptions}
+              </Select>
+            </DropdownsContainer>
           </InputContainer>
           <InputContainer page={this.props.page}>
             <StyledLabel>
@@ -157,43 +221,45 @@ export default class CreateChartPageUserInputs extends React.Component {
             </StyledLabel>
             <Input
               value={this.props.recordInput.vodUrl}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'vodUrl', e)}
-            />
-          </InputContainer>
-          <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Is Milestone?
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.isMilestone}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'isMilestone', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'vodUrl', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
             <StyledLabel>
               Tooltip Note
             </StyledLabel>
-            <Input
+            <TextArea
+              rows={2}
               value={this.props.recordInput.tooltipNote}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'tooltipNote', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'tooltipNote', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
             <StyledLabel>
               Label Text
             </StyledLabel>
-            <Input
+            <TextArea
+              rows={2}
               value={this.props.recordInput.labelText}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'labelText', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'labelText', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
             <StyledLabel>
               Detailed Text
             </StyledLabel>
-            <Input
+            <TextArea
+              rows={4}
               value={this.props.recordInput.detailedText}
-              onChange={(e) => this.props.changeSimpleInput('recordInput', 'detailedText', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'detailedText', e)}
+            />
+          </InputContainer>
+          <InputContainer page={this.props.page}>
+            <StyledLabel>
+              Milestone
+            </StyledLabel>
+            <Checkbox
+              onChange={(e) => this.props.changeInput('recordInput', 'isMilestone', e)}
             />
           </InputContainer>
         </div>
