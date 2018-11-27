@@ -9,6 +9,10 @@ import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
 import Checkbox from 'antd/lib/checkbox';
 import 'antd/lib/checkbox/style/index.css';
+import AutoComplete from 'antd/lib/auto-complete';
+import 'antd/lib/auto-complete/style/index.css';
+import Tooltip from 'antd/lib/tooltip';
+import 'antd/lib/tooltip/style/index.css';
 
 import { convertHMSMsToSeconds } from '../../../utils/datetimeUtils.js';
 
@@ -27,6 +31,11 @@ const InputContainer = styled.div`
   margin-bottom: 12px;
 `;
 
+const GameTitleContainer = styled.div`
+  display: grid;
+  grid-template-columns: 86% 14%;
+`;
+
 const DropdownsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -42,13 +51,15 @@ const StyledLabel = styled.div`
 
 const ButtonContainer = styled.div`
   text-align: center;
-  margin: 25px;
+  margin: 20px;
 `;
 
 export default class CreateChartPageUserInputs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      gameList: ['Mega Man 2', 'Donkey Kong'],
+      playerList: ['Richard Ureta', 'Seth Glass', 'nou1', 'cyghfer', 'shoka', 'Ellonija', 'coolkid', 'Billy Mitchell', 'Tim Sczerby', 'Steve Wiebe', 'Hank Chien', 'Wes Copeland', 'Robbie Lakeman'],
       hours: undefined,
       minutes: undefined,
       seconds: undefined,
@@ -78,10 +89,25 @@ export default class CreateChartPageUserInputs extends React.Component {
             <StyledLabel>
               Game Title
             </StyledLabel>
-            <Input
-              value={this.props.chartInput.gameTitle}
-              onChange={(e) => this.props.changeInput('chartInput', 'gameTitle', e)}
-            />
+            <GameTitleContainer>
+              <AutoComplete
+                dataSource={this.state.gameList}
+                onSelect={(e) => this.props.changeInput('chartInput', 'gameTitle', e)}
+                filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+              />
+              <Tooltip
+                title='Submit new game'
+                placement='topRight'
+                mouseEnterDelay={0.5}
+              >
+                <Button
+                  style={{marginLeft: '10px', padding: '0'}}
+                  type='primary'
+                >
+                  <i className="fas fa-plus"></i>
+                </Button>
+              </Tooltip>
+            </GameTitleContainer>
           </InputContainer>
           <InputContainer page={this.props.page}>
             <StyledLabel>
@@ -110,9 +136,11 @@ export default class CreateChartPageUserInputs extends React.Component {
             <StyledLabel>
               Player
             </StyledLabel>
-            <Input
+            <AutoComplete
+              dataSource={this.state.playerList}
               value={this.props.recordInput.player}
               onChange={(e) => this.props.changeInput('recordInput', 'player', e)}
+              filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
             />
           </InputContainer>
           {this.props.chartType === 'speedrun'

@@ -174,7 +174,7 @@ export default class CreateChartPage extends React.Component {
             :
               (<CreateChartPageWrapper>
                 <LeftColumn>
-                  <ColumnHeader>{this.state.page === 2 ? 'Enter Chart Information' : 'Enter Record Information'}</ColumnHeader>
+                  <ColumnHeader>{this.state.page === 2 ? 'Chart Information' : `Record Information (${this.state.page - 2})`}</ColumnHeader>
                   <CreateChartPageUserInputs
                     page={this.state.page}
                     chartType={this.state.chartType}

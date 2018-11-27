@@ -78,3 +78,12 @@
   -o-transition: all 0.45s ease-in-out;
   transition: all 0.45s ease-in-out;
 }
+
+/*************
+* ANT DESIGN *
+*************/
+
+.ant-tooltip-inner {
+  min-height: 0 !important;
+  font-weight: 600;
+}
