@@ -11,8 +11,6 @@ import Checkbox from 'antd/lib/checkbox';
 import 'antd/lib/checkbox/style/index.css';
 import AutoComplete from 'antd/lib/auto-complete';
 import 'antd/lib/auto-complete/style/index.css';
-import Tooltip from 'antd/lib/tooltip';
-import 'antd/lib/tooltip/style/index.css';
 
 import { convertHMSMsToSeconds } from '../../../utils/datetimeUtils.js';
 
@@ -95,18 +93,14 @@ export default class CreateChartPageUserInputs extends React.Component {
                 onSelect={(e) => this.props.changeInput('chartInput', 'gameTitle', e)}
                 filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
               />
-              <Tooltip
+              <Button
                 title='Submit new game'
-                placement='topRight'
-                mouseEnterDelay={0.5}
+                style={{marginLeft: '10px', padding: '0'}}
+                type='primary'
+                onClick={this.props.showSubmitGame}
               >
-                <Button
-                  style={{marginLeft: '10px', padding: '0'}}
-                  type='primary'
-                >
-                  <i className="fas fa-plus"></i>
-                </Button>
-              </Tooltip>
+                <i className="fas fa-plus"></i>
+              </Button>
             </GameTitleContainer>
           </InputContainer>
           <InputContainer page={this.props.page}>

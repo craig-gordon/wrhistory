@@ -6,6 +6,7 @@ import 'antd/lib/input/style/index.css';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
 
+import SubmitGameForm from './SubmitGameForm.jsx';
 import CreateChartPageInitialButtons from './CreateChartPageInitialButtons.jsx';
 import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
 import DownshiftForm from './DownshiftForm.jsx';
@@ -52,6 +53,7 @@ export default class CreateChartPage extends React.Component {
     this.state = {
       page: 1,
       chartType: undefined,
+      submitGameOpen: false,
       chartInput: {
         gameTitle: '',
         category: '',
@@ -80,6 +82,8 @@ export default class CreateChartPage extends React.Component {
       templateChartDoc: undefined
     };
     this.changePage = this.changePage.bind(this);
+    this.showSubmitGame = this.showSubmitGame.bind(this);
+    this.closeSubmitGame = this.closeSubmitGame.bind(this);
     this.setChartType = this.setChartType.bind(this);
     this.submitData = this.submitData.bind(this);
     this.changeInput = this.changeInput.bind(this);
@@ -89,6 +93,14 @@ export default class CreateChartPage extends React.Component {
     this.setState({page: this.state.page + 1});
   }
 
+  showSubmitGame() {
+    this.setState({submitGameOpen: true});
+  }
+
+  closeSubmitGame() {
+    this.setState({submitGameOpen: false});
+  }
+
   setChartType(type) {
     let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
     this.setState({chartType: type, templateChartDoc: doc});
@@ -96,7 +108,6 @@ export default class CreateChartPage extends React.Component {
   }
 
   changeInput(chartOrRecord, type, e) {
-    console.log('e:', e);
     let value = e.target ? (e.target.checked !== undefined ? e.target.checked : e.target.value) : e;
     let stateObj = this.state[chartOrRecord];
     stateObj[type] = value;
@@ -164,6 +175,11 @@ export default class CreateChartPage extends React.Component {
   render() {
     return (
       <div>
+        <SubmitGameForm
+          submitGameOpen={this.state.submitGameOpen}
+          showSubmitGame={this.showSubmitGame}
+          closeSubmitGame={this.closeSubmitGame}
+        />
         <PageHeader>Create Chart</PageHeader>
         {
           this.state.page === 1
@@ -178,6 +194,7 @@ export default class CreateChartPage extends React.Component {
                   <CreateChartPageUserInputs
                     page={this.state.page}
                     chartType={this.state.chartType}
+                    showSubmitGame={this.showSubmitGame}
                     chartInput={this.state.chartInput}
                     recordInput={this.state.recordInput}
                     submitData={this.submitData}
