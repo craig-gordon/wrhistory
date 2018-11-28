@@ -7,6 +7,8 @@ import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
 import Select from 'antd/lib/select';
 import 'antd/lib/select/style/index.css';
+import Tooltip from 'antd/lib/tooltip';
+import 'antd/lib/tooltip/style/index.css';
 
 import {
   createYearDropdownOptions,
@@ -20,7 +22,7 @@ const ModalHeader = styled.h2`
 
 const LineWrapper = styled.div`
   display: grid;
-  grid-template-columns: 27% 73%;
+  grid-template-columns: 33% 67%;
   align-items: center;
   margin-bottom: 12px;
 `;
@@ -31,21 +33,32 @@ const DropdownsContainer = styled.div`
 `;
 
 const Label = styled.div`
-  margin-right: 20px;
+  margin-right: 28px;
   font-weight: bold;
   font-size: 18px;
   justify-self: end;
   color: rgb(99, 99, 99);
 `;
 
+const LabelWithQMark = styled(Label)`
+  margin-right: 0;
+`;
+
+const LabelWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 84% 16%;
+`;
+
+const QMarkWrapper = styled.span`
+  display: grid;
+  text-align: center;
+  align-items: center;
+`;
+
 const ButtonWrapper = styled.div`
   display: inline;
   float: right;
   margin-top: 10px;
-`;
-
-const SubmitText = styled.span`
-  margin-left: 8px;
 `;
 
 export default class SubmitGameForm extends React.Component {
@@ -105,7 +118,20 @@ export default class SubmitGameForm extends React.Component {
           />
         </LineWrapper>
         <LineWrapper>
-          <Label>Release Date</Label>
+          <LabelWrapper>
+            <LabelWithQMark>
+              Release Date
+            </LabelWithQMark>
+            <QMarkWrapper>
+              <Tooltip
+                title='Please enter the first official release date, regardless of region'
+                mouseEnterDelay={0.3}
+                placement='bottom'
+              >
+                <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+              </Tooltip>
+            </QMarkWrapper>
+          </LabelWrapper>
           <DropdownsContainer>
             <Select
               style={{marginRight: '10px'}}
@@ -132,9 +158,9 @@ export default class SubmitGameForm extends React.Component {
         <ButtonWrapper>
           <Button type='primary' size='large'>
             <i className="far fa-save"></i>
-            <SubmitText>
+            <span style={{marginLeft: '8px'}}>
               Submit
-            </SubmitText>
+            </span>
           </Button>
         </ButtonWrapper>
       </Modal>

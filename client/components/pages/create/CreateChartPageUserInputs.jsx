@@ -11,6 +11,8 @@ import Checkbox from 'antd/lib/checkbox';
 import 'antd/lib/checkbox/style/index.css';
 import AutoComplete from 'antd/lib/auto-complete';
 import 'antd/lib/auto-complete/style/index.css';
+import Tooltip from 'antd/lib/tooltip';
+import 'antd/lib/tooltip/style/index.css';
 
 import { convertHMSMsToSeconds } from '../../../utils/datetimeUtils.js';
 
@@ -24,7 +26,7 @@ import {
 
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.page === 2 ? '35% 65%' : '27% 73%'};
+  grid-template-columns: ${props => props.page === 2 ? '37% 63%' : '30% 70%'};
   align-items: center;
   margin-bottom: 12px;
 `;
@@ -39,12 +41,27 @@ const DropdownsContainer = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
-const StyledLabel = styled.div`
-  margin-right: 20px;
+const Label = styled.div`
+  margin-right: 28px;
   font-weight: bold;
   font-size: 18px;
   justify-self: end;
   color: rgb(99, 99, 99);
+`;
+
+const LabelWithQMark = styled(Label)`
+  margin-right: 0;
+`;
+
+const LabelAndQMarkWrapper = styled.div`
+  display: grid;
+  grid-template-columns: ${props => props.page === 2 ? '84% 16%' : '82% 18%'};
+`;
+
+const QMarkWrapper = styled.span`
+  display: grid;
+  text-align: center;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
@@ -84,9 +101,9 @@ export default class CreateChartPageUserInputs extends React.Component {
       inputForms = (
         <div>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
+            <Label>
               Game Title
-            </StyledLabel>
+            </Label>
             <GameTitleContainer>
               <AutoComplete
                 dataSource={this.state.gameList}
@@ -104,19 +121,31 @@ export default class CreateChartPageUserInputs extends React.Component {
             </GameTitleContainer>
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Category
-            </StyledLabel>
+            <LabelAndQMarkWrapper page={this.props.page}>
+              <LabelWithQMark>
+                Category
+              </LabelWithQMark>
+              <QMarkWrapper>
+                <Tooltip
+                  title={this.props.chartType === 'speedrun' ? `If the game's only noteworthy category is Any%, you may leave this blank` : `If the game has only one noteworthy category for scoring, you may leave this blank`}
+                  mouseEnterDelay={0.3}
+                >
+                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                </Tooltip>
+              </QMarkWrapper>
+            </LabelAndQMarkWrapper>
             <Input
+              placeholder='(Optional)'
               value={this.props.chartInput.category}
               onChange={(e) => this.props.changeInput('chartInput', 'category', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
+            <Label>
               Leaderboard URL
-            </StyledLabel>
+            </Label>
             <Input
+              placeholder='(Optional)'
               value={this.props.chartInput.leaderboardUrl}
               onChange={(e) => this.props.changeInput('chartInput', 'leaderboardUrl', e)}
             />
@@ -127,9 +156,9 @@ export default class CreateChartPageUserInputs extends React.Component {
       inputForms = (
         <div>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
+            <Label>
               Player
-            </StyledLabel>
+            </Label>
             <AutoComplete
               dataSource={this.state.playerList}
               value={this.props.recordInput.player}
@@ -137,11 +166,12 @@ export default class CreateChartPageUserInputs extends React.Component {
               filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
             />
           </InputContainer>
+
           {this.props.chartType === 'speedrun'
             ? <InputContainer page={this.props.page}>
-                <StyledLabel>
+                <Label>
                   Time
-                </StyledLabel>
+                </Label>
                 <DropdownsContainer>
                   <Select
                     style={{marginRight: '10px'}}
@@ -166,54 +196,19 @@ export default class CreateChartPageUserInputs extends React.Component {
                 </DropdownsContainer>
               </InputContainer>
             : <InputContainer page={this.props.page}>
-                <StyledLabel>
+                <Label>
                   Score
-                </StyledLabel>
+                </Label>
                 <Input
                   value={this.props.recordInput.mark}
                   onChange={(e) => this.props.changeInput('recordInput', 'mark', e)}
                 />
               </InputContainer>}
-          {/* <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Console
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.console}
-              onChange={(e) => this.props.changeInput('recordInput', 'console', e)}
-            />
-          </InputContainer>
+
           <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Platform
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.platform}
-              onChange={(e) => this.props.changeInput('recordInput', 'platform', e)}
-            />
-          </InputContainer>
-          <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Version
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.version}
-              onChange={(e) => this.props.changeInput('recordInput', 'version', e)}
-            />
-          </InputContainer>
-          <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Region
-            </StyledLabel>
-            <Input
-              value={this.props.recordInput.region}
-              onChange={(e) => this.props.changeInput('recordInput', 'region', e)}
-            />
-          </InputContainer> */}
-          <InputContainer page={this.props.page}>
-            <StyledLabel>
+            <Label>
               Date
-            </StyledLabel>
+            </Label>
             <DropdownsContainer>
               <Select
                 style={{marginRight: '10px'}}
@@ -238,48 +233,92 @@ export default class CreateChartPageUserInputs extends React.Component {
             </DropdownsContainer>
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
+            <Label>
               VOD URL
-            </StyledLabel>
+            </Label>
             <Input
+              placeholder='(Optional)'
               value={this.props.recordInput.vodUrl}
               onChange={(e) => this.props.changeInput('recordInput', 'vodUrl', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Tooltip Note
-            </StyledLabel>
+            <LabelAndQMarkWrapper page={this.props.page}>
+              <LabelWithQMark>
+                Tooltip Note
+              </LabelWithQMark>
+              <QMarkWrapper>
+                <Tooltip
+                  title={`Optional note that will appear in a record's Tooltip when hovering over its data point on the Chart`}
+                  mouseEnterDelay={0.3}
+                >
+                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                </Tooltip>
+              </QMarkWrapper>
+            </LabelAndQMarkWrapper>
             <TextArea
+              placeholder='(Optional)'
               rows={2}
               value={this.props.recordInput.tooltipNote}
               onChange={(e) => this.props.changeInput('recordInput', 'tooltipNote', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Label Text
-            </StyledLabel>
+            <LabelAndQMarkWrapper page={this.props.page}>
+              <LabelWithQMark>
+                Label Text
+              </LabelWithQMark>
+              <QMarkWrapper>
+                <Tooltip
+                  title={`Optional reference information that will appear as a static label above the record's data point on the chart`}
+                  mouseEnterDelay={0.3}
+                >
+                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                </Tooltip>
+              </QMarkWrapper>
+            </LabelAndQMarkWrapper>
             <TextArea
+              placeholder='(Optional)'
               rows={2}
               value={this.props.recordInput.labelText}
               onChange={(e) => this.props.changeInput('recordInput', 'labelText', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Detailed Text
-            </StyledLabel>
+            <LabelAndQMarkWrapper page={this.props.page}>
+              <LabelWithQMark>
+                Detailed Text
+              </LabelWithQMark>
+              <QMarkWrapper>
+                <Tooltip
+                  title={`Optional detailed information about the background, context, and historical information of the record and player`}
+                  mouseEnterDelay={0.3}
+                >
+                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                </Tooltip>
+              </QMarkWrapper>
+            </LabelAndQMarkWrapper>
             <TextArea
+              placeholder='(Optional)'
               rows={4}
               value={this.props.recordInput.detailedText}
               onChange={(e) => this.props.changeInput('recordInput', 'detailedText', e)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <StyledLabel>
-              Milestone
-            </StyledLabel>
+            <LabelAndQMarkWrapper page={this.props.page}>
+              <LabelWithQMark>
+                Milestone
+              </LabelWithQMark>
+              <QMarkWrapper>
+                <Tooltip
+                  title={`Indicates that the record in question surpassed a significant threshold, eg the first ${this.props.chartType === 'speedrun' ? 'sub-1hr time' : '1mil point score'}, and is represented on the chart as a POW symbol`}
+                  mouseEnterDelay={0.3}
+                >
+                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                </Tooltip>
+              </QMarkWrapper>
+            </LabelAndQMarkWrapper>
             <Checkbox
               onChange={(e) => this.props.changeInput('recordInput', 'isMilestone', e)}
             />
@@ -297,7 +336,10 @@ export default class CreateChartPageUserInputs extends React.Component {
             size='large'
             onClick={this.props.submitData}
           >
-            Save & Continue
+            <span style={{marginRight: '8px'}}>
+              Save + Continue
+            </span>
+            <i className="fas fa-arrow-circle-right"></i>
           </Button>
         </ButtonContainer>
       </div>
