@@ -66,7 +66,7 @@ const QMarkWrapper = styled.span`
 
 const ButtonContainer = styled.div`
   text-align: center;
-  margin: 20px;
+  margin-top: 20px;
 `;
 
 export default class CreateChartPageUserInputs extends React.Component {
@@ -106,8 +106,9 @@ export default class CreateChartPageUserInputs extends React.Component {
             </Label>
             <GameTitleContainer>
               <AutoComplete
+                value={this.props.chartInput.gameTitle}
                 dataSource={this.state.gameList}
-                onSelect={(e) => this.props.changeInput('chartInput', 'gameTitle', e)}
+                onChange={(e) => this.props.changeInput('chartInput', 'gameTitle', e)}
                 filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
               />
               <Button

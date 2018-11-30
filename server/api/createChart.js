@@ -73,7 +73,7 @@ router.post('/newRecord', (req, res) => {
         playerId,
         consoleId,
         gameId: req.body.gameId,
-      })
+      });
     })
     .then(newRecord => {
       newRecordEntry = newRecord.dataValues;

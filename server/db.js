@@ -217,17 +217,17 @@ ArticleTag.sync({force: false});
 // HARD DATA INSERTS //
 // ~~~~~~~~~~~~~~~~~ //
 
-Game.findOrCreate({where: {
-  title: 'Mega Man 2',
-  abbrev: 'mm2',
-  releaseDate: Date.UTC(1988, 11, 24)
-}});
+// Game.findOrCreate({where: {
+//   title: 'Mega Man 2',
+//   abbrev: 'mm2',
+//   releaseDate: Date.UTC(1988, 11, 24)
+// }});
 
-Game.findOrCreate({where: {
-  title: 'Donkey Kong',
-  abbrev: 'dk',
-  releaseDate: Date.UTC(1981, 6, 9)
-}});
+// Game.findOrCreate({where: {
+//   title: 'Donkey Kong',
+//   abbrev: 'dk',
+//   releaseDate: Date.UTC(1981, 6, 9)
+// }});
 
 Console.findOrCreate({where: {
   name: 'Nintendo Entertainment System',

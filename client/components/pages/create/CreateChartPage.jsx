@@ -179,6 +179,7 @@ export default class CreateChartPage extends React.Component {
           submitGameOpen={this.state.submitGameOpen}
           showSubmitGame={this.showSubmitGame}
           closeSubmitGame={this.closeSubmitGame}
+          changeInput={this.changeInput}
         />
         <PageHeader>Create {this.state.chartType === undefined ? '' : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')} Chart</PageHeader>
         {

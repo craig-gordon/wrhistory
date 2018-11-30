@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import Modal from 'react-responsive-modal';
 import Input from 'antd/lib/input';
@@ -9,6 +10,8 @@ import Select from 'antd/lib/select';
 import 'antd/lib/select/style/index.css';
 import Tooltip from 'antd/lib/tooltip';
 import 'antd/lib/tooltip/style/index.css';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style/index.css';
 
 import {
   createYearDropdownOptions,
@@ -69,16 +72,47 @@ export default class SubmitGameForm extends React.Component {
       abbrev: '',
       year: undefined,
       month: undefined,
-      day: undefined
+      day: undefined,
+      submitButtonStatus: 'default'
     };
-    this.changeInput = this.changeInput.bind(this);
+    this.changeGameInput = this.changeGameInput.bind(this);
+    this.submitNewGame = this.submitNewGame.bind(this);
+    
   }
 
-  changeInput(type, e) {
+  changeGameInput(type, e) {
     let value = e.target ? e.target.value : e;
     let stateObj = {};
     stateObj[type] = value;
     this.setState(stateObj);
+  }
+
+  submitNewGame() {
+    this.setState({submitButtonStatus: 'spin'})
+    let dataObj = this.state;
+    if (dataObj.abbrev === '') dataObj.abbrev = null;
+    axios.post('/api/gameData/newGame', dataObj)
+      .then(res => {
+        console.log('response:', res);
+        this.setState((state, props) => ({submitButtonStatus: 'success'}));
+        setTimeout(() => {
+          this.props.closeSubmitGame();
+          this.props.changeInput('chartInput', 'gameTitle', this.state.title);
+        }, 1500);
+        setTimeout(() => this.setState((state, props) => (
+          {
+            title: '',
+            abbrev: '',
+            year: undefined,
+            month: undefined,
+            day: undefined,
+            submitButtonStatus: 'default'
+          }
+        )), 3000);
+      })
+      .catch(err => {
+        console.log('error:', err);
+      });
   }
 
   render() {
@@ -92,6 +126,44 @@ export default class SubmitGameForm extends React.Component {
         backgroundColor: 'whitesmoke'
       }
     };
+
+    const btnDefault = (
+      <Button
+        type='primary'
+        size='large'
+        onClick={this.submitNewGame}
+      >
+        <i className="far fa-save"></i>
+        <span style={{marginLeft: '8px'}}>
+          Submit
+        </span>
+      </Button>
+    );
+    
+    const btnSpin = (
+      <Button
+        type='primary'
+        size='large'
+      >
+        <Spin />
+      </Button>
+    );
+    
+    const btnSuccess = (
+      <Button
+        type='primary'
+        size='large'
+      >
+        <i className="fas fa-check"></i>
+      </Button>
+    );
+    
+    const buttonMap = {
+      default: btnDefault,
+      spin: btnSpin,
+      success: btnSuccess
+    };
+
     return (
       <Modal
         open={this.props.submitGameOpen}
@@ -106,7 +178,7 @@ export default class SubmitGameForm extends React.Component {
           <Label>Title</Label>
           <Input
             value={this.state.title}
-            onChange={(e) => this.changeInput('title', e)}
+            onChange={(e) => this.changeGameInput('title', e)}
           />
         </LineWrapper>
         <LineWrapper>
@@ -114,7 +186,7 @@ export default class SubmitGameForm extends React.Component {
           <Input
             placeholder='(Optional) eg, oot'
             value={this.state.abbrev}
-            onChange={(e) => this.changeInput('abbrev', e)}
+            onChange={(e) => this.changeGameInput('abbrev', e)}
           />
         </LineWrapper>
         <LineWrapper>
@@ -136,32 +208,27 @@ export default class SubmitGameForm extends React.Component {
             <Select
               style={{marginRight: '10px'}}
               placeholder='Year'
-              onChange={(e) => this.changeInput('year', e)}
+              onChange={(e) => this.changeGameInput('year', e)}
             >
               {createYearDropdownOptions()}
             </Select>
             <Select
               placeholder='Month'
-              onChange={(e) => this.changeInput('month', e)}
+              onChange={(e) => this.changeGameInput('month', e)}
             >
               {monthOptions}
             </Select>
             <Select
               style={{marginLeft: '10px'}}
               placeholder='Day'
-              onChange={(e) => this.changeInput('day', e)}
+              onChange={(e) => this.changeGameInput('day', e)}
             >
               {dayOptions}
             </Select>
           </DropdownsContainer>
         </LineWrapper>
         <ButtonWrapper>
-          <Button type='primary' size='large'>
-            <i className="far fa-save"></i>
-            <span style={{marginLeft: '8px'}}>
-              Submit
-            </span>
-          </Button>
+          {buttonMap[this.state.submitButtonStatus]}
         </ButtonWrapper>
       </Modal>
     );
