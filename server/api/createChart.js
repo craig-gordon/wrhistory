@@ -13,6 +13,30 @@ const User = db.User,
       DocumentTag = db.DocumentTag,
       ConsoleGame = db.ConsoleGame;
 
+// Get the full list of games in the database
+router.get('/allGames', (req, res) => {
+  Game.findAll()
+    .then(allGameEntries => {
+      res.send(allGameEntries);
+    })
+    .catch(err => {
+      console.log('Error retrieving all game entries from the database:', err);
+      res.send(err);
+    });
+});
+
+// Get the full list of players in the database
+router.get('/allPlayers', (req, res) => {
+  Player.findAll()
+    .then(allPlayerEntries => {
+      console.log('allPlayerEntries:', allPlayerEntries);
+      res.send(allPlayerEntries);
+    })
+    .catch(err => {
+      console.log('Error retrieving all player entries from the database:', err);
+      res.send(err);
+    });
+});
 
 // Insert a new Document into the database
 router.post('/newDocument', (req, res) => {

@@ -95,10 +95,13 @@ export default class SubmitGameForm extends React.Component {
       .then(res => {
         console.log('response:', res);
         this.setState((state, props) => ({submitButtonStatus: 'success'}));
+        this.props.addNewGameToAllGames(this.state.title);
+
         setTimeout(() => {
           this.props.closeSubmitGame();
           this.props.changeInput('chartInput', 'gameTitle', this.state.title);
         }, 1500);
+        
         setTimeout(() => this.setState((state, props) => (
           {
             title: '',

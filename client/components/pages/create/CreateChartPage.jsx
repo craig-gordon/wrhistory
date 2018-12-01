@@ -54,6 +54,8 @@ export default class CreateChartPage extends React.Component {
       page: 1,
       chartType: undefined,
       submitGameOpen: false,
+      allGames: [],
+      allPlayers: [],
       chartInput: {
         gameTitle: '',
         category: '',
@@ -85,8 +87,31 @@ export default class CreateChartPage extends React.Component {
     this.showSubmitGame = this.showSubmitGame.bind(this);
     this.closeSubmitGame = this.closeSubmitGame.bind(this);
     this.setChartType = this.setChartType.bind(this);
-    this.submitData = this.submitData.bind(this);
+    this.addNewGameToAllGames = this.addNewGameToAllGames.bind(this);
     this.changeInput = this.changeInput.bind(this);
+    this.submitData = this.submitData.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/api/create/allGames')
+      .then(res => {
+        console.log('res.data:', res.data);
+        let titlesOnly = res.data.map(game => game.title);
+        this.setState({allGames: titlesOnly});
+      })
+      .catch(err => {
+        console.log('error:', err);
+      });
+    
+    axios.get('/api/create/allPlayers')
+      .then(res => {
+        console.log('res.data:', res.data);
+        let titlesOnly = res.data.map(player => player.username);
+        this.setState({allPlayers: titlesOnly});
+      })
+      .catch(err => {
+        console.log('error:', err);
+      });
   }
 
   changePage() {
@@ -105,6 +130,10 @@ export default class CreateChartPage extends React.Component {
     let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
     this.setState({chartType: type, templateChartDoc: doc});
     this.changePage();
+  }
+
+  addNewGameToAllGames(gameTitle) {
+    this.setState({allGames: this.state.allGames.concat(gameTitle)});
   }
 
   changeInput(chartOrRecord, type, e) {
@@ -141,6 +170,9 @@ export default class CreateChartPage extends React.Component {
       axios.post('/api/create/newRecord', dataObj)
         .then(res => {
           console.log('response:', res);
+          if (!this.state.allPlayers.includes(res.data.player)) {
+            this.setState({allPlayers: this.state.allPlayers.concat(res.data.player)});
+          }
           let templateChartDocObj = {...this.state.templateChartDoc};
           templateChartDocObj.records.push(res.data);
           if (templateChartDocObj.records[0].createdAt === undefined) {
@@ -179,6 +211,7 @@ export default class CreateChartPage extends React.Component {
           submitGameOpen={this.state.submitGameOpen}
           showSubmitGame={this.showSubmitGame}
           closeSubmitGame={this.closeSubmitGame}
+          addNewGameToAllGames={this.addNewGameToAllGames}
           changeInput={this.changeInput}
         />
         <PageHeader>Create {this.state.chartType === undefined ? '' : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')} Chart</PageHeader>
@@ -195,6 +228,8 @@ export default class CreateChartPage extends React.Component {
                   <CreateChartPageUserInputs
                     page={this.state.page}
                     chartType={this.state.chartType}
+                    allGames={this.state.allGames}
+                    allPlayers={this.state.allPlayers}
                     showSubmitGame={this.showSubmitGame}
                     chartInput={this.state.chartInput}
                     recordInput={this.state.recordInput}

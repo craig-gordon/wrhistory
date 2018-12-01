@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import Select from 'antd/lib/select';
 import 'antd/lib/select/style/index.css';
@@ -73,8 +74,6 @@ export default class CreateChartPageUserInputs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameList: ['Mega Man 2', 'Donkey Kong'],
-      playerList: ['Richard Ureta', 'Seth Glass', 'nou1', 'cyghfer', 'shoka', 'Ellonija', 'coolkid', 'Billy Mitchell', 'Tim Sczerby', 'Steve Wiebe', 'Hank Chien', 'Wes Copeland', 'Robbie Lakeman'],
       hours: undefined,
       minutes: undefined,
       seconds: undefined,
@@ -107,7 +106,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             <GameTitleContainer>
               <AutoComplete
                 value={this.props.chartInput.gameTitle}
-                dataSource={this.state.gameList}
+                dataSource={this.props.allGames}
                 onChange={(e) => this.props.changeInput('chartInput', 'gameTitle', e)}
                 filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
               />
@@ -161,7 +160,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               Player
             </Label>
             <AutoComplete
-              dataSource={this.state.playerList}
+              dataSource={this.props.allPlayers}
               value={this.props.recordInput.player}
               onChange={(e) => this.props.changeInput('recordInput', 'player', e)}
               filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
