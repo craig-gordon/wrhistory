@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Input from 'antd/lib/input';
@@ -9,40 +10,57 @@ import LoginForm from './LoginForm.jsx';
 
 const TopNavWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  align-items: center;
+  align-content: center;
+  padding: 0 8%;
+  background: lightgray;
   border-style: solid;
   border-color: darkgray;
   border-width: 0 0 2px 0;
-  background: lightgray;
-  padding: 0 5%;
   margin-bottom: 10px;
+  height: 44px;
+`;
+
+const LinksWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 25% 60% 15%;
+  align-content: center;
+  height: 44px;
+`;
+
+const ContentGroup = styled.div`
+  display: grid;
+  grid-template-columns: 50% 25% 25%;
+  align-content: center;
+  justify-items: start;
+`;
+
+const AuthGroup = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  justify-items: end;
 `;
 
 const SiteLink = styled(Link)`
   color: magenta;
   text-decoration: none;
   font-weight: bold;
-  margin: 4% auto;
-`
+`;
 
-const StyledReactLink = styled(Link)`
+const RouterLink = styled(Link)`
   color: blue;
   text-decoration: none;
   font-weight: bold;
-  margin: 4% auto;
 `;
 
-const StyledInput = styled(Input)`
-  border-radius: 4px;
+const SearchBar = styled(Input)`
   margin: 2% 0;
 `;
 
-const StyledLink = styled.div`
+const AuthLink = styled.div`
   color: blue;
   text-decoration: none;
   font-weight: bold;
-  margin: 4% auto;
   &:hover {
     cursor: pointer
   }
@@ -59,6 +77,10 @@ export default class TopNav extends React.Component {
     this.closeLogin = this.closeLogin.bind(this);
     this.showSignup = this.showSignup.bind(this);
     this.closeSignup = this.closeSignup.bind(this);
+  }
+
+  componentDidMount() {
+    $(".search").children("input").css("border-radius", "16px");
   }
 
   showLogin() {
@@ -79,7 +101,7 @@ export default class TopNav extends React.Component {
 
   render() {
     return (
-      <div>
+      <TopNavWrapper>
         <SignupForm
           signupOpen={this.state.signupOpen}
           showSignup={this.showSignup}
@@ -90,17 +112,26 @@ export default class TopNav extends React.Component {
           showLogin={this.showLogin}
           closeLogin={this.closeLogin}
         />
-        <TopNavWrapper>
-          <SiteLink to='/'>Record History</SiteLink>
-          <StyledReactLink to='/speedruns'>Speedruns</StyledReactLink>
-          <StyledReactLink to='/highscores'>High Scores</StyledReactLink>
-          <StyledReactLink to='/create'>Create Chart</StyledReactLink>
-          {/* <StyledReactLink to='/articles'>Articles</StyledReactLink> */}
-          <StyledInput type='text' placeholder='Search for Games, Users, etc...'></StyledInput>
-          <StyledLink onClick={this.showSignup}>Sign Up</StyledLink>
-          <StyledLink onClick={this.showLogin}>Log In</StyledLink>
-        </TopNavWrapper>
-      </div>
+        <LinksWrapper>
+          <ContentGroup>
+            <SiteLink to='/'>RECORD HISTORY</SiteLink>
+            <RouterLink to='/games'>Games</RouterLink>
+            <RouterLink to='/create'>Create</RouterLink>
+            {/* <RouterLink to='/articles'>Articles</RouterLink> */}
+          </ContentGroup>
+          <SearchBar
+            className='search'
+            type='text'
+            prefix={<i class="fas fa-search"></i>}
+            placeholder='Site-wide search coming in the future'
+            disabled
+          />
+          <AuthGroup>
+            <AuthLink onClick={this.showSignup}>Sign Up</AuthLink>
+            <AuthLink onClick={this.showLogin}>Log In</AuthLink>
+          </AuthGroup>
+        </LinksWrapper>
+      </TopNavWrapper>
     );
   }
 };

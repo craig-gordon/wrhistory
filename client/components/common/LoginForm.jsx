@@ -63,10 +63,10 @@ export default class LoginForm extends React.Component {
         <hr />
         <ButtonsPanel>
           <ButtonWrapper>
-            <Button type='primary' size='large'>Log In</Button>
+            <Button disabled type='primary' size='large'>Log In</Button>
           </ButtonWrapper>
           <ButtonWrapper>
-            <Button type='default' size='large'>Forgot Password</Button>
+            <Button disabled type='default' size='large'>Forgot Password</Button>
           </ButtonWrapper>
           <ButtonWrapper>
             <Button type='default' size='large'>Cancel</Button>

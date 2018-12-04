@@ -121,6 +121,7 @@ export default class SignupForm extends React.Component {
         <ButtonsPanel>
           <ButtonWrapper>
             <Button
+              disabled
               type='primary'
               size='large'
               onClick={this.submitNewAccount}

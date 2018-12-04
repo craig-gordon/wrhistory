@@ -13,7 +13,7 @@ import GamePage from '../pages/game/GamePage.jsx';
 import Footer from './Footer.jsx';
 
 const AppBody = styled.div`
-  margin: 0 8%;
+  padding: 0 8%;
 `;
 
 export default class App extends React.Component {
@@ -29,8 +29,7 @@ export default class App extends React.Component {
           <Switch>
             <Route exact path='/' component={HomePage} />
             <Route path='/about' component={AboutPage} />
-            <Route path='/speedruns' component={BrowseGamesPage} />
-            <Route path='/highscores' component={BrowseGamesPage} />
+            <Route path='/games' component={BrowseGamesPage} />
             <Route path='/create' component={CreateChartPage} />
             <Route exact path='/articles' component={BrowseArticlesPage} />
             <Route path='/articles/:id' component={ArticlePage} />
