@@ -122,7 +122,7 @@ export default class TopNav extends React.Component {
           <SearchBar
             className='search'
             type='text'
-            prefix={<i class="fas fa-search"></i>}
+            prefix={<i className="fas fa-search"></i>}
             placeholder='Site-wide search coming in the future'
             disabled
           />
