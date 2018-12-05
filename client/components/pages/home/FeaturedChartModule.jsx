@@ -5,17 +5,15 @@ import { Link } from 'react-router-dom';
 import { LightGreenModule } from '../../common/styledComponents.js';
 import Chart from '../../charts/Chart.jsx';
 
-import { document as dkDocument } from '../../../data/dkDocument.js';
 import { document as mm2Document } from '../../../data/mm2Document.js';
-
-const documents = {dkDocument, mm2Document};
 
 export default class FeaturedChartModule extends React.Component {
   constructor(props) {
     super(props);
     this.code = Math.random() >= 1 ? 'dk' : 'mm2';
     this.state = {
-      document: documents[`${this.code}Document`]
+      document: mm2Document,
+      gameCode: 'mm2'
     };
   }
 
@@ -32,11 +30,17 @@ export default class FeaturedChartModule extends React.Component {
   }
 
   render() {
+    let category = this.state.document.category;
+    if (category !== null) {
+      var adjustedCategory = category[category.length - 1] === '%'
+        ? category.slice(0, category.length - 1)
+        : category;
+    }
     return (
       <LightGreenModule>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>
         <Chart document={this.state.document} />
-        <Link to={'/' + this.code}>See full chart!</Link>
+        <Link to={`/${this.state.gameCode}${adjustedCategory ? '/' + adjustedCategory : ''}`}>See full chart!</Link>
       </LightGreenModule>
     );
   }

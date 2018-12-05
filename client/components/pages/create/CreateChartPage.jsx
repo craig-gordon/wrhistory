@@ -136,10 +136,11 @@ export default class CreateChartPage extends React.Component {
     this.setState({allGames: this.state.allGames.concat(gameTitle)});
   }
 
-  changeInput(chartOrRecord, type, e) {
-    let value = e.target ? (e.target.checked !== undefined ? e.target.checked : e.target.value) : e;
-    let stateObj = this.state[chartOrRecord];
-    stateObj[type] = value;
+  changeInput(chartOrRecord, type, value) {
+    let innerObj = this.state[chartOrRecord];
+    innerObj[type] = value;
+    let stateObj = {};
+    stateObj[chartOrRecord] = innerObj;
     this.setState(stateObj);
   }
 

@@ -29,12 +29,12 @@ export default class App extends React.Component {
           <Switch>
             <Route exact path='/' component={HomePage} />
             <Route path='/about' component={AboutPage} />
-            <Route path='/games' component={BrowseGamesPage} />
+            <Route path='/browse/games' component={BrowseGamesPage} />
             <Route path='/create' component={CreateChartPage} />
             <Route exact path='/articles' component={BrowseArticlesPage} />
             <Route path='/articles/:id' component={ArticlePage} />
-            <Route path='/mm2' component={GamePage} />
-            <Route path='/dk' component={GamePage} />
+            <Route exact path='/game/:code' component={GamePage} />
+            <Route exact path='/game/:code/:category' component={GamePage} />
           </Switch>
         </AppBody>
         <Footer />

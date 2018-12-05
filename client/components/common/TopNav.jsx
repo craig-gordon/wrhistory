@@ -115,7 +115,7 @@ export default class TopNav extends React.Component {
         <LinksWrapper>
           <ContentGroup>
             <SiteLink to='/'>RECORD HISTORY</SiteLink>
-            <RouterLink to='/games'>Games</RouterLink>
+            <RouterLink to='/browse/games'>Games</RouterLink>
             <RouterLink to='/create'>Create</RouterLink>
             {/* <RouterLink to='/articles'>Articles</RouterLink> */}
           </ContentGroup>

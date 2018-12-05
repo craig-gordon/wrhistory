@@ -137,7 +137,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             <Input
               placeholder='(Optional)'
               value={this.props.chartInput.category}
-              onChange={(e) => this.props.changeInput('chartInput', 'category', e)}
+              onChange={(e) => this.props.changeInput('chartInput', 'category', e.target.value)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -147,7 +147,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             <Input
               placeholder='(Optional)'
               value={this.props.chartInput.leaderboardUrl}
-              onChange={(e) => this.props.changeInput('chartInput', 'leaderboardUrl', e)}
+              onChange={(e) => this.props.changeInput('chartInput', 'leaderboardUrl', e.target.value)}
             />
           </InputContainer>
         </div>
@@ -176,20 +176,20 @@ export default class CreateChartPageUserInputs extends React.Component {
                   <Select
                     style={{marginRight: '10px'}}
                     placeholder='Hours'
-                    onChange={(e) => this.props.changeTimeInput('hours', e)}
+                    onChange={(e) => this.changeTimeInput('hours', e)}
                   >
                     {hoursOptions}
                   </Select>
                   <Select
                     placeholder='Minutes'
-                    onChange={(e) => this.props.changeTimeInput('minutes', e)}
+                    onChange={(e) => this.changeTimeInput('minutes', e)}
                   >
                     {minutesSecondsOptions}
                   </Select>
                   <Select
                     style={{marginLeft: '10px'}}
                     placeholder='Seconds'
-                    onChange={(e) => this.props.changeTimeInput('seconds', e)}
+                    onChange={(e) => this.changeTimeInput('seconds', e)}
                   >
                     {minutesSecondsOptions}
                   </Select>
@@ -201,7 +201,7 @@ export default class CreateChartPageUserInputs extends React.Component {
                 </Label>
                 <Input
                   value={this.props.recordInput.mark}
-                  onChange={(e) => this.props.changeInput('recordInput', 'mark', e)}
+                  onChange={(e) => this.props.changeInput('recordInput', 'mark', e.target.value)}
                 />
               </InputContainer>}
 
@@ -239,7 +239,7 @@ export default class CreateChartPageUserInputs extends React.Component {
             <Input
               placeholder='(Optional)'
               value={this.props.recordInput.vodUrl}
-              onChange={(e) => this.props.changeInput('recordInput', 'vodUrl', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'vodUrl', e.target.value)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -260,7 +260,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               placeholder='(Optional)'
               rows={2}
               value={this.props.recordInput.tooltipNote}
-              onChange={(e) => this.props.changeInput('recordInput', 'tooltipNote', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'tooltipNote', e.target.value)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -281,7 +281,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               placeholder='(Optional)'
               rows={2}
               value={this.props.recordInput.labelText}
-              onChange={(e) => this.props.changeInput('recordInput', 'labelText', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'labelText', e.target.value)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -302,7 +302,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               placeholder='(Optional)'
               rows={4}
               value={this.props.recordInput.detailedText}
-              onChange={(e) => this.props.changeInput('recordInput', 'detailedText', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'detailedText', e.target.value)}
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
@@ -320,7 +320,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               </QMarkWrapper>
             </LabelAndQMarkWrapper>
             <Checkbox
-              onChange={(e) => this.props.changeInput('recordInput', 'isMilestone', e)}
+              onChange={(e) => this.props.changeInput('recordInput', 'isMilestone', e.target.checked)}
             />
           </InputContainer>
         </div>

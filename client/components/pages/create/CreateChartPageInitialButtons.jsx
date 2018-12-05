@@ -1,23 +1,23 @@
 import React from 'react';
-import Button from 'antd/lib/button';
-import 'antd/lib/button/style/index.css';
+// import Button from 'antd/lib/button';
+// import 'antd/lib/button/style/index.css';
+
+import StandardButton from '../../common/StandardButton.jsx';
 
 const CreateChartPageInitialButtons = (props) => {
   return (
     <div style={{'textAlign': 'center'}}>
-      <Button
-        type='primary'
-        size='large'
-        onClick={() => props.setChartType('speedrun')}
-      >
-        Speedrun
-      </Button> <Button
-        type='primary'
-        size='large'
-        onClick={() => props.setChartType('highscore')}
-      >
-        High Score
-      </Button>
+      <StandardButton
+        title='Speedrun'
+        iconClasses='fas fa-stopwatch'
+        iconSide='left'
+        onClickFn={() => props.setChartType('speedrun')}
+      /> <StandardButton
+        title='High Score'
+        iconClasses='fas fa-trophy'
+        iconSide='left'
+        onClickFn={() => props.setChartType('highscore')}
+      />
     </div>
   );
 };
