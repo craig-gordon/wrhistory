@@ -1,9 +1,9 @@
 import moment from 'moment';
 
-export const convertHMSMsToSeconds = (h, m, s, ms) => {
+export const convertHMSMsToSecondsStr = (h, m, s, ms) => {
   let totalSeconds = (h * 3600) + (m * 60) + s;
-  if (ms) totalSeconds = totalSeconds + Number(`0.${ms}`);
-  return totalSeconds;
+  if (ms !== '') totalSeconds = totalSeconds.toString() + `.${ms}`;
+  return totalSeconds.toString();
 };
 
 export const tsToSecs = (ts) => {

@@ -15,11 +15,12 @@ import 'antd/lib/auto-complete/style/index.css';
 import Tooltip from 'antd/lib/tooltip';
 import 'antd/lib/tooltip/style/index.css';
 
-import { convertHMSMsToSeconds } from '../../../utils/datetimeUtils.js';
+import { convertHMSMsToSecondsStr } from '../../../utils/datetimeUtils.js';
 
 import {
   hoursOptions,
-  minutesSecondsOptions,
+  minutesOptions,
+  secondsOptions,
   createYearDropdownOptions,
   monthOptions,
   dayOptions
@@ -37,9 +38,16 @@ const GameTitleContainer = styled.div`
   grid-template-columns: 86% 14%;
 `;
 
-const DropdownsContainer = styled.div`
+const TimeDropdownsContainer = styled.div`
+  display: grid;
+  grid-template-columns: ${props => props.showMilliseconds ? '1fr 1fr 1fr 1fr' : '1fr 1fr 1fr'};
+  grid-column-gap: 10px;
+`;
+
+const DateDropdownsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 10px;
 `;
 
 const Label = styled.div`
@@ -50,16 +58,24 @@ const Label = styled.div`
   color: rgb(99, 99, 99);
 `;
 
-const LabelWithQMark = styled(Label)`
+const Icon = styled.i`
+  font-size: 14px;
+  color: rgb(130, 130, 130);
+  &:hover {
+    cursor: ${props => props.pointerOnHover ? 'pointer' : 'auto'};
+  }
+`;
+
+const LabelWithIcon = styled(Label)`
   margin-right: 0;
 `;
 
-const LabelAndQMarkWrapper = styled.div`
+const LabelWithIconWrapper = styled.div`
   display: grid;
   grid-template-columns: ${props => props.page === 2 ? '84% 16%' : '82% 18%'};
 `;
 
-const QMarkWrapper = styled.span`
+const IconWrapper = styled.span`
   display: grid;
   text-align: center;
   align-items: center;
@@ -77,19 +93,34 @@ export default class CreateChartPageUserInputs extends React.Component {
       hours: undefined,
       minutes: undefined,
       seconds: undefined,
-      milliseconds: undefined
+      milliseconds: '',
+      showMilliseconds: false
     }
     this.changeTimeInput = this.changeTimeInput.bind(this);
+    this.toggleMilliseconds = this.toggleMilliseconds.bind(this);
   }
 
   changeTimeInput(type, e) {
     let stateObj = {};
     stateObj[type] = e;
-    this.setState(stateObj);
+    this.setState(stateObj, () => {
+      if (this.state.hours !== undefined && this.state.minutes !== undefined && this.state.seconds !== undefined) {
+        let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
+        this.props.changeInput('recordInput', 'mark', totalSecondsStr);
+      }
+    });
+  }
 
-    if (this.state.hours && this.state.minutes && this.state.seconds) {
-      let totalSeconds = convertHMSMsToSeconds(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
-      this.props.changeInput('recordInput', 'mark', totalSeconds);
+  toggleMilliseconds() {
+    if (this.state.showMilliseconds) {
+      this.setState({milliseconds: '', showMilliseconds: false}, () => {
+        if (this.state.hours !== '' && this.state.minutes !== '' && this.state.seconds !== '') {
+          let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
+          this.props.changeInput('recordInput', 'mark', totalSecondsStr);
+        }
+      });
+    } else {
+      this.setState({showMilliseconds: true});
     }
   }
 
@@ -116,24 +147,24 @@ export default class CreateChartPageUserInputs extends React.Component {
                 type='primary'
                 onClick={this.props.showSubmitGame}
               >
-                <i className="fas fa-plus"></i>
+                <i className="fas fa-plus" />
               </Button>
             </GameTitleContainer>
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <LabelAndQMarkWrapper page={this.props.page}>
-              <LabelWithQMark>
+            <LabelWithIconWrapper page={this.props.page}>
+              <LabelWithIcon>
                 Category
-              </LabelWithQMark>
-              <QMarkWrapper>
+              </LabelWithIcon>
+              <IconWrapper>
                 <Tooltip
                   title={this.props.chartType === 'speedrun' ? `If the game's only noteworthy category is Any%, you may leave this blank` : `If the game has only one noteworthy category for scoring, you may leave this blank`}
                   mouseEnterDelay={0.3}
                 >
-                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                  <Icon className="fas fa-question-circle" />
                 </Tooltip>
-              </QMarkWrapper>
-            </LabelAndQMarkWrapper>
+              </IconWrapper>
+            </LabelWithIconWrapper>
             <Input
               placeholder='(Optional)'
               value={this.props.chartInput.category}
@@ -155,45 +186,63 @@ export default class CreateChartPageUserInputs extends React.Component {
     } else {
       inputForms = (
         <div>
-          <InputContainer page={this.props.page}>
-            <Label>
-              Player
-            </Label>
-            <AutoComplete
-              dataSource={this.props.allPlayers}
-              value={this.props.recordInput.player}
-              onChange={(e) => this.props.changeInput('recordInput', 'player', e)}
-              filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-            />
-          </InputContainer>
-
           {this.props.chartType === 'speedrun'
             ? <InputContainer page={this.props.page}>
-                <Label>
-                  Time
-                </Label>
-                <DropdownsContainer>
+                <LabelWithIconWrapper page={this.props.page}>
+                  <LabelWithIcon>
+                    Time
+                  </LabelWithIcon>
+                  <IconWrapper>
+                    <Tooltip
+                      title={
+                        this.state.showMilliseconds
+                          ? 'Click to hide & clear milliseconds input'
+                          : 'Click to show milliseconds input'
+                      }
+                      mouseEnterDelay={0.3}
+                    >
+                      <Icon
+                        pointerOnHover={true}
+                        className={
+                          this.state.showMilliseconds
+                            ? "fas fa-minus-circle"
+                            : "fas fa-plus-circle"
+                        }
+                        onClick={this.toggleMilliseconds}
+                      />
+                    </Tooltip>
+                  </IconWrapper>
+                </LabelWithIconWrapper>
+                <TimeDropdownsContainer showMilliseconds={this.state.showMilliseconds}>
                   <Select
-                    style={{marginRight: '10px'}}
-                    placeholder='Hours'
+                    placeholder={this.state.showMilliseconds ? 'H' : 'Hours'}
                     onChange={(e) => this.changeTimeInput('hours', e)}
                   >
                     {hoursOptions}
                   </Select>
                   <Select
-                    placeholder='Minutes'
+                    placeholder={this.state.showMilliseconds ? 'M' : 'Minutes'}
                     onChange={(e) => this.changeTimeInput('minutes', e)}
                   >
-                    {minutesSecondsOptions}
+                    {minutesOptions}
                   </Select>
                   <Select
-                    style={{marginLeft: '10px'}}
-                    placeholder='Seconds'
+                    placeholder={this.state.showMilliseconds ? 'S' : 'Seconds'}
                     onChange={(e) => this.changeTimeInput('seconds', e)}
                   >
-                    {minutesSecondsOptions}
+                    {secondsOptions}
                   </Select>
-                </DropdownsContainer>
+                  {
+                    this.state.showMilliseconds
+                      ? <Input
+                          placeholder='ms'
+                          addonBefore='.'
+                          value={this.state.milliseconds}
+                          onChange={(e) => this.changeTimeInput('milliseconds', e.target.value)}
+                        />
+                      : null
+                  }
+                </TimeDropdownsContainer>
               </InputContainer>
             : <InputContainer page={this.props.page}>
                 <Label>
@@ -207,11 +256,21 @@ export default class CreateChartPageUserInputs extends React.Component {
 
           <InputContainer page={this.props.page}>
             <Label>
+              Player
+            </Label>
+            <AutoComplete
+              dataSource={this.props.allPlayers}
+              value={this.props.recordInput.player}
+              onChange={(e) => this.props.changeInput('recordInput', 'player', e)}
+              filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+            />
+          </InputContainer>
+          <InputContainer page={this.props.page}>
+            <Label>
               Date
             </Label>
-            <DropdownsContainer>
+            <DateDropdownsContainer>
               <Select
-                style={{marginRight: '10px'}}
                 placeholder='Year'
                 onChange={(e) => this.props.changeInput('recordInput', 'year', e)}
               >
@@ -223,14 +282,13 @@ export default class CreateChartPageUserInputs extends React.Component {
               >
                 {monthOptions}
               </Select>
-              <Select
-                style={{marginLeft: '10px'}}
+              <Select          
                 placeholder='Day'
                 onChange={(e) => this.props.changeInput('recordInput', 'day', e)}
               >
                 {dayOptions}
               </Select>
-            </DropdownsContainer>
+            </DateDropdownsContainer>
           </InputContainer>
           <InputContainer page={this.props.page}>
             <Label>
@@ -243,19 +301,19 @@ export default class CreateChartPageUserInputs extends React.Component {
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <LabelAndQMarkWrapper page={this.props.page}>
-              <LabelWithQMark>
+            <LabelWithIconWrapper page={this.props.page}>
+              <LabelWithIcon>
                 Tooltip Note
-              </LabelWithQMark>
-              <QMarkWrapper>
+              </LabelWithIcon>
+              <IconWrapper>
                 <Tooltip
                   title={`Optional note that will appear in a record's Tooltip when hovering over its data point on the Chart`}
                   mouseEnterDelay={0.3}
                 >
-                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                  <Icon className="fas fa-question-circle" />
                 </Tooltip>
-              </QMarkWrapper>
-            </LabelAndQMarkWrapper>
+              </IconWrapper>
+            </LabelWithIconWrapper>
             <TextArea
               placeholder='(Optional)'
               rows={2}
@@ -264,19 +322,19 @@ export default class CreateChartPageUserInputs extends React.Component {
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <LabelAndQMarkWrapper page={this.props.page}>
-              <LabelWithQMark>
+            <LabelWithIconWrapper page={this.props.page}>
+              <LabelWithIcon>
                 Label Text
-              </LabelWithQMark>
-              <QMarkWrapper>
+              </LabelWithIcon>
+              <IconWrapper>
                 <Tooltip
                   title={`Optional reference information that will appear as a static label above the record's data point on the chart`}
                   mouseEnterDelay={0.3}
                 >
-                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                  <Icon className="fas fa-question-circle" />
                 </Tooltip>
-              </QMarkWrapper>
-            </LabelAndQMarkWrapper>
+              </IconWrapper>
+            </LabelWithIconWrapper>
             <TextArea
               placeholder='(Optional)'
               rows={2}
@@ -285,19 +343,19 @@ export default class CreateChartPageUserInputs extends React.Component {
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <LabelAndQMarkWrapper page={this.props.page}>
-              <LabelWithQMark>
+            <LabelWithIconWrapper page={this.props.page}>
+              <LabelWithIcon>
                 Detailed Text
-              </LabelWithQMark>
-              <QMarkWrapper>
+              </LabelWithIcon>
+              <IconWrapper>
                 <Tooltip
                   title={`Optional detailed information about the background, context, and historical information of the record and player`}
                   mouseEnterDelay={0.3}
                 >
-                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                  <Icon className="fas fa-question-circle" />
                 </Tooltip>
-              </QMarkWrapper>
-            </LabelAndQMarkWrapper>
+              </IconWrapper>
+            </LabelWithIconWrapper>
             <TextArea
               placeholder='(Optional)'
               rows={4}
@@ -306,19 +364,19 @@ export default class CreateChartPageUserInputs extends React.Component {
             />
           </InputContainer>
           <InputContainer page={this.props.page}>
-            <LabelAndQMarkWrapper page={this.props.page}>
-              <LabelWithQMark>
+            <LabelWithIconWrapper page={this.props.page}>
+              <LabelWithIcon>
                 Milestone
-              </LabelWithQMark>
-              <QMarkWrapper>
+              </LabelWithIcon>
+              <IconWrapper>
                 <Tooltip
                   title={`Indicates that the record in question surpassed a significant threshold, eg the first ${this.props.chartType === 'speedrun' ? 'sub-1hr time' : '1mil point score'}, and is represented on the chart as a POW symbol`}
                   mouseEnterDelay={0.3}
                 >
-                  <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+                  <Icon className="fas fa-question-circle" />
                 </Tooltip>
-              </QMarkWrapper>
-            </LabelAndQMarkWrapper>
+              </IconWrapper>
+            </LabelWithIconWrapper>
             <Checkbox
               onChange={(e) => this.props.changeInput('recordInput', 'isMilestone', e.target.checked)}
             />

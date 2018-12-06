@@ -8,10 +8,10 @@ import 'antd/lib/select/style/index.css';
 export const hoursOptions = (function() {
   let optionsArray = [];
 
-  for (var i = 0; i <= 500; i++) {
+  for (var i = 0; i <= 99; i++) {
     optionsArray.push(
       <Option key={i} value={i}>
-        {i}
+        {i} h
       </Option>
     );
   }
@@ -20,15 +20,32 @@ export const hoursOptions = (function() {
 })();
 
 
-// Minutes & Seconds Options
+// Minutes Options
 
-export const minutesSecondsOptions = (function() {
+export const minutesOptions = (function() {
   let optionsArray = [];
 
   for (var i = 0; i <= 59; i++) {
     optionsArray.push(
       <Option key={i} value={i}>
-        {i}
+        {i} m
+      </Option>
+    );
+  }
+
+  return optionsArray;
+})();
+
+
+// Seconds Options
+
+export const secondsOptions = (function() {
+  let optionsArray = [];
+
+  for (var i = 0; i <= 59; i++) {
+    optionsArray.push(
+      <Option key={i} value={i}>
+        {i} s
       </Option>
     );
   }
@@ -47,7 +64,7 @@ export const createYearDropdownOptions = (releaseYear) => {
   for (var i = releaseYear; i <= currentYear; i++) {
     optionsArray.push(
       <Option key={i - releaseYear} value={i}>
-        {i}
+        {i} s
       </Option>
     );
   }
