@@ -26,7 +26,7 @@ export const formatTooltip = function() {
   return `
     <div>
       <div><span class='ttCategory'>${typeLabel}</span>${formattedMark}</div>
-      <div><span class='ttCategory'>Player</span>${this.point.data.player}</div>
+      <div><span class='ttCategory'>Player</span>${this.point.data.playerName}</div>
       <div><span class='ttCategory'>Date</span>${dateStr}</div>
       <div><span class='ttCategory'>Duration</span>${daysToYMD(this.x, this.point.nextDate)} ${this.point.isCurrentRecord ? ' and counting!' : ''}</div>
       ${this.point.data.tooltipNote ? `<div><span class='ttCategory'>Note</span>${this.point.data.tooltipNote}</div>` : ``}
@@ -83,7 +83,7 @@ export const createSubtitleHTML = function(document, currentRecord) {
   let formattedMark = document.type === 'speedrun' ? secsToTs(currentRecord.mark) : formatHighScore(currentRecord.mark);
   return `
     <div class='chartSubtitle'>
-      <div>Current WR — <a href=${currentRecord.vodUrl} class='chartLink score'>${formattedMark}</a> by ${currentRecord.player}</div>
+      <div>Current WR — <a href=${currentRecord.vodUrl} class='chartLink score'>${formattedMark}</a> by ${currentRecord.playerName}</div>
       <a href=${document.leaderboardUrl} class='chartLink lbLink'>LEADERBOARD</a>
     </div>
   `
@@ -170,12 +170,12 @@ export const createChartData = function(records, documentType) {
     let playerColor;
 
     for (var color in mappings) {
-      if (mappings[color] === record.player) playerColor = color;
+      if (mappings[color] === record.playerName) playerColor = color;
     }
     if (playerColor === undefined) {
       for (var color in mappings) {
         if (mappings[color] === undefined) {
-          mappings[color] = record.player;
+          mappings[color] = record.playerName;
           playerColor = color;
           break;
         }
@@ -215,18 +215,18 @@ export const createChartData = function(records, documentType) {
 
 //   let nonRepeatRecords = records.filter((record, i) => {
 //     if (i === 0) return true;
-//     else return records[i-1].player !== record.player;
+//     else return records[i-1].playerName !== record.playerName;
 //   });
 
 //   return nonRepeatRecords.map((record, i) => {
 //     let playerColor;
 //     for (var color in mappings) {
-//       if (mappings[color] === record.player) playerColor = color;
+//       if (mappings[color] === record.playerName) playerColor = color;
 //     }
 //     if (playerColor === undefined) {
 //       for (var color in mappings) {
 //         if (mappings[color] === undefined) {
-//           mappings[color] = record.player;
+//           mappings[color] = record.playerName;
 //           playerColor = color;
 //           break;
 //         }
@@ -254,10 +254,10 @@ export const createChartSeries = function(records, documentType, changeSelectedC
   let playerList = [];
 
   return records.filter((record, i) => {
-    if (playerList.indexOf(record.player) > -1) {
+    if (playerList.indexOf(record.playerName) > -1) {
       return false;
     } else {
-      playerList.push(record.player);
+      playerList.push(record.playerName);
       return true;
     }
   }).map((record, i) => {
@@ -265,7 +265,7 @@ export const createChartSeries = function(records, documentType, changeSelectedC
       return {
         grouping: false,
         type: 'coloredline',
-        name: record.player,
+        name: record.playerName,
         color: convertTransparentToSolid(playerColors[i]),
         step: 'left',
         cursor: 'pointer',
@@ -281,7 +281,7 @@ export const createChartSeries = function(records, documentType, changeSelectedC
     } else {
       return {
         grouping: false,
-        name: record.player,
+        name: record.playerName,
         color: convertTransparentToSolid(playerColors[i]),
         data: []
       };
@@ -306,7 +306,7 @@ export const createCarouselSlides = function(records) {
     let formattedMark = record.type === 'time' ? secsToTs(record.mark) : formatHighScore(record.mark);
     return (
       <Slide key={i}>
-        <Header>{record.player} — {formattedMark}</Header>
+        <Header>{record.playerName} — {formattedMark}</Header>
         <Text>{record.detailedText}</Text>
       </Slide>
     );

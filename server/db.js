@@ -100,6 +100,7 @@ Document.sync({force: false});
 const Record = database.define('record', {
   type: {type: Sequelize.STRING, allowNull: false},
   mark: {type: Sequelize.DECIMAL, allowNull: false},
+  playerName: {type: Sequelize.STRING, allowNull: false},
   year: {type: Sequelize.INTEGER, allowNull: false},
   month: {type: Sequelize.INTEGER, allowNull: false},
   day: {type: Sequelize.INTEGER, allowNull: false},

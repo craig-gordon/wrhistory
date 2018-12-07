@@ -1,9 +1,9 @@
 import moment from 'moment';
 
-export const convertHMSMsToSecondsStr = (h, m, s, ms) => {
+export const convertHMSMsToSeconds = (h, m, s, ms) => {
   let totalSeconds = (h * 3600) + (m * 60) + s;
-  if (ms !== '') totalSeconds = totalSeconds.toString() + `.${ms}`;
-  return totalSeconds.toString();
+  if (ms) totalSeconds = totalSeconds + Number(`0.${ms}`);
+  return totalSeconds;
 };
 
 export const tsToSecs = (ts) => {
@@ -16,6 +16,13 @@ export const tsToSecs = (ts) => {
 };
 
 export const secsToTs = (secs) => {
+  let secsStr = secs.toString();
+  let tsMillisecs;
+  if (secsStr.indexOf('.') > -1) {
+    let pointIdx = secsStr.indexOf('.');
+    tsMillisecs = secsStr.slice(pointIdx);
+    secs = Number(secsStr.slice(0, pointIdx));
+  }
   let tsSecs = secs % 60;
   let tsMins = Math.floor(secs / 60) % 60;
   let tsHours = Math.floor(secs / 3600) % 24;
@@ -29,7 +36,7 @@ export const secsToTs = (secs) => {
       tsArr[i] = '0' + tsArr[i];
     }
   }
-  return tsArr.join(':');
+  return tsArr.join(':') + (tsMillisecs ? tsMillisecs : '');
 };
 
 export const daysToYMD = (currDateMS, nextDateMS) => {

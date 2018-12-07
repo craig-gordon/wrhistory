@@ -83,18 +83,17 @@ router.post('/newDocument', (req, res) => {
 // Insert a new Record into the database
 router.post('/newRecord', (req, res) => {
   console.log('newRecord req.body:', req.body);
-  let newRecordEntry,
-      playerName;
+  let newRecordEntry;
 
   Player.findOrCreate({where: {username: req.body.player}})
     .then(playerEntry => {
       console.log('playerEntry:', playerEntry);
       let playerId = playerEntry[0].dataValues.id;
-      playerName = playerEntry[0].dataValues.username;
 
       return Record.create({
         type: req.body.recordType,
         mark: req.body.mark,
+        playerName: req.body.player,
         year: req.body.year,
         month: req.body.month,
         day: req.body.day,
@@ -116,7 +115,7 @@ router.post('/newRecord', (req, res) => {
       });
     })
     .then(newDocumentRecord => {
-      res.send({...newRecordEntry, player: playerName});
+      res.send(newRecordEntry);
     })
     .catch(err => {
       console.log('Error inserting new Record into the database:', err);

@@ -10,7 +10,6 @@ import { document as mm2Document } from '../../../data/mm2Document.js';
 export default class FeaturedChartModule extends React.Component {
   constructor(props) {
     super(props);
-    this.code = Math.random() >= 1 ? 'dk' : 'mm2';
     this.state = {
       document: mm2Document,
       gameCode: 'mm2'
@@ -20,9 +19,11 @@ export default class FeaturedChartModule extends React.Component {
   componentDidMount() {
     axios.get('/api/home/getRandomFeaturedChart')
       .then(res => {
-        console.log('response:', res);
+        console.log('response for getRandomFeaturedChart:', res);
         let document = res.data;
-        // this.setState({document});
+        console.log('this.state.document before setState:', this.state.document);
+        this.setState({document});
+        console.log('this.state.document after setState:', this.state.document);
       })
       .catch(err => {
         console.log('Error retrieving Document from database:', err);
