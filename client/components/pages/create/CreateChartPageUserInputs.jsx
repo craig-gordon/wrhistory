@@ -90,9 +90,9 @@ export default class CreateChartPageUserInputs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hours: undefined,
-      minutes: undefined,
-      seconds: undefined,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
       milliseconds: '',
       showMilliseconds: false
     }
@@ -215,19 +215,19 @@ export default class CreateChartPageUserInputs extends React.Component {
                 </LabelWithIconWrapper>
                 <TimeDropdownsContainer showMilliseconds={this.state.showMilliseconds}>
                   <Select
-                    placeholder={this.state.showMilliseconds ? 'H' : 'Hours'}
+                    value={this.state.hours}
                     onChange={(e) => this.changeTimeInput('hours', e)}
                   >
                     {hoursOptions}
                   </Select>
                   <Select
-                    placeholder={this.state.showMilliseconds ? 'M' : 'Minutes'}
+                    value={this.state.minutes}
                     onChange={(e) => this.changeTimeInput('minutes', e)}
                   >
                     {minutesOptions}
                   </Select>
                   <Select
-                    placeholder={this.state.showMilliseconds ? 'S' : 'Seconds'}
+                    value={this.state.seconds}
                     onChange={(e) => this.changeTimeInput('seconds', e)}
                   >
                     {secondsOptions}
@@ -271,19 +271,19 @@ export default class CreateChartPageUserInputs extends React.Component {
             </Label>
             <DateDropdownsContainer>
               <Select
-                placeholder='Year'
+                value={this.props.recordInput.year}
                 onChange={(e) => this.props.changeInput('recordInput', 'year', e)}
               >
-                {createYearDropdownOptions()}
+                {createYearDropdownOptions(this.props.gameReleaseDate)}
               </Select>
               <Select
-                placeholder='Month'
+                value={this.props.recordInput.month}
                 onChange={(e) => this.props.changeInput('recordInput', 'month', e)}
               >
                 {monthOptions}
               </Select>
-              <Select          
-                placeholder='Day'
+              <Select
+                value={this.props.recordInput.day}         
                 onChange={(e) => this.props.changeInput('recordInput', 'day', e)}
               >
                 {dayOptions}
@@ -392,7 +392,10 @@ export default class CreateChartPageUserInputs extends React.Component {
           <Button
             type='primary'
             size='large'
-            onClick={this.props.submitData}
+            onClick={() => {
+              this.props.submitData();
+              this.setState({hours: 0, minutes: 0, seconds: 0});
+            }}
           >
             <span style={{marginRight: '8px'}}>
               Save + Continue

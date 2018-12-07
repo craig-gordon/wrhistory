@@ -54,10 +54,12 @@ router.get('/allConsoles', (req, res) => {
 // Insert a new Document into the database
 router.post('/newDocument', (req, res) => {
   console.log('newDocument req.body:', req.body);
+  let gameReleaseDate;
 
   Game.findOne({where: {title: req.body.gameTitle}})
     .then(gameEntry => {
       gameEntry = gameEntry.dataValues;
+      gameReleaseDate = gameEntry.releaseDate;
 
       return Document.create({
         type: req.body.chartType,
@@ -69,7 +71,7 @@ router.post('/newDocument', (req, res) => {
     })
     .then(newDocument => {
       newDocument = newDocument.dataValues;
-      res.send(newDocument);
+      res.send({...newDocument, gameReleaseDate});
     })
     .catch(err => {
       console.log('Error inserting new Document into the database. Error:', err);
@@ -81,24 +83,18 @@ router.post('/newDocument', (req, res) => {
 // Insert a new Record into the database
 router.post('/newRecord', (req, res) => {
   console.log('newRecord req.body:', req.body);
-  let newRecordEntry;
-  let playerEntry = Player.findOrCreate({where: {username: req.body.player}});
-  let consoleEntry = Console.findOne({where: {name: req.body.console}});
-  let playerName;
+  let newRecordEntry,
+      playerName;
 
-  Promise.all([playerEntry, consoleEntry])
-    .then(data => {
-      let playerId = data[0][0].dataValues.id;
-      playerName = data[0][0].dataValues.username;
-      let consoleId = data[1].dataValues.id;
+  Player.findOrCreate({where: {username: req.body.player}})
+    .then(playerEntry => {
+      console.log('playerEntry:', playerEntry);
+      let playerId = playerEntry[0].dataValues.id;
+      playerName = playerEntry[0].dataValues.username;
 
       return Record.create({
         type: req.body.recordType,
         mark: req.body.mark,
-        platform: req.body.platform,
-        version: req.body.version,
-        region: req.body.region,
-        verified: req.body.verified,
         year: req.body.year,
         month: req.body.month,
         day: req.body.day,
@@ -108,7 +104,6 @@ router.post('/newRecord', (req, res) => {
         labelText: req.body.labelText,
         detailedText: req.body.detailedText,
         playerId,
-        consoleId,
         gameId: req.body.gameId,
       });
     })

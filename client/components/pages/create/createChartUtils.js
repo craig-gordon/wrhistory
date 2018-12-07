@@ -63,7 +63,7 @@ export const createYearDropdownOptions = (releaseYear) => {
 
   for (var i = releaseYear; i <= currentYear; i++) {
     optionsArray.push(
-      <Option key={i - releaseYear} value={i}>
+      <Option key={i} value={i}>
         {i}
       </Option>
     );

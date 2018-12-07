@@ -39,7 +39,7 @@ const convertInputs = (obj) => {
   let convertToNumbers = ['mark', 'year', 'month', 'day'];
   let newObj = {};
   for (var key in obj) {
-    if (convertToNumbers.indexOf(key) > -1) newObj[key] = Number(obj[key]);
+    if (convertToNumbers.includes(key)) newObj[key] = Number(obj[key]);
     else if (obj[key] === '') newObj[key] = null;
     else newObj[key] = obj[key];
   }
@@ -66,13 +66,9 @@ export default class CreateChartPage extends React.Component {
       recordInput: {
         player: '',
         mark: '',
-        console: '',
-        platform: '',
-        region: '',
-        version: '',
-        year: undefined,
-        month: undefined,
-        day: undefined,
+        year: 1970,
+        month: 0,
+        day: 1,
         vodUrl: '',
         isMilestone: '',
         tooltipNote: '',
@@ -83,6 +79,7 @@ export default class CreateChartPage extends React.Component {
         documentId: undefined,
         gameId: undefined
       },
+      gameReleaseDate: undefined,
       templateChartDoc: undefined
     };
     this.changePage = this.changePage.bind(this);
@@ -97,7 +94,6 @@ export default class CreateChartPage extends React.Component {
   componentDidMount() {
     axios.get('/api/create/allGames')
       .then(res => {
-        console.log('res.data:', res.data);
         let titlesOnly = res.data.map(game => game.title);
         this.setState({allGames: titlesOnly});
       })
@@ -107,7 +103,6 @@ export default class CreateChartPage extends React.Component {
     
     axios.get('/api/create/allPlayers')
       .then(res => {
-        console.log('res.data:', res.data);
         let namesOnly = res.data.map(player => player.username);
         this.setState({allPlayers: namesOnly});
       })
@@ -117,7 +112,6 @@ export default class CreateChartPage extends React.Component {
     
     axios.get('/api/create/allConsoles')
       .then(res => {
-        console.log('response for allConsoles:', res);
         let allConsoles = res.data;
         allConsoles.sort((a, b) => a.abbrev > b.abbrev ? 1 : -1);
         let sortedAllConsoles = allConsoles;
@@ -174,9 +168,23 @@ export default class CreateChartPage extends React.Component {
           console.log('response:', res);
           let dbIdsObj = {documentId: res.data.id, gameId: res.data.gameId};
           let templateChartDocObj = {...this.state.templateChartDoc, ...res.data};
+          let emptyRecordInputObj = {
+            player: '',
+            mark: '',
+            year: Number(res.data.gameReleaseDate.slice(0, 4)),
+            month: 0,
+            day: 1,
+            vodUrl: '',
+            isMilestone: '',
+            tooltipNote: '',
+            labelText: '',
+            detailedText: ''
+          }
           let stateObj = {
             dbIds: dbIdsObj,
-            templateChartDoc: templateChartDocObj
+            templateChartDoc: templateChartDocObj,
+            gameReleaseDate: res.data.gameReleaseDate,
+            recordInput: emptyRecordInputObj
           };
           this.setState(stateObj);
           this.changePage();
@@ -202,13 +210,9 @@ export default class CreateChartPage extends React.Component {
           let emptyRecordInputObj = {
             player: '',
             mark: '',
-            console: '',
-            platform: '',
-            region: '',
-            version: '',
-            year: '',
-            month: '',
-            day: '',
+            year: Number(this.state.gameReleaseDate.slice(0, 4)),
+            month: 0,
+            day: 1,
             vodUrl: '',
             isMilestone: '',
             tooltipNote: '',
@@ -252,6 +256,7 @@ export default class CreateChartPage extends React.Component {
                     chartType={this.state.chartType}
                     allGames={this.state.allGames}
                     allPlayers={this.state.allPlayers}
+                    gameReleaseDate={this.state.gameReleaseDate}
                     showSubmitGame={this.showSubmitGame}
                     chartInput={this.state.chartInput}
                     recordInput={this.state.recordInput}

@@ -131,7 +131,7 @@ export const createYAxisConfig = function(document) {
 };
 
 export const createChartLabels = function(records) {
-  return records.filter((record, i) => record.labelText !== undefined).map((record, i) => {
+  return records.filter(record => record.labelText).map(record => {
     return {
       point: {
         x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
@@ -186,7 +186,7 @@ export const createChartData = function(records, documentType) {
 
     return {
       x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
-      y: record.mark * yMultipliers[documentType],
+      y: Number(record.mark) * yMultipliers[documentType],
       segmentColor: playerColor,
       color: convertTransparentToSolid(playerColor),
       data: record,
