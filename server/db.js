@@ -25,7 +25,7 @@ database
 // ~~~~~~ //
 
 const Player = database.define('player', {
-  username: {type: Sequelize.STRING, unique: true},
+  username: {type: Sequelize.STRING, unique: true, allowNull: false},
   realname: Sequelize.STRING
 }, {
   freezeTableName: true
@@ -38,9 +38,9 @@ Player.sync({force: false});
 // ~~~~ //
 
 const User = database.define('user', {
-  username: {type: Sequelize.STRING, unique: true},
-  password: Sequelize.STRING,
-  email: {type: Sequelize.STRING, unique: true},
+  username: {type: Sequelize.STRING, unique: true, allowNull: false},
+  password: {type: Sequelize.STRING, allowNull: false},
+  email: {type: Sequelize.STRING, unique: true, allowNull: false},
 }, {
   freezeTableName: true
 });
@@ -54,8 +54,8 @@ User.sync({force: false});
 // ~~~~~~~ //
 
 const Console = database.define('console', {
-  name: Sequelize.STRING,
-  abbrev: Sequelize.STRING
+  name: {type: Sequelize.STRING, unique: true, allowNull: false},
+  abbrev: {type: Sequelize.STRING, unique: true, allowNull: false}
 }, {
   freezeTableName: true
 });
@@ -67,9 +67,9 @@ Console.sync({force: false});
 // ~~~~ //
 
 const Game = database.define('game', {
-  title: Sequelize.STRING,
-  abbrev: Sequelize.STRING,
-  releaseDate: Sequelize.DATEONLY
+  title: {type: Sequelize.STRING, unique: true, allowNull: false},
+  abbrev: {type: Sequelize.STRING, unique: true, allowNull: false},
+  releaseDate: {type: Sequelize.DATEONLY, allowNull: false}
 }, {
   freezeTableName: true
 });
@@ -81,8 +81,8 @@ Game.sync({force: false});
 // ~~~~~~~~ //
 
 const Document = database.define('document', {
-  type: Sequelize.STRING,
-  title: Sequelize.STRING,
+  type: {type: Sequelize.STRING, allowNull: false},
+  title: {type: Sequelize.STRING, allowNull: false},
   category: Sequelize.STRING,
   leaderboardUrl: Sequelize.STRING
 }, {
@@ -98,16 +98,11 @@ Document.sync({force: false});
 // ~~~~~~ //
 
 const Record = database.define('record', {
-  type: Sequelize.STRING,
-  mark: Sequelize.DECIMAL,
-  platform: Sequelize.STRING,
-  version: Sequelize.STRING,
-  region: Sequelize.STRING,
-  verified: Sequelize.BOOLEAN,
-  venue: Sequelize.STRING,
-  year: Sequelize.INTEGER,
-  month: Sequelize.INTEGER,
-  day: Sequelize.INTEGER,
+  type: {type: Sequelize.STRING, allowNull: false},
+  mark: {type: Sequelize.DECIMAL, allowNull: false},
+  year: {type: Sequelize.INTEGER, allowNull: false},
+  month: {type: Sequelize.INTEGER, allowNull: false},
+  day: {type: Sequelize.INTEGER, allowNull: false},
   hour: Sequelize.INTEGER,
   minute: Sequelize.INTEGER,
   vodurl: Sequelize.STRING,
@@ -123,14 +118,14 @@ Record.belongsTo(Player);
 Record.belongsTo(Console);
 Record.belongsTo(Game);
 
-Record.sync({force: true});
+Record.sync({force: false});
 
 // ~~~~~~~ //
 // Article //
 // ~~~~~~~ //
 
 const Article = database.define('article', {
-  title: Sequelize.STRING
+  title: {type: Sequelize.STRING, allowNull: false}
 }, {
   freezeTableName: true
 });
@@ -145,7 +140,7 @@ Article.sync({force: false});
 // ~~~ //
 
 const Tag = database.define('tag', {
-  name: Sequelize.STRING,
+  name: {type: Sequelize.STRING, allowNull: false},
   abbrev: Sequelize.STRING
 }, {
   freezeTableName: true
@@ -230,13 +225,183 @@ ArticleTag.sync({force: false});
 // }});
 
 Console.findOrCreate({where: {
+  name: 'Atari 2600',
+  abbrev: 'A2600'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Atari 5200',
+  abbrev: 'A5200'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Atari 7800',
+  abbrev: 'A7800'
+}});
+
+Console.findOrCreate({where: {
   name: 'Nintendo Entertainment System',
   abbrev: 'NES'
 }});
 
 Console.findOrCreate({where: {
+  name: 'Super Nintendo Entertainment System',
+  abbrev: 'SNES'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Nintendo 64',
+  abbrev: 'N64'
+}});
+
+Console.findOrCreate({where: {
+  name: 'GameCube',
+  abbrev: 'GC'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Wii',
+  abbrev: 'Wii'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Wii Virtual Console',
+  abbrev: 'WiiVC'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Wii U',
+  abbrev: 'WiiU'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Wii U Virtual Console',
+  abbrev: 'WiiUVC'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Switch',
+  abbrev: 'Switch'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Game Boy',
+  abbrev: 'GB'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Game Boy Color',
+  abbrev: 'GBC'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Game Boy Advance',
+  abbrev: 'GBA'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Nintendo DS',
+  abbrev: 'DS'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Nintendo 3DS',
+  abbrev: '3DS'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Nintendo 3DS Virtual Console',
+  abbrev: '3DSVC'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Master System',
+  abbrev: 'SMS'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Genesis',
+  abbrev: 'GEN'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Sega CD',
+  abbrev: 'SegaCD'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Sega 32X',
+  abbrev: '32X'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Saturn',
+  abbrev: 'Saturn'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Dreamcast',
+  abbrev: 'Dreamcast'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Game Gear',
+  abbrev: 'GameGear'
+}});
+
+Console.findOrCreate({where: {
+  name: 'PlayStation',
+  abbrev: 'PS1'
+}});
+
+Console.findOrCreate({where: {
+  name: 'PlayStation 2',
+  abbrev: 'PS2'
+}});
+
+Console.findOrCreate({where: {
+  name: 'PlayStation 3',
+  abbrev: 'PS3'
+}});
+
+Console.findOrCreate({where: {
+  name: 'PlayStation 4',
+  abbrev: 'PS4'
+}});
+
+Console.findOrCreate({where: {
+  name: 'PlayStation Portable',
+  abbrev: 'PSP'
+}});
+
+Console.findOrCreate({where: {
+  name: 'PlayStation Vita',
+  abbrev: 'Vita'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Xbox',
+  abbrev: 'Xbox'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Xbox 360',
+  abbrev: 'Xbox360'
+}});
+
+Console.findOrCreate({where: {
+  name: 'Xbox One',
+  abbrev: 'XboxOne'
+}});
+
+Console.findOrCreate({where: {
   name: 'Arcade',
   abbrev: 'Arcade'
+}});
+
+Console.findOrCreate({where: {
+  name: 'PC',
+  abbrev: 'PC'
 }});
 
 

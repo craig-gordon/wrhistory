@@ -56,6 +56,8 @@ export default class CreateChartPage extends React.Component {
       submitGameOpen: false,
       allGames: [],
       allPlayers: [],
+      allConsoles: [],
+      allConsolesMap: {},
       chartInput: {
         gameTitle: '',
         category: '',
@@ -106,8 +108,25 @@ export default class CreateChartPage extends React.Component {
     axios.get('/api/create/allPlayers')
       .then(res => {
         console.log('res.data:', res.data);
-        let titlesOnly = res.data.map(player => player.username);
-        this.setState({allPlayers: titlesOnly});
+        let namesOnly = res.data.map(player => player.username);
+        this.setState({allPlayers: namesOnly});
+      })
+      .catch(err => {
+        console.log('error:', err);
+      });
+    
+    axios.get('/api/create/allConsoles')
+      .then(res => {
+        console.log('response for allConsoles:', res);
+        let allConsoles = res.data;
+        allConsoles.sort((a, b) => a.abbrev > b.abbrev ? 1 : -1);
+        let sortedAllConsoles = allConsoles;
+        let allConsolesMap = {}
+        for (var i = 0; i < sortedAllConsoles.length; i++) {
+          let console = sortedAllConsoles[i];
+          allConsolesMap[console.name] = console.abbrev;
+        }
+        this.setState({allConsoles: sortedAllConsoles, allConsolesMap});
       })
       .catch(err => {
         console.log('error:', err);
@@ -209,6 +228,8 @@ export default class CreateChartPage extends React.Component {
     return (
       <div>
         <SubmitGameForm
+          allConsoles={this.state.allConsoles}
+          allConsolesMap={this.state.allConsolesMap}
           submitGameOpen={this.state.submitGameOpen}
           showSubmitGame={this.showSubmitGame}
           closeSubmitGame={this.closeSubmitGame}

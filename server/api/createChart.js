@@ -38,6 +38,19 @@ router.get('/allPlayers', (req, res) => {
     });
 });
 
+// Get the full list of consoles in the database
+router.get('/allConsoles', (req, res) => {
+  Console.findAll()
+    .then(allConsoleEntries => {
+      console.log('allConsoleEntries:', allConsoleEntries);
+      res.send(allConsoleEntries);
+    })
+    .catch(err => {
+      console.log('Error retrieving all console entries from the database:', err);
+      res.send(err);
+    });
+});
+
 // Insert a new Document into the database
 router.post('/newDocument', (req, res) => {
   console.log('newDocument req.body:', req.body);

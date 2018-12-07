@@ -16,7 +16,9 @@ import 'antd/lib/spin/style/index.css';
 import {
   createYearDropdownOptions,
   monthOptions,
-  dayOptions
+  dayOptions,
+  createConsoleDropdownOptions,
+  autoGenerateAbbrev
 } from './createChartUtils.js';
 
 const ModalHeader = styled.h2`
@@ -73,15 +75,14 @@ export default class SubmitGameForm extends React.Component {
       year: undefined,
       month: undefined,
       day: undefined,
+      consoles: [],
       submitButtonStatus: 'default'
     };
     this.changeGameInput = this.changeGameInput.bind(this);
     this.submitNewGame = this.submitNewGame.bind(this);
-    
   }
 
-  changeGameInput(type, e) {
-    let value = e.target ? e.target.value : e;
+  changeGameInput(type, value) {
     let stateObj = {};
     stateObj[type] = value;
     this.setState(stateObj);
@@ -89,8 +90,8 @@ export default class SubmitGameForm extends React.Component {
 
   submitNewGame() {
     this.setState({submitButtonStatus: 'spin'})
-    let dataObj = this.state;
-    if (dataObj.abbrev === '') dataObj.abbrev = null;
+    let dataObj = {...this.state};
+    if (dataObj.abbrev === '') dataObj.abbrev = autoGenerateAbbrev(this.state.title);
     axios.post('/api/gameData/newGame', dataObj)
       .then(res => {
         console.log('response:', res);
@@ -109,6 +110,7 @@ export default class SubmitGameForm extends React.Component {
             year: undefined,
             month: undefined,
             day: undefined,
+            consoles: [],
             submitButtonStatus: 'default'
           }
         )), 3000);
@@ -122,7 +124,7 @@ export default class SubmitGameForm extends React.Component {
     const submitGameModalStyles = {
       modal: {
         marginTop: '8%',
-        height: '235px',
+        height: '270px',
         width: '500px',
         padding: '30px',
         borderRadius: '8px',
@@ -181,7 +183,7 @@ export default class SubmitGameForm extends React.Component {
           <Label>Title</Label>
           <Input
             value={this.state.title}
-            onChange={(e) => this.changeGameInput('title', e)}
+            onChange={(e) => this.changeGameInput('title', e.target.value)}
           />
         </LineWrapper>
         <LineWrapper>
@@ -189,7 +191,7 @@ export default class SubmitGameForm extends React.Component {
           <Input
             placeholder='(Optional) eg, oot'
             value={this.state.abbrev}
-            onChange={(e) => this.changeGameInput('abbrev', e)}
+            onChange={(e) => this.changeGameInput('abbrev', e.target.value)}
           />
         </LineWrapper>
         <LineWrapper>
@@ -201,7 +203,6 @@ export default class SubmitGameForm extends React.Component {
               <Tooltip
                 title='Please enter the first official release date, regardless of region'
                 mouseEnterDelay={0.3}
-                placement='bottom'
               >
                 <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
               </Tooltip>
@@ -229,6 +230,29 @@ export default class SubmitGameForm extends React.Component {
               {dayOptions}
             </Select>
           </DropdownsContainer>
+        </LineWrapper>
+        <LineWrapper>
+          <LabelWrapper>
+            <LabelWithQMark>
+              Consoles
+            </LabelWithQMark>
+            <QMarkWrapper>
+              <Tooltip
+                title='Select all consoles that this game was released for, but ensure the original console is included'
+                mouseEnterDelay={0.3}
+                placement='bottom'
+              >
+                <i style={{fontSize: '14px', color: 'rgb(130, 130, 130)'}} className="fas fa-question-circle"></i>
+              </Tooltip>
+            </QMarkWrapper>
+          </LabelWrapper>
+          <Select
+            mode='multiple'
+            value={this.state.consoles}
+            onChange={(e) => this.changeGameInput('consoles', e)}
+          >
+            {createConsoleDropdownOptions(this.props.allConsoles)}
+          </Select>
         </LineWrapper>
         <ButtonWrapper>
           {buttonMap[this.state.submitButtonStatus]}

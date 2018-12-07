@@ -16,15 +16,52 @@ const User = db.User,
 router.post('/newGame', (req, res) => {
   console.log('newGame req.body:', req.body);
 
-  Game.create({
+  let game,
+      consoles;
+
+  let newGameEntry = Game.create({
     title: req.body.title,
     abbrev: req.body.abbrev,
     releaseDate: Date.UTC(req.body.year, req.body.month, req.body.day) + new Date().getTimezoneOffset() * 60 * 1000
   })
     .then(gameEntry => {
-      gameEntry = gameEntry.dataValues;
+      return gameEntry;
+    })
+    .catch(err => {
+      console.log('Error creating new game entry in the database:', err);
+    })
 
-      res.send(gameEntry);
+  let consoleEntries = req.body.consoles.map(abbrev => {
+    return Console.findOne({where: {abbrev}})
+      .then(consoleEntry => {
+        return consoleEntry.dataValues;
+      })
+      .catch(err => {
+        console.log('Error retrieving console from the database:', err)
+      });
+  });
+  
+  Promise.all([newGameEntry].concat(consoleEntries))
+    .then(allEntries => {
+      console.log('allEntries:', allEntries);
+      game = allEntries[0].dataValues;
+      consoles = allEntries.slice(1);
+
+      return Promise.all(consoles.map(console => {
+        ConsoleGame.create({
+          consoleId: console.id,
+          gameId: game.id
+        })
+          .then(consoleGameEntry => {
+            return consoleGameEntry.dataValues;
+          })
+          .catch(err => {
+            console.log('Error inserting ConsoleGame join table data into the database:', err);
+          })
+      }));
+    })
+    .then(consoleGameEntries => {
+      res.send(game);
     })
     .catch(err => {
       console.log('Error inserting new game into database:', err);
