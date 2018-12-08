@@ -19,7 +19,7 @@ class BrowseGamesPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      documents: [{title: 'Mega Man 2', abbrev: 'mm2', category: 'Any%', type: 'speedrun'}]
+      documents: []
     }
   }
 
@@ -28,7 +28,7 @@ class BrowseGamesPage extends React.Component {
       .then(res => {
         console.log('response:', res);
         let documents = res.data;
-        // this.setState({documents});
+        this.setState({documents});
       })
       .catch(err => {
         console.log('Error retrieving Document from database:', err);
@@ -36,21 +36,18 @@ class BrowseGamesPage extends React.Component {
   }
 
   render() {
-    let allButtons = this.state.documents.map((doc, i) => {
-      let adjustedCategory = doc.category[doc.category.length - 1] === '%'
-        ? doc.category.slice(0, doc.category.length - 1)
-        : doc.category;
-      return (
-        <Link to={`/game/${doc.abbrev}${doc.category !== null ? '/' + adjustedCategory : ''}`} key={i}>
-          <StandardButton
-            title={doc.title}
-            category={doc.category}
-            iconClasses={doc.type === 'speedrun' ? 'fas fa-stopwatch' : 'fas fa-trophy'}
-            iconSide='left'
-          />
-        </Link>
-      );
-    });
+    let allButtons = this.state.documents.map((doc, i) =>
+      (
+        <StandardButton
+          key={doc.uriEndpoint}
+          title={doc.title}
+          category={doc.category}
+          iconClasses={doc.type === 'speedrun' ? 'fas fa-stopwatch' : 'fas fa-trophy'}
+          iconSide='left'
+          onClickFn={() => this.props.history.push(`/game${doc.uriEndpoint}`)}
+        />
+      )
+    );
     return (
       <div>
         <PageHeader>Games</PageHeader>

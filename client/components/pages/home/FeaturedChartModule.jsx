@@ -41,7 +41,7 @@ export default class FeaturedChartModule extends React.Component {
       <LightGreenModule>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>
         <Chart document={this.state.document} />
-        <Link to={`/${this.state.gameCode}${adjustedCategory ? '/' + adjustedCategory : ''}`}>See full chart!</Link>
+        <Link to={`/game${this.state.document.uriEndpoint}`}>See full chart!</Link>
       </LightGreenModule>
     );
   }

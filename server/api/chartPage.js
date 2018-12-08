@@ -15,17 +15,26 @@ const User = db.User,
 
 // Get a specified document
 
-router.get('/document', (req, res) => {
-  Document.findOne({
-    where: {
-      abbrev: req.query.code,
-      category: req.query.category
-    }}
-  )
+router.post('/document', (req, res) => {
+  let doc;
+
+  Document.findOne({where: {uriEndpoint: req.body.uriEndpoint}})
     .then(documentEntry => {
-      documentEntry = documentEntry.dataValues;
-      console.log('documentEntry:', documentEntry);
-      res.send(documentEntry);
+      doc = documentEntry.dataValues;
+      console.log('doc:', doc);
+
+      return Record.findAll({
+        include: [{
+          model: Document,
+          where: {
+            id: doc.id
+          }
+        }]
+      });
+    })
+    .then(recordEntries => {
+      doc.records = recordEntries.map(recordEntry => recordEntry.dataValues);
+      res.send(doc);
     })
     .catch(err => {
       console.log('Error fetching Document from database:', err);

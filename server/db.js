@@ -84,7 +84,8 @@ const Document = database.define('document', {
   type: {type: Sequelize.STRING, allowNull: false},
   title: {type: Sequelize.STRING, allowNull: false},
   category: Sequelize.STRING,
-  leaderboardUrl: Sequelize.STRING
+  leaderboardUrl: Sequelize.STRING,
+  uriEndpoint: {type: Sequelize.STRING, unique: true, allowNull: false}
 }, {
   freezeTableName: true
 });

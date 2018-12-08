@@ -20,7 +20,6 @@ router.get('/getRandomFeaturedChart', (req, res) => {
     .then(documentEntry => {
       console.log('documentEntry:', documentEntry);
       doc = documentEntry.dataValues;
-      console.log('doc.id:', doc.id);
 
       return Record.findAll({
         include: [{
@@ -32,7 +31,6 @@ router.get('/getRandomFeaturedChart', (req, res) => {
       });
     })
     .then(recordEntries => {
-      console.log('number of recordEntries:', recordEntries.length);
       doc.records = recordEntries.map(recordEntry => recordEntry.dataValues);
       res.send(doc);
     })

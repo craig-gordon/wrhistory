@@ -29,11 +29,11 @@ class RecordsTable extends React.Component {
       },
       {
         Header: 'Player',
-        accessor: 'player'
+        accessor: 'playerName'
       },
       {
         Header: 'Note',
-        accessor: 'note'
+        accessor: 'tooltipNote'
       }
     ]
     return (

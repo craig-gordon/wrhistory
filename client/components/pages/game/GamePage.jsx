@@ -36,9 +36,8 @@ export default class GamePage extends React.Component {
     super(props);
     console.log('props:', props);
     this.state = {
-      gameCode: this.props.match.params.code || 'mm2',
-      category: this.props.match.params.category || null,
-      document: mm2Document,
+      loaded: false,
+      document: undefined,
       clickedChartPoint: null,
       selectedCarouselItem: 0,
       selectedRun: null
@@ -47,16 +46,11 @@ export default class GamePage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/chartPage/document', {
-      params: {
-        code: this.state.gameCode,
-        category: this.state.category
-      }
-    })
+    axios.post('/api/chartPage/document', {uriEndpoint: this.props.location.pathname.slice(5)})
       .then(res => {
         console.log('response:', res);
         let document = res.data;
-        // this.setState({document});
+        this.setState({document, loaded: true});
       })
       .catch(err => {
         console.log('Error retrieving Document from database:', err);
@@ -74,6 +68,9 @@ export default class GamePage extends React.Component {
   }
 
   render() {
+    if (!this.state.loaded) {
+      return <div></div>;
+    }
     return (
       // <div>
       //   <GamePageHeader
@@ -114,18 +111,17 @@ export default class GamePage extends React.Component {
       //   </Tabs>
       // </div>
       <div>
-        <Collapse defaultActiveKey={['1']}>
+        {/* <Collapse defaultActiveKey={['1']}>
           <Panel header='Game Information' key='1' showArrow={false}>
             <GamePageHeader
               gameCode={this.state.gameCode}
               document={this.state.document}
             />
           </Panel>
-        </Collapse>
+        </Collapse> */}
         <Tabs type='card'>
           <TabPane tab={<i className="fas fa-chart-line"></i>} key='1'>
             <Chart
-              gameCode={this.state.gameCode}
               document={this.state.document}
               clicked={this.state.clickedChartPoint}
               changeSelectedChartPoint={this.changeSelectedChartPoint}
@@ -135,7 +131,6 @@ export default class GamePage extends React.Component {
             >
               <InfoCarousel
                 embedded={true}
-                gameCode={this.state.gameCode}
                 document={this.state.document}
                 selected={this.state.selectedCarouselItem}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
@@ -144,7 +139,6 @@ export default class GamePage extends React.Component {
           </TabPane>
           <TabPane tab={<i className="fas fa-table"></i>} key='2'>
             <RecordsTable
-              gameCode={this.state.gameCode}
               document={this.state.document}
             />
           </TabPane>
@@ -155,7 +149,6 @@ export default class GamePage extends React.Component {
               <VodEmbed vodUrl={this.state.selectedRun.vodUrl} />
               <InfoCarousel
                 embedded={false}
-                gameCode={this.state.gameCode}
                 document={this.state.document}
                 selected={this.state.selectedCarouselItem}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
