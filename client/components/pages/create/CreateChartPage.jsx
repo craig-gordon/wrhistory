@@ -70,7 +70,7 @@ export default class CreateChartPage extends React.Component {
         month: 0,
         day: 1,
         vodUrl: '',
-        isMilestone: '',
+        isMilestone: false,
         tooltipNote: '',
         labelText: '',
         detailedText: ''
@@ -175,7 +175,7 @@ export default class CreateChartPage extends React.Component {
             month: 0,
             day: 1,
             vodUrl: '',
-            isMilestone: '',
+            isMilestone: false,
             tooltipNote: '',
             labelText: '',
             detailedText: ''
@@ -198,8 +198,8 @@ export default class CreateChartPage extends React.Component {
       axios.post('/api/create/newRecord', dataObj)
         .then(res => {
           console.log('response:', res);
-          if (!this.state.allPlayers.includes(res.data.player)) {
-            this.setState({allPlayers: this.state.allPlayers.concat(res.data.player)});
+          if (!this.state.allPlayers.includes(res.data.playerName)) {
+            this.setState({allPlayers: this.state.allPlayers.concat(res.data.playerName)});
           }
           let templateChartDocObj = {...this.state.templateChartDoc};
           templateChartDocObj.records.push(res.data);
@@ -214,7 +214,7 @@ export default class CreateChartPage extends React.Component {
             month: 0,
             day: 1,
             vodUrl: '',
-            isMilestone: '',
+            isMilestone: false,
             tooltipNote: '',
             labelText: '',
             detailedText: ''

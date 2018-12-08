@@ -274,7 +274,7 @@ export default class CreateChartPageUserInputs extends React.Component {
                 value={this.props.recordInput.year}
                 onChange={(e) => this.props.changeInput('recordInput', 'year', e)}
               >
-                {createYearDropdownOptions(this.props.gameReleaseDate)}
+                {createYearDropdownOptions(this.props.gameReleaseDate.slice(0, 4))}
               </Select>
               <Select
                 value={this.props.recordInput.month}
@@ -378,6 +378,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               </IconWrapper>
             </LabelWithIconWrapper>
             <Checkbox
+              checked={this.props.recordInput.isMilestone}
               onChange={(e) => this.props.changeInput('recordInput', 'isMilestone', e.target.checked)}
             />
           </InputContainer>
