@@ -94,10 +94,12 @@ export default class CreateChartPageUserInputs extends React.Component {
       minutes: 0,
       seconds: 0,
       milliseconds: '',
-      showMilliseconds: false
+      showMilliseconds: false,
+      finished: false
     }
     this.changeTimeInput = this.changeTimeInput.bind(this);
     this.toggleMilliseconds = this.toggleMilliseconds.bind(this);
+    this.handleFinish = this.handleFinish.bind(this);
   }
 
   changeTimeInput(type, e) {
@@ -121,6 +123,22 @@ export default class CreateChartPageUserInputs extends React.Component {
       });
     } else {
       this.setState({showMilliseconds: true});
+    }
+  }
+
+  handleFinish() {
+    if (this.state.finished) {
+      this.props.goToChartPage();
+      this.setState({
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: '',
+        showMilliseconds: false,
+        finished: false
+      });
+    } else {
+      this.setState({finished: true});
     }
   }
 
@@ -274,7 +292,7 @@ export default class CreateChartPageUserInputs extends React.Component {
                 value={this.props.recordInput.year}
                 onChange={(e) => this.props.changeInput('recordInput', 'year', e)}
               >
-                {createYearDropdownOptions(this.props.gameReleaseDate.slice(0, 4))}
+                {createYearDropdownOptions(this.props.gameReleaseDate ? Number(this.props.gameReleaseDate.slice(0, 4)) : 1970)}
               </Select>
               <Select
                 value={this.props.recordInput.month}
@@ -391,6 +409,7 @@ export default class CreateChartPageUserInputs extends React.Component {
         {inputForms}
         <ButtonContainer>
           <Button
+            disabled={this.state.finished}
             type='primary'
             size='large'
             onClick={() => {
@@ -399,10 +418,26 @@ export default class CreateChartPageUserInputs extends React.Component {
             }}
           >
             <span style={{marginRight: '8px'}}>
-              Save + Continue
+              {this.props.page === 2 ? 'Continue' : 'Next Record'}
             </span>
-            <i className="fas fa-arrow-circle-right"></i>
+            <i style={{marginRight: '8px'}} className="far fa-save" />
+            <i className="fas fa-arrow-circle-right" />
           </Button>
+          {
+            this.props.page >= 4
+              ? <Button
+                  className='green-btn'
+                  type='primary'
+                  size='large'
+                  onClick={this.handleFinish}
+                >
+                  <span style={{marginRight: '8px'}}>
+                    {this.state.finished ? 'View Chart Page' : 'Finish'}
+                  </span>
+                  <i className={this.state.finished ? 'fas fa-external-link-square-alt' : 'fas fa-check'} />
+                </Button>
+              : null
+          }
         </ButtonContainer>
       </div>
     );

@@ -88,3 +88,19 @@
   font-weight: 600;
   background-color: rgba(68, 68, 68, 1) !important; 
 }
+
+.green-btn {
+  background-color: rgb(0, 193, 46);
+  border-color: rgb(0, 193, 46);
+  margin-left: 8px;
+}
+
+.green-btn:hover {
+  background-color: rgba(0, 193, 46, 0.65) !important;
+  border-color: rgba(0, 193, 46, 0.65) !important;
+}
+
+.green-btn:focus {
+  background-color: rgb(0, 193, 46);
+  border-color: rgb(0, 193, 46);
+}

@@ -89,6 +89,7 @@ export default class CreateChartPage extends React.Component {
     this.addNewGameToAllGames = this.addNewGameToAllGames.bind(this);
     this.changeInput = this.changeInput.bind(this);
     this.submitData = this.submitData.bind(this);
+    this.goToChartPage = this.goToChartPage.bind(this);
   }
 
   componentDidMount() {
@@ -155,6 +156,10 @@ export default class CreateChartPage extends React.Component {
     let stateObj = {};
     stateObj[chartOrRecord] = innerObj;
     this.setState(stateObj);
+  }
+
+  goToChartPage() {
+    this.props.history.push(`/game${this.state.templateChartDoc.uriEndpoint}`)
   }
 
   submitData() {
@@ -262,6 +267,7 @@ export default class CreateChartPage extends React.Component {
                     recordInput={this.state.recordInput}
                     submitData={this.submitData}
                     changeInput={this.changeInput}
+                    goToChartPage={this.goToChartPage}
                   />
                   {/* <DownshiftForm /> */}
                 </LeftColumn>
