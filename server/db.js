@@ -107,7 +107,7 @@ const Record = database.define('record', {
   day: {type: Sequelize.INTEGER, allowNull: false},
   hour: Sequelize.INTEGER,
   minute: Sequelize.INTEGER,
-  vodurl: Sequelize.STRING,
+  vodUrl: Sequelize.STRING,
   isMilestone: Sequelize.BOOLEAN,
   tooltipNote: Sequelize.STRING,
   labelText: Sequelize.STRING,

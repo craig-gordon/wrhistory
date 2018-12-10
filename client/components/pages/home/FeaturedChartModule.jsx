@@ -11,8 +11,7 @@ export default class FeaturedChartModule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      document: mm2Document,
-      gameCode: 'mm2'
+      document: mm2Document
     };
   }
 
@@ -31,12 +30,6 @@ export default class FeaturedChartModule extends React.Component {
   }
 
   render() {
-    let category = this.state.document.category;
-    if (category !== null) {
-      var adjustedCategory = category[category.length - 1] === '%'
-        ? category.slice(0, category.length - 1)
-        : category;
-    }
     return (
       <LightGreenModule>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>

@@ -34,6 +34,7 @@ router.post('/document', (req, res) => {
     })
     .then(recordEntries => {
       doc.records = recordEntries.map(recordEntry => recordEntry.dataValues);
+      doc.records.sort((a, b) => Date.UTC(a.year, a.month, a.day) > Date.UTC(b.year, b.month, b.day) ? 1 : -1);
       res.send(doc);
     })
     .catch(err => {

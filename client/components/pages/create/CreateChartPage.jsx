@@ -211,6 +211,7 @@ export default class CreateChartPage extends React.Component {
           if (templateChartDocObj.records[0].createdAt === undefined) {
             templateChartDocObj.records.shift();
           }
+          templateChartDocObj.records.sort((a, b) => Date.UTC(a.year, a.month, a.day) > Date.UTC(b.year, b.month, b.day) ? 1 : -1);
           console.log('templateChartDocObj after submitting new Record to DB, before updating State:', templateChartDocObj);
           let emptyRecordInputObj = {
             player: '',
