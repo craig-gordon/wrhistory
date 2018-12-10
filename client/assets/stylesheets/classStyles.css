@@ -45,15 +45,12 @@
 ************/
 
 .carousel .slide {
-  border-radius: 12px;
-  border: 3px purple solid;
-  background-color: #1b1b1c;
+  background: unset !important;
   overflow: hidden;
 }
 
 .carousel.carousel-slider .control-arrow {
-  opacity: 1;
-  background-color: purple;
+  background-color: rgb(244, 226, 255);
 }
 
 .carousel.carousel-slider .control-arrow.control-next {
@@ -67,8 +64,7 @@
 }
 
 .carousel.carousel-slider .control-arrow:hover {
-  opacity: 1;
-  background-color: purple;
+  background-color: rgb(244, 226, 255);
 }
 
 .carousel .slider.animated {
@@ -77,6 +73,29 @@
   -ms-transition: all 0.45s ease-in-out;
   -o-transition: all 0.45s ease-in-out;
   transition: all 0.45s ease-in-out;
+}
+
+.carousel .control-dots .dot {
+  background: darkviolet !important;
+  margin-top: 50px !important;
+}
+
+.carousel .control-dots {
+  padding: unset !important;
+  margin: unset !important;
+  z-index: 5 !important;
+}
+
+.carousel .control-prev.control-arrow:before {
+  border-right: 10px solid darkviolet !important;
+}
+
+.carousel .control-next.control-arrow:before {
+  border-left: 10px solid darkviolet !important;
+}
+
+.carousel.carousel-slider .control-arrow:hover {
+  background: rgba(0,0,0,0) !important;
 }
 
 /*************
@@ -103,4 +122,8 @@
 .green-btn:focus {
   background-color: rgb(0, 193, 46);
   border-color: rgb(0, 193, 46);
+}
+
+.ant-tabs-bar {
+  margin: 0 !important;
 }

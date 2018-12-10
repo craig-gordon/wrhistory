@@ -1,9 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Collapse from 'antd/lib/collapse';
-import 'antd/lib/collapse/style/index.css';
 import Tabs from 'antd/lib/tabs';
+const TabPane = Tabs.TabPane;
 import 'antd/lib/tabs/style/index.css';
 
 // import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -14,11 +13,11 @@ import Chart from '../../charts/Chart.jsx';
 import InfoCarousel from '../../charts/InfoCarousel.jsx';
 import RecordsTable from '../../charts/RecordsTable.jsx';
 import VodEmbed from './VodEmbed.jsx';
+import { LightGreenModule, LightBlueModule, LightPurpleModule } from '../../common/styledComponents.js';
 
-import { document as mm2Document } from '../../../data/mm2Document.js';
-
-const Panel = Collapse.Panel;
-const TabPane = Tabs.TabPane;
+const GamePageContainer = styled.div`
+  margin-top: 20px;
+`;
 
 const EmbeddedCarouselWrapper = styled.div`
   position: absolute;
@@ -28,8 +27,31 @@ const EmbeddedCarouselWrapper = styled.div`
 
 const RecordDetailWrapper = styled.div`
   display: grid;
-  grid-template-columns: 40% 60%;
-`
+  grid-template-columns: 0.913fr 1.087fr;
+  grid-column-gap: 20px;
+`;
+
+const ChartContainer = styled(LightGreenModule)`
+  margin-top: 0px;
+`;
+
+const VodContainer = styled(LightBlueModule)`
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+  color: rgb(81, 81, 81);
+  font-style: italic;
+`;
+
+const CarouselContainer = styled(LightPurpleModule)`
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+  color: rgb(81, 81, 81);
+  font-style: italic;
+`;
 
 export default class GamePage extends React.Component {
   constructor(props) {
@@ -72,92 +94,59 @@ export default class GamePage extends React.Component {
       return <div></div>;
     }
     return (
-      // <div>
-      //   <GamePageHeader
-      //     gameCode={this.state.gameCode}
-      //     document={this.state.document}
-      //   />
-      //   <Tabs>
-      //     <TabList>
-      //       <Tab>Chart</Tab>
-      //       <Tab>Table</Tab>
-      //     </TabList>
-
-      //     <TabPanel>
-      //       <Chart
-      //         gameCode={this.state.gameCode}
-      //         document={this.state.document}
-      //         clicked={this.state.clickedChartPoint}
-      //         changeSelectedChartPoint={this.changeSelectedChartPoint}
-      //       />
-      //       <CarouselWrapper
-      //         docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}
-      //       >
-      //         <InfoCarousel
-      //           gameCode={this.state.gameCode}
-      //           document={this.state.document}
-      //           selected={this.state.selectedCarouselItem}
-      //           changeSelectedChartPoint={this.changeSelectedChartPoint}
-      //         />
-      //       </CarouselWrapper>
-      //       {/* {this.state.selectedRun ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} /> : null} */}
-      //     </TabPanel>
-      //     <TabPanel>
-      //       <RecordsTable
-      //         gameCode={this.state.gameCode}
-      //         document={this.state.document}
-      //       />
-      //     </TabPanel>
-      //   </Tabs>
-      // </div>
-      <div>
-        {/* <Collapse defaultActiveKey={['1']}>
-          <Panel header='Game Information' key='1' showArrow={false}>
-            <GamePageHeader
-              gameCode={this.state.gameCode}
-              document={this.state.document}
-            />
-          </Panel>
-        </Collapse> */}
+      <GamePageContainer>
         <Tabs type='card'>
-          <TabPane tab={<i className="fas fa-chart-line"></i>} key='1'>
-            <Chart
-              document={this.state.document}
-              clicked={this.state.clickedChartPoint}
-              changeSelectedChartPoint={this.changeSelectedChartPoint}
-            />
-            <EmbeddedCarouselWrapper
-              docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}
-            >
-              <InfoCarousel
-                embedded={true}
+          <TabPane tab={<i className="fas fa-chart-line" />} key='1'>
+            <ChartContainer>
+              <Chart
                 document={this.state.document}
-                selected={this.state.selectedCarouselItem}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
               />
-            </EmbeddedCarouselWrapper>
-          </TabPane>
-          <TabPane tab={<i className="fas fa-table"></i>} key='2'>
-            <RecordsTable
-              document={this.state.document}
-            />
+            </ChartContainer>
+              {/* <EmbeddedCarouselWrapper
+                docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}
+              >
+                <InfoCarousel
+                  embedded={true}
+                  document={this.state.document}
+                  selected={this.state.selectedCarouselItem}
+                  changeSelectedChartPoint={this.changeSelectedChartPoint}
+                />
+              </EmbeddedCarouselWrapper> */}
+            </TabPane>
+          <TabPane tab={<i className="fas fa-table" />} key='2'>
+            <LightGreenModule>
+              <RecordsTable
+                document={this.state.document}
+              />
+            </LightGreenModule>
           </TabPane>
         </Tabs>
-        {
-          this.state.selectedRun ? 
-            <RecordDetailWrapper>
-              <VodEmbed vodUrl={this.state.selectedRun.vodUrl} />
-              <InfoCarousel
-                embedded={false}
-                document={this.state.document}
-                selected={this.state.selectedCarouselItem}
-                changeSelectedChartPoint={this.changeSelectedChartPoint}
-              />
-            </RecordDetailWrapper>
-          : 
-            null
-        }
-      </div>
+        <RecordDetailWrapper>
+          <VodContainer>
+            {
+              this.state.selectedRun
+                ? (
+                    this.state.selectedRun.vodUrl
+                      ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} />
+                      : 'No VOD available for this record'
+                  )
+                : `Click a chart point to see the record's VOD`
+            }
+          </VodContainer>
+          <CarouselContainer>
+            {
+              this.state.selectedRun
+                ? <InfoCarousel
+                    document={this.state.document}
+                    selected={this.state.selectedCarouselItem}
+                    changeSelectedChartPoint={this.changeSelectedChartPoint}
+                  />
+                : `Click a chart point to see the record's detailed description`
+            }
+          </CarouselContainer>
+        </RecordDetailWrapper>
+      </GamePageContainer>
     )
   }
 };

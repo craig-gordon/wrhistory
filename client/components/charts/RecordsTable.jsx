@@ -40,6 +40,7 @@ class RecordsTable extends React.Component {
       <ReactTable
         data={this.records}
         columns={columns}
+        pageSize={12}
       />
     )
   }

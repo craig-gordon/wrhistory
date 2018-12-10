@@ -202,44 +202,6 @@ export const createChartData = function(records, documentType) {
   return recordsArray.concat(finalDummyRecord);
 };
 
-// export const createChartZones = function(records) {
-//   const mappings = {
-//     'rgb(144, 238, 126, 0.7)': undefined,
-//     'rgb(244, 91, 91, 0.7)': undefined,
-//     'rgb(43, 144, 143, 0.7)': undefined,
-//     'rgb(119, 152, 191, 0.7)': undefined,
-//     'rgb(255, 165, 0, 0.7)': undefined,
-//     'rgb(221, 160, 221, 0.7)': undefined,
-//     'rgb(255, 255, 255, 0.7)': undefined
-//   };
-
-//   let nonRepeatRecords = records.filter((record, i) => {
-//     if (i === 0) return true;
-//     else return records[i-1].playerName !== record.playerName;
-//   });
-
-//   return nonRepeatRecords.map((record, i) => {
-//     let playerColor;
-//     for (var color in mappings) {
-//       if (mappings[color] === record.playerName) playerColor = color;
-//     }
-//     if (playerColor === undefined) {
-//       for (var color in mappings) {
-//         if (mappings[color] === undefined) {
-//           mappings[color] = record.playerName;
-//           playerColor = color;
-//           break;
-//         }
-//       }
-//     }
-//     let next = nonRepeatRecords[i+1];
-//     return {
-//       value: next ? Date.UTC(records[next.id].year, records[next.id].month, records[next.id].day) + utcOffsetMS : Date.now(),
-//       color: playerColor
-//     }
-//   });
-// };
-
 export const createChartSeries = function(records, documentType, changeSelectedChartPoint) {
   const playerColors = [
     'rgb(144, 238, 126, 0.7)',
@@ -275,7 +237,6 @@ export const createChartSeries = function(records, documentType, changeSelectedC
             changeSelectedChartPoint(e, records);
           }
         },
-        // zones: createChartZones(records),
         data: createChartData(records, documentType)
       };
     } else {
@@ -290,15 +251,18 @@ export const createChartSeries = function(records, documentType, changeSelectedC
 };
 
 const Slide = styled.div`
-  margin: 0 7%;
+  display: grid;
+  align-items: end;
+  margin: 0% 8% 5% 8%;
 `;
 
-const Header = styled.h2`
-  color: white;
+const Header = styled.h1`
+  font-style: normal !important;
 `;
 
 const Text = styled.h4`
-  color: white;
+  ${props => props.hasDetailed ? 'font-style: normal !important;' : ''}
+  margin: 0 !important;
 `;
 
 export const createCarouselSlides = function(records) {
@@ -307,7 +271,11 @@ export const createCarouselSlides = function(records) {
     return (
       <Slide key={i}>
         <Header>{record.playerName} — {formattedMark}</Header>
-        <Text>{record.detailedText}</Text>
+          <Text
+            hasDetailed={record.detailedText !== undefined}
+          >
+            {record.detailedText ? record.detailedText : 'No detailed description available for this record'}
+          </Text>
       </Slide>
     );
   });

@@ -15,10 +15,11 @@ class InfoCarousel extends React.Component {
   render() {
     return (
       <Carousel
+        width='770px'
+        dynamicHeight={true}
+        showIndicators={true}
         showThumbs={false}
         showStatus={false}
-        showIndicators={false}
-        width={this.props.embedded ? '600px' : null}
         selectedItem={this.props.selected}
         onChange={(e) => this.props.changeSelectedChartPoint(e, this.records)}
       >
