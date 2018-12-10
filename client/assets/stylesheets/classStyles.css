@@ -127,3 +127,7 @@
 .ant-tabs-bar {
   margin: 0 !important;
 }
+
+.ant-tabs {
+  overflow: unset !important;
+}

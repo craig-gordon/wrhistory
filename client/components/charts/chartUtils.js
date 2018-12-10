@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { secsToTs, daysToYMD, formatUTCMillisecsToDateStr } from '../../utils/datetimeUtils.js';
+import { secsToTs, daysToYMD, formatUTCMillisecsToDateStr, formatYMDToDateStr } from '../../utils/datetimeUtils.js';
 import '../../assets/stylesheets/classStyles.css';
 
 export const formatHighScore = function(score) {
@@ -258,6 +258,12 @@ const Slide = styled.div`
 
 const Header = styled.h1`
   font-style: normal !important;
+  margin-bottom: 2px !important;
+`;
+
+const SubHeader = styled.h3`
+  font-style: normal !important;
+  color: rgb(153, 142, 160) !important;
 `;
 
 const Text = styled.h4`
@@ -268,14 +274,25 @@ const Text = styled.h4`
 export const createCarouselSlides = function(records) {
   return records.map((record, i) => {
     let formattedMark = record.type === 'time' ? secsToTs(record.mark) : formatHighScore(record.mark);
+    let recordDateStr = formatYMDToDateStr(record.year, record.month, record.day);
+    let durationStr = i === records.length - 1
+      ? daysToYMD(
+          Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+          Date.now() + utcOffsetMS
+        ) + ' and counting!'
+      : daysToYMD(
+          Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+          Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS
+        );
     return (
       <Slide key={i}>
         <Header>{record.playerName} — {formattedMark}</Header>
-          <Text
-            hasDetailed={record.detailedText !== undefined}
-          >
-            {record.detailedText ? record.detailedText : 'No detailed description available for this record'}
-          </Text>
+        <SubHeader>{recordDateStr} — held for {durationStr}</SubHeader>
+        <Text
+          hasDetailed={record.detailedText !== undefined}
+        >
+          {record.detailedText ? record.detailedText : 'No detailed description available for this record'}
+        </Text>
       </Slide>
     );
   });

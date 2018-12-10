@@ -53,10 +53,27 @@ class Chart extends React.PureComponent {
       credits: false,
       plotOptions: {
         line: {
+          allowPointSelect: true,
           marker: {
-            enabled: true
+            enabled: true,
+            states: {
+              select: {
+                fillColor: 'red',
+                radius: 12
+              }
+            }
           }
-        }
+        },
+        // series: {
+        //   allowPointSelect: true,
+        //   marker: {
+        //     states: {
+        //       select: {
+        //         radius: 100
+        //       }
+        //     }
+        //   }
+        // }
       },
       xAxis: {
         title: {
