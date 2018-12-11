@@ -9,7 +9,6 @@ import 'antd/lib/button/style/index.css';
 import SubmitGameForm from './SubmitGameForm.jsx';
 import CreateChartPageInitialButtons from './CreateChartPageInitialButtons.jsx';
 import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
-import DownshiftForm from './DownshiftForm.jsx';
 import Chart from '../../charts/Chart.jsx';
 import { LightBlueModule, LightGreenModule, PageHeader } from '../../common/styledComponents.js';
 
@@ -270,7 +269,6 @@ export default class CreateChartPage extends React.Component {
                     changeInput={this.changeInput}
                     goToChartPage={this.goToChartPage}
                   />
-                  {/* <DownshiftForm /> */}
                 </LeftColumn>
                 <RightColumn>
                   <ColumnHeader>Template Chart</ColumnHeader>

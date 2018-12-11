@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Input from 'antd/lib/input';
@@ -77,10 +76,6 @@ export default class TopNav extends React.Component {
     this.closeLogin = this.closeLogin.bind(this);
     this.showSignup = this.showSignup.bind(this);
     this.closeSignup = this.closeSignup.bind(this);
-  }
-
-  componentDidMount() {
-    $(".search").children("input").css("border-radius", "16px");
   }
 
   showLogin() {

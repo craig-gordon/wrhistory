@@ -1,12 +1,9 @@
 import React from 'react';
-import ReactPlayer from 'react-player';
+// import ReactPlayer from 'react-player';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
-// import Row from 'antd/lib/row';
-// import Col from 'antd/lib/col';
-// import 'antd/lib/grid/style/index.css';
 
 import { LightBlueModule } from '../../common/styledComponents.js';
 import { articles } from '../../../data/sampleArticles.js';
@@ -47,13 +44,13 @@ const ArticlePage = (props) => {
       </Button.Group>
       <LightBlueModule>
         <h2>{article.title}</h2>
-        <VideoWrapper>
+        {/* <VideoWrapper>
           <ReactPlayer
             url={article.videoUrl}
             height='540px'
             width='960px'
           />
-        </VideoWrapper>
+        </VideoWrapper> */}
         <div>{article.description}</div>
       </LightBlueModule>
     </ArticlePageWrapper>

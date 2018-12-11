@@ -102,6 +102,10 @@
 * ANT DESIGN *
 *************/
 
+.search .ant-input {
+  border-radius: 16px !important;
+}
+
 .ant-tooltip-inner {
   min-height: 0 !important;
   font-weight: 600;

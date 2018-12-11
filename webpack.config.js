@@ -3,6 +3,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './client/index.jsx',
@@ -10,9 +12,10 @@ module.exports = {
     path: path.join(__dirname + '/client'),
     filename: 'bundle.js'
   },
-  devtool: 'inline-source-map',
+  mode: 'production',
+  devtool: 'cheap-module-source-map',
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
@@ -58,6 +61,13 @@ module.exports = {
     new Dotenv({
       path: './.env',
       safe: false
+    }),
+    new BundleAnalyzerPlugin(),
+    new CompressionPlugin({
+      filename: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      minRatio: 0.8
     })
   ],
   node: {

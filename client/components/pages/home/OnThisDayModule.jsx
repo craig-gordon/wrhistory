@@ -5,10 +5,7 @@ import { LightBlueModule } from '../../common/styledComponents.js';
 import { formatNowToDayMonth } from '../../../utils/datetimeUtils.js';
 import { createOnThisDayHTML } from './homePageUtils.js';
 
-import { document as dkDocument } from '../../../data/dkDocument.js';
 import { document as mm2Document } from '../../../data/mm2Document.js';
-
-const documents = { dkDocument, mm2Document };
 
 const findCurrentDateEvents = (docs) => {
   let now = new Date(Date.now());
@@ -34,7 +31,7 @@ const Module = LightBlueModule.extend`
 export default class OnThisDayModule extends React.Component {
   constructor(props) {
     super(props);
-    this.currentDateEvents = findCurrentDateEvents(documents);
+    this.currentDateEvents = findCurrentDateEvents({mm2Document});
   }
 
   render() {

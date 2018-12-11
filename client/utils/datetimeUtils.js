@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export const convertHMSMsToSeconds = (h, m, s, ms) => {
   let totalSeconds = (h * 3600) + (m * 60) + s;
   if (ms) totalSeconds = totalSeconds + Number(`0.${ms}`);
@@ -39,14 +37,22 @@ export const secsToTs = (secs) => {
   return tsArr.join(':') + (tsMillisecs ? tsMillisecs : '');
 };
 
-export const daysToYMD = (currDateMS, nextDateMS) => {
-  let currDateMoment = moment(currDateMS);
-  let nextDateMoment = moment(nextDateMS);
-  let diff = moment.duration(nextDateMoment.diff(currDateMoment));
+const getIsolatedYMDFromMS = (ms) => {
+  let years = Math.floor(ms / 31556952000);
+  let yearsInMS = years * 31556952000;
+  let months = Math.floor((ms - (yearsInMS)) / 2592000000);
+  let monthsInMS = months * 2592000000;
+  let days = Math.floor((ms - yearsInMS - monthsInMS) / 86400000);
+  return {years, months, days};
+};
 
-  let yearsStr = diff.years() > 0 ? `${diff.years()} year${diff.years() === 1 ? '' : 's'}` : ``;
-  let monthsStr = diff.months() > 0 ? `${diff.months()} month${diff.months() === 1 ? '' : 's'}` : ``;
-  let daysStr = diff.days() > 0 ? `${diff.days()} day${diff.days() === 1 ? '' : 's'}` : ``;
+export const daysToYMD = (currDateMS, nextDateMS) => {
+  let diffMS = nextDateMS - currDateMS;
+  let {years, months, days} = getIsolatedYMDFromMS(diffMS);
+
+  let yearsStr = years > 0 ? `${years} year${years === 1 ? '' : 's'}` : ``;
+  let monthsStr = months > 0 ? `${months} month${months === 1 ? '' : 's'}` : ``;
+  let daysStr = days > 0 ? `${days} day${days === 1 ? '' : 's'}` : ``;
   
   return `${yearsStr}${yearsStr && (monthsStr || daysStr) ? ', ' : ''}${monthsStr}${monthsStr && daysStr ? ', ' : ''}${daysStr}`;
 };

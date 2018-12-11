@@ -1,17 +1,23 @@
 import React from 'react';
-import ReactPlayer from 'react-player';
+import YouTubePlayer from 'react-player/lib/players/YouTube';
+import TwitchPlayer from 'react-player/lib/players/Twitch';
 
-class VodEmbed extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return <ReactPlayer
-      url={this.props.vodUrl}
+const VodEmbed = (props) => {
+  if (props.vodUrl.indexOf('youtube') > -1) {
+    return <YouTubePlayer
+      url={props.vodUrl}
       controls={true}
     />
+  } else if (props.vodUrl.indexOf('twitch') > -1) {
+    return <TwitchPlayer
+      url={props.vodUrl}
+      controls={true}
+    />
+  } else if (props.vodUrl.indexOf('nico') > -1) {
+    return 'Nicovideo VODs are not currently supported';
+  } else {
+    return 'No VOD available for this record'
   }
-}
+};
 
 export default VodEmbed;

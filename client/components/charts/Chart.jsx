@@ -58,22 +58,12 @@ class Chart extends React.PureComponent {
             enabled: true,
             states: {
               select: {
-                fillColor: 'red',
+                fillColor: 'rgb(221, 13, 13)',
                 radius: 12
               }
             }
           }
         },
-        // series: {
-        //   allowPointSelect: true,
-        //   marker: {
-        //     states: {
-        //       select: {
-        //         radius: 100
-        //       }
-        //     }
-        //   }
-        // }
       },
       xAxis: {
         title: {

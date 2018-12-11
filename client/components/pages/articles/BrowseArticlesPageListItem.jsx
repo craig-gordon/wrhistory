@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import 'antd/lib/grid/style/index.css';
 
 import ArticleTagsList from './ArticleTagsList.jsx';
 
@@ -39,7 +36,7 @@ const BrowseArticlesPageListItem = (props) => {
   bodyTextCutoff = bodyTextCutoff || bodyText.slice(0, bodyText.slice(0, 300).lastIndexOf('!') + 1);
   return (
     <LightPurpleModule>
-      <Row gutter={16}>
+      {/* <Row gutter={16}>
         <Col span={3}>
           <Link to={`/articles/${props.article.id}`}>
             <img
@@ -71,7 +68,7 @@ const BrowseArticlesPageListItem = (props) => {
             relatedTopicAbbrevs={props.article.relatedTopicAbbrevs}
           />
         </Col>
-      </Row>
+      </Row> */}
     </LightPurpleModule>
   )
 };
