@@ -20,4 +20,6 @@ package-lock.json
 
 # Webpack
 client/bundle.js
+client/bundle.js.gz
+client/bundle.js.br
 client/bundle.js.map
