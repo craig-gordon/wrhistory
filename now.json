@@ -1,0 +1,22 @@
+{
+  "name": "record-history",
+  "version": 1,
+  "engines": {
+    "node": "^8.12.0"
+  },
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "dotenv": true,
+  "files": [
+    "client/bundle.js.br",
+    "client/bundle.js.gz",
+    "server",
+    ".env",
+    "index.html",
+    "index.js",
+    "webpack.config.js",
+    "package.json",
+    "rds-combined-ca-bundle.pem"
+  ]
+}

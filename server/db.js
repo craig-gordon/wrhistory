@@ -1,14 +1,27 @@
 const Sequelize = require('sequelize');
+const fs = require('fs');
 
 const database = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
+  define: {
+    freezeTableName: true
+  },
   dialect: 'postgres',
+  logging: false,
+  ssl: true,
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: true,
+      ca: fs.readFileSync(__dirname + '/../rds-combined-ca-bundle.pem')
+    }
+  },
   pool: {
     max: 5,
     min: 0,
     idle: 10000
   },
-  operatorsAliases: false
+  operatorsAliases: false,
+  language: 'en'
 });
 
 database

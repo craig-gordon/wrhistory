@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import WelcomeModule from './WelcomeModule.jsx';
 import OnThisDayModule from './OnThisDayModule.jsx';
 import FeaturedChartModule from './FeaturedChartModule.jsx';
-import RecentlyUpdatedModule from './RecentlyUpdatedModule.jsx';
+// import RecentlyUpdatedModule from './RecentlyUpdatedModule.jsx';
 
 const TopRow = styled.div`
   display: grid;
@@ -24,7 +24,7 @@ export default class HomePage extends React.Component {
           <OnThisDayModule />
         </TopRow>
         <FeaturedChartModule />
-        <RecentlyUpdatedModule />
+        {/* <RecentlyUpdatedModule /> */}
       </div>
     );
   }

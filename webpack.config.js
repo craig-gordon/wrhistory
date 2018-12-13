@@ -4,12 +4,12 @@ const path = require('path');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliGzipPlugin = require('brotli-gzip-webpack-plugin');
 
 module.exports = {
   entry: './client/index.jsx',
   output: {
-    path: path.join(__dirname + '/client'),
+    path: path.join(__dirname, '/client'),
     filename: 'bundle.js'
   },
   mode: 'production',
@@ -54,20 +54,26 @@ module.exports = {
       }
     ]
   },
-  // devServer: {
-  //   port: 3000
-  // },
   plugins: [
     new Dotenv({
       path: './.env',
       safe: false
     }),
     new BundleAnalyzerPlugin(),
-    new CompressionPlugin({
-      filename: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.js$|\.css$|\.html$/,
-      minRatio: 0.8
+    new BrotliGzipPlugin({
+      asset: '[path].br[query]',
+      algorithm: 'brotli',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+      quality: 11
+    }),
+    new BrotliGzipPlugin({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8
     })
   ],
   node: {
