@@ -1,12 +1,14 @@
 {
-  "name": "wrhistory",
+  "name": "recordhistory",
   "version": "1.0.0",
-  "description": "WR History",
+  "description": "Record History",
   "main": "index.js",
   "scripts": {
-    "compile": "webpack -w",
+    "webpack": "webpack -w",
+    "webpack-dev-server": "webpack-dev-server",
+    "dev": "npm run webpack -- --env.mode development",
+    "prod": "npm run webpack -- --env.mode production",
     "start": "node index.js",
-    "start:dev": "webpack-dev-server",
     "test": "test"
   },
   "author": "Craig Gordon",
@@ -55,6 +57,7 @@
     "webpack": "^4.27.1",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.5"
   }
 }
