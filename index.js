@@ -17,11 +17,6 @@ server.get('*.js', (req, res, next) => {
     'Content-Encoding': extension === '.br' ? 'br' : 'gzip',
     'Content-Type': 'application/javascript'
   });
-  console.log('Right before sendFile!');
-  console.log('req.url:', req.url);
-  console.log('req.headers:', req.headers);
-  console.log('res.getHeaders:', res.getHeaders());
-  console.log('filepath:', path.join(__dirname, '/client', req.url));
   res.sendFile(req.url, {root: path.join(__dirname, '/client')});
 });
 

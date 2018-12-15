@@ -5,7 +5,7 @@ import { LightBlueModule } from '../../common/styledComponents.js';
 
 const Module = LightBlueModule.extend`
   display: block;
-  height: 180px;
+  height: auto;
   margin-right: 10px;
 `;
 

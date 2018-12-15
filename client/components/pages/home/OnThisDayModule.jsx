@@ -24,7 +24,7 @@ const findCurrentDateEvents = (docs) => {
 
 const Module = LightBlueModule.extend`
   display: block;
-  height: 180px;
+  height: auto;
   margin-left: 10px;
 `;
 

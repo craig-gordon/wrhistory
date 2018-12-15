@@ -9,14 +9,13 @@
   },
   "dotenv": true,
   "files": [
-    "client/bundle.js.br",
-    "client/bundle.js.gz",
-    "server",
-    ".env",
     "index.html",
     "index.js",
-    "webpack.config.js",
-    "package.json",
+    "server",
+    "client/assets/images/icons/favicon-chart.ico",
+    "client/bundle.js.br",
+    "client/bundle.js.gz",
+    ".env",
     "rds-combined-ca-bundle.pem"
   ]
 }
