@@ -106,7 +106,7 @@ export default class CreateChartPageUserInputs extends React.Component {
     let stateObj = {};
     stateObj[type] = e;
     this.setState(stateObj, () => {
-      if (this.state.hours !== undefined && this.state.minutes !== undefined && this.state.seconds !== undefined) {
+      if (this.state.hours !== 0 && this.state.minutes !== 0 && this.state.seconds !== 0) {
         let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
         this.props.changeInput('recordInput', 'mark', totalSecondsStr);
       }
