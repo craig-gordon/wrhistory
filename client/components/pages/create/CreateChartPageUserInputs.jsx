@@ -102,12 +102,13 @@ export default class CreateChartPageUserInputs extends React.Component {
     this.handleFinish = this.handleFinish.bind(this);
   }
 
-  changeTimeInput(type, e) {
+  changeTimeInput(type, value) {
+    console.log('changeTimeInput value:', value);
     let stateObj = {};
-    stateObj[type] = e;
+    stateObj[type] = value;
     this.setState(stateObj, () => {
-      if (this.state.hours !== 0 && this.state.minutes !== 0 && this.state.seconds !== 0) {
-        let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
+      if (this.state.hours !== 0 || this.state.minutes !== 0 || this.state.seconds !== 0) {
+        let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds).toString();
         this.props.changeInput('recordInput', 'mark', totalSecondsStr);
       }
     });
@@ -116,7 +117,7 @@ export default class CreateChartPageUserInputs extends React.Component {
   toggleMilliseconds() {
     if (this.state.showMilliseconds) {
       this.setState({milliseconds: '', showMilliseconds: false}, () => {
-        if (this.state.hours !== '' && this.state.minutes !== '' && this.state.seconds !== '') {
+        if (this.state.hours !== 0 || this.state.minutes !== 0 || this.state.seconds !== 0) {
           let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
           this.props.changeInput('recordInput', 'mark', totalSecondsStr);
         }

@@ -23,3 +23,6 @@ bundle.js
 bundle.js.gz
 bundle.js.br
 bundle.js.map
+
+# AWS RDS Certificate
+rds-combined-ca-bundle.pem

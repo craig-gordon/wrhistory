@@ -7,6 +7,8 @@ const cors = require('cors');
 const server = express();
 const api = require('./server/router.js');
 
+console.log('process.env:', process.env);
+
 server.use(bodyParser.json());
 server.use(cors());
 

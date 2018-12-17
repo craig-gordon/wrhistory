@@ -123,7 +123,7 @@ export default class GamePage extends React.Component {
           </TabPane>
         </Tabs>
         <RecordDetailWrapper>
-          <VodContainer>
+          <VodContainer className='vod-container'>
             {
               this.state.selectedRun
                 ? (
