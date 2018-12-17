@@ -90,37 +90,52 @@ export default class CreateChartPageUserInputs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
+      hours: '',
+      minutes: '',
+      seconds: '',
       milliseconds: '',
       showMilliseconds: false,
       finished: false
-    }
+    };
+    this.isTimeInputValid = this.isTimeInputValid.bind(this);
     this.changeTimeInput = this.changeTimeInput.bind(this);
     this.toggleMilliseconds = this.toggleMilliseconds.bind(this);
     this.handleFinish = this.handleFinish.bind(this);
   }
 
+  isTimeInputValid(type, value) {
+    if (Number.isNaN(Number(value))) {
+      return false;
+    } else if (type === 'hours' && value.length === 4) {
+      return false;
+    } else if (type === 'minutes' && value.length === 3) {
+      return false;
+    } else if (type === 'seconds' && value.length === 3) {
+      return false;
+    } else if (type === 'milliseconds' && value.length === 4) {
+      return false;
+    }
+    return true;
+  }
+
   changeTimeInput(type, value) {
     console.log('changeTimeInput value:', value);
+    if (!this.isTimeInputValid(type, value)) {
+      return;
+    }
     let stateObj = {};
     stateObj[type] = value;
     this.setState(stateObj, () => {
-      if (this.state.hours !== 0 || this.state.minutes !== 0 || this.state.seconds !== 0) {
-        let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds).toString();
-        this.props.changeInput('recordInput', 'mark', totalSecondsStr);
-      }
+      let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds).toString();
+      this.props.changeInput('recordInput', 'mark', totalSecondsStr);
     });
   }
 
   toggleMilliseconds() {
     if (this.state.showMilliseconds) {
       this.setState({milliseconds: '', showMilliseconds: false}, () => {
-        if (this.state.hours !== 0 || this.state.minutes !== 0 || this.state.seconds !== 0) {
-          let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds)
-          this.props.changeInput('recordInput', 'mark', totalSecondsStr);
-        }
+        let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds).toString();
+        this.props.changeInput('recordInput', 'mark', totalSecondsStr);
       });
     } else {
       this.setState({showMilliseconds: true});
@@ -131,9 +146,9 @@ export default class CreateChartPageUserInputs extends React.Component {
     if (this.state.finished) {
       this.props.goToChartPage();
       this.setState({
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
+        hours: '',
+        minutes: '',
+        seconds: '',
         milliseconds: '',
         showMilliseconds: false,
         finished: false
@@ -233,24 +248,24 @@ export default class CreateChartPageUserInputs extends React.Component {
                   </IconWrapper>
                 </LabelWithIconWrapper>
                 <TimeDropdownsContainer showMilliseconds={this.state.showMilliseconds}>
-                  <Select
+                  <Input
+                    placeholder='0'
+                    addonAfter={this.state.showMilliseconds ? 'h' : 'hours'}
                     value={this.state.hours}
-                    onChange={(e) => this.changeTimeInput('hours', e)}
-                  >
-                    {hoursOptions}
-                  </Select>
-                  <Select
+                    onChange={(e) => this.changeTimeInput('hours', e.target.value)}
+                  />
+                  <Input
+                    placeholder='0'
+                    addonAfter={this.state.showMilliseconds ? 'm' : 'min'}
                     value={this.state.minutes}
-                    onChange={(e) => this.changeTimeInput('minutes', e)}
-                  >
-                    {minutesOptions}
-                  </Select>
-                  <Select
+                    onChange={(e) => this.changeTimeInput('minutes', e.target.value)}
+                  />
+                  <Input
+                    placeholder='0'
+                    addonAfter={this.state.showMilliseconds ? 's' : 'sec'}
                     value={this.state.seconds}
-                    onChange={(e) => this.changeTimeInput('seconds', e)}
-                  >
-                    {secondsOptions}
-                  </Select>
+                    onChange={(e) => this.changeTimeInput('seconds', e.target.value)}
+                  />
                   {
                     this.state.showMilliseconds
                       ? <Input
@@ -415,7 +430,11 @@ export default class CreateChartPageUserInputs extends React.Component {
             size='large'
             onClick={() => {
               this.props.submitData();
-              this.setState({hours: 0, minutes: 0, seconds: 0});
+              this.setState({
+                hours: '',
+                minutes: '',
+                seconds: ''
+              });
             }}
           >
             <span style={{marginRight: '8px'}}>
@@ -435,6 +454,7 @@ export default class CreateChartPageUserInputs extends React.Component {
                   <span style={{marginRight: '8px'}}>
                     {this.state.finished ? 'View Chart Page' : 'Finish'}
                   </span>
+                  <i style={{marginRight: '8px'}} className="far fa-save" />
                   <i className={this.state.finished ? 'fas fa-external-link-square-alt' : 'fas fa-check'} />
                 </Button>
               : null

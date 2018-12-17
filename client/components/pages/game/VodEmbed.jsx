@@ -15,11 +15,11 @@ const VodEmbed = (props) => {
       url={props.vodUrl}
       controls={true}
     />
-  } else if (props.vodUrl.indexOf('nico') > -1) {
+  } else if (props.vodUrl.indexOf('nicovideo') > -1) {
     embed = <iframe
       height='360'
       width='640'
-      frameborder='0'
+      frameBorder='0'
       src={`https://embed.nicovideo.jp/watch/${props.vodUrl.slice(props.vodUrl.indexOf('sm'))}`}
     />
   } else {

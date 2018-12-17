@@ -104,7 +104,6 @@ router.get('/allGames', (req, res) => {
 router.get('/allPlayers', (req, res) => {
   Player.findAll()
     .then(allPlayerEntries => {
-      console.log('allPlayerEntries:', allPlayerEntries);
       res.send(allPlayerEntries);
     })
     .catch(err => {
@@ -117,7 +116,6 @@ router.get('/allPlayers', (req, res) => {
 router.get('/allConsoles', (req, res) => {
   Console.findAll()
     .then(allConsoleEntries => {
-      console.log('allConsoleEntries:', allConsoleEntries);
       res.send(allConsoleEntries);
     })
     .catch(err => {

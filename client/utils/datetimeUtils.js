@@ -1,5 +1,5 @@
 export const convertHMSMsToSecondsStr = (h, m, s, ms) => {
-  let totalSeconds = (h * 3600) + (m * 60) + s;
+  let totalSeconds = (Number(h) * 3600) + (Number(m) * 60) + Number(s);
   if (ms) totalSeconds = totalSeconds + Number(`0.${ms}`);
   return totalSeconds;
 };
