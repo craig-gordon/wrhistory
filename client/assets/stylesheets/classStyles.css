@@ -210,3 +210,7 @@ h1, h2, h3, h4, h5, h6 {
 .ant-pagination-disabled:focus .ant-pagination-item-link {
   cursor: default !important;
 }
+
+.right-side-tab-pane {
+  justify-self: end;
+}

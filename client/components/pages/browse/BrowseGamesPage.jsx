@@ -44,7 +44,7 @@ class BrowseGamesPage extends React.Component {
           category={doc.category}
           iconClasses={doc.type === 'speedrun' ? 'fas fa-stopwatch' : 'fas fa-trophy'}
           iconSide='left'
-          onClickFn={() => this.props.history.push(`/game${doc.uriEndpoint}`)}
+          onClickFn={() => this.props.history.push(`/chart${doc.uriEndpoint}`)}
         />
       )
     );

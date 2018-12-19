@@ -20,9 +20,7 @@ const render = (Component) => {
 render(App);
 
 if (module.hot) {
-  console.log('hot reload active');
   module.hot.accept('./components/common/App.jsx', () => {
-    console.log('theres no way this will print in the console');
     const NextApp = require('./components/common/App.jsx').default;
     render(NextApp);
   });

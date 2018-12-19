@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Tabs from 'antd/lib/tabs';
 const TabPane = Tabs.TabPane;
 import 'antd/lib/tabs/style/index.css';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style/index.css';
 
 // import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 // import 'react-tabs/style/react-tabs.css';
@@ -31,7 +33,7 @@ const RecordDetailWrapper = styled.div`
   grid-column-gap: 20px;
 `;
 
-const ChartContainer = styled(LightGreenModule)`
+const TabContentsContainer = styled(LightGreenModule)`
   margin-top: 0px;
 `;
 
@@ -68,7 +70,7 @@ export default class GamePage extends React.Component {
   }
 
   componentDidMount() {
-    axios.post('/api/chartPage/document', {uriEndpoint: this.props.location.pathname.slice(5)})
+    axios.post('/api/chartPage/document', {uriEndpoint: this.props.location.pathname.slice(6)})
       .then(res => {
         console.log('response:', res);
         let document = res.data;
@@ -91,18 +93,32 @@ export default class GamePage extends React.Component {
 
   render() {
     if (!this.state.loaded) {
-      return <div></div>;
+      return <div style={{textAlign: 'center', marginTop: '50px'}}><Spin size='large' /></div>;
     }
     return (
       <GamePageContainer>
-        <Tabs type='card'>
+        <Tabs
+          type='card'
+          onTabClick={(e) =>
+            e === '3'
+              ? this.props.history.push(
+                  `/edit${this.state.document.uriEndpoint}`,
+                  {
+                    currentPage: 2,
+                    totalPages: this.state.document.records.length + 3,
+                    chartType: this.state.document.type,
+                    workingDoc: this.state.document
+                  }
+                )
+              : null
+          }>
           <TabPane tab={<i className="fas fa-chart-line" />} key='1'>
-            <ChartContainer>
+            <TabContentsContainer>
               <Chart
                 document={this.state.document}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
               />
-            </ChartContainer>
+            </TabContentsContainer>
               {/* <EmbeddedCarouselWrapper
                 docType={this.props.location.pathname === '/mm2' ? 'speedrun' : 'highscore'}
               >
@@ -115,12 +131,17 @@ export default class GamePage extends React.Component {
               </EmbeddedCarouselWrapper> */}
             </TabPane>
           <TabPane tab={<i className="fas fa-table" />} key='2'>
-            <LightGreenModule>
+            <TabContentsContainer>
               <RecordsTable
                 document={this.state.document}
               />
-            </LightGreenModule>
+            </TabContentsContainer>
           </TabPane>
+          <TabPane
+            className='right-side-tab-pane'
+            tab={<i className="fas fa-pencil-alt" />}
+            key='3'
+          />
         </Tabs>
         <RecordDetailWrapper>
           <VodContainer className='vod-container'>

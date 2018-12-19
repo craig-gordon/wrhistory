@@ -87,9 +87,9 @@ const ButtonContainer = styled.div`
 `;
 
 const NextPageIcon = styled.span`
-  color: rgb(24,144,255);
+  color: ${props => props.disabled ? 'rgb(120, 140, 158)' : 'rgb(24,144,255)'};
   font-weight: bold;
-  background-color: white;
+  background-color: ${props => props.disabled ? 'rgb(217, 217, 217)' : 'white'};
   border-radius: 24px;
   padding: 0 5px;
 `;
@@ -341,7 +341,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               </LabelWithIcon>
               <IconWrapper>
                 <Tooltip
-                  title={`Indicates that the record in question surpassed a significant threshold, eg the first ${this.props.chartType === 'speedrun' ? 'sub-1hr time' : '1mil point score'}, and is represented on the chart as a POW symbol`}
+                  title={`Indicates that the record in question surpassed a significant threshold, eg the first ${this.props.chartType === 'speedrun' ? 'sub-10min time' : '1mil score'}, and is represented on the chart as a POW symbol`}
                   mouseEnterDelay={0.3}
                 >
                   <Icon className="fas fa-question-circle" />
@@ -380,7 +380,7 @@ export default class CreateChartPageUserInputs extends React.Component {
                   <i style={{marginRight: this.props.currentPage === 2 ? '0' : '8px'}} className="far fa-save" />
                   {this.props.currentPage === 2
                     ? null
-                    : <NextPageIcon>
+                    : <NextPageIcon disabled={this.props.isNextButtonDisabled()}>
                         {this.props.totalPages - 1}
                       </NextPageIcon>}
                 </Button>

@@ -127,18 +127,17 @@ router.get('/allConsoles', (req, res) => {
 // Insert a new Document into the database
 router.post('/newDocument', (req, res) => {
   console.log('newDocument req.body:', req.body);
-  let gameReleaseDate;
 
   Game.findOne({where: {title: req.body.gameTitle}})
     .then(gameEntry => {
       gameEntry = gameEntry.dataValues;
-      gameReleaseDate = gameEntry.releaseDate;
       let upsertObj = {
         type: req.body.chartType,
         gameTitle: req.body.gameTitle,
         category: req.body.category,
         leaderboardUrl: req.body.leaderboardUrl,
         uriEndpoint: `/${gameEntry.abbrev}${req.body.category ? '/' + autoGenerateAbbrev(req.body.category) : ''}`,
+        gameReleaseDate: gameEntry.releaseDate,
         gameId: gameEntry.id
       };
       if (req.body.id) upsertObj.id = req.body.id;
@@ -152,7 +151,7 @@ router.post('/newDocument', (req, res) => {
     })
     .then(documentEntry => {
       document = documentEntry[0].get({plain: true});
-      res.send({...document, gameReleaseDate});
+      res.send(document);
     })
     .catch(err => {
       console.log('Error inserting new Document into the database. Error:', err);

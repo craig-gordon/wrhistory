@@ -69,19 +69,22 @@ const convertInputs = (obj) => {
 export default class CreateChartPage extends React.Component {
   constructor(props) {
     super(props);
+    this.location = this.props.location.pathname.includes('/edit') ? '/edit' : '/create';
+    this.forwardedState = this.location === '/edit' ? this.props.location.state : {};
     this.state = {
-      currentPage: 1,
-      totalPages: 1,
-      chartType: undefined,
+      currentPage: this.forwardedState.currentPage || 1,
+      totalPages: this.forwardedState.totalPages || 1,
+      chartType: this.forwardedState.chartType || undefined,
+      workingDoc: this.forwardedState.workingDoc || undefined,
       submitGameOpen: false,
       allGames: [],
       allPlayers: [],
       allConsoles: [],
       allConsolesMap: {},
       chartInput: {
-        gameTitle: '',
-        category: '',
-        leaderboardUrl: ''
+        gameTitle: this.forwardedState.workingDoc.gameTitle || '',
+        category: this.forwardedState.workingDoc.category || '',
+        leaderboardUrl: this.forwardedState.workingDoc.leaderboardUrl || ''
       },
       recordInput: {
         playerName: '',
@@ -106,9 +109,7 @@ export default class CreateChartPage extends React.Component {
       dbIds: {
         documentId: undefined,
         gameId: undefined
-      },
-      gameReleaseDate: undefined,
-      workingDoc: undefined
+      }
     };
     this.emptyInputFields = this.emptyInputFields.bind(this);
     this.changePage = this.changePage.bind(this);
@@ -169,7 +170,7 @@ export default class CreateChartPage extends React.Component {
       recordInput: {
         playerName: '',
         mark: '',
-        year: Number(this.state.gameReleaseDate.slice(0, 4)),
+        year: Number(this.state.workingDoc.gameReleaseDate.slice(0, 4)),
         month: 0,
         day: 1,
         vodUrl: '',
@@ -231,7 +232,7 @@ export default class CreateChartPage extends React.Component {
       let emptyRecordInputObj = {
         playerName: '',
         mark: '',
-        year: Number(this.state.gameReleaseDate.slice(0, 4)),
+        year: Number(this.state.workingDoc.gameReleaseDate.slice(0, 4)),
         month: 0,
         day: 1,
         vodUrl: '',
@@ -343,7 +344,7 @@ export default class CreateChartPage extends React.Component {
   }
 
   goToChartPage() {
-    this.props.history.push(`/game${this.state.workingDoc.uriEndpoint}`)
+    this.props.history.push(`/chart${this.state.workingDoc.uriEndpoint}`)
   }
 
   submitData(blockPageChange) {
@@ -374,7 +375,6 @@ export default class CreateChartPage extends React.Component {
           let stateObj = {
             dbIds: dbIdsObj,
             workingDoc: workingDocObj,
-            gameReleaseDate: res.data.gameReleaseDate,
             recordInput: emptyRecordInputObj,
             hours: '',
             minutes: '',
@@ -422,7 +422,7 @@ export default class CreateChartPage extends React.Component {
           let emptyRecordInputObj = {
             playerName: '',
             mark: '',
-            year: Number(this.state.gameReleaseDate.slice(0, 4)),
+            year: Number(this.state.workingDoc.gameReleaseDate.slice(0, 4)),
             month: 0,
             day: 1,
             vodUrl: '',
@@ -483,11 +483,15 @@ export default class CreateChartPage extends React.Component {
           changeInput={this.changeInput}
         />
         <PageHeader>
-          Create {
-            this.state.chartType === undefined
-              ? ''
-              : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')
-          } Chart
+          {
+            this.location === '/create'
+              ? `Create ${
+                  this.state.chartType === undefined
+                    ? ''
+                    : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')
+                } Chart`
+              : `Edit Chart: ${this.state.workingDoc.gameTitle} — ${this.state.workingDoc.category}`
+          }
         </PageHeader>
         {
           this.state.currentPage === 1
@@ -524,7 +528,7 @@ export default class CreateChartPage extends React.Component {
                     chartType={this.state.chartType}
                     allGames={this.state.allGames}
                     allPlayers={this.state.allPlayers}
-                    gameReleaseDate={this.state.gameReleaseDate}
+                    gameReleaseDate={this.state.workingDoc.gameReleaseDate}
                     showSubmitGame={this.showSubmitGame}
                     chartInput={this.state.chartInput}
                     recordInput={this.state.recordInput}

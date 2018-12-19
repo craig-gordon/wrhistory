@@ -10,10 +10,10 @@ const api = require('./server/router.js');
 server.use(bodyParser.json());
 server.options('*', cors());
 
-server.get('*', (req, res, next) => {
-  console.log('req.url:', req.url);
-  next();
-})
+server.get('*/__webpack_hmr', (req, res, next) => {
+  res.set('Content-Type', 'text/event-stream');
+  res.status(404).end();
+});
 
 if (process.env.NODE_ENV === 'development') {
   const webpack = require('webpack');
@@ -26,12 +26,12 @@ if (process.env.NODE_ENV === 'development') {
       publicPath: webpackConfig.output.publicPath,
       writeToDisk: true,
       stats: false,
+      logLevel: 'silent'
     })
   );
 
   server.use(
     require('webpack-hot-middleware')(compiler, {
-      log: console.log,
       path: '__webpack_hmr'
     })
   );

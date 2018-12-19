@@ -5,11 +5,9 @@
   "main": "index.js",
   "scripts": {
     "webpack": "webpack -w",
-    "webpack-dev-server": "webpack-dev-server",
-    "dev": "npm run webpack -- --env.mode development",
+    "dev": "cross-env NODE_ENV=development node index.js",
     "prod": "npm run webpack -- --env.mode production",
     "start": "node index.js",
-    "start-dev": "cross-env NODE_ENV=development node index.js",
     "test": "test"
   },
   "author": "Craig Gordon",

@@ -18,11 +18,8 @@ export default class FeaturedChartModule extends React.Component {
   componentDidMount() {
     axios.get('/api/home/getRandomFeaturedChart')
       .then(res => {
-        console.log('response for getRandomFeaturedChart:', res);
         let document = res.data;
-        console.log('this.state.document before setState:', this.state.document);
         this.setState({document});
-        console.log('this.state.document after setState:', this.state.document);
       })
       .catch(err => {
         console.log('Error retrieving Document from database:', err);
@@ -34,7 +31,7 @@ export default class FeaturedChartModule extends React.Component {
       <LightGreenModule>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>
         <Chart document={this.state.document} />
-        <Link to={`/game${this.state.document.uriEndpoint}`}>See full chart!</Link>
+        <Link to={`/chart${this.state.document.uriEndpoint}`}>See full chart!</Link>
       </LightGreenModule>
     );
   }

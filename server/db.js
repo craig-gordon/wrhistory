@@ -98,7 +98,8 @@ const Document = database.define('document', {
   gameTitle: {type: Sequelize.STRING, allowNull: false},
   category: Sequelize.STRING,
   leaderboardUrl: Sequelize.STRING,
-  uriEndpoint: {type: Sequelize.STRING, unique: true, allowNull: false}
+  uriEndpoint: {type: Sequelize.STRING, unique: true, allowNull: false},
+  gameReleaseDate: {type: Sequelize.DATEONLY, allowNull: false}
 }, {
   freezeTableName: true
 });

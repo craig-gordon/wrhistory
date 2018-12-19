@@ -28,7 +28,7 @@ const PageButtons = (props) => {
             size='small'
             pageSize={1}
             total={props.totalPages - 2}
-            current={props.currentPage === 2 ? '' : props.currentPage - 2}
+            current={props.currentPage === 2 ? 0 : props.currentPage - 2}
             onChange={(e) => {
               if (e + 2 === props.totalPages) props.emptyInputFields();
               props.changePage(e + 2);
