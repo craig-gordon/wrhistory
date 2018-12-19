@@ -18,7 +18,6 @@ router.get('/getRandomFeaturedChart', (req, res) => {
 
   Document.findOne({where: {gameTitle: 'Mega Man 2'}})
     .then(documentEntry => {
-      console.log('documentEntry:', documentEntry);
       doc = documentEntry.dataValues;
 
       return Record.findAll({

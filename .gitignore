@@ -24,5 +24,8 @@ bundle.js.gz
 bundle.js.br
 bundle.js.map
 
+# Webpack HMR Output Files
+client/.hot/*
+
 # AWS RDS Certificate
 rds-combined-ca-bundle.pem

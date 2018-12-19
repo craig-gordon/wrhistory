@@ -1,8 +1,13 @@
 const webpack = require('webpack');
+const path = require('path');
 const DotenvPlugin = require('dotenv-webpack');
-const BrotliGzipPlugin = require('brotli-gzip-webpack-plugin');
 
 module.exports = {
+  output: {
+    path: path.join(__dirname, '/../client/'),
+    filename: 'bundle.js',
+    publicPath: path.join(__dirname, '/../client/')
+  },
   module: {
     rules: [
       {
@@ -12,7 +17,7 @@ module.exports = {
           options: {
             babelrc: false,
             presets: ['es2015', 'react'],
-            plugins: [ ['transform-object-rest-spread', 'transform-react-jsx-source'] ]
+            plugins: [ ['transform-object-rest-spread', 'transform-react-jsx-source', 'react-hot-loader/babel'] ]
           }
         }],
         exclude: /node_modules/,
@@ -36,14 +41,6 @@ module.exports = {
     new DotenvPlugin({
       path: './.env',
       safe: false
-    }),
-    new BrotliGzipPlugin({
-      asset: '[path].br[query]',
-      algorithm: 'brotli',
-      test: /\.(js|css|html|svg)$/,
-      threshold: 10240,
-      minRatio: 0.8,
-      quality: 11
     })
   ],
   node: {
