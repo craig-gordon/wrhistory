@@ -133,19 +133,26 @@ router.post('/newDocument', (req, res) => {
     .then(gameEntry => {
       gameEntry = gameEntry.dataValues;
       gameReleaseDate = gameEntry.releaseDate;
-
-      return Document.create({
+      let upsertObj = {
         type: req.body.chartType,
-        title: req.body.gameTitle,
+        gameTitle: req.body.gameTitle,
         category: req.body.category,
         leaderboardUrl: req.body.leaderboardUrl,
         uriEndpoint: `/${gameEntry.abbrev}${req.body.category ? '/' + autoGenerateAbbrev(req.body.category) : ''}`,
         gameId: gameEntry.id
-      })
+      };
+      if (req.body.id) upsertObj.id = req.body.id;
+
+      return Document.upsert(
+        upsertObj,
+        {
+          returning: true
+        }
+      );
     })
-    .then(newDocument => {
-      newDocument = newDocument.dataValues;
-      res.send({...newDocument, gameReleaseDate});
+    .then(documentEntry => {
+      document = documentEntry[0].get({plain: true});
+      res.send({...document, gameReleaseDate});
     })
     .catch(err => {
       console.log('Error inserting new Document into the database. Error:', err);
@@ -157,17 +164,16 @@ router.post('/newDocument', (req, res) => {
 // Insert a new Record into the database
 router.post('/newRecord', (req, res) => {
   console.log('newRecord req.body:', req.body);
-  let newRecordEntry;
+  let record;
 
-  Player.findOrCreate({where: {username: req.body.player}})
+  Player.findOrCreate({where: {username: req.body.playerName}})
     .then(playerEntry => {
       console.log('playerEntry:', playerEntry);
       let playerId = playerEntry[0].dataValues.id;
-
-      return Record.create({
+      let upsertObj = {
         type: req.body.recordType,
         mark: req.body.mark,
-        playerName: req.body.player,
+        playerName: req.body.playerName,
         year: req.body.year,
         month: req.body.month,
         day: req.body.day,
@@ -178,18 +184,26 @@ router.post('/newRecord', (req, res) => {
         detailedText: req.body.detailedText,
         playerId,
         gameId: req.body.gameId,
-      });
-    })
-    .then(newRecord => {
-      newRecordEntry = newRecord.dataValues;
+      };
+      if (req.body.id) upsertObj.id = req.body.id;
 
-      return DocumentRecord.create({
+      return Record.upsert(
+        upsertObj,
+        {
+          returning: true
+        }
+      );
+    })
+    .then(recordEntry => {
+      record = recordEntry[0].get({plain: true});
+
+      return DocumentRecord.findOrCreate({where: {
         documentId: req.body.documentId,
-        recordId: newRecordEntry.id
-      });
+        recordId: record.id
+      }});
     })
     .then(newDocumentRecord => {
-      res.send(newRecordEntry);
+      res.send(record);
     })
     .catch(err => {
       console.log('Error inserting new Record into the database:', err);

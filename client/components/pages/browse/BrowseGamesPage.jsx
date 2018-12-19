@@ -40,7 +40,7 @@ class BrowseGamesPage extends React.Component {
       (
         <StandardButton
           key={doc.uriEndpoint}
-          title={doc.title}
+          title={doc.gameTitle}
           category={doc.category}
           iconClasses={doc.type === 'speedrun' ? 'fas fa-stopwatch' : 'fas fa-trophy'}
           iconSide='left'

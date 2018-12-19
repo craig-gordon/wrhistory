@@ -28,7 +28,7 @@ import {
 
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.page === 2 ? '37% 63%' : '30% 70%'};
+  grid-template-columns: ${props => props.currentPage === 2 ? '37% 63%' : '30% 70%'};
   align-items: center;
   margin-bottom: 12px;
 `;
@@ -72,7 +72,7 @@ const LabelWithIcon = styled(Label)`
 
 const LabelWithIconWrapper = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.page === 2 ? '84% 16%' : '82% 18%'};
+  grid-template-columns: ${props => props.currentPage === 2 ? '84% 16%' : '82% 18%'};
 `;
 
 const IconWrapper = styled.span`
@@ -86,85 +86,22 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
+const NextPageIcon = styled.span`
+  color: rgb(24,144,255);
+  font-weight: bold;
+  background-color: white;
+  border-radius: 24px;
+  padding: 0 5px;
+`;
+
 export default class CreateChartPageUserInputs extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hours: '',
-      minutes: '',
-      seconds: '',
-      milliseconds: '',
-      showMilliseconds: false,
-      finished: false
-    };
-    this.isTimeInputValid = this.isTimeInputValid.bind(this);
-    this.changeTimeInput = this.changeTimeInput.bind(this);
-    this.toggleMilliseconds = this.toggleMilliseconds.bind(this);
-    this.handleFinish = this.handleFinish.bind(this);
-  }
-
-  isTimeInputValid(type, value) {
-    if (Number.isNaN(Number(value))) {
-      return false;
-    } else if (type === 'hours' && value.length === 4) {
-      return false;
-    } else if (type === 'minutes' && value.length === 3) {
-      return false;
-    } else if (type === 'seconds' && value.length === 3) {
-      return false;
-    } else if (type === 'milliseconds' && value.length === 4) {
-      return false;
-    }
-    return true;
-  }
-
-  changeTimeInput(type, value) {
-    console.log('changeTimeInput value:', value);
-    if (!this.isTimeInputValid(type, value)) {
-      return;
-    }
-    let stateObj = {};
-    stateObj[type] = value;
-    this.setState(stateObj, () => {
-      let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds).toString();
-      this.props.changeInput('recordInput', 'mark', totalSecondsStr);
-    });
-  }
-
-  toggleMilliseconds() {
-    if (this.state.showMilliseconds) {
-      this.setState({milliseconds: '', showMilliseconds: false}, () => {
-        let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds).toString();
-        this.props.changeInput('recordInput', 'mark', totalSecondsStr);
-      });
-    } else {
-      this.setState({showMilliseconds: true});
-    }
-  }
-
-  handleFinish() {
-    if (this.state.finished) {
-      this.props.goToChartPage();
-      this.setState({
-        hours: '',
-        minutes: '',
-        seconds: '',
-        milliseconds: '',
-        showMilliseconds: false,
-        finished: false
-      });
-    } else {
-      this.setState({finished: true});
-    }
-  }
-
   render() {
     let inputForms;
 
-    if (this.props.page === 2) {
+    if (this.props.currentPage === 2) {
       inputForms = (
         <div>
-          <InputContainer page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
             <Label>
               Game Title
             </Label>
@@ -185,8 +122,8 @@ export default class CreateChartPageUserInputs extends React.Component {
               </Button>
             </GameTitleContainer>
           </InputContainer>
-          <InputContainer page={this.props.page}>
-            <LabelWithIconWrapper page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
+            <LabelWithIconWrapper currentPage={this.props.currentPage}>
               <LabelWithIcon>
                 Category
               </LabelWithIcon>
@@ -205,7 +142,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               onChange={(e) => this.props.changeInput('chartInput', 'category', e.target.value)}
             />
           </InputContainer>
-          <InputContainer page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
             <Label>
               Leaderboard URL
             </Label>
@@ -221,15 +158,15 @@ export default class CreateChartPageUserInputs extends React.Component {
       inputForms = (
         <div>
           {this.props.chartType === 'speedrun'
-            ? <InputContainer page={this.props.page}>
-                <LabelWithIconWrapper page={this.props.page}>
+            ? <InputContainer currentPage={this.props.currentPage}>
+                <LabelWithIconWrapper currentPage={this.props.currentPage}>
                   <LabelWithIcon>
                     Time
                   </LabelWithIcon>
                   <IconWrapper>
                     <Tooltip
                       title={
-                        this.state.showMilliseconds
+                        this.props.showMilliseconds
                           ? 'Click to hide & clear milliseconds input'
                           : 'Click to show milliseconds input'
                       }
@@ -238,47 +175,47 @@ export default class CreateChartPageUserInputs extends React.Component {
                       <Icon
                         pointerOnHover={true}
                         className={
-                          this.state.showMilliseconds
+                          this.props.showMilliseconds
                             ? "fas fa-minus-circle"
                             : "fas fa-plus-circle"
                         }
-                        onClick={this.toggleMilliseconds}
+                        onClick={this.props.toggleMilliseconds}
                       />
                     </Tooltip>
                   </IconWrapper>
                 </LabelWithIconWrapper>
-                <TimeDropdownsContainer showMilliseconds={this.state.showMilliseconds}>
+                <TimeDropdownsContainer showMilliseconds={this.props.showMilliseconds}>
                   <Input
                     placeholder='0'
-                    addonAfter={this.state.showMilliseconds ? 'h' : 'hours'}
-                    value={this.state.hours}
-                    onChange={(e) => this.changeTimeInput('hours', e.target.value)}
+                    addonAfter={this.props.showMilliseconds ? 'h' : 'hours'}
+                    value={this.props.hours}
+                    onChange={(e) => this.props.changeTimeInput('hours', e.target.value)}
                   />
                   <Input
                     placeholder='0'
-                    addonAfter={this.state.showMilliseconds ? 'm' : 'min'}
-                    value={this.state.minutes}
-                    onChange={(e) => this.changeTimeInput('minutes', e.target.value)}
+                    addonAfter={this.props.showMilliseconds ? 'm' : 'min'}
+                    value={this.props.minutes}
+                    onChange={(e) => this.props.changeTimeInput('minutes', e.target.value)}
                   />
                   <Input
                     placeholder='0'
-                    addonAfter={this.state.showMilliseconds ? 's' : 'sec'}
-                    value={this.state.seconds}
-                    onChange={(e) => this.changeTimeInput('seconds', e.target.value)}
+                    addonAfter={this.props.showMilliseconds ? 's' : 'sec'}
+                    value={this.props.seconds}
+                    onChange={(e) => this.props.changeTimeInput('seconds', e.target.value)}
                   />
                   {
-                    this.state.showMilliseconds
+                    this.props.showMilliseconds
                       ? <Input
                           placeholder='ms'
                           addonBefore='.'
-                          value={this.state.milliseconds}
-                          onChange={(e) => this.changeTimeInput('milliseconds', e.target.value)}
+                          value={this.props.milliseconds}
+                          onChange={(e) => this.props.changeTimeInput('milliseconds', e.target.value)}
                         />
                       : null
                   }
                 </TimeDropdownsContainer>
               </InputContainer>
-            : <InputContainer page={this.props.page}>
+            : <InputContainer currentPage={this.props.currentPage}>
                 <Label>
                   Score
                 </Label>
@@ -288,18 +225,18 @@ export default class CreateChartPageUserInputs extends React.Component {
                 />
               </InputContainer>}
 
-          <InputContainer page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
             <Label>
               Player
             </Label>
             <AutoComplete
               dataSource={this.props.allPlayers}
-              value={this.props.recordInput.player}
-              onChange={(e) => this.props.changeInput('recordInput', 'player', e)}
+              value={this.props.recordInput.playerName}
+              onChange={(e) => this.props.changeInput('recordInput', 'playerName', e)}
               filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
             />
           </InputContainer>
-          <InputContainer page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
             <Label>
               Date
             </Label>
@@ -324,7 +261,7 @@ export default class CreateChartPageUserInputs extends React.Component {
               </Select>
             </DateDropdownsContainer>
           </InputContainer>
-          <InputContainer page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
             <Label>
               VOD URL
             </Label>
@@ -334,8 +271,8 @@ export default class CreateChartPageUserInputs extends React.Component {
               onChange={(e) => this.props.changeInput('recordInput', 'vodUrl', e.target.value)}
             />
           </InputContainer>
-          <InputContainer page={this.props.page}>
-            <LabelWithIconWrapper page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
+            <LabelWithIconWrapper currentPage={this.props.currentPage}>
               <LabelWithIcon>
                 Tooltip Note
               </LabelWithIcon>
@@ -355,8 +292,8 @@ export default class CreateChartPageUserInputs extends React.Component {
               onChange={(e) => this.props.changeInput('recordInput', 'tooltipNote', e.target.value)}
             />
           </InputContainer>
-          <InputContainer page={this.props.page}>
-            <LabelWithIconWrapper page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
+            <LabelWithIconWrapper currentPage={this.props.currentPage}>
               <LabelWithIcon>
                 Label Text
               </LabelWithIcon>
@@ -371,13 +308,13 @@ export default class CreateChartPageUserInputs extends React.Component {
             </LabelWithIconWrapper>
             <TextArea
               placeholder='(Optional)'
-              rows={2}
+              rows={1}
               value={this.props.recordInput.labelText}
               onChange={(e) => this.props.changeInput('recordInput', 'labelText', e.target.value)}
             />
           </InputContainer>
-          <InputContainer page={this.props.page}>
-            <LabelWithIconWrapper page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
+            <LabelWithIconWrapper currentPage={this.props.currentPage}>
               <LabelWithIcon>
                 Detailed Text
               </LabelWithIcon>
@@ -397,8 +334,8 @@ export default class CreateChartPageUserInputs extends React.Component {
               onChange={(e) => this.props.changeInput('recordInput', 'detailedText', e.target.value)}
             />
           </InputContainer>
-          <InputContainer page={this.props.page}>
-            <LabelWithIconWrapper page={this.props.page}>
+          <InputContainer currentPage={this.props.currentPage}>
+            <LabelWithIconWrapper currentPage={this.props.currentPage}>
               <LabelWithIcon>
                 Milestone
               </LabelWithIcon>
@@ -424,38 +361,67 @@ export default class CreateChartPageUserInputs extends React.Component {
       <div>
         {inputForms}
         <ButtonContainer>
-          <Button
-            disabled={this.state.finished}
-            type='primary'
-            size='large'
-            onClick={() => {
-              this.props.submitData();
-              this.setState({
-                hours: '',
-                minutes: '',
-                seconds: ''
-              });
-            }}
-          >
-            <span style={{marginRight: '8px'}}>
-              {this.props.page === 2 ? 'Continue' : 'Next Record'}
-            </span>
-            <i style={{marginRight: '8px'}} className="far fa-save" />
-            <i className="fas fa-arrow-circle-right" />
-          </Button>
+
           {
-            this.props.page >= 4
+            // Continue / Next Record / Jump To / Save button
+            this.props.currentPage === this.props.totalPages
               ? <Button
-                  className='green-btn'
+                  className={this.props.currentPage === 2 ? 'continue-btn' : 'next-btn'}
+                  disabled={this.props.isNextButtonDisabled()}
                   type='primary'
                   size='large'
-                  onClick={this.handleFinish}
+                  onClick={() => {
+                    this.props.submitData();
+                  }}
                 >
                   <span style={{marginRight: '8px'}}>
-                    {this.state.finished ? 'View Chart Page' : 'Finish'}
+                    {this.props.currentPage === 2 ? 'Continue' : 'Next Record'}
                   </span>
-                  <i style={{marginRight: '8px'}} className="far fa-save" />
-                  <i className={this.state.finished ? 'fas fa-external-link-square-alt' : 'fas fa-check'} />
+                  <i style={{marginRight: this.props.currentPage === 2 ? '0' : '8px'}} className="far fa-save" />
+                  {this.props.currentPage === 2
+                    ? null
+                    : <NextPageIcon>
+                        {this.props.totalPages - 1}
+                      </NextPageIcon>}
+                </Button>
+              : <Button
+                  className={this.props.showJumpToButton ? 'jump-to-btn' : 'save-btn'}
+                  type='primary'
+                  size='large'
+                  onClick={() => {
+                    let blockPageChange = this.props.showJumpToButton ? false : true;
+                    this.props.showJumpToButton ? this.props.changePage(this.props.totalPages) : this.props.submitData(blockPageChange);
+                    this.props.showJumpToButton ? this.props.emptyInputFields() : this.props.toggleJumpToButton();
+                  }}
+                >
+                  <span style={{marginRight: '8px'}}>
+                    {this.props.showJumpToButton ? 'Jump to' : 'Save'}
+                  </span>
+                  {this.props.showJumpToButton
+                    ? <i style={{marginRight: '8px'}} className={this.props.totalPages - this.props.currentPage === 1 ? "fas fa-step-forward" : "fas fa-fast-forward" />
+                    : <i className="far fa-save" />}
+                  {this.props.showJumpToButton
+                    ? <NextPageIcon>
+                        {this.props.totalPages - 2}
+                      </NextPageIcon>
+                    : null}             
+                </Button>
+          }
+
+          {
+            // Finish button
+            this.props.totalPages >= 3
+              ? <Button
+                  className={this.props.finished ? 'green-btn-view-chart' : 'green-btn-finish'}
+                  type='primary'
+                  size='large'
+                  onClick={this.props.handleFinish}
+                >
+                  <span style={{marginRight: '8px'}}>
+                    {this.props.finished ? 'View Chart Page' : 'Finish'}
+                  </span>
+                  {this.props.finished ? null : <i style={{marginRight: '8px'}} className="far fa-save" />}
+                  <i className={this.props.finished ? 'fas fa-external-link-square-alt' : 'fas fa-check'} />
                 </Button>
               : null
           }

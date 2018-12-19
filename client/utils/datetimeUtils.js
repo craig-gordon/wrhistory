@@ -37,6 +37,41 @@ export const secsToTs = (secs) => {
   return tsArr.join(':') + (tsMillisecs ? tsMillisecs : '');
 };
 
+export const spreadTimestampToHMSMs = (ts) => {
+  let hours = '',
+      minutes = '',
+      seconds = '',
+      milliseconds = '';
+
+  // handle milliseconds
+  if (ts.includes('.')) {
+    milliseconds = ts.slice(ts.indexOf('.') + 1);
+    ts = ts.slice(0, ts.indexOf('.'));
+  }
+
+  // handle seconds
+  if (ts.includes(':')) {
+    seconds = ts.slice(ts.lastIndexOf(':') + 1);
+    ts = ts.slice(0, ts.lastIndexOf(':'));
+  } else {
+    seconds = ts;
+    return {hours, minutes, seconds, milliseconds};
+  }
+
+  // handle minutes
+  if (ts.includes(':')) {
+    minutes = ts.slice(ts.lastIndexOf(':') + 1);
+    ts = ts.slice(0, ts.lastIndexOf(':'));
+  } else {
+    minutes = ts;
+    return {hours, minutes, seconds, milliseconds};
+  }
+
+  // handle hours
+  hours = ts;
+  return {hours, minutes, seconds, milliseconds};
+};
+
 const getIsolatedYMDFromMS = (ms) => {
   let years = Math.floor(ms / 31556952000);
   let yearsInMS = years * 31556952000;

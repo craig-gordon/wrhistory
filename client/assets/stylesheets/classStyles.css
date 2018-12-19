@@ -135,20 +135,45 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(68, 68, 68, 1) !important; 
 }
 
-.green-btn {
-  background-color: rgb(0, 193, 46);
-  border-color: rgb(0, 193, 46);
+.continue-btn:hover,
+.next-btn:hover,
+.jump-to-btn:hover,
+.save-btn:hover {
+  background-color: rgba(24, 144, 255, 0.65);
+  border-color: rgba(24, 144, 255, 0.65);
+}
+
+.continue-btn:focus,
+.next-btn:focus,
+.jump-to-btn:focus,
+.save-btn:focus {
+  background-color: rgba(24, 144, 255, 0.65) !important;
+  border-color: rgba(24, 144, 255, 0.65) !important;
+}
+
+.green-btn-view-chart,
+.green-btn-finish {
+  background-color: rgb(0, 193, 46) !important;
+  border-color: rgb(0, 193, 46) !important;
   margin-left: 8px;
 }
 
-.green-btn:hover {
+.green-btn-view-chart:hover,
+.green-btn-finish:hover {
+  background-color: rgba(0, 193, 46, 0.65);
+  border-color: rgba(0, 193, 46, 0.65);
+}
+
+.green-btn-view-chart:focus,
+.green-btn-finish:focus {
   background-color: rgba(0, 193, 46, 0.65) !important;
   border-color: rgba(0, 193, 46, 0.65) !important;
 }
 
-.green-btn:focus {
-  background-color: rgb(0, 193, 46);
-  border-color: rgb(0, 193, 46);
+.green-btn-view-chart:active,
+.green-btn-finish:active {
+  background-color: rgb(4, 152, 39) !important;
+  border-color: rgb(4, 152, 39) !important;
 }
 
 .ant-tabs-bar {
@@ -157,4 +182,31 @@ h1, h2, h3, h4, h5, h6 {
 
 .ant-tabs {
   overflow: unset !important;
+}
+
+.create-chart-top-button {
+  color: rgba(0, 0, 0, 0.65);
+  border-color: rgba(0, 0, 0, 0.65);
+}
+
+.ant-pagination {
+  display: inline !important;
+}
+
+.ant-pagination-simple .ant-pagination-simple-pager input {
+  width: 40px;
+  margin-right: 5px !important;
+}
+
+.ant-pagination-slash {
+  margin: 0 5px 0 0 !important;
+}
+
+.ant-pagination-disabled a,
+.ant-pagination-disabled:hover a,
+.ant-pagination-disabled:focus a,
+.ant-pagination-disabled .ant-pagination-item-link,
+.ant-pagination-disabled:hover .ant-pagination-item-link,
+.ant-pagination-disabled:focus .ant-pagination-item-link {
+  cursor: default !important;
 }

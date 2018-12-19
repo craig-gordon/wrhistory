@@ -74,7 +74,7 @@ const determineMarker = function(record, isCurrentRecord) {
 export const createTitleHTML = function(document) {
   return `
     <div class='chartTitle'>
-      ${document.title}${document.category ? ` — ${document.category}` : ``}
+      ${document.gameTitle}${document.category ? ` — ${document.category}` : ``}
     </div>
   `
 };

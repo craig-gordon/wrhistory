@@ -1,8 +1,7 @@
 export const speedrunDocument = {
   type: 'speedrun',
-  title: 'Game',
+  gameTitle: 'Game',
   category: 'Category',
-  leaderboardUrl: 'Leaderboard URL',
   yAxisTickInterval: 600000,
   recordCount: 1,
   records: [
@@ -28,9 +27,8 @@ export const speedrunDocument = {
 
 export const highscoreDocument = {
   type: 'highscore',
-  title: 'Game',
+  gameTitle: 'Game',
   category: 'Category',
-  leaderboardUrl: 'Leaderboard URL',
   yAxisTickInterval: 100000,
   recordCount: 1,
   records: [

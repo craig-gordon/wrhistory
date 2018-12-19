@@ -16,7 +16,7 @@ const User = db.User,
 router.get('/getRandomFeaturedChart', (req, res) => {
   let doc;
 
-  Document.findOne({where: {title: 'Mega Man 2'}})
+  Document.findOne({where: {gameTitle: 'Mega Man 2'}})
     .then(documentEntry => {
       console.log('documentEntry:', documentEntry);
       doc = documentEntry.dataValues;
