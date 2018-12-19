@@ -398,7 +398,7 @@ export default class CreateChartPageUserInputs extends React.Component {
                     {this.props.showJumpToButton ? 'Jump to' : 'Save'}
                   </span>
                   {this.props.showJumpToButton
-                    ? <i style={{marginRight: '8px'}} className={this.props.totalPages - this.props.currentPage === 1 ? "fas fa-step-forward" : "fas fa-fast-forward" />
+                    ? <i style={{marginRight: '8px'}} className={this.props.totalPages - this.props.currentPage === 1 ? "fas fa-step-forward" : "fas fa-fast-forward"} />
                     : <i className="far fa-save" />}
                   {this.props.showJumpToButton
                     ? <NextPageIcon>
