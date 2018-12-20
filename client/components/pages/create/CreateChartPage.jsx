@@ -14,8 +14,7 @@ import Chart from '../../charts/Chart.jsx';
 import { LightBlueModule, LightGreenModule, PageHeader } from '../../common/styledComponents.js';
 
 import { convertHMSMsToSecondsStr, secsToTs, spreadTimestampToHMSMs } from '../../../utils/datetimeUtils.js';
-import { speedrunDocument, highscoreDocument } from '../../../data/genericDocument.js';
-
+import { speedDoc, scoreDoc } from '../../../data/genericDocument.js';
 
 const ColumnHeader = styled.h3`
   text-align: center;
@@ -70,7 +69,7 @@ export default class CreateChartPage extends React.Component {
   constructor(props) {
     super(props);
     this.location = this.props.location.pathname.includes('/edit') ? '/edit' : '/create';
-    this.forwardedState = this.location === '/edit' ? this.props.location.state : {};
+    this.forwardedState = this.location === '/edit' ? this.props.location.state : {workingDoc: {}};
     this.state = {
       currentPage: this.forwardedState.currentPage || 1,
       totalPages: this.forwardedState.totalPages || 1,
@@ -272,7 +271,8 @@ export default class CreateChartPage extends React.Component {
   }
 
   setChartType(type) {
-    let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
+    let doc = type === 'speedrun' ? speedDoc : scoreDoc;
+    console.log('setChartType doc:', doc);
     this.setState({chartType: type, workingDoc: doc});
     this.changePage();
   }

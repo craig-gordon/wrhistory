@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { AppContainer } from 'react-hot-loader';
+// import { AppContainer } from 'react-hot-loader';
 import App from './components/common/App.jsx';
 
 window.utcOffsetMS = new Date().getTimezoneOffset() * 60 * 1000;
 
 const render = (Component) => {
   ReactDOM.render(
-    <AppContainer>
+    // <AppContainer>
       <BrowserRouter>
         <Component />
-      </BrowserRouter>
-    </AppContainer>,
+      </BrowserRouter>,
+    // </AppContainer>,
     document.getElementById('app')
   );
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style/index.css';
 
 import { secsToTs, daysToYMD, formatUTCMillisecsToDateStr, formatYMDToDateStr } from '../../utils/datetimeUtils.js';
 import '../../assets/stylesheets/classStyles.css';
@@ -159,13 +161,13 @@ export const createChartData = function(records, documentType) {
   };
 
   const mappings = {
-    'rgb(144, 238, 126, 0.7)': undefined,
-    'rgb(244, 91, 91, 0.7)': undefined,
-    'rgb(43, 144, 143, 0.7)': undefined,
-    'rgb(119, 152, 191, 0.7)': undefined,
-    'rgb(255, 165, 0, 0.7)': undefined,
-    'rgb(221, 160, 221, 0.7)': undefined,
-    'rgb(255, 255, 255, 0.7)': undefined
+    'rgba(144, 238, 126, 0.7)': undefined,
+    'rgba(244, 91, 91, 0.7)': undefined,
+    'rgba(43, 144, 143, 0.7)': undefined,
+    'rgba(119, 152, 191, 0.7)': undefined,
+    'rgba(255, 165, 0, 0.7)': undefined,
+    'rgba(221, 160, 221, 0.7)': undefined,
+    'rgba(255, 255, 255, 0.7)': undefined
   };
 
   let recordsArray = records.map((record, i) => {
@@ -204,15 +206,15 @@ export const createChartData = function(records, documentType) {
   return recordsArray.concat(finalDummyRecord);
 };
 
-export const createChartSeries = function(records, documentType, changeSelectedChartPoint) {
+export const createChartSeries = function(records = [], documentType = 'speedrun', changeSelectedChartPoint) {
   const playerColors = [
-    'rgb(144, 238, 126, 0.7)',
-    'rgb(244, 91, 91, 0.7)',
-    'rgb(43, 144, 143, 0.7)',
-    'rgb(119, 152, 191, 0.7)',
-    'rgb(255, 165, 0, 0.7)',
-    'rgb(221, 160, 221, 0.7)',
-    'rgb(255, 255, 255, 0.7)'
+    'rgba(144, 238, 126, 0.7)',
+    'rgba(244, 91, 91, 0.7)',
+    'rgba(43, 144, 143, 0.7)',
+    'rgba(119, 152, 191, 0.7)',
+    'rgba(255, 165, 0, 0.7)',
+    'rgba(221, 160, 221, 0.7)',
+    'rgba(255, 255, 255, 0.7)'
   ];
 
   let playerList = [];
@@ -265,7 +267,7 @@ const Header = styled.h1`
 
 const SubHeader = styled.h3`
   font-style: normal !important;
-  color: rgb(153, 142, 160) !important;
+  color: rgba(153, 142, 160, 1) !important;
 `;
 
 const Text = styled.h4`
@@ -300,15 +302,16 @@ export const createCarouselSlides = function(records) {
   });
 };
 
-// const addImagesToChart = function() {
-//   let boxArt = this.renderer.image(
-//     './assets/images/covers/mm2.jpg',
-//     300,
-//     135,
-//     '15%',
-//     '30%'
-//   ).attr({
-//     zIndex: 10
-//   });
-//   boxArt.add();
-// };
+export const addSpinnerToChart = function() {
+  console.log('this:', this);
+  let spinner = this.renderer.text(
+    <Spin size='large' />,
+    300,
+    135,
+    true
+  ).attr({
+    zIndex: 10
+  });
+
+  spinner.add();
+};

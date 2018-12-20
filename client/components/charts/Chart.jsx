@@ -16,7 +16,8 @@ import {
   createChartLabels,
   createChartData,
   createChartZones,
-  createChartSeries
+  createChartSeries,
+  // addSpinnerToChart
 } from './chartUtils.js';
 
 MulticolorSeries(ReactHighcharts.Highcharts);
@@ -30,25 +31,25 @@ ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 class Chart extends React.PureComponent {
   render() {
     let document = this.props.document;
-    let records = document.records;
-    let currentRecord = records[records.length - 1];
+    let records = document ? document.records : undefined;
+    let currentRecord = records ? records[records.length - 1] : undefined;
     let config = {
       chart: {
         type: 'line',
         zoomType: 'x',
         panning: true,
         panKey: 'shift',
-        events: {
-          // load: addImagesToChart
-        }
+        // events: {
+        //   load: this.props.dataLoaded === false ? addSpinnerToChart : null
+        // }
       },
       title: {
         useHTML: true,
-        text: createTitleHTML(document)
+        text: document ? createTitleHTML(document) : ''
       },
       subtitle: {
         useHTML: true,
-        text: createSubtitleHTML(document, currentRecord)
+        text: document && currentRecord ? createSubtitleHTML(document, currentRecord) : ''
       },
       credits: false,
       plotOptions: {
@@ -71,7 +72,7 @@ class Chart extends React.PureComponent {
         },
         type: 'datetime',
         endOnTick: false,
-        min: Date.UTC(records[0].year, 0, 1),
+        min: Date.UTC(records && records.length > 0 ? records[0].year : 1970, 0, 1),
         max: Date.now() + utcOffsetMS,
         minTickInterval: 86400000,
         // tickInterval: 31104000000,
@@ -79,7 +80,7 @@ class Chart extends React.PureComponent {
           year: '%Y'
         }
       },
-      yAxis: createYAxisConfig(document),
+      yAxis: createYAxisConfig(document ? document : {type: 'speedrun'}),
       tooltip: {
         useHTML: true,
         formatter: formatTooltip
@@ -91,12 +92,12 @@ class Chart extends React.PureComponent {
             fontSize: '13px'
           }
         },
-        labels: createChartLabels(records)
+        labels: createChartLabels(records ? records : [])
       }],
       legend: {
         layout: 'horizontal'
       },
-      series: createChartSeries(records, document.type, this.props.changeSelectedChartPoint)
+      series: createChartSeries(records, document ? document.type : undefined, this.props.changeSelectedChartPoint)
     };
 
     return (

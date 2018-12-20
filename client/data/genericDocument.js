@@ -3,7 +3,6 @@ export const speedrunDocument = {
   gameTitle: 'Game',
   category: 'Category',
   yAxisTickInterval: 600000,
-  recordCount: 1,
   records: [
     {
       id: 0,
@@ -30,7 +29,6 @@ export const highscoreDocument = {
   gameTitle: 'Game',
   category: 'Category',
   yAxisTickInterval: 100000,
-  recordCount: 1,
   records: [
     {
       id: 0,
