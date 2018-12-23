@@ -245,7 +245,7 @@ export default class CreateChartPageUserInputs extends React.Component {
                 value={this.props.recordInput.year}
                 onChange={(e) => this.props.changeInput('recordInput', 'year', e)}
               >
-                {createYearDropdownOptions(this.props.gameReleaseDate ? Number(this.props.gameReleaseDate.slice(0, 4)) : 1970)}
+                {createYearDropdownOptions(this.props.workingDoc ? Number(this.props.workingDoc.gameReleaseDate.slice(0, 4)) : 1970)}
               </Select>
               <Select
                 value={this.props.recordInput.month}

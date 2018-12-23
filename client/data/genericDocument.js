@@ -2,6 +2,7 @@ export const speedrunDocument = {
   type: 'speedrun',
   gameTitle: 'Game',
   category: 'Category',
+  gameReleaseDate: '1970-01-01',
   yAxisTickInterval: 600000,
   records: [
     {
@@ -28,6 +29,7 @@ export const highscoreDocument = {
   type: 'highscore',
   gameTitle: 'Game',
   category: 'Category',
+  gameReleaseDate: '1970-01-01',
   yAxisTickInterval: 100000,
   records: [
     {

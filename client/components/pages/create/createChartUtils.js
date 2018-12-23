@@ -3,6 +3,50 @@ import Select from 'antd/lib/select';
 const Option = Select.Option;
 import 'antd/lib/select/style/index.css';
 
+// No-Values Record Input State Object
+
+export const createEmptyRecordInputObj = (doc) => ({
+  playerName: '',
+  mark: '',
+  year: doc ? Number(doc.gameReleaseDate.slice(0, 4)) : 1970,
+  month: 0,
+  day: 1,
+  vodUrl: '',
+  isMilestone: false,
+  tooltipNote: '',
+  labelText: '',
+  detailedText: ''
+});
+
+// Change emptry string state values to null
+// Convert 'mark' state value to a number
+
+export const convertInputs = (obj) => {
+  let convertToNumbers = ['mark', 'year', 'month', 'day'];
+  let newObj = {};
+  for (var key in obj) {
+    if (convertToNumbers.includes(key)) newObj[key] = Number(obj[key]);
+    else if (obj[key] === '') newObj[key] = null;
+    else newObj[key] = obj[key];
+  }
+  return newObj;
+};
+
+// Check if hours, minutes, seconds, and milliseconds inputs are valid
+// hours: integer string 0-999
+// minutes: integer string 0-59
+// seconds: integer string 0-59
+// milliseconds: integer string 0-999
+
+export const isTimeInputValid = (type, value) => {
+  if (Number.isNaN(Number(value))) return false;
+  else if (type === 'hours' && value.length === 4) return false;
+  else if (type === 'minutes' && (0 <= Number(value) && Number(value) < 60)) return false;
+  else if (type === 'seconds' && (0 <= Number(value) && Number(value) < 60)) return false;
+  else if (type === 'milliseconds' && value.length === 4) return false;
+  return true;
+}
+
 // Hours Options
 
 export const hoursOptions = (function() {

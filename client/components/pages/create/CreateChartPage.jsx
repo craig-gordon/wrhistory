@@ -1,75 +1,23 @@
 import React from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import Input from 'antd/lib/input';
-import 'antd/lib/input/style/index.css';
-import Button from 'antd/lib/button';
-import 'antd/lib/button/style/index.css';
 
 import SubmitGameForm from './SubmitGameForm.jsx';
 import CreateChartPageInitialButtons from './CreateChartPageInitialButtons.jsx';
 import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
 import PageButtons from './PageButtons.jsx';
 import Chart from '../../charts/Chart.jsx';
-import { LightBlueModule, LightGreenModule, PageHeader } from '../../common/styledComponents.js';
+import { PageHeader } from '../../common/styledComponents.js';
+import { ColumnHeader, CreateChartPageWrapper, LeftColumn, LeftColumnHeader, LeftColumnHeaderWrapper, RightColumn, CurrentPageIcon } from './createChartStyledComps.js';
 
 import { convertHMSMsToSecondsStr, secsToTs, spreadTimestampToHMSMs } from '../../../utils/datetimeUtils.js';
-import { speedDoc, scoreDoc } from '../../../data/genericDocument.js';
-
-const ColumnHeader = styled.h3`
-  text-align: center;
-`;
-
-const CreateChartPageWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 38% 62%;
-`;
-
-const LeftColumn = LightBlueModule.extend`
-  margin-right: 10px;
-`;
-
-const LeftColumnHeader = ColumnHeader.extend`
-  justify-self: center;
-`;
-
-const LeftColumnHeaderWrapper = styled.div`
-  display: grid;
-  grid-template-columns: ${props => props.currentPage === 2 ? '1fr 1fr 1fr' : '1.8fr 1fr 1.8fr'};
-  align-items: start;
-`;
-
-const RightColumn = LightGreenModule.extend`
-  margin-left: 10px;
-`;
-
-const CurrentPageIcon = styled.span`
-  color: whitesmoke;
-  background-color: rgb(84, 84, 84);
-  border-radius: 24px;
-  margin-left: 6px;
-  padding: 0 6px;
-`;
-
-// Change emptry string state values to null
-// Convert 'mark' state value to a number
-const convertInputs = (obj) => {
-  let convertToNumbers = ['mark', 'year', 'month', 'day'];
-  let newObj = {};
-  for (var key in obj) {
-    if (convertToNumbers.includes(key)) newObj[key] = Number(obj[key]);
-    else if (obj[key] === '') newObj[key] = null;
-    else newObj[key] = obj[key];
-  }
-  return newObj;
-};
-
+import { createEmptyRecordInputObj, convertInputs, isTimeInputValid } from './createChartUtils.js';
+import { speedrunDocument, highscoreDocument } from '../../../data/genericDocument.js';
 
 export default class CreateChartPage extends React.Component {
   constructor(props) {
     super(props);
     this.location = this.props.location.pathname.includes('/edit') ? '/edit' : '/create';
-    this.forwardedState = this.location === '/edit' ? this.props.location.state : {workingDoc: {}};
+    this.forwardedState = this.location === '/edit' ? this.props.location.state : {workingDoc: {gameReleaseDate: '1970-01-01'}};
     this.state = {
       currentPage: this.forwardedState.currentPage || 1,
       totalPages: this.forwardedState.totalPages || 1,
@@ -79,24 +27,12 @@ export default class CreateChartPage extends React.Component {
       allGames: [],
       allPlayers: [],
       allConsoles: [],
-      allConsolesMap: {},
       chartInput: {
         gameTitle: this.forwardedState.workingDoc.gameTitle || '',
         category: this.forwardedState.workingDoc.category || '',
         leaderboardUrl: this.forwardedState.workingDoc.leaderboardUrl || ''
       },
-      recordInput: {
-        playerName: '',
-        mark: '',
-        year: 1970,
-        month: 0,
-        day: 1,
-        vodUrl: '',
-        isMilestone: false,
-        tooltipNote: '',
-        labelText: '',
-        detailedText: ''
-      },
+      recordInput: undefined,
       // [Speedrun Record] Time inputs
       hours: '',
       minutes: '',
@@ -110,61 +46,24 @@ export default class CreateChartPage extends React.Component {
         gameId: undefined
       }
     };
-    this.emptyInputFields = this.emptyInputFields.bind(this);
-    this.changePage = this.changePage.bind(this);
-    this.hydrateEarlierPage = this.hydrateEarlierPage.bind(this);
-    this.showSubmitGame = this.showSubmitGame.bind(this);
-    this.closeSubmitGame = this.closeSubmitGame.bind(this);
-    this.setChartType = this.setChartType.bind(this);
-    this.addNewGameToAllGames = this.addNewGameToAllGames.bind(this);
-    this.changeInput = this.changeInput.bind(this);
-    this.changeTimeInput = this.changeTimeInput.bind(this);
-    this.toggleMilliseconds = this.toggleMilliseconds.bind(this);
-    this.toggleJumpToButton = this.toggleJumpToButton.bind(this);
-    this.isTimeInputValid = this.isTimeInputValid.bind(this);
-    this.isNextButtonDisabled = this.isNextButtonDisabled.bind(this);
-    this.submitData = this.submitData.bind(this);
-    this.goToChartPage = this.goToChartPage.bind(this);
-    this.handleFinish = this.handleFinish.bind(this);
   }
 
   componentDidMount() {
+    this.setState({recordInput: createEmptyRecordInputObj(this.state.workingDoc)});
     axios.get('/api/create/allGames')
-      .then(res => {
-        let titlesOnly = res.data.map(game => game.title);
-        this.setState({allGames: titlesOnly});
-      })
-      .catch(err => {
-        console.log('error:', err);
-      });
+      .then(res => this.setState({allGames: res.data.map(game => game.title).sort((a, b) => a.toUpperCase() > b.toUpperCase() ? 1 : -1)}))
+      .catch(err => console.log('error:', err));
     
     axios.get('/api/create/allPlayers')
-      .then(res => {
-        let namesOnly = res.data.map(player => player.username);
-        this.setState({allPlayers: namesOnly});
-      })
-      .catch(err => {
-        console.log('error:', err);
-      });
+      .then(res => this.setState({allPlayers: res.data.map(player => player.username).sort((a, b) => a.toUpperCase() > b.toUpperCase() ? 1 : -1)}))
+      .catch(err => console.log('error:', err));
     
     axios.get('/api/create/allConsoles')
-      .then(res => {
-        let allConsoles = res.data;
-        allConsoles.sort((a, b) => a.abbrev > b.abbrev ? 1 : -1);
-        let sortedAllConsoles = allConsoles;
-        let allConsolesMap = {}
-        for (var i = 0; i < sortedAllConsoles.length; i++) {
-          let console = sortedAllConsoles[i];
-          allConsolesMap[console.name] = console.abbrev;
-        }
-        this.setState({allConsoles: sortedAllConsoles, allConsolesMap});
-      })
-      .catch(err => {
-        console.log('error:', err);
-      });
+      .then(res => this.setState({allConsoles: res.data.sort((a, b) => a.abbrev > b.abbrev ? 1 : -1)}))
+      .catch(err => console.log('error:', err));
   }
 
-  emptyInputFields() {
+  emptyInputFields = () => {
     this.setState({
       recordInput: {
         playerName: '',
@@ -186,7 +85,7 @@ export default class CreateChartPage extends React.Component {
     });
   }
 
-  changePage(pageNum) {
+  changePage = (pageNum) => {
     this.setState({showJumpToButton: false});
     // turning to next page
     if (pageNum === undefined) {
@@ -207,7 +106,7 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  hydrateEarlierPage(pageNum) {
+  hydrateEarlierPage = (pageNum) => {
     if (pageNum === 2) {
       let workingDoc = this.state.workingDoc;
       let emptyChartInputObj = {
@@ -228,19 +127,8 @@ export default class CreateChartPage extends React.Component {
       });
     } else {
       let workingRecord = this.state.workingDoc.records[pageNum - 3];
-      let emptyRecordInputObj = {
-        playerName: '',
-        mark: '',
-        year: Number(this.state.workingDoc.gameReleaseDate.slice(0, 4)),
-        month: 0,
-        day: 1,
-        vodUrl: '',
-        isMilestone: false,
-        tooltipNote: '',
-        labelText: '',
-        detailedText: ''
-      };
       let recordInputObj = {};
+      let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
       for (var key in emptyRecordInputObj) {
         if (workingRecord && workingRecord[key] !== null) {
           recordInputObj[key] = workingRecord[key];
@@ -262,26 +150,19 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  showSubmitGame() {
-    this.setState({submitGameOpen: true});
-  }
+  showSubmitGame = () => this.setState({submitGameOpen: true});
 
-  closeSubmitGame() {
-    this.setState({submitGameOpen: false});
-  }
+  closeSubmitGame = () => this.setState({submitGameOpen: false});
 
-  setChartType(type) {
-    let doc = type === 'speedrun' ? speedDoc : scoreDoc;
-    console.log('setChartType doc:', doc);
+  setChartType = (type) => {
+    let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
     this.setState({chartType: type, workingDoc: doc});
     this.changePage();
   }
 
-  addNewGameToAllGames(gameTitle) {
-    this.setState({allGames: this.state.allGames.concat(gameTitle)});
-  }
+  addNewGameToAllGames = (gameTitle) => this.setState({allGames: this.state.allGames.concat(gameTitle)});
 
-  changeInput(chartOrRecord, type, value) {
+  changeInput = (chartOrRecord, type, value) => {
     let innerObj = this.state[chartOrRecord];
     innerObj[type] = value;
     let stateObj = {};
@@ -289,10 +170,8 @@ export default class CreateChartPage extends React.Component {
     this.setState(stateObj);
   }
 
-  changeTimeInput(type, value) {
-    if (!this.isTimeInputValid(type, value)) {
-      return;
-    }
+  changeTimeInput = (type, value) => {
+    if (!isTimeInputValid(type, value)) return;
     let stateObj = {};
     stateObj[type] = value;
     this.setState(stateObj, () => {
@@ -301,7 +180,7 @@ export default class CreateChartPage extends React.Component {
     });
   }
 
-  toggleMilliseconds() {
+  toggleMilliseconds = () => {
     if (this.state.showMilliseconds) {
       this.setState({milliseconds: '', showMilliseconds: false}, () => {
         let totalSecondsStr = convertHMSMsToSecondsStr(this.state.hours, this.state.minutes, this.state.seconds, this.state.milliseconds).toString();
@@ -312,26 +191,9 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  toggleJumpToButton() {
-    this.setState({showJumpToButton: true});
-  }
+  toggleJumpToButton = () => this.setState({showJumpToButton: true});
 
-  isTimeInputValid(type, value) {
-    if (Number.isNaN(Number(value))) {
-      return false;
-    } else if (type === 'hours' && value.length === 4) {
-      return false;
-    } else if (type === 'minutes' && value.length === 3) {
-      return false;
-    } else if (type === 'seconds' && value.length === 3) {
-      return false;
-    } else if (type === 'milliseconds' && value.length === 4) {
-      return false;
-    }
-    return true;
-  }
-
-  isNextButtonDisabled() {
+  isNextButtonDisabled = () => {
     if (this.state.currentPage === 2) {
       if (!this.state.allGames.includes(this.state.chartInput.gameTitle)) return true;
       else return false;
@@ -343,11 +205,9 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  goToChartPage() {
-    this.props.history.push(`/chart${this.state.workingDoc.uriEndpoint}`)
-  }
+  goToChartPage = () => this.props.history.push(`/chart${this.state.workingDoc.uriEndpoint}`)
 
-  submitData(blockPageChange) {
+  submitData = (blockPageChange) => {
     let dataObj;
 
     // submitting Chart data
@@ -360,18 +220,7 @@ export default class CreateChartPage extends React.Component {
           console.log('response:', res);
           let dbIdsObj = {documentId: res.data.id, gameId: res.data.gameId};
           let workingDocObj = {...this.state.workingDoc, ...res.data};
-          let emptyRecordInputObj = {
-            playerName: '',
-            mark: '',
-            year: Number(res.data.gameReleaseDate.slice(0, 4)),
-            month: 0,
-            day: 1,
-            vodUrl: '',
-            isMilestone: false,
-            tooltipNote: '',
-            labelText: '',
-            detailedText: ''
-          };
+          let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
           let stateObj = {
             dbIds: dbIdsObj,
             workingDoc: workingDocObj,
@@ -383,11 +232,8 @@ export default class CreateChartPage extends React.Component {
             showMilliseconds: false
           };
           this.setState((state, props) => stateObj, () => {
-            if (blockPageChange === undefined) {
-              this.changePage();
-            } else if (blockPageChange === false) {
-              this.changePage(this.state.totalPages);
-            }
+            if (blockPageChange === undefined) this.changePage();
+            else if (blockPageChange === false) this.changePage(this.state.totalPages);
           });
         })
         .catch(err => {
@@ -419,18 +265,7 @@ export default class CreateChartPage extends React.Component {
           }
           workingDocObj.records.sort((a, b) => Date.UTC(a.year, a.month, a.day) > Date.UTC(b.year, b.month, b.day) ? 1 : -1);
           console.log('workingDocObj after submitting new Record to DB, before updating State:', workingDocObj);
-          let emptyRecordInputObj = {
-            playerName: '',
-            mark: '',
-            year: Number(this.state.workingDoc.gameReleaseDate.slice(0, 4)),
-            month: 0,
-            day: 1,
-            vodUrl: '',
-            isMilestone: false,
-            tooltipNote: '',
-            labelText: '',
-            detailedText: ''
-          };
+          let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
           let stateObj = {
             recordInput: updatedEarlierPage ? this.state.recordInput : emptyRecordInputObj,
             workingDoc: workingDocObj,
@@ -441,20 +276,15 @@ export default class CreateChartPage extends React.Component {
             showMilliseconds: updatedEarlierPage ? this.state.showMilliseconds : false
           };
           this.setState((state, props) => stateObj, () => {
-            if (blockPageChange === undefined) {
-              this.changePage();
-            } else if (blockPageChange === false) {
-              this.changePage(this.state.totalPages);
-            }
+            if (blockPageChange === undefined) this.changePage();
+            else if (blockPageChange === false) this.changePage(this.state.totalPages);
           });
         })
-        .catch(err => {
-          console.log('error:', err);
-        });
+        .catch(err => console.log('error:', err));
     }
   }
 
-  handleFinish() {
+  handleFinish = () => {
     if (this.state.finished) {
       this.goToChartPage();
       this.setState({
@@ -528,7 +358,7 @@ export default class CreateChartPage extends React.Component {
                     chartType={this.state.chartType}
                     allGames={this.state.allGames}
                     allPlayers={this.state.allPlayers}
-                    gameReleaseDate={this.state.workingDoc.gameReleaseDate}
+                    workingDoc={this.state.workingDoc}
                     showSubmitGame={this.showSubmitGame}
                     chartInput={this.state.chartInput}
                     recordInput={this.state.recordInput}

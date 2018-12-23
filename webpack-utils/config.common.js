@@ -16,8 +16,8 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             babelrc: false,
-            presets: ['es2015', 'react'],
-            plugins: [ ['transform-object-rest-spread', 'transform-react-jsx-source', 'react-hot-loader/babel'] ]
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: ['@babel/plugin-proposal-class-properties', 'react-hot-loader/babel']
           }
         }],
         exclude: /node_modules/,
