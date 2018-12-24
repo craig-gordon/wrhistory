@@ -41,8 +41,8 @@ export const convertInputs = (obj) => {
 export const isTimeInputValid = (type, value) => {
   if (Number.isNaN(Number(value))) return false;
   else if (type === 'hours' && value.length === 4) return false;
-  else if (type === 'minutes' && (0 <= Number(value) && Number(value) < 60)) return false;
-  else if (type === 'seconds' && (0 <= Number(value) && Number(value) < 60)) return false;
+  else if (type === 'minutes' && 59 < Number(value)) return false;
+  else if (type === 'seconds' && 59 < Number(value)) return false;
   else if (type === 'milliseconds' && value.length === 4) return false;
   return true;
 }

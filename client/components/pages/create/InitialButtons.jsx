@@ -4,7 +4,7 @@ import React from 'react';
 
 import StandardButton from '../../common/StandardButton.jsx';
 
-const CreateChartPageInitialButtons = (props) => {
+const InitialButtons = (props) => {
   return (
     <div style={{'textAlign': 'center'}}>
       <StandardButton
@@ -22,4 +22,4 @@ const CreateChartPageInitialButtons = (props) => {
   );
 };
 
-export default CreateChartPageInitialButtons;
+export default InitialButtons;

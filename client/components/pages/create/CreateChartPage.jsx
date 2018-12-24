@@ -2,15 +2,29 @@ import React from 'react';
 import axios from 'axios';
 
 import SubmitGameForm from './SubmitGameForm.jsx';
-import CreateChartPageInitialButtons from './CreateChartPageInitialButtons.jsx';
-import CreateChartPageUserInputs from './CreateChartPageUserInputs.jsx';
-import PageButtons from './PageButtons.jsx';
+import InitialButtons from './InitialButtons.jsx';
+import ChartInputGroup from './ChartInputGroup.jsx';
+import RecordInputGroup from './RecordInputGroup.jsx';
+import RecordInputButtonGroup from './RecordInputButtonGroup.jsx';
+import RecordInputPagination from './RecordInputPagination.jsx';
 import Chart from '../../charts/Chart.jsx';
 import { PageHeader } from '../../common/styledComponents.js';
-import { ColumnHeader, CreateChartPageWrapper, LeftColumn, LeftColumnHeader, LeftColumnHeaderWrapper, RightColumn, CurrentPageIcon } from './createChartStyledComps.js';
+import {
+  ColumnHeader,
+  CreateChartPageWrapper,
+  LeftColumn,
+  ChartInputBox,
+  RecordInputHeader,
+  RecordInputHeaderWrapper,
+  RecordInputBox,
+  RightColumn,
+  ChartBox,
+  ChangeLogBox,
+  CurrentPageIcon
+} from './styledComps.js';
 
 import { convertHMSMsToSecondsStr, secsToTs, spreadTimestampToHMSMs } from '../../../utils/datetimeUtils.js';
-import { createEmptyRecordInputObj, convertInputs, isTimeInputValid } from './createChartUtils.js';
+import { createEmptyRecordInputObj, convertInputs, isTimeInputValid } from './utils.js';
 import { speedrunDocument, highscoreDocument } from '../../../data/genericDocument.js';
 
 export default class CreateChartPage extends React.Component {
@@ -32,7 +46,7 @@ export default class CreateChartPage extends React.Component {
         category: this.forwardedState.workingDoc.category || '',
         leaderboardUrl: this.forwardedState.workingDoc.leaderboardUrl || ''
       },
-      recordInput: undefined,
+      recordInput: {},
       // [Speedrun Record] Time inputs
       hours: '',
       minutes: '',
@@ -301,6 +315,14 @@ export default class CreateChartPage extends React.Component {
   }
 
   render() {
+    let titleCategoryStr = `${this.state.workingDoc.gameTitle} — ${this.state.workingDoc.category}`;
+    let pageHeaderStr = this.location === '/create'
+                      ? `Create ${
+                          this.state.chartType === undefined
+                            ? ''
+                            : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')
+                        } Chart${this.state.workingDoc.gameTitle !== undefined && this.state.workingDoc.gameTitle !== 'Game' ? (': ' + titleCategoryStr) : ''}`
+                      : `Edit Chart: ${titleCategoryStr}`;
     return (
       <div>
         <SubmitGameForm
@@ -312,85 +334,92 @@ export default class CreateChartPage extends React.Component {
           addNewGameToAllGames={this.addNewGameToAllGames}
           changeInput={this.changeInput}
         />
-        <PageHeader>
-          {
-            this.location === '/create'
-              ? `Create ${
-                  this.state.chartType === undefined
-                    ? ''
-                    : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')
-                } Chart`
-              : `Edit Chart: ${this.state.workingDoc.gameTitle} — ${this.state.workingDoc.category}`
-          }
-        </PageHeader>
+        <PageHeader>{pageHeaderStr}</PageHeader>
         {
           this.state.currentPage === 1
             ?
-              <CreateChartPageInitialButtons
-                setChartType={this.setChartType}
-              />
+              <InitialButtons setChartType={this.setChartType} />
             :
               (<CreateChartPageWrapper>
+
+                {/* LEFT COLUMN (CHART INPUT BOX + RECORD INPUT BOX) */}
                 <LeftColumn>
-                  <LeftColumnHeaderWrapper currentPage={this.state.currentPage}>
-                    <PageButtons
+
+                  {/* CHART INPUT BOX */}
+                  <ChartInputBox>
+                    <ColumnHeader>Chart Information</ColumnHeader>
+                    <ChartInputGroup
+                      currentPage={this.state.currentPage}
+                      chartType={this.state.chartType}
+                      allGames={this.state.allGames}
+                      showSubmitGame={this.showSubmitGame}
+                      chartInput={this.state.chartInput}
+                      changeInput={this.changeInput}
+                    />
+                  </ChartInputBox>
+
+                  {/* RECORD INPUT BOX */}
+                  <RecordInputBox>
+                    <RecordInputHeaderWrapper currentPage={this.state.currentPage}>
+                      <RecordInputPagination
+                        currentPage={this.state.currentPage}
+                        totalPages={this.state.totalPages}
+                        emptyInputFields={this.emptyInputFields}
+                        changePage={this.changePage}
+                      />
+                      <RecordInputHeader>
+                        <span style={{color: 'rgb(84, 84, 84)', fontSize: '20px'}}>
+                          Record
+                        </span>
+                        <CurrentPageIcon>{this.state.currentPage - 1}</CurrentPageIcon>
+                      </RecordInputHeader>
+                    </RecordInputHeaderWrapper>
+                    <RecordInputGroup
+                      currentPage={this.state.currentPage}
+                      chartType={this.state.chartType}
+                      allPlayers={this.state.allPlayers}
+                      workingDoc={this.state.workingDoc}
+                      recordInput={this.state.recordInput}
+                      hours={this.state.hours}
+                      minutes={this.state.minutes}
+                      seconds={this.state.seconds}
+                      milliseconds={this.state.milliseconds}
+                      showMilliseconds={this.state.showMilliseconds}
+                      changeInput={this.changeInput}
+                      changeTimeInput={this.changeTimeInput}
+                      toggleMilliseconds={this.toggleMilliseconds}
+                    />
+                    <RecordInputButtonGroup
                       currentPage={this.state.currentPage}
                       totalPages={this.state.totalPages}
-                      emptyInputFields={this.emptyInputFields}
+                      finished={this.state.finished}
+                      isNextButtonDisabled={this.isNextButtonDisabled}
+                      submitData={this.submitData}
+                      showJumpToButton={this.showJumpToButton}
                       changePage={this.changePage}
+                      emptyInputFields={this.emptyInputFields}
+                      toggleJumpToButton={this.toggleJumpToButton}
+                      handleFinish={this.handleFinish}
                     />
-                    <LeftColumnHeader>
-                      {this.state.currentPage === 2
-                        ? 'Chart Information'
-                        : <span>
-                            <span style={{color: 'rgb(84, 84, 84)', fontSize: '20px'}}>
-                              Record
-                            </span>
-                            <CurrentPageIcon
-                              >{this.state.currentPage - 2}
-                            </CurrentPageIcon>
-                          </span>}
-                    </LeftColumnHeader>
-                  </LeftColumnHeaderWrapper>
-                  <CreateChartPageUserInputs
-                    currentPage={this.state.currentPage}
-                    totalPages={this.state.totalPages}
-                    chartType={this.state.chartType}
-                    allGames={this.state.allGames}
-                    allPlayers={this.state.allPlayers}
-                    workingDoc={this.state.workingDoc}
-                    showSubmitGame={this.showSubmitGame}
-                    chartInput={this.state.chartInput}
-                    recordInput={this.state.recordInput}
-                    hours={this.state.hours}
-                    minutes={this.state.minutes}
-                    seconds={this.state.seconds}
-                    milliseconds={this.state.milliseconds}
-                    showMilliseconds={this.state.showMilliseconds}
-                    showJumpToButton={this.state.showJumpToButton}
-                    finished={this.state.finished}
-                    emptyInputFields={this.emptyInputFields}
-                    changePage={this.changePage}
-                    submitData={this.submitData}
-                    changeInput={this.changeInput}
-                    changeTimeInput={this.changeTimeInput}
-                    toggleMilliseconds={this.toggleMilliseconds}
-                    toggleJumpToButton={this.toggleJumpToButton}
-                    isNextButtonDisabled={this.isNextButtonDisabled}
-                    goToChartPage={this.goToChartPage}
-                    handleFinish={this.handleFinish}
-                  />
+                  </RecordInputBox>
                 </LeftColumn>
+
+                {/* RIGHT COLUMN (CHART BOX + CHANGELOG BOX) */}
                 <RightColumn>
-                  <ColumnHeader>
-                    <span style={{color: 'rgb(84, 84, 84)', fontSize: '20px'}}>
-                      Template Chart
-                    </span>
-                  </ColumnHeader>
-                  <Chart
-                    document={this.state.workingDoc}
-                  />
+
+                  {/* CHART BOX */}
+                  <ChartBox>
+                    <ColumnHeader>Template Chart</ColumnHeader>
+                    <Chart document={this.state.workingDoc} />
+                  </ChartBox>
+
+                  {/* CHANGELOG BOX */}
+                  <ChangeLogBox>
+
+                  </ChangeLogBox>
+
                 </RightColumn>
+
               </CreateChartPageWrapper>)
         }
       </div>

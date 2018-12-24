@@ -19,7 +19,7 @@ import {
   dayOptions,
   createConsoleDropdownOptions,
   autoGenerateAbbrev
-} from './createChartUtils.js';
+} from './utils.js';
 
 const ModalHeader = styled.h2`
   text-align: center;
