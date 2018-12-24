@@ -4,7 +4,7 @@ import React from 'react';
 
 import StandardButton from '../../common/StandardButton.jsx';
 
-const InitialButtons = (props) => {
+const InitialButtonGroup = (props) => {
   return (
     <div style={{'textAlign': 'center'}}>
       <StandardButton
@@ -22,4 +22,4 @@ const InitialButtons = (props) => {
   );
 };
 
-export default InitialButtons;
+export default InitialButtonGroup;

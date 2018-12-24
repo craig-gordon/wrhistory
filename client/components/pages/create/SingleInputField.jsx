@@ -23,7 +23,7 @@ const GameTitleContainer = styled.div`
 
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.currentPage === 2 ? '37% 63%' : '30% 70%'};
+  grid-template-columns: 37% 63%;
   align-items: center;
   margin-bottom: 12px;
 `;
@@ -62,7 +62,7 @@ const LabelWithIcon = styled(Label)`
 
 const LabelWithIconWrapper = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.currentPage === 2 ? '84% 16%' : '82% 18%'};
+  grid-template-columns: 84% 16%;
 `;
 
 const IconWrapper = styled.span`
@@ -73,9 +73,7 @@ const IconWrapper = styled.span`
 
 export const GameTitleAutocompleteWithButton = (props) => (
   <React.Fragment>
-    <Label>
-      Game Title
-    </Label>
+    <Label>Game Title</Label>
     <GameTitleContainer>
       <AutoComplete
         value={props.value}
@@ -97,9 +95,7 @@ export const GameTitleAutocompleteWithButton = (props) => (
 
 export const PlayerAutocomplete = (props) => (
   <React.Fragment>
-    <Label>
-      Player
-    </Label>
+    <Label>Player</Label>
     <AutoComplete
       value={props.value}
       dataSource={props.dataSource}
@@ -111,10 +107,8 @@ export const PlayerAutocomplete = (props) => (
 
 export const TimeInputCluster = (props) => (
   <React.Fragment>
-    <LabelWithIconWrapper currentPage={props.currentPage}>
-      <LabelWithIcon>
-        Time
-      </LabelWithIcon>
+    <LabelWithIconWrapper>
+      <LabelWithIcon>Time</LabelWithIcon>
       <IconWrapper>
         <Tooltip
           title={
@@ -171,9 +165,7 @@ export const TimeInputCluster = (props) => (
 
 export const DateDropdowns = (props) => (
   <React.Fragment>
-    <Label>
-      Date
-    </Label>
+    <Label>Date</Label>
     <DateDropdownsContainer>
       <Select
         value={props.yearValue}
@@ -199,9 +191,7 @@ export const DateDropdowns = (props) => (
 
 export const InputWithLabel = (props) => (
   <React.Fragment>
-    <Label>
-      {props.labelText}
-    </Label>
+    <Label>{props.labelText}</Label>
     <Input
       placeholder={props.isOptional ? '(Optional)' : null}
       value={props.value}
@@ -212,10 +202,8 @@ export const InputWithLabel = (props) => (
 
 export const InputWithLabelAndIcon = (props) => (
   <React.Fragment>
-    <LabelWithIconWrapper currentPage={props.currentPage}>
-      <LabelWithIcon>
-        {props.labelText}
-      </LabelWithIcon>
+    <LabelWithIconWrapper>
+      <LabelWithIcon>{props.labelText}</LabelWithIcon>
       <IconWrapper>
         <Tooltip
           title={props.chartType === 'speedrun' ? props.speedTooltipTitle : props.scoreTooltipTitle}
@@ -235,10 +223,8 @@ export const InputWithLabelAndIcon = (props) => (
 
 export const TextAreaWithLabelAndIcon = (props) => (
   <React.Fragment>
-    <LabelWithIconWrapper currentPage={props.currentPage}>
-      <LabelWithIcon>
-        {props.labelText}
-      </LabelWithIcon>
+    <LabelWithIconWrapper>
+      <LabelWithIcon>{props.labelText}</LabelWithIcon>
       <IconWrapper>
         <Tooltip
           title={props.chartType === 'speedrun' ? props.speedTooltipTitle : props.scoreTooltipTitle}
@@ -259,10 +245,8 @@ export const TextAreaWithLabelAndIcon = (props) => (
 
 export const CheckboxWithLabelAndIcon = (props) => (
   <React.Fragment>
-    <LabelWithIconWrapper currentPage={props.currentPage}>
-      <LabelWithIcon>
-        {props.labelText}
-      </LabelWithIcon>
+    <LabelWithIconWrapper>
+      <LabelWithIcon>{props.labelText}</LabelWithIcon>
       <IconWrapper>
         <Tooltip
           title={props.chartType === 'speedrun' ? props.speedTooltipTitle : props.scoreTooltipTitle}
@@ -280,7 +264,7 @@ export const CheckboxWithLabelAndIcon = (props) => (
 );
 
 export const SingleInputField = (props) => (
-  <InputContainer currentPage={props.currentPage}>
+  <InputContainer>
     {props.render(props)}
   </InputContainer>
 );

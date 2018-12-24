@@ -22,6 +22,7 @@ export const ChartInputBox = LightBlueModule.extend`
 `;
 
 export const RecordInputBox = LightBlueModule.extend`
+  margin-top: 20px;
 `;
 
 export const RecordInputHeaderWrapper = styled.div`
@@ -42,6 +43,7 @@ export const ChartBox = LightGreenModule.extend`
 `;
 
 export const ChangeLogBox = LightPurpleModule.extend`
+  margin-top: 20px;
 `;
 
 export const CurrentPageIcon = styled.span`

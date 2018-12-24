@@ -31,14 +31,12 @@ const RecordInputButtonGroup = (props) => (
             }}
           >
             <span style={{marginRight: '8px'}}>
-              {props.currentPage === 2 ? 'Continue' : 'Next Record'}
+              Next Record
             </span>
-            <i style={{marginRight: props.currentPage === 2 ? '0' : '8px'}} className="far fa-save" />
-            {props.currentPage === 2
-              ? null
-              : <NextPageIcon disabled={props.isNextButtonDisabled()}>
-                  {props.totalPages - 1}
-                </NextPageIcon>}
+            <i style={{marginRight: '8px'}} className="far fa-save" />
+            <NextPageIcon disabled={props.isNextButtonDisabled()}>
+              {props.totalPages + 1}
+            </NextPageIcon>
           </Button>
         : <Button
             className={props.showJumpToButton ? 'jump-to-btn' : 'save-btn'}

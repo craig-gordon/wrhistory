@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import SubmitGameForm from './SubmitGameForm.jsx';
-import InitialButtons from './InitialButtons.jsx';
+import InitialButtonGroup from './InitialButtonGroup.jsx';
 import ChartInputGroup from './ChartInputGroup.jsx';
 import RecordInputGroup from './RecordInputGroup.jsx';
 import RecordInputButtonGroup from './RecordInputButtonGroup.jsx';
@@ -31,20 +31,21 @@ export default class CreateChartPage extends React.Component {
   constructor(props) {
     super(props);
     this.location = this.props.location.pathname.includes('/edit') ? '/edit' : '/create';
-    this.forwardedState = this.location === '/edit' ? this.props.location.state : {workingDoc: {gameReleaseDate: '1970-01-01'}};
+    this.pipedState = this.location === '/edit' ? this.props.location.state : {workingDoc: {gameReleaseDate: '1970-01-01'}};
     this.state = {
-      currentPage: this.forwardedState.currentPage || 1,
-      totalPages: this.forwardedState.totalPages || 1,
-      chartType: this.forwardedState.chartType || undefined,
-      workingDoc: this.forwardedState.workingDoc || undefined,
+      viewingInitialButtons: this.location === '/create' ? true : false,
+      currentPage: this.pipedState.currentPage || 1,
+      totalPages: this.pipedState.totalPages || 1,
+      chartType: this.pipedState.chartType || undefined,
+      workingDoc: this.pipedState.workingDoc || undefined,
       submitGameOpen: false,
       allGames: [],
       allPlayers: [],
       allConsoles: [],
       chartInput: {
-        gameTitle: this.forwardedState.workingDoc.gameTitle || '',
-        category: this.forwardedState.workingDoc.category || '',
-        leaderboardUrl: this.forwardedState.workingDoc.leaderboardUrl || ''
+        gameTitle: this.pipedState.workingDoc.gameTitle || '',
+        category: this.pipedState.workingDoc.category || '',
+        leaderboardUrl: this.pipedState.workingDoc.leaderboardUrl || ''
       },
       recordInput: {},
       // [Speedrun Record] Time inputs
@@ -170,8 +171,7 @@ export default class CreateChartPage extends React.Component {
 
   setChartType = (type) => {
     let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
-    this.setState({chartType: type, workingDoc: doc});
-    this.changePage();
+    this.setState({chartType: type, workingDoc: doc, viewingInitialButtons: false});
   }
 
   addNewGameToAllGames = (gameTitle) => this.setState({allGames: this.state.allGames.concat(gameTitle)});
@@ -336,9 +336,9 @@ export default class CreateChartPage extends React.Component {
         />
         <PageHeader>{pageHeaderStr}</PageHeader>
         {
-          this.state.currentPage === 1
+          this.state.viewingInitialButtons
             ?
-              <InitialButtons setChartType={this.setChartType} />
+              <InitialButtonGroup setChartType={this.setChartType} />
             :
               (<CreateChartPageWrapper>
 
@@ -371,7 +371,7 @@ export default class CreateChartPage extends React.Component {
                         <span style={{color: 'rgb(84, 84, 84)', fontSize: '20px'}}>
                           Record
                         </span>
-                        <CurrentPageIcon>{this.state.currentPage - 1}</CurrentPageIcon>
+                        <CurrentPageIcon>{this.state.currentPage}</CurrentPageIcon>
                       </RecordInputHeader>
                     </RecordInputHeaderWrapper>
                     <RecordInputGroup

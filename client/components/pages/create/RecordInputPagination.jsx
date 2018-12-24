@@ -7,11 +7,11 @@ const RecordInputPagination = (props) => (
     simple
     size='small'
     pageSize={1}
-    total={props.totalPages - 2}
-    current={props.currentPage === 2 ? 0 : props.currentPage - 2}
+    total={props.totalPages}
+    current={props.currentPage}
     onChange={(e) => {
-      if (e + 2 === props.totalPages) props.emptyInputFields();
-      props.changePage(e + 2);
+      if (e === props.totalPages) props.emptyInputFields();
+      props.changePage(e);
     }}
   />
 );
