@@ -16,6 +16,7 @@ import InfoCarousel from '../../charts/InfoCarousel.jsx';
 import RecordsTable from '../../charts/RecordsTable.jsx';
 import VodEmbed from './VodEmbed.jsx';
 import { LightGreenModule, LightBlueModule, LightPurpleModule } from '../../common/styledComponents.js';
+import { convertNullsToEmptyStrs } from '../create/utils.js';
 
 const GamePageContainer = styled.div`
   margin-top: 20px;
@@ -99,19 +100,15 @@ export default class GamePage extends React.Component {
       <GamePageContainer>
         <Tabs
           type='card'
-          onTabClick={(e) =>
-            e === '3'
-              ? this.props.history.push(
-                  `/edit${this.state.document.uriEndpoint}`,
-                  {
-                    currentPage: 2,
-                    totalPages: this.state.document.records.length + 3,
-                    chartType: this.state.document.type,
-                    workingDoc: this.state.document
-                  }
-                )
-              : null
-          }>
+          onTabClick={(e) => {
+            if (e === '3') {
+              let doc = this.state.document;
+              let recordsWithNullsConverted = doc.records.map(record => convertNullsToEmptyStrs(record));
+              let newDoc = {...doc, records: recordsWithNullsConverted};
+              let stateToPipe = {currentPage: 1, totalPages: doc.records.length, chartType: doc.type, workingDoc: newDoc};
+              this.props.history.push(`/edit${doc.uriEndpoint}`, stateToPipe);
+            }
+          }}>
           <TabPane tab={<i className="fas fa-chart-line" />} key='1'>
             <TabContentsContainer>
               <Chart

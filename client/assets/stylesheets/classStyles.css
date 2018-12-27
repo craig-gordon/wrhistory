@@ -135,17 +135,13 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(68, 68, 68, 1) !important; 
 }
 
-.continue-btn:hover,
 .next-btn:hover,
-.jump-to-btn:hover,
 .save-btn:hover {
   background-color: rgba(24, 144, 255, 0.65);
   border-color: rgba(24, 144, 255, 0.65);
 }
 
-.continue-btn:focus,
 .next-btn:focus,
-.jump-to-btn:focus,
 .save-btn:focus {
   background-color: rgba(24, 144, 255, 0.65) !important;
   border-color: rgba(24, 144, 255, 0.65) !important;
@@ -174,6 +170,11 @@ h1, h2, h3, h4, h5, h6 {
 .green-btn-finish:active {
   background-color: rgb(4, 152, 39) !important;
   border-color: rgb(4, 152, 39) !important;
+}
+
+.edit-page-new-record-btn {
+  max-width: 60%;
+  justify-self: end;
 }
 
 .ant-tabs-bar {
@@ -213,4 +214,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .right-side-tab-pane {
   justify-self: end;
+}
+
+.ant-card-head {
+  background: inherit !important;
+  border-color: #d19bef !important;
+}
+
+.ant-card-body {
+  background: inherit !important;
+  border-color: #d19bef !important;
+  padding-bottom: 0 !important;
 }

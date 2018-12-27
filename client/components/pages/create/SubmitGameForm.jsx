@@ -95,7 +95,7 @@ export default class SubmitGameForm extends React.Component {
     axios.post('/api/gameData/newGame', dataObj)
       .then(res => {
         console.log('response:', res);
-        this.setState((state, props) => ({submitButtonStatus: 'success'}));
+        this.setState(() => ({submitButtonStatus: 'success'}));
         this.props.addNewGameToAllGames(this.state.title);
 
         setTimeout(() => {

@@ -17,7 +17,7 @@ export default class FeaturedChartModule extends React.Component {
   componentDidMount() {
     axios.get('/api/home/getRandomFeaturedChart')
       .then(res => {
-        this.setState((state, props) => ({dataLoaded: true}), () => {
+        this.setState(() => ({dataLoaded: true}), () => {
           this.setState({document: res.data});
         })
       })

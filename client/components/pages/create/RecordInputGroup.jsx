@@ -105,7 +105,7 @@ const RecordInputGroup = (props) => (
       scoreTooltipTitle={`Optional detailed information about the background, context, and historical information of the record and player`}
       iconClassName='fas fa-question-circle'
       changeInput={props.changeInput}
-      rows={4}
+      rows={6}
       render={props => <TextAreaWithLabelAndIcon {...props} />}              
     />
     <SingleInputField /* MILESTONE */

@@ -1,7 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
 import Select from 'antd/lib/select';
 const Option = Select.Option;
 import 'antd/lib/select/style/index.css';
+import Card from 'antd/lib/card';
+import 'antd/lib/card/style/index.css';
+import '../../../assets/stylesheets/classStyles.css';
 
 // No-Values Record Input State Object
 
@@ -17,6 +21,15 @@ export const createEmptyRecordInputObj = (doc) => ({
   labelText: '',
   detailedText: ''
 });
+
+export const convertNullsToEmptyStrs = (record) => {
+  let newRecord = {};
+  for (var key in record) {
+    if (record[key] === null) newRecord[key] = '';
+    else newRecord[key] = record[key];
+  }
+  return newRecord;
+};
 
 // Change emptry string state values to null
 // Convert 'mark' state value to a number
@@ -196,6 +209,71 @@ export const createConsoleMap = (allConsolesStateObj) => {
   return consoleMap;
 };
 
+
+const Slide = styled.div`
+  display: flex;
+  margin-bottom: 5%;
+  background: inherit !important;
+  border: #d19bef !important;
+`;
+
+const Slot = styled(Card)`
+  flex-basis: 33%;
+  background: inherit !important;
+  border: #d19bef !important;
+  text-align: start !important;
+`;
+
+const Label = styled.span`
+  color: rgb(66, 66, 66);
+  margin-right: 8px;
+  font-weight: bold;
+`;
+
+// Create Changelog Carousel Slides
+
+export const createChangelogCarouselSlides = (changelog) => {
+  return ['', '', ''].map((elem, i) => (
+    <Slide key={i}>
+      <Slot
+        title='coolkid — 26:37.01'
+        hoverable={true}
+        extra={`change #${1+i*3}`}
+      >
+        <div><Label>Date</Label>05/08/2018</div>
+        <div><Label>VOD</Label>https://www.twitch.tv/videos/...</div>
+        <div><Label>Label</Label></div>
+        <div><Label>Tooltip</Label></div>
+        <div><Label>Detailed</Label>After some 8500 attempts and months of dedicated grinding, ...</div>
+        <div><Label>Milestone</Label>no</div>
+      </Slot>
+      <Slot
+        title='cyghfer — 26:37.17'
+        hoverable={true}
+        extra={`change #${2+i*3}`}
+      >
+        <div><Label>Date</Label>04/04/2018</div>
+        <div><Label>VOD</Label>https://www.twitch.tv/videos/...</div>
+        <div><Label>Label</Label></div>
+        <div><Label>Tooltip</Label></div>
+        <div><Label>Detailed</Label>cyghfer finally achieved a milestone once thought to be an unattainable dream, ...</div>
+        <div><Label>Milestone</Label>no</div>
+      </Slot>
+      <Slot
+        title='cyghfer — 26:41'
+        hoverable={true}
+        extra={`change #${3+i*3}`}
+      >
+        <div><Label>Date</Label>04/04/2018</div>
+        <div><Label>VOD</Label>https://www.twitch.tv/videos/...</div>
+        <div><Label>Label</Label></div>
+        <div><Label>Tooltip</Label></div>
+        <div><Label>Detailed</Label>cyghfer finally achieved a milestone once thought to be an unattainable dream, ...</div>
+        <div><Label>Milestone</Label>no</div>
+      </Slot>
+    </Slide>
+  ))
+};
 
 // Strip game of punctuation for auto-generated abbreviations
 

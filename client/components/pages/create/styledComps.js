@@ -42,7 +42,7 @@ export const RightColumn = styled.div`
 export const ChartBox = LightGreenModule.extend`
 `;
 
-export const ChangeLogBox = LightPurpleModule.extend`
+export const ChangelogBox = LightPurpleModule.extend`
   margin-top: 20px;
 `;
 
