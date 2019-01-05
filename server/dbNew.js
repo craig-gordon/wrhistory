@@ -1,11 +1,44 @@
 const Sequelize = require('sequelize');
 const fs = require('fs');
+require('dotenv').config();
 
-const database = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-  host: process.env.DB_HOST,
+const database = new Sequelize('recordhistorynew', 'recordhistory', 'z94;cEB4o', {
+  host: 'recordhistorynew.cz20nttxnlai.us-east-2.rds.amazonaws.com',
+  port: 5433,
   define: {
     underscored: true,
-    freezeTableName: true
+    paranoid: true,
+    freezeTableName: true,
+    hooks: {
+      beforeDestroy: function(queryOptions) {
+        console.log('beforeDestroy queryOptions', queryOptions);
+      },
+      // beforeBulkDestroy: function(queryOptions) {
+      //   return new Promise((resolve, reject) => {
+      //     this.findAll({
+      //       where: queryOptions.where,
+      //       include: [{all: true}]
+      //     })
+      //       .then(instances => {
+      //         console.log('instances[0].get():', instances[0].get());
+      //         console.log('associations:', this.associations);
+      //         let allInstancesToBeUpdated = [];
+      //         for (var key in instances[0]) {
+
+      //         }
+      //         // console.log('getGames:', instances[0].getGameVersions());
+      //         resolve();
+      //       })
+      //       .catch(err => console.log('Error in beforeBulkDestroy findAll:', err));
+      //   });
+      // },
+      beforeUpdate: function(instance) {
+        console.log('beforeUpdate instance:', instance);
+      },
+      beforeBulkUpdate: function(instance) {
+        console.log('beforeBulkUpdate instance:', instance);
+      }
+    }
   },
   createdAt: 'created_at',
   updatedAt: 'updated_at',
@@ -26,15 +59,6 @@ const database = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process
   language: 'en'
 });
 
-database
-  .authenticate()
-  .then(() => {
-    console.log('Successfully connected to Record History database.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to Record History database:', err);
-  });
-
 // ~~~~~~ //
 // Player //
 // ~~~~~~ //
@@ -49,8 +73,6 @@ const Player = database.define('player', {
     type: Sequelize.STRING
   }
 });
-
-Player.sync({force: false});
 
 // ~~~~ //
 // User //
@@ -84,8 +106,6 @@ const User = database.define('user', {
 User.belongsTo(Player);
 Player.hasOne(User);
 
-User.sync({force: false});
-
 // ~~~~~~~~ //
 // Platform //
 // ~~~~~~~~ //
@@ -109,8 +129,6 @@ const Platform = database.define('platform', {
     type: Sequelize.TEXT
   }
 });
-
-Platform.sync({force: false});
 
 // ~~~~ //
 // Game //
@@ -147,29 +165,30 @@ const Game = database.define('game', {
   }
 });
 
-Game.sync({force: false});
-
 // ~~~~~~~~~~~~ //
 // Game Version //
 // ~~~~~~~~~~~~ //
 
 const GameVersion = database.define('game_version', {
-  isOriginal: {
-    type: Sequelize.BOOLEAN,
-    field: 'is_original'
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
   description: {
     type: Sequelize.TEXT
   },
   notes: {
     type: Sequelize.STRING
+  },
+  isOriginal: {
+    type: Sequelize.BOOLEAN,
+    field: 'is_original'
   }
 });
 
 Platform.belongsToMany(Game, {through: 'game_version'});
 Game.belongsToMany(Platform, {through: 'game_version'})
-
-GameVersion.sync({force: false});
 
 // ~~~~~ //
 // Level //
@@ -192,8 +211,6 @@ const Level = database.define('level', {
 
 Level.belongsTo(Game);
 Game.hasMany(Level);
-
-Level.sync({force: false});
 
 // ~~~~~~~~ //
 // Document //
@@ -220,9 +237,9 @@ const Document = database.define('document', {
     type: Sequelize.STRING,
     field: 'leaderboard_url'
   },
-  attributesOptions: {
+  variablesOptions: {
     type: Sequelize.JSONB,
-    field: 'attributes_options'
+    field: 'variables_options'
   },
   siteEndpoint: {
     type: Sequelize.STRING,
@@ -232,13 +249,14 @@ const Document = database.define('document', {
   }
 });
 
+Document.belongsTo(Player);
+Player.hasMany(Document);
+
 Document.belongsTo(Game);
 Game.hasMany(Document);
 
 Document.belongsTo(Level);
 Level.hasMany(Document);
-
-Document.sync({force: false});
 
 // ~~~~~~ //
 // Record //
@@ -249,15 +267,14 @@ const Record = database.define('record', {
     type: Sequelize.ENUM('time', 'score'),
     allowNull: false
   },
+  pbOrWr: {
+    type: Sequelize.ENUM('pb', 'wr'),
+    allowNull: false,
+    field: 'pb_or_wr'
+  },
   mark: {
     type: Sequelize.BIGINT,
     allowNull: false
-  },
-  score: {
-    type: Sequelize.VIRTUAL(Sequelize.BIGINT, ['type', 'mark']),
-    get() {
-      return this.get('type') === 'score' ? this.get('mark') : null;
-    }
   },
   totalMilliseconds: {
     type: Sequelize.VIRTUAL(Sequelize.BIGINT, ['type', 'mark']),
@@ -265,20 +282,19 @@ const Record = database.define('record', {
       return this.get('type') === 'time' ? this.get('mark') : null;
     }
   },
+  score: {
+    type: Sequelize.VIRTUAL(Sequelize.BIGINT, ['type', 'mark']),
+    get() {
+      return this.get('type') === 'score' ? this.get('mark') : null;
+    }
+  },
   date: {
     type: Sequelize.DATE,
     allowNull: false
   },
-  attributes: {
-    type: Sequelize.JSONB
-  },
   vodUrl: {
     type: Sequelize.STRING,
     field: 'vod_url'
-  },
-  isMilestone: {
-    type: Sequelize.BOOLEAN,
-    field: 'is_milestone'
   },
   labelText: {
     type: Sequelize.STRING,
@@ -291,19 +307,24 @@ const Record = database.define('record', {
   detailedText: {
     type: Sequelize.TEXT,
     field: 'detailed_text'
+  },
+  isMilestone: {
+    type: Sequelize.BOOLEAN,
+    field: 'is_milestone'
+  },
+  variables: {
+    type: Sequelize.JSONB
   }
 });
 
 Record.belongsTo(Player);
 Player.hasMany(Record);
 
-Record.belongsTo(GameVersion);
-GameVersion.hasMany(Record);
+Record.belongsTo(GameVersion, {foreignKey: 'game_version_id'});
+GameVersion.hasMany(Record, {foreignKey: 'game_version_id'});
 
 Record.belongsTo(Document);
 Document.hasMany(Record);
-
-Record.sync({force: false});
 
 // ~~~~~ //
 // Event //
@@ -353,8 +374,6 @@ Game.hasMany(Event);
 Event.belongsTo(Level);
 Level.hasMany(Event);
 
-Event.sync({force: false});
-
 // ~~~~~~~~~~~~~~~~ //
 // Document Version //
 // ~~~~~~~~~~~~~~~~ //
@@ -371,10 +390,23 @@ const DocumentVersion = database.define('document_version', {
 DocumentVersion.belongsTo(Document);
 Document.hasMany(DocumentVersion);
 
-DocumentVersion.belongsTo(User, {as: 'updater'});
-User.hasMany(DocumentVersion, {as: 'updater'});
+DocumentVersion.belongsTo(User, {foreignKey: 'updater_id'});
+User.hasMany(DocumentVersion, {foreignKey: 'updater_id'});
 
-DocumentVersion.sync({force: false});
+
+
+database.authenticate()
+  .then(() => {
+    console.log('Successfully connected to RH Test database.');
+    return database.sync({ force: true });
+  })
+  .then(() => {
+    console.log('Synced Sequelize models with the database.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to RH Test database:', err);
+  });
+
 
 
 module.exports = {
