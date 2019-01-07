@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import ArticleTagsList from './ArticleTagsList.jsx';
 
-import { LightPurpleModule } from '../../common/styledComponents.js';
+import { PurpleBox } from '../../common/styledComps.js';
 import { formatUTCMillisecsToDateStr } from '../../../utils/datetimeUtils.js';
 
 const AuthorText = styled.span`
@@ -35,7 +35,7 @@ const BrowseArticlesPageListItem = (props) => {
   bodyTextCutoff = bodyTextCutoff || bodyText.slice(0, bodyText.slice(0, 300).lastIndexOf(')') + 1);
   bodyTextCutoff = bodyTextCutoff || bodyText.slice(0, bodyText.slice(0, 300).lastIndexOf('!') + 1);
   return (
-    <LightPurpleModule>
+    <PurpleBox>
       {/* <Row gutter={16}>
         <Col span={3}>
           <Link to={`/articles/${props.article.id}`}>
@@ -69,7 +69,7 @@ const BrowseArticlesPageListItem = (props) => {
           />
         </Col>
       </Row> */}
-    </LightPurpleModule>
+    </PurpleBox>
   )
 };
 

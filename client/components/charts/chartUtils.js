@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import $ from 'cash-dom';
 import Spin from 'antd/lib/spin';
 import 'antd/lib/spin/style/index.css';
 
@@ -303,15 +304,26 @@ export const createCarouselSlides = function(records) {
 };
 
 export const addSpinnerToChart = function() {
-  console.log('this:', this);
-  let spinner = this.renderer.text(
-    <Spin size='large' />,
+  console.log(<Spin size='large' />);
+  this.renderer.text(
+    `<Spin size='large' />`,
     300,
     135,
     true
-  ).attr({
-    zIndex: 10
-  });
+  ).add()
+};
 
-  spinner.add();
+export const addViewFullChartButton = function(endpoint, history) {
+  this.renderer
+    .text(
+      `<div class="viewFullChartBtn">${window.deviceType === 'lg' ? 'View Full Chart' : 'Full'}</div>`,
+      window.deviceType === 'lg' ? 20 : 10,
+      window.deviceType === 'lg' ? 30 : 20,
+      true
+    )
+    .add()
+    .on('click', (e) => {
+      e.stopPropagation();
+      history.push(`/chart${endpoint}`);
+    })
 };

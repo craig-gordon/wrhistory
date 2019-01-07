@@ -17,7 +17,8 @@ import {
   createChartData,
   createChartZones,
   createChartSeries,
-  // addSpinnerToChart
+  addViewFullChartButton,
+  addSpinnerToChart
 } from './chartUtils.js';
 
 MulticolorSeries(ReactHighcharts.Highcharts);
@@ -30,18 +31,25 @@ ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 
 class Chart extends React.PureComponent {
   render() {
+    let currentEndpoint = this.props.currentEndpoint;
+    let history = this.props.history;
     let document = this.props.document;
     let records = document ? document.records : undefined;
     let currentRecord = records ? records[records.length - 1] : undefined;
+    let gameEndpoint = document ? document.uriEndpoint : null;
+    let dataLoaded = this.props.dataLoaded;
+
     let config = {
       chart: {
         type: 'line',
         zoomType: 'x',
         panning: true,
         panKey: 'shift',
-        // events: {
-        //   load: this.props.dataLoaded === false ? addSpinnerToChart : null
-        // }
+        events: {
+          load: currentEndpoint === '/' && dataLoaded ? function() {
+            addViewFullChartButton.call(this, gameEndpoint, history);
+          } : null
+        }
       },
       title: {
         useHTML: true,

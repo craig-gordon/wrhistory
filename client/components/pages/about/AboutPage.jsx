@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { PageHeader } from '../../common/styledComponents.js';
+import { PageHeader } from '../../common/styledComps.js';
 
 const AboutPage = (props) => (
   <div>

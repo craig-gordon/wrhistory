@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
 
-import { LightBlueModule } from '../../common/styledComponents.js';
+import { BlueBox } from '../../common/styledComps.js';
 import { articles } from '../../../data/sampleArticles.js';
 
 const ArticlePageWrapper = styled.div`
@@ -42,7 +42,7 @@ const ArticlePage = (props) => {
           <i className="fas fa-arrow-right"></i>
         </Button>
       </Button.Group>
-      <LightBlueModule>
+      <BlueBox>
         <h2>{article.title}</h2>
         {/* <VideoWrapper>
           <ReactPlayer
@@ -52,7 +52,7 @@ const ArticlePage = (props) => {
           />
         </VideoWrapper> */}
         <div>{article.description}</div>
-      </LightBlueModule>
+      </BlueBox>
     </ArticlePageWrapper>
   );
 };

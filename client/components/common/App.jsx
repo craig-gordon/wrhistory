@@ -13,12 +13,20 @@ import ArticlePage from '../pages/articles/ArticlePage.jsx';
 import GamePage from '../pages/game/GamePage.jsx';
 import Footer from './Footer.jsx';
 
+const PageContainer = styled.div`
+  position: relative;
+  min-height: 100vh;
+`;
+
 const AppBody = styled.div`
-  padding: 0 8%;
+  padding: 0 8% 5rem 8%;
+  @media screen and (max-width: 600px) {
+    padding: 0 4% 5rem 4%;
+  }
 `;
 
 const App = () => (
-  <div>
+  <PageContainer>
     <TopNav />
     <AppBody>
       <Switch>
@@ -34,7 +42,7 @@ const App = () => (
       </Switch>
     </AppBody>
     <Footer />
-  </div>
+  </PageContainer>
 );
 
 // export default hot(App);

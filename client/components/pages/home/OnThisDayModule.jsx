@@ -1,46 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import { LightBlueModule } from '../../common/styledComponents.js';
+import { BlueBox } from '../../common/styledComps.js';
 import { formatNowToDayMonth } from '../../../utils/datetimeUtils.js';
-import { createOnThisDayHTML } from './homePageUtils.js';
+import { createOnThisDayHTML, findCurrentDateEvents } from './homePageUtils.js';
 
-import { document as mm2Document } from '../../../data/mm2Document.js';
+const OnThisDayModule = (props) => (
+  <BlueBox>
+    <h3 style={{textAlign: 'center', fontSize: '1.25em', marginBottom: '2px'}}>On This Day</h3>
+    <h4 style={{textAlign: 'center', color: 'rgb(95, 95, 95)'}}>{formatNowToDayMonth(Date.now())}</h4>
+    {createOnThisDayHTML(findCurrentDateEvents())}
+  </BlueBox>
+);
 
-const findCurrentDateEvents = (docs) => {
-  let now = new Date(Date.now());
-  let currentDay = now.getDate();
-  let currentMonth = now.getMonth();
-  let events = [];
-  for (var doc in docs) {
-    docs[doc].records.forEach((record) => {
-      if (record.day === currentDay && record.month === currentMonth) {
-        events.push(record);
-      }
-    });
-  }
-  return events.length > 0 ? events : [mm2Document.records[0]];
-};
-
-const Module = LightBlueModule.extend`
-  display: block;
-  height: auto;
-  margin-left: 10px;
-`;
-
-export default class OnThisDayModule extends React.Component {
-  constructor(props) {
-    super(props);
-    this.currentDateEvents = findCurrentDateEvents({mm2Document});
-  }
-
-  render() {
-    return (
-      <Module>
-        <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>On this day...</h3>
-        <h4>{formatNowToDayMonth(Date.now())}:</h4>
-        {createOnThisDayHTML(this.currentDateEvents)}
-      </Module>
-    );
-  }
-};
+export default OnThisDayModule;

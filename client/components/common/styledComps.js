@@ -1,33 +1,30 @@
 import styled from 'styled-components';
 
-export const LightBlueModule = styled.div`
-  margin: 10px 0;
+export const BlueBox = styled.div`
   background: azure;
   border-style: solid;
   border-color: skyblue;
   border-width: 2px;
   padding: 20px;
-  box-shadow: 3px 3px 5px rgba(61,61,61,0.4);
+  box-shadow: 3px 3px 5px rgba(61, 61, 61, 0.4);
 `;
 
-export const LightGreenModule = styled.div`
-  margin: 10px 0;
+export const GreenBox = styled.div`
   background: honeydew;
   border-style: solid;
   border-color: mediumaquamarine;
   border-width: 2px;
   padding: 20px;
-  box-shadow: 3px 3px 5px rgba(61,61,61,0.4) !important;
+  box-shadow: 3px 3px 5px rgba(61, 61, 61, 0.4);
 `;
 
-export const LightPurpleModule = styled.div`
-  margin: 10px 0;
+export const PurpleBox = styled.div`
   background: #f4e2ff;
   border-style: solid;
   border-color: #d19bef;
   border-width: 2px;
   padding: 20px;
-  box-shadow: 3px 3px 5px rgba(61,61,61,0.4);
+  box-shadow: 3px 3px 5px rgba(61, 61, 61, 0.4);
 `;
 
 export const PageHeader = styled.h1`

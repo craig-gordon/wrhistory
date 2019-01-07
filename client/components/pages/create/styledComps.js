@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { LightBlueModule, LightGreenModule, LightPurpleModule } from '../../common/styledComponents.js';
+import { BlueBox, GreenBox, PurpleBox } from '../../common/styledComps.js';
 
 // Create Chart Page
 
@@ -18,10 +18,10 @@ export const LeftColumn = styled.div`
   margin-right: 10px;
 `;
 
-export const ChartInputBox = LightBlueModule.extend`
+export const ChartInputBox = BlueBox.extend`
 `;
 
-export const RecordInputBox = LightBlueModule.extend`
+export const RecordInputBox = BlueBox.extend`
   margin-top: 20px;
 `;
 
@@ -39,10 +39,10 @@ export const RightColumn = styled.div`
   margin-left: 10px;
 `;
 
-export const ChartBox = LightGreenModule.extend`
+export const ChartBox = GreenBox.extend`
 `;
 
-export const ChangelogBox = LightPurpleModule.extend`
+export const ChangelogBox = PurpleBox.extend`
   margin-top: 20px;
 `;
 

@@ -15,53 +15,56 @@ const TopNavWrapper = styled.div`
   border-style: solid;
   border-color: darkgray;
   border-width: 0 0 2px 0;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   height: 44px;
+  @media screen and (max-width: 600px) {
+    height: 38px;
+    padding: 0 4%;
+  }
 `;
 
 const LinksWrapper = styled.div`
   display: grid;
-  grid-template-columns: 25% 60% 15%;
+  grid-template-columns: 1fr 1fr 1fr;
   align-content: center;
-  height: 44px;
 `;
 
 const ContentGroup = styled.div`
-  display: grid;
-  grid-template-columns: 50% 25% 25%;
-  align-content: center;
-  justify-items: start;
+  display: flex;
+  align-items: center;
 `;
 
 const AuthGroup = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-content: center;
-  justify-items: end;
-`;
-
-const SiteLink = styled(Link)`
-  color: magenta;
-  text-decoration: none;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 const RouterLink = styled(Link)`
-  color: blue;
+  color: rgb(82, 82, 82);
   text-decoration: none;
   font-weight: bold;
+  margin-right: 3em;
+  @media screen and (max-width: 600px) {
+    font-size: 10px;
+    margin-right: 2em;
+  }
 `;
 
 const SearchBar = styled(Input)`
-  margin: 2% 0;
 `;
 
 const AuthLink = styled.div`
-  color: blue;
+  color: rgb(82, 82, 82);
   text-decoration: none;
   font-weight: bold;
+  margin-left: 3em;
   &:hover {
     cursor: pointer
+  }
+  @media screen and (max-width: 600px) {
+    font-size: 10px;
+    margin-left: 2em;
   }
 `;
 
@@ -109,10 +112,9 @@ export default class TopNav extends React.Component {
         />
         <LinksWrapper>
           <ContentGroup>
-            <SiteLink to='/'>RECORD HISTORY</SiteLink>
+            <RouterLink to='/'>RECORD HISTORY</RouterLink>
             <RouterLink to='/browse/games'>Games</RouterLink>
             <RouterLink to='/create'>Create</RouterLink>
-            {/* <RouterLink to='/articles'>Articles</RouterLink> */}
           </ContentGroup>
           <SearchBar
             className='search'
@@ -122,8 +124,8 @@ export default class TopNav extends React.Component {
             disabled
           />
           <AuthGroup>
-            <AuthLink onClick={this.showSignup}>Sign Up</AuthLink>
-            <AuthLink onClick={this.showLogin}>Log In</AuthLink>
+            <AuthLink onClick={this.showSignup}>Signup</AuthLink>
+            <AuthLink onClick={this.showLogin}>Login</AuthLink>
           </AuthGroup>
         </LinksWrapper>
       </TopNavWrapper>

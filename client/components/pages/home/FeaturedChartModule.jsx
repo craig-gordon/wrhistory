@@ -2,10 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { LightGreenModule } from '../../common/styledComponents.js';
+import { GreenBox } from '../../common/styledComps.js';
 import Chart from '../../charts/Chart.jsx';
 
-export default class FeaturedChartModule extends React.Component {
+class FeaturedChartModule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,11 +28,17 @@ export default class FeaturedChartModule extends React.Component {
 
   render() {
     return (
-      <LightGreenModule>
+      <GreenBox>
         <h3 style={{textAlign: 'center', fontSize: '1.25em'}}>Featured Chart</h3>
-        <Chart document={this.state.document} dataLoaded={this.state.dataLoaded} />
-        {this.state.document ? <Link to={`/chart${this.state.document.uriEndpoint}`}>See full chart!</Link> : null}
-      </LightGreenModule>
+        <Chart
+          document={this.state.document}
+          dataLoaded={this.state.dataLoaded}
+          history={this.props.history}
+          currentEndpoint='/'
+        />
+      </GreenBox>
     );
   }
 };
+
+export default FeaturedChartModule;

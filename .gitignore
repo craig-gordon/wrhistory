@@ -29,3 +29,7 @@ client/.hot/*
 
 # AWS RDS Certificate
 rds-combined-ca-bundle.pem
+
+# DB test files
+server/dbNew.js
+server/dbTestFns.js

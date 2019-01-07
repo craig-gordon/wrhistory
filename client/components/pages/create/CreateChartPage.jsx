@@ -13,7 +13,7 @@ import RecordInputPagination from './RecordInputPagination.jsx';
 import Chart from '../../charts/Chart.jsx';
 import Changelog from './Changelog.jsx';
 import ChangelogButtonGroup from './ChangelogButtonGroup.jsx';
-import { PageHeader } from '../../common/styledComponents.js';
+import { PageHeader } from '../../common/styledComps.js';
 import {
   ColumnHeader,
   CreateChartPageWrapper,
@@ -319,7 +319,7 @@ export default class CreateChartPage extends React.Component {
               (<CreateChartPageWrapper>
                 <LeftColumn>
                   {/* CHART INPUT BOX */}
-                  <ChartInputBox>
+                  <ChartInputBox >
                     <ColumnHeader>Chart Information</ColumnHeader>
                     <ChartInputGroup
                       currentPage={this.state.currentPage}
@@ -336,7 +336,7 @@ export default class CreateChartPage extends React.Component {
                     />
                   </ChartInputBox>
                   {/* RECORD INPUT BOX */}
-                  <RecordInputBox>
+                  <RecordInputBox >
                     <RecordInputHeaderWrapper currentPage={this.state.currentPage}>
                       <RecordInputPagination
                         currentPage={this.state.currentPage}

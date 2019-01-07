@@ -20,7 +20,6 @@ const database = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process
     min: 0,
     idle: 10000
   },
-  operatorsAliases: false,
   language: 'en'
 });
 

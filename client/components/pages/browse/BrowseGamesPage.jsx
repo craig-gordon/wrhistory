@@ -4,10 +4,12 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style/index.css';
 
 // import GamePreviewButton from '../../common/GamePreviewButton.jsx';
 import StandardButton from '../../common/StandardButton.jsx';
-import { PageHeader } from '../../common/styledComponents.js';
+import { PageHeader } from '../../common/styledComps.js';
 
 const ButtonsContainer = styled.div`
   display: grid;
@@ -19,6 +21,7 @@ class BrowseGamesPage extends React.Component {
   constructor() {
     super();
     this.state = {
+      loaded: false,
       documents: []
     }
   }
@@ -28,7 +31,7 @@ class BrowseGamesPage extends React.Component {
       .then(res => {
         console.log('response:', res);
         let documents = res.data;
-        this.setState({documents});
+        this.setState({loaded: true, documents});
       })
       .catch(err => {
         console.log('Error retrieving Document from database:', err);
@@ -36,6 +39,9 @@ class BrowseGamesPage extends React.Component {
   }
 
   render() {
+    if (!this.state.loaded) {
+      return <div style={{textAlign: 'center', marginTop: '100px'}}><Spin size='large' /></div>;
+    }
     let allButtons = this.state.documents.map((doc, i) =>
       (
         <StandardButton

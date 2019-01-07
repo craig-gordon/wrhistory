@@ -28,6 +28,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
 }
 
+@media screen and (max-width: 600px) {
+  body {
+    font-size: 12px;
+  }
+}
+
 /*********
 * CHARTS *
 *********/
@@ -61,6 +67,38 @@ h1, h2, h3, h4, h5, h6 {
   color: #A0A0A3;
   font-weight: bold;
   margin-right: 5px;
+}
+
+.viewFullChartBtn {
+  font-size: 14px;
+  color: rgb(224, 224, 227);
+  border: 1px solid rgb(224, 224, 227);
+  border-radius: 4px;
+  padding: 8px;
+  /* z-index: 1; */
+}
+
+.viewFullChartBtn:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .chartTitle {
+    font-size: 16px;
+  }
+
+  .chartSubtitle {
+    font-size: 12px;
+  }
+
+  .viewFullChartBtn {
+    font-size: 10px;
+    color: rgb(224, 224, 227);
+    border: 1px solid rgb(224, 224, 227);
+    border-radius: 4px;
+    padding: 4px;
+    /* z-index: 1; */
+  }
 }
 
 /************

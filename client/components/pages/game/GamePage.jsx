@@ -15,11 +15,14 @@ import Chart from '../../charts/Chart.jsx';
 import InfoCarousel from '../../charts/InfoCarousel.jsx';
 import RecordsTable from '../../charts/RecordsTable.jsx';
 import VodEmbed from './VodEmbed.jsx';
-import { LightGreenModule, LightBlueModule, LightPurpleModule } from '../../common/styledComponents.js';
+import { GreenBox, BlueBox, PurpleBox } from '../../common/styledComps.js';
 import { convertNullsToEmptyStrs } from '../create/utils.js';
 
 const GamePageContainer = styled.div`
-  margin-top: 20px;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: 0.913fr 1.087fr;
+  grid-gap: 20px;
 `;
 
 const EmbeddedCarouselWrapper = styled.div`
@@ -30,15 +33,13 @@ const EmbeddedCarouselWrapper = styled.div`
 
 const RecordDetailWrapper = styled.div`
   display: grid;
-  grid-template-columns: 0.913fr 1.087fr;
-  grid-column-gap: 20px;
 `;
 
-const TabContentsContainer = styled(LightGreenModule)`
+const TabContentsContainer = styled(GreenBox)`
   margin-top: 0px;
 `;
 
-const VodContainer = styled(LightBlueModule)`
+const VodContainer = styled(BlueBox)`
   display: grid;
   align-items: center;
   justify-content: center;
@@ -47,7 +48,7 @@ const VodContainer = styled(LightBlueModule)`
   font-style: italic;
 `;
 
-const CarouselContainer = styled(LightPurpleModule)`
+const CarouselContainer = styled(PurpleBox)`
   display: grid;
   align-items: center;
   justify-content: center;
@@ -94,11 +95,12 @@ export default class GamePage extends React.Component {
 
   render() {
     if (!this.state.loaded) {
-      return <div style={{textAlign: 'center', marginTop: '50px'}}><Spin size='large' /></div>;
+      return <div style={{textAlign: 'center', marginTop: '100px'}}><Spin size='large' /></div>;
     }
     return (
       <GamePageContainer>
         <Tabs
+          style={{gridColumn: 'span 2'}}
           type='card'
           onTabClick={(e) => {
             if (e === '3') {
@@ -140,30 +142,28 @@ export default class GamePage extends React.Component {
             key='3'
           />
         </Tabs>
-        <RecordDetailWrapper>
-          <VodContainer className='vod-container'>
-            {
-              this.state.selectedRun
-                ? (
-                    this.state.selectedRun.vodUrl
-                      ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} />
-                      : 'No VOD available for this record'
-                  )
-                : `Click a chart point to see the record's VOD`
-            }
-          </VodContainer>
-          <CarouselContainer>
-            {
-              this.state.selectedRun
-                ? <InfoCarousel
-                    document={this.state.document}
-                    selected={this.state.selectedCarouselItem}
-                    changeSelectedChartPoint={this.changeSelectedChartPoint}
-                  />
-                : `Click a chart point to see the record's detailed description`
-            }
-          </CarouselContainer>
-        </RecordDetailWrapper>
+        <VodContainer className='vod-container'>
+          {
+            this.state.selectedRun
+              ? (
+                  this.state.selectedRun.vodUrl
+                    ? <VodEmbed vodUrl={this.state.selectedRun.vodUrl} />
+                    : 'No VOD available for this record'
+                )
+              : `Click a chart point to see the record's VOD`
+          }
+        </VodContainer>
+        <CarouselContainer>
+          {
+            this.state.selectedRun
+              ? <InfoCarousel
+                  document={this.state.document}
+                  selected={this.state.selectedCarouselItem}
+                  changeSelectedChartPoint={this.changeSelectedChartPoint}
+                />
+              : `Click a chart point to see the record's detailed description`
+          }
+        </CarouselContainer>
       </GamePageContainer>
     )
   }

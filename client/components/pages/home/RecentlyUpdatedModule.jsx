@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { LightPurpleModule } from '../../common/styledComponents.js';
+import { PurpleBox } from '../../common/styledComps.js';
 import GamePreviewButton from '../../common/GamePreviewButton.jsx';
 
 const ButtonsContainer = styled.div`
@@ -10,7 +10,7 @@ const ButtonsContainer = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
-const Module = LightPurpleModule.extend`
+const Module = PurpleBox.extend`
   margin: 20px 0;
 `;
 

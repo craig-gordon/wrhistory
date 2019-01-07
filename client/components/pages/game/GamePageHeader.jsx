@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import path from 'path';
 
-import { LightBlueModule } from '../../common/styledComponents.js';
+import { BlueBox } from '../../common/styledComps.js';
 
 const GameCover = styled.img`
   height: 7%;
