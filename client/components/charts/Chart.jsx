@@ -55,9 +55,9 @@ class Chart extends React.PureComponent {
         panning: true,
         panKey: 'shift',
         events: {
-          load: currentEndpoint === '/' && dataLoaded
+          load: dataLoaded
                   ? function() {
-                      addViewFullChartButton.call(this, gameEndpoint, history);
+                      currentEndpoint === '/' ? addViewFullChartButton.call(this, gameEndpoint, history) : null;
                     }
                   : addSpinnerToChart
         }

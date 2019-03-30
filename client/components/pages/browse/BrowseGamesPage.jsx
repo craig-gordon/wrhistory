@@ -38,7 +38,7 @@ class BrowseGamesPage extends React.Component {
 
   render() {
     if (!this.state.loaded) {
-      return <div style={{textAlign: 'center', marginTop: '100px'}}><div class="pixel-loader" /></div>;
+      return <div style={{textAlign: 'center', marginTop: '100px'}}><div className="pixel-loader" /></div>;
     }
     let allButtons = this.state.documents.map((doc, i) =>
       (

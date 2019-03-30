@@ -92,7 +92,7 @@ export default class GamePage extends React.Component {
 
   render() {
     if (!this.state.loaded) {
-      return <div style={{textAlign: 'center', marginTop: '100px'}}><div class="pixel-loader" /></div>;
+      return <div style={{textAlign: 'center', marginTop: '100px'}}><div className="pixel-loader" /></div>;
     }
     return (
       <GamePageContainer>
@@ -112,6 +112,7 @@ export default class GamePage extends React.Component {
             <TabContentsContainer>
               <Chart
                 document={this.state.document}
+                dataLoaded={this.state.loaded}
                 selectedChartPoint={this.state.selectedChartPoint}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
               />

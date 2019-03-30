@@ -314,7 +314,6 @@ export const createCarouselSlides = function(records) {
 };
 
 export const addSpinnerToChart = function() {
-  console.log('this.chartHeight:', this.chartHeight);
   this.renderer.text(
     `<div class="pixel-loader" />`,
     this.chartWidth / 2,
