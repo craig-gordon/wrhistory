@@ -30,6 +30,14 @@ ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 
 
 class Chart extends React.PureComponent {
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedChartPoint !== prevProps.selectedChartPoint) {
+      const chart = this.refs.chart.getChart();
+      const point = chart.series[0].data[this.props.selectedChartPoint];
+      point.select();
+    }
+  }
+
   render() {
     let currentEndpoint = this.props.currentEndpoint;
     let history = this.props.history;
@@ -62,7 +70,6 @@ class Chart extends React.PureComponent {
       credits: false,
       plotOptions: {
         line: {
-          allowPointSelect: true,
           marker: {
             enabled: true,
             states: {
@@ -111,6 +118,7 @@ class Chart extends React.PureComponent {
     return (
       <ReactHighcharts
         config={config}
+        neverReflow={true}
         ref="chart"
       />
     );

@@ -238,7 +238,7 @@ export const createChartSeries = function(records = [], documentType = 'speedrun
         cursor: 'pointer',
         zoneAxis: 'x',
         events: {
-          click: (e) => {
+          click: function(e) {
             changeSelectedChartPoint(e, records);
           }
         },

@@ -64,7 +64,7 @@ export default class GamePage extends React.Component {
     this.state = {
       loaded: false,
       document: undefined,
-      clickedChartPoint: null,
+      selectedChartPoint: null,
       selectedCarouselItem: 0,
       selectedRun: null
     };
@@ -84,10 +84,9 @@ export default class GamePage extends React.Component {
   }
 
   changeSelectedChartPoint(e, records) {
-    console.log('event fire:', e);
     let pointIdx = typeof e === 'object' ? e.point.index : e;
     this.setState({
-      clickedChartPoint: pointIdx,
+      selectedChartPoint: pointIdx,
       selectedCarouselItem: pointIdx,
       selectedRun: records[pointIdx]
     });
@@ -115,6 +114,7 @@ export default class GamePage extends React.Component {
             <TabContentsContainer>
               <Chart
                 document={this.state.document}
+                selectedChartPoint={this.state.selectedChartPoint}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
               />
             </TabContentsContainer>
