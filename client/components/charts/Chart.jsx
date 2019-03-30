@@ -9,6 +9,7 @@ import darkUnicaMod from './darkUnicaMod.js';
 import { secsToTs } from '../../utils/datetimeUtils.js';
 import {
   formatTooltip,
+  positionTooltip,
   createPowSymbol,
   createTitleHTML,
   createSubtitleHTML,
@@ -40,7 +41,6 @@ class Chart extends React.PureComponent {
 
   render() {
     let currentEndpoint = this.props.currentEndpoint;
-    console.log('currentEndpoint:', currentEndpoint);
     let history = this.props.history;
     let document = this.props.document;
     let records = document ? document.records : undefined;
@@ -55,9 +55,11 @@ class Chart extends React.PureComponent {
         panning: true,
         panKey: 'shift',
         events: {
-          load: currentEndpoint === '/' && dataLoaded ? function() {
-            addViewFullChartButton.call(this, gameEndpoint, history);
-          } : null
+          load: currentEndpoint === '/' && dataLoaded
+                  ? function() {
+                      addViewFullChartButton.call(this, gameEndpoint, history);
+                    }
+                  : addSpinnerToChart
         }
       },
       title: {
@@ -102,16 +104,7 @@ class Chart extends React.PureComponent {
         outside: true,
         hideDelay: 200,
         formatter: formatTooltip,
-        positioner: function(labelWidth, labelHeight, point) {
-          let x = point.plotX + this.chart.plotLeft - labelWidth / 2;
-          let y = point.plotY + this.chart.plotTop - labelHeight - 15;
-          // if the label would be rendered above the chart plot area,
-          // render it below the point instead
-          if (point.plotY - labelHeight < 0) {
-            y = point.plotY + this.chart.plotTop + 15;
-          }
-          return {x, y};
-        }
+        positioner: positionTooltip
       },
       annotations: [{
         labelOptions: {

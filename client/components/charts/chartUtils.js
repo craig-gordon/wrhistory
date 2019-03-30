@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import $ from 'cash-dom';
 import Spin from 'antd/lib/spin';
-import 'antd/lib/spin/style/index.css';
 
 import { secsToTs, daysToYMD, formatUTCMillisecsToDateStr, formatYMDToDateStr } from '../../utils/datetimeUtils.js';
 import '../../assets/stylesheets/classStyles.css';
@@ -36,6 +35,17 @@ export const formatTooltip = function() {
     </div>
   `;
 };
+
+export const positionTooltip = function(labelWidth, labelHeight, point) {
+  let x = point.plotX + this.chart.plotLeft - labelWidth / 2;
+  let y = point.plotY + this.chart.plotTop - labelHeight - 15;
+  // if the label would be rendered above the chart plot area,
+  // render it below the point instead
+  if (point.plotY - labelHeight < 0) {
+    y = point.plotY + this.chart.plotTop + 15;
+  }
+  return {x, y};
+}
 
 export const createPowSymbol = function(x, y) {
   return [
@@ -304,11 +314,11 @@ export const createCarouselSlides = function(records) {
 };
 
 export const addSpinnerToChart = function() {
-  console.log(<Spin size='large' />);
+  console.log('this.chartHeight:', this.chartHeight);
   this.renderer.text(
-    `<Spin size='large' />`,
-    300,
-    135,
+    `<div class="pixel-loader" />`,
+    this.chartWidth / 2,
+    this.chartHeight / 2,
     true
   ).add()
 };

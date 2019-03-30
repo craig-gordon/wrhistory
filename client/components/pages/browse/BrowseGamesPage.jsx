@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'antd/lib/button';
 import 'antd/lib/button/style/index.css';
-import Spin from 'antd/lib/spin';
-import 'antd/lib/spin/style/index.css';
 
 // import GamePreviewButton from '../../common/GamePreviewButton.jsx';
 import StandardButton from '../../common/StandardButton.jsx';
@@ -40,7 +38,7 @@ class BrowseGamesPage extends React.Component {
 
   render() {
     if (!this.state.loaded) {
-      return <div style={{textAlign: 'center', marginTop: '100px'}}><Spin size='large' /></div>;
+      return <div style={{textAlign: 'center', marginTop: '100px'}}><div class="pixel-loader" /></div>;
     }
     let allButtons = this.state.documents.map((doc, i) =>
       (

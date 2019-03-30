@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import Tabs from 'antd/lib/tabs';
 const TabPane = Tabs.TabPane;
 import 'antd/lib/tabs/style/index.css';
-import Spin from 'antd/lib/spin';
-import 'antd/lib/spin/style/index.css';
 
 // import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 // import 'react-tabs/style/react-tabs.css';
@@ -94,7 +92,7 @@ export default class GamePage extends React.Component {
 
   render() {
     if (!this.state.loaded) {
-      return <div style={{textAlign: 'center', marginTop: '100px'}}><Spin size='large' /></div>;
+      return <div style={{textAlign: 'center', marginTop: '100px'}}><div class="pixel-loader" /></div>;
     }
     return (
       <GamePageContainer>
