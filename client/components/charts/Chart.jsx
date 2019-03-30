@@ -99,7 +99,19 @@ class Chart extends React.PureComponent {
       yAxis: createYAxisConfig(document ? document : {type: 'speedrun'}),
       tooltip: {
         useHTML: true,
-        formatter: formatTooltip
+        outside: true,
+        hideDelay: 200,
+        formatter: formatTooltip,
+        positioner: function(labelWidth, labelHeight, point) {
+          let x = point.plotX + this.chart.plotLeft - labelWidth / 2;
+          let y = point.plotY + this.chart.plotTop - labelHeight - 15;
+          // if the label would be rendered above the chart plot area,
+          // render it below the point instead
+          if (point.plotY - labelHeight < 0) {
+            y = point.plotY + this.chart.plotTop + 15;
+          }
+          return {x, y};
+        }
       },
       annotations: [{
         labelOptions: {

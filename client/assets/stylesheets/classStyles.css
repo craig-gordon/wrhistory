@@ -63,6 +63,14 @@ h1, h2, h3, h4, h5, h6 {
   color: #A0A0A3;
 }
 
+.highcharts-container {
+  overflow: visible !important;
+}
+
+.highcharts-root {
+  overflow: visible !important;
+}
+
 .ttCategory {
   color: #A0A0A3;
   font-weight: bold;
@@ -75,11 +83,14 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgb(224, 224, 227);
   border-radius: 4px;
   padding: 8px;
-  /* z-index: 1; */
+  z-index: auto !important;
+  transition: color 250ms ease, background-color 250ms ease;
 }
 
 .viewFullChartBtn:hover {
   cursor: pointer;
+  color: rgb(28, 28, 28);
+  background-color: rgb(224, 224, 227);
 }
 
 @media screen and (max-width: 600px) {
