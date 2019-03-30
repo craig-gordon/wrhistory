@@ -40,6 +40,7 @@ class Chart extends React.PureComponent {
 
   render() {
     let currentEndpoint = this.props.currentEndpoint;
+    console.log('currentEndpoint:', currentEndpoint);
     let history = this.props.history;
     let document = this.props.document;
     let records = document ? document.records : undefined;
@@ -118,7 +119,7 @@ class Chart extends React.PureComponent {
     return (
       <ReactHighcharts
         config={config}
-        neverReflow={true}
+        neverReflow={currentEndpoint === '/' ? false : true}
         ref="chart"
       />
     );
