@@ -22,27 +22,27 @@ const RecordInputButtonGroup = (props) => (
       props.location === '/create' && props.currentPage === props.totalPages
         ? <Button
             className='next-btn'
-            disabled={props.recordInputButtonDisabled}
+            disabled={props.recordSaveButtonDisabled}
             type='primary'
             size='large'
             onClick={() => {
-              props.submitData();
+              props.saveToChangelog('recordInput');
             }}
           >
             <span style={{marginRight: '8px'}}>
               Next
             </span>
-            <NextPageIcon disabled={props.recordInputButtonDisabled}>
+            <NextPageIcon disabled={props.recordSaveButtonDisabled}>
               {props.totalPages + 1}
             </NextPageIcon>
           </Button>
         : <Button
             className='save-btn'
-            disabled={props.recordInputButtonDisabled}
+            disabled={props.recordSaveButtonDisabled}
             type='primary'
             size='large'
             onClick={() => {
-              props.submitData();
+              props.saveToChangelog('recordInput');
             }}
           >
             Save        

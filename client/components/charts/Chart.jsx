@@ -124,7 +124,7 @@ class Chart extends React.PureComponent {
     return (
       <ReactHighcharts
         config={config}
-        neverReflow={currentEndpoint === '/' ? false : true}
+        neverReflow={this.props.allowReflow ? false : true}
         ref="chart"
       />
     );

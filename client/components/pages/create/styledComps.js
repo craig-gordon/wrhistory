@@ -11,18 +11,17 @@ export const ColumnHeader = styled.h3`
 
 export const CreateChartPageWrapper = styled.div`
   display: grid;
+  grid-template-rows: repeat(3, auto);
   grid-template-columns: 38% 62%;
-`;
-
-export const LeftColumn = styled.div`
-  margin-right: 10px;
+  grid-gap: 20px;
+  grid-auto-flow: column;
 `;
 
 export const ChartInputBox = BlueBox.extend`
 `;
 
 export const RecordInputBox = BlueBox.extend`
-  margin-top: 20px;
+  grid-row: span 2;
 `;
 
 export const RecordInputHeaderWrapper = styled.div`
@@ -35,15 +34,11 @@ export const RecordInputHeader = ColumnHeader.extend`
   justify-self: center;
 `;
 
-export const RightColumn = styled.div`
-  margin-left: 10px;
-`;
-
 export const ChartBox = GreenBox.extend`
+  grid-row: span 2;
 `;
 
 export const ChangelogBox = PurpleBox.extend`
-  margin-top: 20px;
 `;
 
 export const CurrentPageIcon = styled.span`

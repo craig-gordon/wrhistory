@@ -35,6 +35,7 @@ class FeaturedChartModule extends React.Component {
           dataLoaded={this.state.dataLoaded}
           history={this.props.history}
           currentEndpoint='/'
+          allowReflow={true}
         />
       </GreenBox>
     );

@@ -7,6 +7,8 @@ import Card from 'antd/lib/card';
 import 'antd/lib/card/style/index.css';
 import '../../../assets/stylesheets/classStyles.css';
 
+import { formatYMDToDateStr } from '../../../utils/datetimeUtils.js';
+
 // No-Values Record Input State Object
 
 export const createEmptyRecordInputObj = (doc) => ({
@@ -211,14 +213,14 @@ export const createConsoleMap = (allConsolesStateObj) => {
 
 
 const Slide = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, calc(100% / 3));
   margin-bottom: 5%;
   background: inherit !important;
   border: #d19bef !important;
 `;
 
 const Slot = styled(Card)`
-  flex-basis: 33%;
   background: inherit !important;
   border: #d19bef !important;
   text-align: start !important;
@@ -230,9 +232,102 @@ const Label = styled.span`
   font-weight: bold;
 `;
 
-// Create Changelog Carousel Slides
+// Create Changelog Slides
 
-export const createChangelogCarouselSlides = (changelog) => {
+export const createChangelogSlides = (changelog) => {
+  // 1 slot = 1 chart / record entry
+  // 1 slide = 3 slots
+  const slots = changelog.map((item, i) => {
+
+    // create Chart info slot
+    if (item.gameTitle) {
+      return (
+        <Slot
+          key={i}
+          title={`${item.gameTitle} — ${item.category}`}
+          hoverable={true}
+          extra={`change #${i + 1}`}
+        >
+          <div><Label>Leaderboard URL</Label>{item.leaderboardUrl}</div>
+        </Slot>
+      );
+
+    // create Record info slot
+    } else if (item.playerName) {
+      return (
+        <Slot
+          key={i}
+          title={`${item.playerName} — ${item.mark}`}
+          hoverable={true}
+          extra={`change #${i + 1}`}
+        >
+          <div><Label>Date</Label>{formatYMDToDateStr(item.year, item.month, item.day)}</div>
+          <div><Label>VOD</Label>{item.vodUrl}</div>
+          <div><Label>Label</Label>{item.labelText}</div>
+          <div><Label>Tooltip</Label>{item.tooltipNote}</div>
+          <div><Label>Detailed</Label>{item.detailedText}</div>
+          <div><Label>Milestone</Label>{item.isMilestone}</div>
+        </Slot>
+      );
+
+    // create initial info slot
+    } else {
+      return (
+        <Slot
+          key={i}
+          title={'No changes yet'}
+          hoverable={true}
+          extra={`example`}
+        >
+          <div><Label>Date</Label>{formatYMDToDateStr(1970, 0, 1)}</div>
+          <div><Label>Detailed</Label>This is an example changelog item.</div>
+          <div><Label>Milestone</Label>false</div>
+        </Slot>
+      )
+    }
+  });
+
+  const slides = [];
+
+  for (let i = slots.length - 1; i >= 0; i -= 3) {
+    // only 2 entries left to process
+    if (i === 1) {
+      slides.push(
+        <Slide>
+          {slots[1]}
+          {slots[0]}
+          <Slot />
+        </Slide>
+      );
+
+    // only 1 entry left to process
+    } else if (i === 0) {
+      slides.push(
+        <Slide>
+          {slots[0]}
+          <Slot />
+          <Slot />
+        </Slide>
+      );
+
+    // 3 or more entries left to process
+    } else {
+      slides.push(
+        <Slide>
+          {slots[i]}
+          {slots[i-1]}
+          {slots[i-2]}
+        </Slide>
+      );
+    }
+  }
+
+  return slides;
+};
+
+// Create Sample Changelog Slides
+
+export const createSampleChangelogSlides = (changelog) => {
   return ['', '', ''].map((elem, i) => (
     <Slide key={i}>
       <Slot

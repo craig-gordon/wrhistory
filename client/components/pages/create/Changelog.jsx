@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 
-import { createChangelogCarouselSlides } from './utils.js';
+import { createChangelogSlides, createSampleChangelogSlides } from './utils.js';
 import '../../../../node_modules/react-responsive-carousel/lib/styles/carousel.min.css';
 import '../../../assets/stylesheets/classStyles.css';
 
@@ -13,7 +13,7 @@ const Changelog = (props) => (
     showStatus={false}
     selectedItem={props.selected}
   >
-    {createChangelogCarouselSlides()}
+    {createChangelogSlides(props.changelog)}
   </Carousel>
 );
 

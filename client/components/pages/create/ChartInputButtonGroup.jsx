@@ -12,11 +12,11 @@ const ChartInputButtonGroup = (props) => (
   <ButtonContainer>
     <Button
       className='save-btn'
-      disabled={props.chartInputButtonDisabled}
+      disabled={props.chartSaveButtonDisabled}
       type='primary'
       size='large'
       onClick={() => {
-        props.submitData();
+        props.saveToChangelog('chartInput');
       }}
     >
       Save

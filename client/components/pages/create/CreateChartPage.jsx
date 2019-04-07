@@ -17,12 +17,10 @@ import { PageHeader } from '../../common/styledComps.js';
 import {
   ColumnHeader,
   CreateChartPageWrapper,
-  LeftColumn,
   ChartInputBox,
   RecordInputHeader,
   RecordInputHeaderWrapper,
   RecordInputBox,
-  RightColumn,
   ChartBox,
   ChangelogBox,
   CurrentPageIcon
@@ -46,6 +44,7 @@ export default class CreateChartPage extends React.Component {
       totalPages: this.pipedState.totalPages || 1,
       chartType: this.pipedState.chartType || undefined,
       workingDoc: this.pipedState.workingDoc || undefined,
+      changelog: ['example'],
       submitGameOpen: false,
       allGames: [],
       allPlayers: [],
@@ -78,8 +77,8 @@ export default class CreateChartPage extends React.Component {
         documentId: undefined,
         gameId: undefined
       },
-      chartInputButtonDisabled: true,
-      recordInputButtonDisabled: true
+      chartSaveButtonDisabled: true,
+      recordSaveButtonDisabled: true
     };
   }
 
@@ -99,14 +98,23 @@ export default class CreateChartPage extends React.Component {
 
   setChartType = (type) => {
     let doc = type === 'speedrun' ? speedrunDocument : highscoreDocument;
-    this.setState({chartType: type, workingDoc: doc, viewingInitialButtons: false});
+    this.setState({
+      chartType: type,
+      workingDoc: doc,
+      viewingInitialButtons: false
+    });
   }
 
   showSubmitGame = () => this.setState({submitGameOpen: true});
 
   closeSubmitGame = () => this.setState({submitGameOpen: false});
 
-  addNewGameToAllGames = (gameTitle) => this.setState({allGames: this.state.allGames.concat(gameTitle).sort((a, b) => a.toUpperCase() > b.toUpperCase() ? 1 : -1)});
+  addNewGameToAllGames = (gameTitle) => {
+    this.setState({
+      allGames: this.state.allGames.concat(gameTitle)
+                                   .sort((a, b) => a.toUpperCase() > b.toUpperCase() ? 1 : -1)
+    });
+  };
 
   changePage = (pageNum) => {
     // turning to next blank page
@@ -126,7 +134,8 @@ export default class CreateChartPage extends React.Component {
     let workingRecord = this.state.workingDoc.records[pageNum - 1];
     let recordInputObj = {};
     let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
-    for (var key in emptyRecordInputObj) {
+    let timestamp;
+    for (let key in emptyRecordInputObj) {
       if (workingRecord && workingRecord[key] !== null) {
         recordInputObj[key] = workingRecord[key];
       } else {
@@ -134,15 +143,15 @@ export default class CreateChartPage extends React.Component {
       }
     }
     if (this.state.chartType === 'speedrun') {
-      var timestamp = secsToTs(workingRecord.mark);
+      timestamp = secsToTs(workingRecord.mark);
       var {hours, minutes, seconds, milliseconds} = spreadTimestampToHMSMs(timestamp);
     }
     this.setState({
       recordInput: recordInputObj,
-      hours,
-      minutes,
-      seconds,
-      milliseconds
+      hours: hours || '',
+      minutes: minutes || '',
+      seconds: seconds || '',
+      milliseconds: milliseconds || ''
     });
   }
 
@@ -151,7 +160,7 @@ export default class CreateChartPage extends React.Component {
     innerObj[type] = value;
     let stateObj = {};
     stateObj[chartOrRecord] = innerObj;
-    this.setState(() => stateObj, () => this.shouldButtonBeDisabled(chartOrRecord));
+    this.setState(() => stateObj, () => this.shouldSaveButtonBeDisabled(chartOrRecord));
   }
 
   changeTimeInput = (type, value) => {
@@ -175,37 +184,103 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  shouldButtonBeDisabled = (chartOrRecord) => {
+  shouldSaveButtonBeDisabled = (chartOrRecord) => {
+    // If Create/Edit process is finished, always disable both buttons
     if (this.state.finished) {
-      this.setState({chartInputButtonDisabled: true, recordInputButtonDisabled: true});
+      this.setState({chartSaveButtonDisabled: true, recordSaveButtonDisabled: true});
       return;
     }
+
     if (chartOrRecord === 'chartInput') {
       let { gameTitle, category, leaderboardUrl } = this.state.workingDoc;
-      // Game Title input does not match any game in the database
-      if (!this.state.allGames.includes(this.state.chartInput.gameTitle)) this.setState({chartInputButtonDisabled: true});
-      // No Chart Information values have been saved yet
-      else if (this.state.workingDoc.gameTitle === 'Game') this.setState({chartInputButtonDisabled: false});
-      // Chart Information values have been saved & current input does not equal the saved values
-      else if (!isEqual({ gameTitle, category, leaderboardUrl }, this.state.chartInput)) this.setState({chartInputButtonDisabled: false});
-      else this.setState({chartInputButtonDisabled: true});
+
+      // Game Title input does not match any game in the database -> DISABLE BUTTON and EXIT FUNCTION
+      if (!this.state.allGames.includes(this.state.chartInput.gameTitle)) {
+        this.setState({chartSaveButtonDisabled: true});
+        return;
+      }
+
+      // Current Chart Information inputs DO NOT EQUAL the Working Document values -> ENABLE BUTTON
+      if (!isEqual({ gameTitle, category, leaderboardUrl }, this.state.chartInput)) {
+        this.setState({chartSaveButtonDisabled: false});
+      
+      // Current Chart Information inputs DO EQUAL the Working Document values -> DISABLE BUTTON
+      } else {
+        this.setState({chartSaveButtonDisabled: true});
+      }
     } else if (chartOrRecord === 'recordInput') {
       // No Record Information values have been saved yet
       if (this.state.recordInput.mark === '' || this.state.recordInput.playerName === '') {
-        this.setState({recordInputButtonDisabled: true});
+        this.setState({recordSaveButtonDisabled: true});
       } else {
-        console.log('hi');
         let record = this.state.workingDoc.records[this.state.currentPage - 1];
         let { playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText } = record;
-        console.log('state values:', { playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText });
-        console.log('input values:', this.state.recordInput);
-        // Record Information values have been saved & current input does not equal the saved values
-        if (!isEqual({ playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText }, this.state.recordInput)) this.setState({recordInputButtonDisabled: false});
-        else this.setState({recordInputButtonDisabled: true});
+        // Current Record Information inputs DO NOT EQUAL the Working Document values -> ENABLE BUTTON
+        if (!isEqual({ playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText }, this.state.recordInput)) {
+          this.setState({recordSaveButtonDisabled: false});
+
+        // Current Record Information inputs DO EQUAL the Working Document values -> DISABLE BUTTON
+        } else {
+          this.setState({recordSaveButtonDisabled: true});
+        }
       }
     }
   }
 
+  saveToChangelog = (chartOrRecord) => {
+    // saving new Chart data
+    if (chartOrRecord === 'chartInput') {
+      let chartData = {...this.state.chartInput};
+      let changelog = this.state.changelog[0] === 'example'
+                        ? [chartData]
+                        : [...this.state.changelog, chartData];
+      let workingDoc = {
+        ...this.state.workingDoc,
+        gameTitle: chartData.gameTitle,
+        category: chartData.category,
+        leaderboardUrl: chartData.leaderboardUrl
+      };
+
+      this.setState(() => ({
+        changelog,
+        workingDoc
+      }), () => {
+        this.shouldSaveButtonBeDisabled('chartInput');
+      });
+    
+    // saving new Record data
+    } else {
+      let recordData = {...this.state.recordInput};
+      let allRecords = [...this.state.workingDoc.records];
+      let recordsCount = allRecords.length;
+
+      // if saving a new record
+      if (this.state.currentPage === recordsCount + 1) {
+        allRecords.push(recordData);
+      // if editing an existing record
+      } else {
+        allRecords.splice(this.state.currentPage - 1, 1, recordData);
+      }
+
+      let changelog = this.state.changelog[0] === 'example'
+                        ? [recordData]
+                        : [...this.state.changelog, recordData];
+      let workingDoc = {
+        ...this.state.workingDoc,
+        records: allRecords
+      };
+
+      this.setState(() => ({
+        changelog,
+        workingDoc
+      }), () => {
+        this.shouldSaveButtonBeDisabled('recordInput');
+      });
+    }
+  }
+
+  // REWORK THIS ENTIRE FUNCTION!
+  // SUBMIT DATA ONLY AT CONCLUSION OF CREATE/EDIT PROCESS!
   submitData = (blockPageChange) => {
     let dataObj;
 
@@ -293,12 +368,12 @@ export default class CreateChartPage extends React.Component {
   render() {
     let titleCategoryStr = `${this.state.workingDoc.gameTitle} — ${this.state.workingDoc.category}`;
     let pageHeaderStr = this.location === '/create'
-                      ? `Create ${
-                          this.state.chartType === undefined
-                            ? ''
-                            : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')
-                        } Chart${this.state.workingDoc.gameTitle !== undefined && this.state.workingDoc.gameTitle !== 'Game' ? (': ' + titleCategoryStr) : ''}`
-                      : `Edit Chart: ${titleCategoryStr}`;
+                          ? `Create ${
+                              this.state.chartType === undefined
+                                ? ''
+                                : (this.state.chartType === 'speedrun' ? 'Speedrun' : 'High Score')
+                            } Chart${this.state.workingDoc.gameTitle !== undefined && this.state.workingDoc.gameTitle !== 'Game' ? (': ' + titleCategoryStr) : ''}`
+                          : `Edit Chart: ${titleCategoryStr}`;
     return (
       <div>
         <SubmitGameForm
@@ -316,8 +391,8 @@ export default class CreateChartPage extends React.Component {
             ?
               <InitialButtonGroup setChartType={this.setChartType} />
             :
-              (<CreateChartPageWrapper>
-                <LeftColumn>
+              (
+                <CreateChartPageWrapper>
                   {/* CHART INPUT BOX */}
                   <ChartInputBox >
                     <ColumnHeader>Chart Information</ColumnHeader>
@@ -331,8 +406,8 @@ export default class CreateChartPage extends React.Component {
                     />
                     <ChartInputButtonGroup
                       location={this.location}
-                      chartInputButtonDisabled={this.state.chartInputButtonDisabled}
-                      submitData={this.submitData}
+                      chartSaveButtonDisabled={this.state.chartSaveButtonDisabled}
+                      saveToChangelog={this.saveToChangelog}
                     />
                   </ChartInputBox>
                   {/* RECORD INPUT BOX */}
@@ -370,30 +445,31 @@ export default class CreateChartPage extends React.Component {
                       currentPage={this.state.currentPage}
                       totalPages={this.state.totalPages}
                       finished={this.state.finished}
-                      recordInputButtonDisabled={this.state.recordInputButtonDisabled}
-                      submitData={this.submitData}
+                      recordSaveButtonDisabled={this.state.recordSaveButtonDisabled}
+                      saveToChangelog={this.saveToChangelog}
                       changePage={this.changePage}
                       handleFinish={this.handleFinish}
                     />
                   </RecordInputBox>
-                </LeftColumn>
-                <RightColumn>
                   {/* CHART BOX */}
                   <ChartBox>
-                    <Chart document={this.state.workingDoc} />
+                    <Chart
+                      document={this.state.workingDoc}
+                      dataLoaded={true}
+                      allowReflow={true}
+                    />
                   </ChartBox>
                   {/* CHANGELOG BOX */}
                   <ChangelogBox>
                     <ColumnHeader>Changelog</ColumnHeader>
-                    <Changelog
-                    />
+                    <Changelog changelog={this.state.changelog} />
                     <ChangelogButtonGroup
                       finished={this.state.finished}
                       handleFinish={this.handleFinish}
                     />
                   </ChangelogBox>
-                </RightColumn>
-              </CreateChartPageWrapper>)
+                </CreateChartPageWrapper>
+              )
         }
       </div>
     );
