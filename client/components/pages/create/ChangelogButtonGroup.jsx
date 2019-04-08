@@ -14,6 +14,7 @@ const ChangelogButtonGroup = (props) => (
       className={props.finished ? 'green-btn-view-chart' : 'green-btn-finish'}
       type='primary'
       size='large'
+      disabled={props.finishButtonDisabled}
       onClick={props.handleFinish}
     >
       <span style={{marginRight: '8px'}}>

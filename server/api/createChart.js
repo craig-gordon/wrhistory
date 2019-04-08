@@ -128,30 +128,81 @@ router.get('/allConsoles', (req, res) => {
 router.post('/newDocument', (req, res) => {
   console.log('newDocument req.body:', req.body);
 
-  Game.findOne({where: {title: req.body.gameTitle}})
-    .then(gameEntry => {
-      gameEntry = gameEntry.dataValues;
-      let upsertObj = {
+  // information used later in the function
+  const recordType = req.body.chartType === 'speedrun' ? 'time' : 'score';
+  let gameId;
+  let documentId;
+
+  // first Find or Create all the players who have records in the new document
+  // allPlayers: {playerName: null || playerId}
+  const allPlayers = {};
+
+  req.body.records.forEach(record => allPlayers[record.playerName] = null);
+  const allPlayerEntries = Object.keys(allPlayers)
+                            .map(playerName => {
+                              return Player.findOrCreate({
+                                where: {username: playerName}
+                              })
+                            });
+
+  // next get the Game the new document is being created for
+  const gameEntry = Game.findOne({where: {title: req.body.gameTitle}});
+
+  // when the Game entry and all Player entries are accounted for, create new Document and Record entries
+  Promise.all([gameEntry, ...allPlayerEntries])
+    .then(entries => {
+      const gameEntry = entries[0].get({plain: true});
+      gameId = gameEntry.id;
+
+      // add all player IDs to allPlayers Object
+      entries.slice(1).forEach(playerEntry => {
+        allPlayers[playerEntry.username] = playerEntry.get({plain: true}).id;
+      });
+
+      const docObj = {
         type: req.body.chartType,
         gameTitle: req.body.gameTitle,
         category: req.body.category,
         leaderboardUrl: req.body.leaderboardUrl,
         uriEndpoint: `/${gameEntry.abbrev}${req.body.category ? '/' + autoGenerateAbbrev(req.body.category) : ''}`,
         gameReleaseDate: gameEntry.releaseDate,
-        gameId: gameEntry.id
+        gameId
       };
-      if (req.body.id) upsertObj.id = req.body.id;
 
-      return Document.upsert(
-        upsertObj,
-        {
-          returning: true
-        }
-      );
+      // insert new Document
+      return Document.create(docObj);
     })
     .then(documentEntry => {
-      document = documentEntry[0].get({plain: true});
-      res.send(document);
+      documentId = documentEntry.get({plain: true}).id;
+
+      // insert all new Records
+      const recordEntries = req.body.records.map(record => {
+        const recordObj = {
+          type: recordType,
+          mark: record.mark,
+          playerName: record.playerName,
+          year: record.year,
+          month: record.month,
+          day: record.day,
+          vodUrl: record.vodUrl,
+          isMilestone: record.isMilestone,
+          tooltipNote: record.tooltipNote,
+          labelText: record.labelText,
+          detailedText: record.detailedText,
+          playerId: allPlayers[record.playerName],
+          gameId,
+          documentId
+        };
+        return Record.create(recordObj);
+      });
+
+      return Promise.all([documentEntry, ...recordEntries]);
+    })
+    .then(entries => {
+      entries = entries.map(entry => entry.get({plain: true}));
+      const newDocument = entries[0];
+      newDocument.records = entries.slice(1);
+      res.send(newDocument);
     })
     .catch(err => {
       console.log('Error inserting new Document into the database. Error:', err);
@@ -161,53 +212,8 @@ router.post('/newDocument', (req, res) => {
 
 
 // Insert a new Record into the database
-router.post('/newRecord', (req, res) => {
-  console.log('newRecord req.body:', req.body);
-  let record;
-
-  Player.findOrCreate({where: {username: req.body.playerName}})
-    .then(playerEntry => {
-      console.log('playerEntry:', playerEntry);
-      let playerId = playerEntry[0].dataValues.id;
-      let upsertObj = {
-        type: req.body.recordType,
-        mark: req.body.mark,
-        playerName: req.body.playerName,
-        year: req.body.year,
-        month: req.body.month,
-        day: req.body.day,
-        vodUrl: req.body.vodUrl,
-        isMilestone: req.body.isMilestone,
-        tooltipNote: req.body.tooltipNote,
-        labelText: req.body.labelText,
-        detailedText: req.body.detailedText,
-        playerId,
-        gameId: req.body.gameId,
-      };
-      if (req.body.id) upsertObj.id = req.body.id;
-
-      return Record.upsert(
-        upsertObj,
-        {
-          returning: true
-        }
-      );
-    })
-    .then(recordEntry => {
-      record = recordEntry[0].get({plain: true});
-
-      return DocumentRecord.findOrCreate({where: {
-        documentId: req.body.documentId,
-        recordId: record.id
-      }});
-    })
-    .then(newDocumentRecord => {
-      res.send(record);
-    })
-    .catch(err => {
-      console.log('Error inserting new Record into the database:', err);
-      res.send(err);
-    });
-})
+router.post('/editDocument', (req, res) => {
+  // TODO
+});
 
 module.exports = router;

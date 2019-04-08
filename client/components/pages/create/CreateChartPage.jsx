@@ -78,7 +78,8 @@ export default class CreateChartPage extends React.Component {
         gameId: undefined
       },
       chartSaveButtonDisabled: true,
-      recordSaveButtonDisabled: true
+      recordSaveButtonDisabled: true,
+      finishButtonDisabled: true
     };
   }
 
@@ -227,6 +228,18 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
+  shouldFinishButtonBeDisabled = () => {
+    if (this.location === '/create') {
+      if (this.state.workingDoc.gameTitle !== 'Game' && this.state.currentPage > 1) {
+        this.setState({finishButtonDisabled: false});
+      }
+    } else {
+      if (this.state.changelog[0] !== 'example') {
+        this.setState({finishButtonDisabled: false});
+      }
+    }
+  }
+
   saveToChangelog = (chartOrRecord) => {
     // saving new Chart data
     if (chartOrRecord === 'chartInput') {
@@ -246,6 +259,7 @@ export default class CreateChartPage extends React.Component {
         workingDoc
       }), () => {
         this.shouldSaveButtonBeDisabled('chartInput');
+        this.shouldFinishButtonBeDisabled();
       });
     
     // saving new Record data
@@ -274,88 +288,123 @@ export default class CreateChartPage extends React.Component {
         changelog,
         workingDoc
       }), () => {
+        this.location === '/create' ? this.changePage() : null;
         this.shouldSaveButtonBeDisabled('recordInput');
+        this.shouldFinishButtonBeDisabled();
       });
     }
   }
 
   // REWORK THIS ENTIRE FUNCTION!
   // SUBMIT DATA ONLY AT CONCLUSION OF CREATE/EDIT PROCESS!
-  submitData = (blockPageChange) => {
-    let dataObj;
+  submitData = () => {
 
-    // submitting Chart data
-    if (this.state.currentPage === 2) {
-      let convertedChartInputs = convertInputs(this.state.chartInput);
-      dataObj = {...convertedChartInputs, chartType: this.state.chartType};
-      if (this.state.dbIds.documentId) dataObj.id = this.state.dbIds.documentId;
-      axios.post('/api/create/newDocument', dataObj)
-        .then(res => {
-          console.log('response:', res);
-          let dbIdsObj = {documentId: res.data.id, gameId: res.data.gameId};
-          let workingDocObj = {...this.state.workingDoc, ...res.data};
-          let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
-          let stateObj = {
-            dbIds: dbIdsObj,
-            workingDoc: workingDocObj,
-            recordInput: emptyRecordInputObj,
-            hours: '',
-            minutes: '',
-            seconds: '',
-            milliseconds: '',
-            showMilliseconds: false
-          };
-          this.setState(() => stateObj, () => {
-            if (blockPageChange === undefined) this.changePage();
-            else if (blockPageChange === false) this.changePage(this.state.totalPages);
-          });
-        })
-        .catch(err => {
-          console.log('error:', err);
-        });
-    // submitting individual Record data
+    // submitting a new Document + Records
+    if (this.location === '/create') {
+      const { gameTitle, category, leaderboardUrl, uriEndpoint } = convertInputs(this.state.workingDoc);
+      const records = this.state.workingDoc.records.map(record => convertInputs(record));
+      const data = {
+        chartType: this.state.chartType,
+        gameTitle,
+        category,
+        leaderboardUrl,
+        uriEndpoint,
+        records
+      };
+      
+      // axios.post('/api/create/newDocument', data)
+      //   .then(res => {
+      //     console.log('response:', res);
+      //   })
+      //   .catch(err => {
+      //     console.log('error:', err);
+      //   });
+
+    // editing an existing Document
     } else {
-      dataObj = {...this.state.recordInput, ...this.state.dbIds, recordType: this.state.chartType === 'speedrun' ? 'time' : 'score'};
-      if (this.state.workingDoc.records[this.state.currentPage - 3] !== undefined) {
-        dataObj.id = this.state.workingDoc.records[this.state.currentPage - 3].id;
-      }
-      dataObj = convertInputs(dataObj);
-      console.log('dataObj before /api/create/newRecord:', dataObj);
-      axios.post('/api/create/newRecord', dataObj)
-        .then(res => {
-          console.log('response:', res);
-          if (!this.state.allPlayers.includes(res.data.playerName)) {
-            this.setState({allPlayers: this.state.allPlayers.concat(res.data.playerName)});
-          }
-          let workingDocObj = {...this.state.workingDoc};
-          if (workingDocObj.records[0].createdAt === undefined) {
-            workingDocObj.records.shift();
-            workingDocObj.records.push(res.data);
-          } else if (workingDocObj.records[this.state.currentPage - 3] !== undefined && workingDocObj.records[this.state.currentPage - 3].id === res.data.id) {
-            var updatedEarlierPage = true;
-            workingDocObj.records[this.state.currentPage - 3] = res.data;
-          } else {
-            workingDocObj.records.push(res.data);
-          }
-          workingDocObj.records.sort((a, b) => Date.UTC(a.year, a.month, a.day) > Date.UTC(b.year, b.month, b.day) ? 1 : -1);
-          console.log('workingDocObj after submitting new Record to DB, before updating State:', workingDocObj);
-          let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
-          let stateObj = {
-            recordInput: updatedEarlierPage ? this.state.recordInput : emptyRecordInputObj,
-            workingDoc: workingDocObj,
-            hours: updatedEarlierPage ? this.state.hours : '',
-            minutes: updatedEarlierPage ? this.state.minutes : '',
-            seconds: updatedEarlierPage ? this.state.seconds : '',
-            milliseconds: updatedEarlierPage ? this.state.milliseconds : '',
-            showMilliseconds: updatedEarlierPage ? this.state.showMilliseconds : false
-          };
-          this.setState(() => stateObj, () => {
-            if (blockPageChange === undefined) this.changePage();
-            else if (blockPageChange === false) this.changePage(this.state.totalPages);
-          });
-        })
-        .catch(err => console.log('error:', err));
+      const changes = this.state.changelog.map(change => convertInputs(change));
+
+      // axios.post('/api/create/editDocument', changes)
+      //   .then(res => {
+      //     console.log('response:', res);
+      //   })
+      //   .catch(err => {
+      //     console.log('error:', err);
+      //   });
     }
+
+    // // submitting Chart data
+    // if (this.state.currentPage === 2) {
+    //   let convertedChartInputs = convertInputs(this.state.chartInput);
+    //   dataObj = {...convertedChartInputs, chartType: this.state.chartType};
+    //   if (this.state.dbIds.documentId) dataObj.id = this.state.dbIds.documentId;
+    //   axios.post('/api/create/newDocument', dataObj)
+    //     .then(res => {
+    //       console.log('response:', res);
+    //       let dbIdsObj = {documentId: res.data.id, gameId: res.data.gameId};
+    //       let workingDocObj = {...this.state.workingDoc, ...res.data};
+    //       let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
+    //       let stateObj = {
+    //         dbIds: dbIdsObj,
+    //         workingDoc: workingDocObj,
+    //         recordInput: emptyRecordInputObj,
+    //         hours: '',
+    //         minutes: '',
+    //         seconds: '',
+    //         milliseconds: '',
+    //         showMilliseconds: false
+    //       };
+    //       this.setState(() => stateObj, () => {
+    //         if (blockPageChange === undefined) this.changePage();
+    //         else if (blockPageChange === false) this.changePage(this.state.totalPages);
+    //       });
+    //     })
+    //     .catch(err => {
+    //       console.log('error:', err);
+    //     });
+    // // submitting individual Record data
+    // } else {
+    //   dataObj = {...this.state.recordInput, ...this.state.dbIds, recordType: this.state.chartType === 'speedrun' ? 'time' : 'score'};
+    //   if (this.state.workingDoc.records[this.state.currentPage - 3] !== undefined) {
+    //     dataObj.id = this.state.workingDoc.records[this.state.currentPage - 3].id;
+    //   }
+    //   dataObj = convertInputs(dataObj);
+    //   console.log('dataObj before /api/create/newRecord:', dataObj);
+    //   axios.post('/api/create/newRecord', dataObj)
+    //     .then(res => {
+    //       console.log('response:', res);
+    //       if (!this.state.allPlayers.includes(res.data.playerName)) {
+    //         this.setState({allPlayers: this.state.allPlayers.concat(res.data.playerName)});
+    //       }
+    //       let workingDocObj = {...this.state.workingDoc};
+    //       if (workingDocObj.records[0].createdAt === undefined) {
+    //         workingDocObj.records.shift();
+    //         workingDocObj.records.push(res.data);
+    //       } else if (workingDocObj.records[this.state.currentPage - 3] !== undefined && workingDocObj.records[this.state.currentPage - 3].id === res.data.id) {
+    //         var updatedEarlierPage = true;
+    //         workingDocObj.records[this.state.currentPage - 3] = res.data;
+    //       } else {
+    //         workingDocObj.records.push(res.data);
+    //       }
+    //       workingDocObj.records.sort((a, b) => Date.UTC(a.year, a.month, a.day) > Date.UTC(b.year, b.month, b.day) ? 1 : -1);
+    //       console.log('workingDocObj after submitting new Record to DB, before updating State:', workingDocObj);
+    //       let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
+    //       let stateObj = {
+    //         recordInput: updatedEarlierPage ? this.state.recordInput : emptyRecordInputObj,
+    //         workingDoc: workingDocObj,
+    //         hours: updatedEarlierPage ? this.state.hours : '',
+    //         minutes: updatedEarlierPage ? this.state.minutes : '',
+    //         seconds: updatedEarlierPage ? this.state.seconds : '',
+    //         milliseconds: updatedEarlierPage ? this.state.milliseconds : '',
+    //         showMilliseconds: updatedEarlierPage ? this.state.showMilliseconds : false
+    //       };
+    //       this.setState(() => stateObj, () => {
+    //         if (blockPageChange === undefined) this.changePage();
+    //         else if (blockPageChange === false) this.changePage(this.state.totalPages);
+    //       });
+    //     })
+    //     .catch(err => console.log('error:', err));
+    // }
   }
 
   handleFinish = () => {
@@ -466,6 +515,7 @@ export default class CreateChartPage extends React.Component {
                     <ChangelogButtonGroup
                       finished={this.state.finished}
                       handleFinish={this.handleFinish}
+                      finishButtonDisabled={this.state.finishButtonDisabled}
                     />
                   </ChangelogBox>
                 </CreateChartPageWrapper>
