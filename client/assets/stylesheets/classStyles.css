@@ -283,6 +283,33 @@ h1, h2, h3, h4, h5, h6 {
   overflow: unset !important;
 }
 
+.ant-card-head {
+  padding: 1em !important;
+  margin: 0 !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+  background: #e4b2ff !important;
+  border-color: #d19bef !important;
+  min-height: calc(3em + 11px) !important;
+}
+
+.ant-card-head-title {
+  padding: 0 !important;
+}
+
+.ant-card-extra {
+  padding: 0 !important;
+}
+
+.ant-card-body {
+  padding: 1em !important;
+  margin: 0 !important;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  background: inherit !important;
+  border-color: #d19bef !important;
+}
+
 /* .create-chart-top-button {
   color: rgba(0, 0, 0, 0.65);
   border-color: rgba(0, 0, 0, 0.65);
@@ -312,15 +339,4 @@ h1, h2, h3, h4, h5, h6 {
 
 .right-side-tab-pane {
   justify-self: end;
-}
-
-.ant-card-head {
-  background: inherit !important;
-  border-color: #d19bef !important;
-}
-
-.ant-card-body {
-  background: inherit !important;
-  border-color: #d19bef !important;
-  padding-bottom: 0 !important;
 }

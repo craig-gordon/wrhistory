@@ -7,7 +7,7 @@ import Card from 'antd/lib/card';
 import 'antd/lib/card/style/index.css';
 import '../../../assets/stylesheets/classStyles.css';
 
-import { formatYMDToDateStr } from '../../../utils/datetimeUtils.js';
+import { secsToTs, formatYMDToMonthDayYear } from '../../../utils/datetimeUtils.js';
 
 // No-Values Record Input State Object
 
@@ -214,16 +214,19 @@ export const createConsoleMap = (allConsolesStateObj) => {
 
 const Slide = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, calc(100% / 3));
-  margin-bottom: 5%;
+  grid-template-columns: repeat(3, calc((100% / 3) - 10px));
+  grid-gap: 15px;
+  margin: 0 30px 4% 30px;
   background: inherit !important;
   border: #d19bef !important;
 `;
 
 const Slot = styled(Card)`
-  background: inherit !important;
+  background: rgb(232, 193, 255) !important
   border: #d19bef !important;
+  border-radius: 8px !important;
   text-align: start !important;
+  word-wrap: break-word;
 `;
 
 const Label = styled.span`
@@ -234,13 +237,13 @@ const Label = styled.span`
 
 // Create Changelog Slides
 
-export const createChangelogSlides = (changelog) => {
+export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
   // 1 slot = 1 chart / record entry
   // 1 slide = 3 slots
   const slots = changelog.map((item, i) => {
 
     // create Chart info slot
-    if (item.gameTitle) {
+    if (item.changeType === 'chart') {
       return (
         <Slot
           key={i}
@@ -248,25 +251,26 @@ export const createChangelogSlides = (changelog) => {
           hoverable={true}
           extra={`change #${i + 1}`}
         >
-          <div><Label>Leaderboard URL</Label>{item.leaderboardUrl}</div>
+          {item.leaderboardUrl ? <div><Label>Leaderboard URL</Label>{item.leaderboardUrl}</div> : null}
         </Slot>
       );
 
     // create Record info slot
-    } else if (item.playerName) {
+    } else if (item.changeType === 'record') {
       return (
         <Slot
           key={i}
-          title={`${item.playerName} — ${item.mark}`}
+          title={`${item.playerName} — ${chartType === 'speedrun' ? secsToTs(item.mark) : item.mark}`}
           hoverable={true}
           extra={`change #${i + 1}`}
+          onClick={() => goToRecordPage(item.recordPage)}
         >
-          <div><Label>Date</Label>{formatYMDToDateStr(item.year, item.month, item.day)}</div>
-          <div><Label>VOD</Label>{item.vodUrl}</div>
-          <div><Label>Label</Label>{item.labelText}</div>
-          <div><Label>Tooltip</Label>{item.tooltipNote}</div>
-          <div><Label>Detailed</Label>{item.detailedText}</div>
-          <div><Label>Milestone</Label>{item.isMilestone}</div>
+          <div><Label>Date</Label>{formatYMDToMonthDayYear(item.year, item.month, item.day)}</div>
+          {item.vodUrl ? <div><Label>VOD</Label>{item.vodUrl}</div> : null}
+          {item.labelText ? <div><Label>Label</Label>{item.labelText}</div> : null}
+          {item.tooltipNote ? <div><Label>Tooltip</Label>{item.tooltipNote}</div> : null}
+          {item.detailedText ? <div><Label>Detailed</Label>{item.detailedText}</div> : null}
+          {item.isMilestone ? <div><Label>Milestone</Label>{item.isMilestone}</div> : null}
         </Slot>
       );
 
@@ -279,9 +283,8 @@ export const createChangelogSlides = (changelog) => {
           hoverable={true}
           extra={`example`}
         >
-          <div><Label>Date</Label>{formatYMDToDateStr(1970, 0, 1)}</div>
+          <div><Label>Date</Label>{formatYMDToMonthDayYear(1970, 0, 1)}</div>
           <div><Label>Detailed</Label>This is an example changelog item.</div>
-          <div><Label>Milestone</Label>false</div>
         </Slot>
       )
     }
@@ -296,7 +299,7 @@ export const createChangelogSlides = (changelog) => {
         <Slide>
           {slots[1]}
           {slots[0]}
-          <Slot />
+          <Slot title={' '} />
         </Slide>
       );
 
@@ -305,8 +308,8 @@ export const createChangelogSlides = (changelog) => {
       slides.push(
         <Slide>
           {slots[0]}
-          <Slot />
-          <Slot />
+          <Slot title={' '} />
+          <Slot title={' '} />
         </Slide>
       );
 

@@ -39,6 +39,7 @@ export const ChartBox = GreenBox.extend`
 `;
 
 export const ChangelogBox = PurpleBox.extend`
+  padding: 20px 0;
 `;
 
 export const CurrentPageIcon = styled.span`

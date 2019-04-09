@@ -147,4 +147,10 @@ export const formatYMDToDateStr = function(year, month, day) {
   dateStr = dateStr + monthMap[month] + ' ';
   dateStr = dateStr + day + ', ' + year;
   return dateStr;
-}
+};
+
+export const formatYMDToMonthDayYear = function(year, month, day) {
+  const monthStr = (month + 1).toString();
+  const dayStr = day.toString().length === 1 ? '0' + day : String(day);
+  return `${monthStr}/${dayStr}/${year}`;
+};

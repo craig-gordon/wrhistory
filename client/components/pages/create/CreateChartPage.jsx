@@ -243,15 +243,18 @@ export default class CreateChartPage extends React.Component {
   saveToChangelog = (chartOrRecord) => {
     // saving new Chart data
     if (chartOrRecord === 'chartInput') {
-      let chartData = {...this.state.chartInput};
-      let changelog = this.state.changelog[0] === 'example'
-                        ? [chartData]
-                        : [...this.state.changelog, chartData];
-      let workingDoc = {
+      const newChange = {
+        ...this.state.chartInput,
+        changeType: 'chart'
+      };
+      const changelog = this.state.changelog[0] === 'example'
+                        ? [newChange]
+                        : [...this.state.changelog, newChange];
+      const workingDoc = {
         ...this.state.workingDoc,
-        gameTitle: chartData.gameTitle,
-        category: chartData.category,
-        leaderboardUrl: chartData.leaderboardUrl
+        gameTitle: newChange.gameTitle,
+        category: newChange.category,
+        leaderboardUrl: newChange.leaderboardUrl
       };
 
       this.setState(() => ({
@@ -264,21 +267,25 @@ export default class CreateChartPage extends React.Component {
     
     // saving new Record data
     } else {
-      let recordData = {...this.state.recordInput};
+      let newChange = {
+        ...this.state.recordInput,
+        changeType: 'record',
+        recordPage: this.state.currentPage
+      };
       let allRecords = [...this.state.workingDoc.records];
       let recordsCount = allRecords.length;
 
       // if saving a new record
       if (this.state.currentPage === recordsCount + 1) {
-        allRecords.push(recordData);
+        allRecords.push(newChange);
       // if editing an existing record
       } else {
-        allRecords.splice(this.state.currentPage - 1, 1, recordData);
+        allRecords.splice(this.state.currentPage - 1, 1, newChange);
       }
 
       let changelog = this.state.changelog[0] === 'example'
-                        ? [recordData]
-                        : [...this.state.changelog, recordData];
+                        ? [newChange]
+                        : [...this.state.changelog, newChange];
       let workingDoc = {
         ...this.state.workingDoc,
         records: allRecords
@@ -511,7 +518,11 @@ export default class CreateChartPage extends React.Component {
                   {/* CHANGELOG BOX */}
                   <ChangelogBox>
                     <ColumnHeader>Changelog</ColumnHeader>
-                    <Changelog changelog={this.state.changelog} />
+                    <Changelog
+                      changelog={this.state.changelog}
+                      chartType={this.state.chartType}
+                      changePage={this.changePage}
+                    />
                     <ChangelogButtonGroup
                       finished={this.state.finished}
                       handleFinish={this.handleFinish}

@@ -11,9 +11,8 @@ const Changelog = (props) => (
     showIndicators={true}
     showThumbs={false}
     showStatus={false}
-    selectedItem={props.selected}
   >
-    {createChangelogSlides(props.changelog)}
+    {createChangelogSlides(props.changelog, props.chartType, props.changePage)}
   </Carousel>
 );
 
