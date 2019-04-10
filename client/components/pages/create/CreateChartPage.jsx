@@ -508,13 +508,15 @@ export default class CreateChartPage extends React.Component {
                     />
                   </RecordInputBox>
                   {/* CHART BOX */}
-                  <ChartBox>
+                  <div style={{gridRow: 'span 2'}}>
                     <Chart
                       document={this.state.workingDoc}
                       dataLoaded={true}
                       allowReflow={true}
+                      location='create'
+                      changePage={this.changePage}
                     />
-                  </ChartBox>
+                  </div>
                   {/* CHANGELOG BOX */}
                   <ChangelogBox>
                     <ColumnHeader>Changelog</ColumnHeader>

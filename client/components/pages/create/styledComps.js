@@ -17,7 +17,7 @@ export const CreateChartPageWrapper = styled.div`
   grid-auto-flow: column;
 `;
 
-export const ChartInputBox = BlueBox.extend`
+export const ChartInputBox = GreenBox.extend`
 `;
 
 export const RecordInputBox = BlueBox.extend`

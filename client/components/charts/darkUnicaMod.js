@@ -1,6 +1,7 @@
 const darkUnicaMod = {
   chart: {
     style: {
+      // boxShadow: '3px 3px 5px rgba(61, 61, 61, 0.4)',
       fontFamily: 'Franklin Gothic, sans-serif'
     },
     borderColor: '#1c1c1c',

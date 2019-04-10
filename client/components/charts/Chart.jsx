@@ -40,7 +40,7 @@ class Chart extends React.PureComponent {
   }
 
   render() {
-    let currentEndpoint = this.props.currentEndpoint;
+    let location = this.props.location;
     let history = this.props.history;
     let document = this.props.document;
     let records = document ? document.records : undefined;
@@ -57,7 +57,7 @@ class Chart extends React.PureComponent {
         events: {
           load: dataLoaded
                   ? function() {
-                      currentEndpoint === '/' ? addViewFullChartButton.call(this, gameEndpoint, history) : null;
+                      location === 'home' ? addViewFullChartButton.call(this, gameEndpoint, history) : null;
                     }
                   : addSpinnerToChart
         }
@@ -118,7 +118,13 @@ class Chart extends React.PureComponent {
       legend: {
         layout: 'horizontal'
       },
-      series: createChartSeries(records, document ? document.type : undefined, this.props.changeSelectedChartPoint)
+      series: createChartSeries(
+        records,
+        document ? document.type : undefined,
+        this.props.location,
+        this.props.changeSelectedChartPoint,
+        this.props.changePage
+      )
     };
 
     return (

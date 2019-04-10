@@ -113,6 +113,7 @@ export default class GamePage extends React.Component {
               <Chart
                 document={this.state.document}
                 dataLoaded={this.state.loaded}
+                location='game'
                 selectedChartPoint={this.state.selectedChartPoint}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
               />

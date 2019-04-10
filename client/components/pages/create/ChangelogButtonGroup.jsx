@@ -11,7 +11,6 @@ const ButtonContainer = styled.div`
 const ChangelogButtonGroup = (props) => (
   <ButtonContainer>
     <Button
-      className={props.finished ? 'green-btn-view-chart' : 'green-btn-finish'}
       type='primary'
       size='large'
       disabled={props.finishButtonDisabled}

@@ -233,6 +233,7 @@ const Label = styled.span`
   color: rgb(66, 66, 66);
   margin-right: 8px;
   font-weight: bold;
+  white-space: nowrap !important;
 `;
 
 // Create Changelog Slides
@@ -249,9 +250,9 @@ export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
           key={i}
           title={`${item.gameTitle} — ${item.category}`}
           hoverable={true}
-          extra={`change #${i + 1}`}
+          extra={i + 1}
         >
-          {item.leaderboardUrl ? <div><Label>Leaderboard URL</Label>{item.leaderboardUrl}</div> : null}
+          {item.leaderboardUrl ? <div><Label>Leaderboard</Label>{item.leaderboardUrl}</div> : null}
         </Slot>
       );
 
@@ -262,7 +263,7 @@ export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
           key={i}
           title={`${item.playerName} — ${chartType === 'speedrun' ? secsToTs(item.mark) : item.mark}`}
           hoverable={true}
-          extra={`change #${i + 1}`}
+          extra={i + 1}
           onClick={() => goToRecordPage(item.recordPage)}
         >
           <div><Label>Date</Label>{formatYMDToMonthDayYear(item.year, item.month, item.day)}</div>
@@ -270,7 +271,7 @@ export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
           {item.labelText ? <div><Label>Label</Label>{item.labelText}</div> : null}
           {item.tooltipNote ? <div><Label>Tooltip</Label>{item.tooltipNote}</div> : null}
           {item.detailedText ? <div><Label>Detailed</Label>{item.detailedText}</div> : null}
-          {item.isMilestone ? <div><Label>Milestone</Label>{item.isMilestone}</div> : null}
+          {item.isMilestone ? <div><Label>Milestone</Label>{item.isMilestone ? 'Yes' : 'No'}</div> : null}
         </Slot>
       );
 
@@ -283,7 +284,6 @@ export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
           hoverable={true}
           extra={`example`}
         >
-          <div><Label>Date</Label>{formatYMDToMonthDayYear(1970, 0, 1)}</div>
           <div><Label>Detailed</Label>This is an example changelog item.</div>
         </Slot>
       )
@@ -299,7 +299,7 @@ export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
         <Slide>
           {slots[1]}
           {slots[0]}
-          <Slot title={' '} />
+          <Slot title={' '} style={{display: 'none'}} />
         </Slide>
       );
 
@@ -308,8 +308,8 @@ export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
       slides.push(
         <Slide>
           {slots[0]}
-          <Slot title={' '} />
-          <Slot title={' '} />
+          <Slot title={' '} style={{display: 'none'}} />
+          <Slot title={' '} style={{display: 'none'}} />
         </Slide>
       );
 

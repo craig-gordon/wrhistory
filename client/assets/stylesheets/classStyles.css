@@ -308,6 +308,7 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom-right-radius: 8px !important;
   background: inherit !important;
   border-color: #d19bef !important;
+  min-height: 12.5em !important;
 }
 
 /* .create-chart-top-button {

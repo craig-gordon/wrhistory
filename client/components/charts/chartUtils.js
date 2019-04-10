@@ -217,7 +217,7 @@ export const createChartData = function(records, documentType) {
   return recordsArray.concat(finalDummyRecord);
 };
 
-export const createChartSeries = function(records = [], documentType = 'speedrun', changeSelectedChartPoint) {
+export const createChartSeries = function(records = [], documentType = 'speedrun', location, changeSelectedChartPoint, changePage) {
   const playerColors = [
     'rgba(144, 238, 126, 0.7)',
     'rgba(244, 91, 91, 0.7)',
@@ -249,7 +249,11 @@ export const createChartSeries = function(records = [], documentType = 'speedrun
         zoneAxis: 'x',
         events: {
           click: function(e) {
-            changeSelectedChartPoint(e, records);
+            if (location === 'create') {
+              changePage(e.point.index + 1);
+            } else if (location === 'game') {
+              changeSelectedChartPoint(e, records);
+            }
           }
         },
         data: createChartData(records, documentType)
