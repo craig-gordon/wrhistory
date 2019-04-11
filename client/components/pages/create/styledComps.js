@@ -12,7 +12,7 @@ export const ColumnHeader = styled.h3`
 export const CreateChartPageWrapper = styled.div`
   display: grid;
   grid-template-rows: repeat(3, auto);
-  grid-template-columns: 38% 62%;
+  grid-template-columns: 40% 60%;
   grid-gap: 20px;
   grid-auto-flow: column;
 `;

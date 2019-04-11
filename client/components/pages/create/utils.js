@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+
+import ChangelogCard from './ChangelogCard.jsx';
 import Select from 'antd/lib/select';
 const Option = Select.Option;
 import 'antd/lib/select/style/index.css';
-import Card from 'antd/lib/card';
-import 'antd/lib/card/style/index.css';
 import '../../../assets/stylesheets/classStyles.css';
-
-import { secsToTs, formatYMDToMonthDayYear } from '../../../utils/datetimeUtils.js';
 
 // No-Values Record Input State Object
 
@@ -214,163 +212,84 @@ export const createConsoleMap = (allConsolesStateObj) => {
 
 const Slide = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, calc((100% / 3) - 10px));
+  grid-template-columns: repeat(2, calc((100% / 2) - 10px));
   grid-gap: 15px;
   margin: 0 30px 4% 30px;
   background: inherit !important;
   border: #d19bef !important;
 `;
 
-const Slot = styled(Card)`
-  background: rgb(232, 193, 255) !important
-  border: #d19bef !important;
-  border-radius: 8px !important;
-  text-align: start !important;
-  word-wrap: break-word;
-`;
-
-const Label = styled.span`
-  color: rgb(66, 66, 66);
-  margin-right: 8px;
-  font-weight: bold;
-  white-space: nowrap !important;
-`;
-
 // Create Changelog Slides
 
-export const createChangelogSlides = (changelog, chartType, goToRecordPage) => {
-  // 1 slot = 1 chart / record entry
-  // 1 slide = 3 slots
-  const slots = changelog.map((item, i) => {
-
-    // create Chart info slot
-    if (item.changeType === 'chart') {
+export const createChangelogSlides = (changelog, chartType, changePage) => {
+  // 1 card = 1 chart / record / example entry
+  // 1 slide = 2 cards
+  const cards = changelog.map((card, i) => {
+    if (card.changeType === 'chart') {
       return (
-        <Slot
+        <ChangelogCard
           key={i}
-          title={`${item.gameTitle} — ${item.category}`}
-          hoverable={true}
-          extra={i + 1}
-        >
-          {item.leaderboardUrl ? <div><Label>Leaderboard</Label>{item.leaderboardUrl}</div> : null}
-        </Slot>
+          chartType={chartType}
+          cardType='chart'
+          card={card}
+          number={i + 1}
+        />
       );
-
-    // create Record info slot
-    } else if (item.changeType === 'record') {
+    } else if (card.changeType === 'record') {
       return (
-        <Slot
+        <ChangelogCard
           key={i}
-          title={`${item.playerName} — ${chartType === 'speedrun' ? secsToTs(item.mark) : item.mark}`}
-          hoverable={true}
-          extra={i + 1}
-          onClick={() => goToRecordPage(item.recordPage)}
-        >
-          <div><Label>Date</Label>{formatYMDToMonthDayYear(item.year, item.month, item.day)}</div>
-          {item.vodUrl ? <div><Label>VOD</Label>{item.vodUrl}</div> : null}
-          {item.labelText ? <div><Label>Label</Label>{item.labelText}</div> : null}
-          {item.tooltipNote ? <div><Label>Tooltip</Label>{item.tooltipNote}</div> : null}
-          {item.detailedText ? <div><Label>Detailed</Label>{item.detailedText}</div> : null}
-          {item.isMilestone ? <div><Label>Milestone</Label>{item.isMilestone ? 'Yes' : 'No'}</div> : null}
-        </Slot>
+          chartType={chartType}
+          cardType='record'
+          card={card}
+          number={i + 1}
+          changePage={changePage}
+        />
       );
-
-    // create initial info slot
     } else {
       return (
-        <Slot
+        <ChangelogCard
           key={i}
+          chartType={chartType}
+          cardType='example'
+          card={card}
           title={'No changes yet'}
-          hoverable={true}
-          extra={`example`}
-        >
-          <div><Label>Detailed</Label>This is an example changelog item.</div>
-        </Slot>
+          number={null}
+        />
       )
     }
   });
 
   const slides = [];
 
-  for (let i = slots.length - 1; i >= 0; i -= 3) {
-    // only 2 entries left to process
-    if (i === 1) {
-      slides.push(
-        <Slide>
-          {slots[1]}
-          {slots[0]}
-          <Slot title={' '} style={{display: 'none'}} />
-        </Slide>
-      );
-
+  for (let i = cards.length - 1; i >= 0; i -= 2) {
     // only 1 entry left to process
-    } else if (i === 0) {
+    if (i === 0) {
       slides.push(
-        <Slide>
-          {slots[0]}
-          <Slot title={' '} style={{display: 'none'}} />
-          <Slot title={' '} style={{display: 'none'}} />
+        <Slide key={i}>
+          {cards[0]}
+          <ChangelogCard
+            title={' '}
+            chartType={chartType}
+            cardType='example'
+            card={{}}
+            hide={true}
+          />
         </Slide>
       );
 
-    // 3 or more entries left to process
+    // 2 or more entries left to process
     } else {
       slides.push(
-        <Slide>
-          {slots[i]}
-          {slots[i-1]}
-          {slots[i-2]}
+        <Slide key={i}>
+          {cards[i]}
+          {cards[i-1]}
         </Slide>
       );
     }
   }
 
   return slides;
-};
-
-// Create Sample Changelog Slides
-
-export const createSampleChangelogSlides = (changelog) => {
-  return ['', '', ''].map((elem, i) => (
-    <Slide key={i}>
-      <Slot
-        title='coolkid — 26:37.01'
-        hoverable={true}
-        extra={`change #${1+i*3}`}
-      >
-        <div><Label>Date</Label>05/08/2018</div>
-        <div><Label>VOD</Label>https://www.twitch.tv/videos/...</div>
-        <div><Label>Label</Label></div>
-        <div><Label>Tooltip</Label></div>
-        <div><Label>Detailed</Label>After some 8500 attempts and months of dedicated grinding, ...</div>
-        <div><Label>Milestone</Label>no</div>
-      </Slot>
-      <Slot
-        title='cyghfer — 26:37.17'
-        hoverable={true}
-        extra={`change #${2+i*3}`}
-      >
-        <div><Label>Date</Label>04/04/2018</div>
-        <div><Label>VOD</Label>https://www.twitch.tv/videos/...</div>
-        <div><Label>Label</Label></div>
-        <div><Label>Tooltip</Label></div>
-        <div><Label>Detailed</Label>cyghfer finally achieved a milestone once thought to be an unattainable dream, ...</div>
-        <div><Label>Milestone</Label>no</div>
-      </Slot>
-      <Slot
-        title='cyghfer — 26:41'
-        hoverable={true}
-        extra={`change #${3+i*3}`}
-      >
-        <div><Label>Date</Label>04/04/2018</div>
-        <div><Label>VOD</Label>https://www.twitch.tv/videos/...</div>
-        <div><Label>Label</Label></div>
-        <div><Label>Tooltip</Label></div>
-        <div><Label>Detailed</Label>cyghfer finally achieved a milestone once thought to be an unattainable dream, ...</div>
-        <div><Label>Milestone</Label>no</div>
-      </Slot>
-    </Slide>
-  ))
 };
 
 // Strip game of punctuation for auto-generated abbreviations

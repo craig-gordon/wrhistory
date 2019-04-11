@@ -44,7 +44,7 @@ export default class CreateChartPage extends React.Component {
       totalPages: this.pipedState.totalPages || 1,
       chartType: this.pipedState.chartType || undefined,
       workingDoc: this.pipedState.workingDoc || undefined,
-      changelog: ['example'],
+      changelog: [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}],
       submitGameOpen: false,
       allGames: [],
       allPlayers: [],
@@ -234,7 +234,7 @@ export default class CreateChartPage extends React.Component {
         this.setState({finishButtonDisabled: false});
       }
     } else {
-      if (this.state.changelog[0] !== 'example') {
+      if (!this.state.changelog[0].exampleTitle) {
         this.setState({finishButtonDisabled: false});
       }
     }
@@ -247,7 +247,7 @@ export default class CreateChartPage extends React.Component {
         ...this.state.chartInput,
         changeType: 'chart'
       };
-      const changelog = this.state.changelog[0] === 'example'
+      const changelog = this.state.changelog[0].exampleTitle
                         ? [newChange]
                         : [...this.state.changelog, newChange];
       const workingDoc = {
@@ -283,7 +283,7 @@ export default class CreateChartPage extends React.Component {
         allRecords.splice(this.state.currentPage - 1, 1, newChange);
       }
 
-      let changelog = this.state.changelog[0] === 'example'
+      let changelog = this.state.changelog[0].exampleTitle
                         ? [newChange]
                         : [...this.state.changelog, newChange];
       let workingDoc = {
