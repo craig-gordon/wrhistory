@@ -221,7 +221,7 @@ const Slide = styled.div`
 
 // Create Changelog Slides
 
-export const createChangelogSlides = (changelog, chartType, changePage) => {
+export const createChangelogSlides = (changelog, chartType, changePage, deleteChangelogItem) => {
   // 1 card = 1 chart / record / example entry
   // 1 slide = 2 cards
   const cards = changelog.map((card, i) => {
@@ -232,7 +232,9 @@ export const createChangelogSlides = (changelog, chartType, changePage) => {
           chartType={chartType}
           cardType='chart'
           card={card}
-          cardNumber={i + 1}
+          changelogIdx={i}
+          obsolete={card.isPrevVersion}
+          deleteChangelogItem={deleteChangelogItem}
         />
       );
     } else if (card.changeType === 'record') {
@@ -242,9 +244,11 @@ export const createChangelogSlides = (changelog, chartType, changePage) => {
           chartType={chartType}
           cardType='record'
           card={card}
-          cardNumber={i + 1}
+          changelogIdx={i}
           recordPage={card.recordPage}
           changePage={changePage}
+          obsolete={card.isPrevVersion}
+          deleteChangelogItem={deleteChangelogItem}
         />
       );
     } else {
@@ -255,7 +259,7 @@ export const createChangelogSlides = (changelog, chartType, changePage) => {
           cardType='example'
           card={card}
           title={'No changes yet'}
-          cardNumber={null}
+          changelogIdx={null}
         />
       )
     }

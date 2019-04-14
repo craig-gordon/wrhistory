@@ -308,13 +308,30 @@ export default class CreateChartPage extends React.Component {
   saveToChangelog = (chartOrRecord) => {
     // saving new Chart data
     if (chartOrRecord === 'chartInput') {
+      let prevVersion = null;
+      let prevVersionIdx = null;
+      for (let i = this.state.changelog.length - 1; i >= 0; i--) {
+        const change = {...this.state.changelog[i]};
+        if (change.changeType === 'chart') {
+          prevVersion = change;
+          prevVersionIdx = i;
+          break;
+        }
+      }
       const newChange = {
         ...this.state.chartInput,
-        changeType: 'chart'
+        changeType: 'chart',
+        isPrevVersion: false,
+        prevVersion,
+        prevVersionIdx
       };
       const changelog = this.state.changelog[0].exampleTitle
                         ? [newChange]
                         : [...this.state.changelog, newChange];
+      if (prevVersionIdx !== null) {
+        const prevVersionChange = {...this.state.changelog[prevVersionIdx], isPrevVersion: true};
+        changelog[prevVersionIdx] = prevVersionChange;
+      }
       const workingDoc = {
         ...this.state.workingDoc,
         gameTitle: newChange.gameTitle,
@@ -322,17 +339,19 @@ export default class CreateChartPage extends React.Component {
         leaderboardUrl: newChange.leaderboardUrl
       };
 
-      this.setState(() => ({
+      this.setState({
         changelog,
         workingDoc
-      }));
+      });
     
     // saving new Record data
     } else {
+      const prevVersion = this.state.changelog.filter(change => change.recordPage === this.state.currentPage)[0] || null;
       let newChange = {
         ...this.state.recordInput,
         changeType: 'record',
-        recordPage: this.state.currentPage
+        recordPage: this.state.currentPage,
+        prevVersion
       };
       let allRecords = [...this.state.workingDoc.records];
       let recordsCount = allRecords.length;
@@ -362,117 +381,52 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  // REWORK THIS ENTIRE FUNCTION!
-  // SUBMIT DATA ONLY AT CONCLUSION OF CREATE/EDIT PROCESS!
-  // submitData = () => {
+  deleteChangelogItem = (type, idx) => {
+    if (type === 'chart') {
+      let changelog = [...this.state.changelog];
+      const changeToBeDeleted = changelog.splice(idx, 1)[0];
 
-    // submitting a new Document + Records
-    // if (this.location === '/create') {
-    //   const { gameTitle, category, leaderboardUrl, uriEndpoint } = convertInputs(this.state.workingDoc);
-    //   const records = this.state.workingDoc.records.map(record => convertInputs(record));
-    //   const data = {
-    //     chartType: this.state.chartType,
-    //     gameTitle,
-    //     category,
-    //     leaderboardUrl,
-    //     uriEndpoint,
-    //     records
-    //   };
-      
-      // axios.post('/api/create/newDocument', data)
-      //   .then(res => {
-      //     console.log('response:', res);
-      //   })
-      //   .catch(err => {
-      //     console.log('error:', err);
-      //   });
+      const prevVersionChange = changeToBeDeleted.prevVersion;
+      const prevVersionIdx = changeToBeDeleted.prevVersionIdx;
 
-    // editing an existing Document
-    // } else {
-      // const changes = this.state.changelog.map(change => convertInputs(change));
+      if (prevVersionChange === null) {
+        const { gameTitle, category, gameReleaseDate, leaderboardUrl } = type === 'speedrun' ? speedrunDocument : highscoreDocument;
+        const chartInput = {gameTitle: '', category: '', leaderboardUrl: undefined};
+        if (!changelog.length) {
+          changelog = [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}];
+        }
 
-      // axios.post('/api/create/editDocument', changes)
-      //   .then(res => {
-      //     console.log('response:', res);
-      //   })
-      //   .catch(err => {
-      //     console.log('error:', err);
-      //   });
-    // }
+        this.setState({
+          workingDoc: {
+            ...this.state.workingDoc,
+            gameTitle,
+            category,
+            gameReleaseDate,
+            leaderboardUrl
+          },
+          chartInput,
+          changelog
+        });
+      } else {
+        prevVersionChange.isPrevVersion = false;
+        changelog[prevVersionIdx] = prevVersionChange;
 
-    // // submitting Chart data
-    // if (this.state.currentPage === 2) {
-    //   let convertedChartInputs = convertInputs(this.state.chartInput);
-    //   dataObj = {...convertedChartInputs, chartType: this.state.chartType};
-    //   if (this.state.dbIds.documentId) dataObj.id = this.state.dbIds.documentId;
-    //   axios.post('/api/create/newDocument', dataObj)
-    //     .then(res => {
-    //       console.log('response:', res);
-    //       let dbIdsObj = {documentId: res.data.id, gameId: res.data.gameId};
-    //       let workingDocObj = {...this.state.workingDoc, ...res.data};
-    //       let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
-    //       let stateObj = {
-    //         dbIds: dbIdsObj,
-    //         workingDoc: workingDocObj,
-    //         recordInput: emptyRecordInputObj,
-    //         hours: '',
-    //         minutes: '',
-    //         seconds: '',
-    //         milliseconds: '',
-    //         showMilliseconds: false
-    //       };
-    //       this.setState(() => stateObj, () => {
-    //         if (blockPageChange === undefined) this.changePage();
-    //         else if (blockPageChange === false) this.changePage(this.state.totalPages);
-    //       });
-    //     })
-    //     .catch(err => {
-    //       console.log('error:', err);
-    //     });
-    // // submitting individual Record data
-    // } else {
-    //   dataObj = {...this.state.recordInput, ...this.state.dbIds, recordType: this.state.chartType === 'speedrun' ? 'time' : 'score'};
-    //   if (this.state.workingDoc.records[this.state.currentPage - 3] !== undefined) {
-    //     dataObj.id = this.state.workingDoc.records[this.state.currentPage - 3].id;
-    //   }
-    //   dataObj = convertInputs(dataObj);
-    //   console.log('dataObj before /api/create/newRecord:', dataObj);
-    //   axios.post('/api/create/newRecord', dataObj)
-    //     .then(res => {
-    //       console.log('response:', res);
-    //       if (!this.state.allPlayers.includes(res.data.playerName)) {
-    //         this.setState({allPlayers: this.state.allPlayers.concat(res.data.playerName)});
-    //       }
-    //       let workingDocObj = {...this.state.workingDoc};
-    //       if (workingDocObj.records[0].createdAt === undefined) {
-    //         workingDocObj.records.shift();
-    //         workingDocObj.records.push(res.data);
-    //       } else if (workingDocObj.records[this.state.currentPage - 3] !== undefined && workingDocObj.records[this.state.currentPage - 3].id === res.data.id) {
-    //         var updatedEarlierPage = true;
-    //         workingDocObj.records[this.state.currentPage - 3] = res.data;
-    //       } else {
-    //         workingDocObj.records.push(res.data);
-    //       }
-    //       workingDocObj.records.sort((a, b) => Date.UTC(a.year, a.month, a.day) > Date.UTC(b.year, b.month, b.day) ? 1 : -1);
-    //       console.log('workingDocObj after submitting new Record to DB, before updating State:', workingDocObj);
-    //       let emptyRecordInputObj = createEmptyRecordInputObj(this.state.workingDoc);
-    //       let stateObj = {
-    //         recordInput: updatedEarlierPage ? this.state.recordInput : emptyRecordInputObj,
-    //         workingDoc: workingDocObj,
-    //         hours: updatedEarlierPage ? this.state.hours : '',
-    //         minutes: updatedEarlierPage ? this.state.minutes : '',
-    //         seconds: updatedEarlierPage ? this.state.seconds : '',
-    //         milliseconds: updatedEarlierPage ? this.state.milliseconds : '',
-    //         showMilliseconds: updatedEarlierPage ? this.state.showMilliseconds : false
-    //       };
-    //       this.setState(() => stateObj, () => {
-    //         if (blockPageChange === undefined) this.changePage();
-    //         else if (blockPageChange === false) this.changePage(this.state.totalPages);
-    //       });
-    //     })
-    //     .catch(err => console.log('error:', err));
-    // }
-  // }
+        const { gameTitle, category, leaderboardUrl } = prevVersionChange;
+        const chartInput = { gameTitle, category, leaderboardUrl };
+        
+        this.setState({
+          workingDoc: {
+            ...this.state.workingDoc,
+            gameTitle,
+            category,
+            leaderboardUrl
+          },
+          chartInput,
+          changelog
+        });
+      }
+    }
+  }
 
   handleFinish = () => {
     if (this.state.finished) this.goToChartPage();
@@ -587,6 +541,7 @@ export default class CreateChartPage extends React.Component {
                       changelog={this.state.changelog}
                       chartType={this.state.chartType}
                       changePage={this.changePage}
+                      deleteChangelogItem={this.deleteChangelogItem}
                     />
                     <ChangelogButtonGroup
                       finished={this.state.finished}

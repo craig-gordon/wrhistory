@@ -25,13 +25,17 @@ const Card = styled.div`
   border-radius: 8px;
   text-align: start;
   word-wrap: break-word;
+  opacity: ${props => props.obsolete ? '0.35' : '1'};
 `;
 
 const Header = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   padding: 1em;
   margin: 0;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  color: rgb(56, 56, 56);
   background: ${props => colors[props.cardType].headerBackground};
   border: ${props => colors[props.cardType].border};
 `;
@@ -45,7 +49,22 @@ const RecordNumber = styled.span`
 `;
 
 const Title = styled.h4`
-  display: inline;
+  margin-bottom: 0;
+  margin-right: 1em;
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const DeleteIcon = styled.i`
+  transition: font-size .1s;
+
+  :hover {
+    color: black;
+    cursor: pointer;
+  }
 `;
 
 const Body = styled.div`
@@ -80,7 +99,7 @@ const ChangelogCard = (props) => {
   let { gameTitle, category, leaderboardUrl, playerName, mark, year, month, day, vodUrl, labelText, tooltipNote, detailedText, isMilestone, exampleTitle } = props.card;
   let title;
   if (props.cardType === 'chart') {
-    title = `${gameTitle} — ${category}`;
+    title = `${gameTitle}${category ? ` — ${category}` : ''}`;
   } else if (props.cardType === 'record') {
     title = `${playerName} — ${props.chartType === 'speedrun' ? secsToTs(mark) : mark}`;
   } else {
@@ -89,13 +108,25 @@ const ChangelogCard = (props) => {
   return (
     <Card
       cardType={props.cardType}
+      obsolete={props.obsolete}
       style={{display: props.hide ? 'none' : 'initial'}}
       onClick={() => props.changePage(props.recordPage)}
     >
       <Header cardType={props.cardType}>
-        {props.cardType === 'record' ? <RecordNumber cardType={props.cardType}>{props.recordPage}</RecordNumber> : null}
+        {props.cardType === 'record' ? <RecordNumber cardType={props.cardType}>{props.recordPage}</RecordNumber> : <span />}
         <Title>{title}</Title>
-        {/* <div className='anticon anticon-delete' /> */}
+        {props.cardType === 'example'
+          ? null
+          : <IconContainer>
+              <DeleteIcon
+                title='Undo Change'
+                className="far fa-trash-alt"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  props.deleteChangelogItem(props.cardType, props.changelogIdx);
+                }}
+              />
+            </IconContainer>}
       </Header>
       <Body cardType={props.cardType}>
         {/* Chart */}
