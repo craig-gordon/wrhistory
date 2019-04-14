@@ -25,6 +25,7 @@
     "highcharts": "^6.0.7",
     "highcharts-multicolor-series": "^2.2.4",
     "lodash.isequal": "^4.5.0",
+    "lodash.throttle": "^4.1.1",
     "nodemailer": "^4.6.8",
     "pg": "^7.7.1",
     "prop-types": "^15.6.2",

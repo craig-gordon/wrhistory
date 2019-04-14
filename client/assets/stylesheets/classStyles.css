@@ -133,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 4px;
   padding: 8px;
   z-index: auto !important;
-  transition: color 250ms ease, background-color 250ms ease;
+  transition: color 150ms ease, background-color 150ms ease;
 }
 
 .viewFullChartBtn:hover {

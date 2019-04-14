@@ -15,6 +15,7 @@ import RecordsTable from '../../charts/RecordsTable.jsx';
 import VodEmbed from './VodEmbed.jsx';
 import { GreenBox, BlueBox, PurpleBox } from '../../common/styledComps.js';
 import { convertNullsToEmptyStrs } from '../create/utils.js';
+import throttle from 'lodash.throttle';
 
 const GamePageContainer = styled.div`
   display: grid;
@@ -62,11 +63,11 @@ export default class GamePage extends React.Component {
     this.state = {
       loaded: false,
       document: undefined,
-      selectedChartPoint: null,
+      selectedChartPoint: -1,
       selectedCarouselItem: 0,
       selectedRun: null
     };
-    this.changeSelectedChartPoint = this.changeSelectedChartPoint.bind(this);
+    this.listenForArrowKeys = throttle(this.listenForArrowKeys.bind(this), 500);
   }
 
   componentDidMount() {
@@ -79,9 +80,24 @@ export default class GamePage extends React.Component {
       .catch(err => {
         console.log('Error retrieving Document from database:', err);
       });
+    
+    window.addEventListener('keydown', this.listenForArrowKeys);
   }
 
-  changeSelectedChartPoint(e, records) {
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.listenForArrowKeys);
+  }
+
+  listenForArrowKeys(e) {
+    const records = this.state.document.records;
+    if (e.keyCode === 39 && this.state.selectedChartPoint !== records.length - 1) {
+      this.changeSelectedChartPoint(this.state.selectedChartPoint + 1, records);
+    } else if (e.keyCode === 37 && this.state.selectedChartPoint !== 0) {
+      this.changeSelectedChartPoint(this.state.selectedChartPoint - 1, records);
+    }
+  };
+
+  changeSelectedChartPoint = (e, records) => {
     let pointIdx = typeof e === 'object' ? e.point.index : e;
     this.setState({
       selectedChartPoint: pointIdx,
