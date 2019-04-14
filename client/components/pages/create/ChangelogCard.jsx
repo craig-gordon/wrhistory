@@ -36,7 +36,7 @@ const Header = styled.div`
   border: ${props => colors[props.cardType].border};
 `;
 
-const Number = styled.span`
+const RecordNumber = styled.span`
   color: white;
   background-color: rgb(84, 84, 84);
   border-radius: 1.5em;
@@ -77,7 +77,6 @@ const Text = styled.span`
 `;
 
 const ChangelogCard = (props) => {
-  console.log('props.card:', props.card);
   let { gameTitle, category, leaderboardUrl, playerName, mark, year, month, day, vodUrl, labelText, tooltipNote, detailedText, isMilestone, exampleTitle } = props.card;
   let title;
   if (props.cardType === 'chart') {
@@ -91,11 +90,12 @@ const ChangelogCard = (props) => {
     <Card
       cardType={props.cardType}
       style={{display: props.hide ? 'none' : 'initial'}}
-      onClick={() => props.changePage(props.number)}
+      onClick={() => props.changePage(props.recordPage)}
     >
       <Header cardType={props.cardType}>
-        {props.cardType === 'example' ? null : <Number cardType={props.cardType}>{props.number}</Number>}
+        {props.cardType === 'record' ? <RecordNumber cardType={props.cardType}>{props.recordPage}</RecordNumber> : null}
         <Title>{title}</Title>
+        {/* <div className='anticon anticon-delete' /> */}
       </Header>
       <Body cardType={props.cardType}>
         {/* Chart */}

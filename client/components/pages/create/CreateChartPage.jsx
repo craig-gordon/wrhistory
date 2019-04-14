@@ -77,6 +77,8 @@ export default class CreateChartPage extends React.Component {
         documentId: undefined,
         gameId: undefined
       },
+      paginationDoubleLeftActive: false,
+      paginationDoubleRightActive: false,
       chartSaveButtonDisabled: true,
       recordSaveButtonDisabled: true,
       finishButtonDisabled: true
@@ -95,6 +97,8 @@ export default class CreateChartPage extends React.Component {
     axios.get('/api/create/allConsoles')
       .then(res => this.setState({allConsoles: res.data.sort((a, b) => a.abbrev > b.abbrev ? 1 : -1)}))
       .catch(err => console.log('error:', err));
+    
+      this.shouldPaginationDoubleArrowsBeActive();
   }
 
   setChartType = (type) => {
@@ -117,17 +121,39 @@ export default class CreateChartPage extends React.Component {
     });
   };
 
+  onLastPage = () => this.state.currentPage === this.state.totalPages;
+
   changePage = (pageNum) => {
     // turning to next blank page
     if (pageNum === undefined) {
-      this.setState({
-        currentPage: this.state.currentPage + 1,
-        totalPages: this.state.totalPages + 1
-      });
+      this.setState(
+        () => ({
+          currentPage: this.state.currentPage + 1,
+          totalPages: this.state.totalPages + 1
+        }),
+        () => {
+          this.shouldPaginationDoubleArrowsBeActive();
+          this.clearRecordInputs();
+        }
+      );
+    // going to last page during Create (last page is a blank record not in the Working Doc)
+    } else if (pageNum === this.state.totalPages && this.location === '/create') {
+      this.setState(
+        () => ({currentPage: pageNum}),
+        () => {
+          this.shouldPaginationDoubleArrowsBeActive();
+          this.clearRecordInputs();
+        }
+      );
     // going to any page
     } else {
-      this.setState({currentPage: pageNum});
-      this.hydratePage(pageNum);
+      this.setState(
+        () => ({currentPage: pageNum}),
+        () => {
+          this.shouldPaginationDoubleArrowsBeActive();
+          this.hydratePage(pageNum);
+        }
+      );
     }
   }
 
@@ -157,7 +183,7 @@ export default class CreateChartPage extends React.Component {
   }
 
   changeInput = (chartOrRecord, type, value) => {
-    let innerObj = this.state[chartOrRecord];
+    let innerObj = {...this.state[chartOrRecord]};
     innerObj[type] = value;
     let stateObj = {};
     stateObj[chartOrRecord] = innerObj;
@@ -174,6 +200,17 @@ export default class CreateChartPage extends React.Component {
     });
   }
 
+  clearRecordInputs = () => {
+    const emptyRecordInputObj = createEmptyRecordInputObj();
+    this.setState(
+      () => ({recordInput: emptyRecordInputObj}),
+      () => {
+        this.shouldSaveButtonBeDisabled('recordInput');
+        this.shouldFinishButtonBeDisabled();
+      }
+    );
+  }
+
   toggleMilliseconds = () => {
     if (this.state.showMilliseconds) {
       this.setState({milliseconds: '', showMilliseconds: false}, () => {
@@ -183,6 +220,23 @@ export default class CreateChartPage extends React.Component {
     } else {
       this.setState({showMilliseconds: true});
     }
+  }
+
+  shouldPaginationDoubleArrowsBeActive = () => {
+    let leftActive, rightActive;
+
+    if (this.state.currentPage !== 1 && this.state.totalPages > 1) {
+      leftActive = true;
+    }
+
+    if (this.state.currentPage !== this.state.totalPages && this.state.totalPages > 1) {
+      rightActive = true;
+    }
+
+    this.setState({
+      paginationDoubleLeftActive: leftActive,
+      paginationDoubleRightActive: rightActive,
+    });
   }
 
   shouldSaveButtonBeDisabled = (chartOrRecord) => {
@@ -210,19 +264,30 @@ export default class CreateChartPage extends React.Component {
         this.setState({chartSaveButtonDisabled: true});
       }
     } else if (chartOrRecord === 'recordInput') {
-      // No Record Information values have been saved yet
+      console.log('this.state.currentPage:', this.state.currentPage);
+      // Mark + Player Name do not have inputs
       if (this.state.recordInput.mark === '' || this.state.recordInput.playerName === '') {
         this.setState({recordSaveButtonDisabled: true});
-      } else {
-        let record = this.state.workingDoc.records[this.state.currentPage - 1];
-        let { playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText } = record;
-        // Current Record Information inputs DO NOT EQUAL the Working Document values -> ENABLE BUTTON
-        if (!isEqual({ playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText }, this.state.recordInput)) {
-          this.setState({recordSaveButtonDisabled: false});
 
-        // Current Record Information inputs DO EQUAL the Working Document values -> DISABLE BUTTON
+      // If Mark + Player Name have inputs, check other factors
+      } else {
+      
+        // If editing an existing record
+        if (this.state.currentPage !== this.state.totalPages) {
+          let record = this.state.workingDoc.records[this.state.currentPage - 1];
+          let { playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText } = record;
+          // Current Record Information inputs DO NOT EQUAL the Working Document values -> ENABLE BUTTON
+          if (!isEqual({ playerName, mark, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText }, this.state.recordInput)) {
+            this.setState({recordSaveButtonDisabled: false});
+
+          // Current Record Information inputs DO EQUAL the Working Document values -> DISABLE BUTTON
+          } else {
+            this.setState({recordSaveButtonDisabled: true});
+          }
+        
+        // If adding a new record
         } else {
-          this.setState({recordSaveButtonDisabled: true});
+          this.setState({recordSaveButtonDisabled: false});
         }
       }
     }
@@ -260,10 +325,7 @@ export default class CreateChartPage extends React.Component {
       this.setState(() => ({
         changelog,
         workingDoc
-      }), () => {
-        this.shouldSaveButtonBeDisabled('chartInput');
-        this.shouldFinishButtonBeDisabled();
-      });
+      }));
     
     // saving new Record data
     } else {
@@ -295,29 +357,27 @@ export default class CreateChartPage extends React.Component {
         changelog,
         workingDoc
       }), () => {
-        this.location === '/create' ? this.changePage() : null;
-        this.shouldSaveButtonBeDisabled('recordInput');
-        this.shouldFinishButtonBeDisabled();
+        this.location === '/create' && this.onLastPage() ? this.changePage() : null;
       });
     }
   }
 
   // REWORK THIS ENTIRE FUNCTION!
   // SUBMIT DATA ONLY AT CONCLUSION OF CREATE/EDIT PROCESS!
-  submitData = () => {
+  // submitData = () => {
 
     // submitting a new Document + Records
-    if (this.location === '/create') {
-      const { gameTitle, category, leaderboardUrl, uriEndpoint } = convertInputs(this.state.workingDoc);
-      const records = this.state.workingDoc.records.map(record => convertInputs(record));
-      const data = {
-        chartType: this.state.chartType,
-        gameTitle,
-        category,
-        leaderboardUrl,
-        uriEndpoint,
-        records
-      };
+    // if (this.location === '/create') {
+    //   const { gameTitle, category, leaderboardUrl, uriEndpoint } = convertInputs(this.state.workingDoc);
+    //   const records = this.state.workingDoc.records.map(record => convertInputs(record));
+    //   const data = {
+    //     chartType: this.state.chartType,
+    //     gameTitle,
+    //     category,
+    //     leaderboardUrl,
+    //     uriEndpoint,
+    //     records
+    //   };
       
       // axios.post('/api/create/newDocument', data)
       //   .then(res => {
@@ -328,8 +388,8 @@ export default class CreateChartPage extends React.Component {
       //   });
 
     // editing an existing Document
-    } else {
-      const changes = this.state.changelog.map(change => convertInputs(change));
+    // } else {
+      // const changes = this.state.changelog.map(change => convertInputs(change));
 
       // axios.post('/api/create/editDocument', changes)
       //   .then(res => {
@@ -338,7 +398,7 @@ export default class CreateChartPage extends React.Component {
       //   .catch(err => {
       //     console.log('error:', err);
       //   });
-    }
+    // }
 
     // // submitting Chart data
     // if (this.state.currentPage === 2) {
@@ -412,7 +472,7 @@ export default class CreateChartPage extends React.Component {
     //     })
     //     .catch(err => console.log('error:', err));
     // }
-  }
+  // }
 
   handleFinish = () => {
     if (this.state.finished) this.goToChartPage();
@@ -473,6 +533,8 @@ export default class CreateChartPage extends React.Component {
                         currentPage={this.state.currentPage}
                         totalPages={this.state.totalPages}
                         changePage={this.changePage}
+                        doubleLeftActive={this.state.paginationDoubleLeftActive}
+                        doubleRightActive={this.state.paginationDoubleRightActive}
                       />
                       <RecordInputHeader>
                         <span style={{color: 'rgb(84, 84, 84)', fontSize: '20px'}}>
@@ -505,6 +567,7 @@ export default class CreateChartPage extends React.Component {
                       saveToChangelog={this.saveToChangelog}
                       changePage={this.changePage}
                       handleFinish={this.handleFinish}
+                      location={this.location}
                     />
                   </RecordInputBox>
                   {/* CHART BOX */}

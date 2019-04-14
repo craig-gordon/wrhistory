@@ -232,7 +232,7 @@ export const createChangelogSlides = (changelog, chartType, changePage) => {
           chartType={chartType}
           cardType='chart'
           card={card}
-          number={i + 1}
+          cardNumber={i + 1}
         />
       );
     } else if (card.changeType === 'record') {
@@ -242,7 +242,8 @@ export const createChangelogSlides = (changelog, chartType, changePage) => {
           chartType={chartType}
           cardType='record'
           card={card}
-          number={i + 1}
+          cardNumber={i + 1}
+          recordPage={card.recordPage}
           changePage={changePage}
         />
       );
@@ -254,7 +255,7 @@ export const createChangelogSlides = (changelog, chartType, changePage) => {
           cardType='example'
           card={card}
           title={'No changes yet'}
-          number={null}
+          cardNumber={null}
         />
       )
     }

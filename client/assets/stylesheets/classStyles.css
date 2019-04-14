@@ -283,13 +283,8 @@ h1, h2, h3, h4, h5, h6 {
   overflow: unset !important;
 }
 
-/* .create-chart-top-button {
-  color: rgba(0, 0, 0, 0.65);
-  border-color: rgba(0, 0, 0, 0.65);
-} */
-
 .ant-pagination {
-  display: inline !important;
+  display: inline-block !important;
 }
 
 .ant-pagination-simple .ant-pagination-simple-pager input {
@@ -312,4 +307,40 @@ h1, h2, h3, h4, h5, h6 {
 
 .right-side-tab-pane {
   justify-self: end;
+}
+
+@font-face {
+  font-family: 'anticon';
+  src: url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.eot');
+  /* IE9*/
+  src: url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.woff') format('woff'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.ttf') format('truetype'), /* iOS 4.1- */ url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.svg#iconfont') format('svg');
+}
+
+.anticon {
+  display: inline-block;
+  font-style: normal;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.anticon:before {
+  display: block;
+  font-family: "anticon" !important;
+}
+
+.anticon-double-right:before {
+  content: "\e617";
+}
+
+.anticon-double-left:before {
+  content: "\e618";
+}
+
+.anticon-delete:before {
+  content: "\e69f";
 }
