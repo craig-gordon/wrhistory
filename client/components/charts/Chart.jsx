@@ -22,6 +22,8 @@ import {
   addSpinnerToChart
 } from './chartUtils.js';
 
+import isEqual from 'lodash.isEqual';
+
 MulticolorSeries(ReactHighcharts.Highcharts);
 Annotations(ReactHighcharts.Highcharts);
 DarkUnica(ReactHighcharts.Highcharts);
@@ -31,12 +33,42 @@ ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 
 
 class Chart extends React.PureComponent {
+  state = {
+    neverReflowFirstCheck: true
+  }
+
+  componentDidMount() {
+    if (this.props.location === 'create') {
+      this.focusOnPoint();
+    }
+  }
+
   componentDidUpdate(prevProps) {
+    // updating selected point on Chart page
     if (this.props.selectedChartPoint !== prevProps.selectedChartPoint) {
       const chart = this.refs.chart.getChart();
       const point = chart.series[0].data[this.props.selectedChartPoint];
       point.select();
+    } else if (this.props.location === 'create') {
+      this.focusOnPoint();
+      if (!isEqual(prevProps.document, this.props.document)) {
+        this.setState(
+          () => ({neverReflowFirstCheck: false}),
+          () => {
+            this.focusOnPoint();
+            this.setState({neverReflowFirstCheck: true});
+          }
+        );
+      }
     }
+  }
+
+  focusOnPoint = (shouldSelect = true) => {
+    const chart = this.refs.chart.getChart();
+    const point = chart.series[0].data[this.props.currentRecordPage - 1];
+    point.setState('hover');
+    shouldSelect && point.selected ? null : point.select();
+    chart.tooltip.refresh(point);
   }
 
   render() {
@@ -83,6 +115,9 @@ class Chart extends React.PureComponent {
             }
           }
         },
+        series: {
+          stickyTracking: false
+        }
       },
       xAxis: {
         title: {
@@ -130,7 +165,7 @@ class Chart extends React.PureComponent {
     return (
       <ReactHighcharts
         config={config}
-        neverReflow={this.props.allowReflow ? false : true}
+        neverReflow={this.state.neverReflowFirstCheck ? this.props.neverReflow : false}
         ref="chart"
       />
     );

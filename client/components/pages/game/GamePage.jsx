@@ -132,6 +132,7 @@ export default class GamePage extends React.Component {
                 location='game'
                 selectedChartPoint={this.state.selectedChartPoint}
                 changeSelectedChartPoint={this.changeSelectedChartPoint}
+                neverReflow={true}
               />
             </TabContentsContainer>
               {/* <EmbeddedCarouselWrapper

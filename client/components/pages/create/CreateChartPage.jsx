@@ -264,7 +264,6 @@ export default class CreateChartPage extends React.Component {
         this.setState({chartSaveButtonDisabled: true});
       }
     } else if (chartOrRecord === 'recordInput') {
-      console.log('this.state.currentPage:', this.state.currentPage);
       // Mark + Player Name do not have inputs
       if (this.state.recordInput.mark === '' || this.state.recordInput.playerName === '') {
         this.setState({recordSaveButtonDisabled: true});
@@ -346,28 +345,47 @@ export default class CreateChartPage extends React.Component {
     
     // saving new Record data
     } else {
-      const prevVersion = this.state.changelog.filter(change => change.recordPage === this.state.currentPage)[0] || null;
-      let newChange = {
-        ...this.state.recordInput,
+      let prevVersion = null;
+      let prevVersionIdx = null;
+      for (let i = this.state.changelog.length - 1; i >= 0; i--) {
+        const change = {...this.state.changelog[i]};
+        if (change.recordPage === this.state.currentPage) {
+          prevVersion = change;
+          prevVersionIdx = i;
+          break;
+        }
+      }
+      const newDocumentAddition = {
+        ...this.state.workingDoc.records[this.state.currentPage - 1],
+        ...this.state.recordInput
+      };
+      const newChange = {
+        ...newDocumentAddition,
         changeType: 'record',
         recordPage: this.state.currentPage,
-        prevVersion
+        isPrevVersion: false,
+        prevVersion,
+        prevVersionIdx
       };
       let allRecords = [...this.state.workingDoc.records];
-      let recordsCount = allRecords.length;
+      const recordsCount = allRecords.length;
 
       // if saving a new record
       if (this.state.currentPage === recordsCount + 1) {
-        allRecords.push(newChange);
+        allRecords.push(newDocumentAddition);
       // if editing an existing record
       } else {
-        allRecords.splice(this.state.currentPage - 1, 1, newChange);
+        allRecords.splice(this.state.currentPage - 1, 1, newDocumentAddition);
       }
 
       let changelog = this.state.changelog[0].exampleTitle
                         ? [newChange]
                         : [...this.state.changelog, newChange];
-      let workingDoc = {
+      if (prevVersionIdx !== null) {
+        const prevVersionChange = {...this.state.changelog[prevVersionIdx], isPrevVersion: true};
+        changelog[prevVersionIdx] = prevVersionChange;
+      }
+      const workingDoc = {
         ...this.state.workingDoc,
         records: allRecords
       };
@@ -529,9 +547,10 @@ export default class CreateChartPage extends React.Component {
                     <Chart
                       document={this.state.workingDoc}
                       dataLoaded={true}
-                      allowReflow={true}
+                      neverReflow={true}
                       location='create'
                       changePage={this.changePage}
+                      currentRecordPage={this.state.currentPage}
                     />
                   </div>
                   {/* CHANGELOG BOX */}
