@@ -110,7 +110,7 @@ const ChangelogCard = (props) => {
       cardType={props.cardType}
       obsolete={props.obsolete}
       style={{display: props.hide ? 'none' : 'initial'}}
-      onClick={() => props.changePage(props.recordPage)}
+      onClick={() => props.cardType === 'record' ? props.changePage(props.recordPage) : null}
     >
       <Header cardType={props.cardType}>
         {props.cardType === 'record' ? <RecordNumber cardType={props.cardType}>{props.recordPage}</RecordNumber> : <span />}

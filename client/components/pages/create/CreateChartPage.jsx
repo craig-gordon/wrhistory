@@ -307,7 +307,8 @@ export default class CreateChartPage extends React.Component {
   saveToChangelog = (chartOrRecord) => {
     // saving new Chart data
     if (chartOrRecord === 'chartInput') {
-      let prevVersion = null;
+      let prevVersion = {...this.state.workingDoc};
+      delete prevVersion.records;
       let prevVersionIdx = null;
       for (let i = this.state.changelog.length - 1; i >= 0; i--) {
         const change = {...this.state.changelog[i]};
@@ -318,6 +319,7 @@ export default class CreateChartPage extends React.Component {
         }
       }
       const newChange = {
+        ...prevVersion,
         ...this.state.chartInput,
         changeType: 'chart',
         isPrevVersion: false,
@@ -345,7 +347,7 @@ export default class CreateChartPage extends React.Component {
     
     // saving new Record data
     } else {
-      let prevVersion = null;
+      let prevVersion = this.state.workingDoc.records[this.state.currentPage - 1];
       let prevVersionIdx = null;
       for (let i = this.state.changelog.length - 1; i >= 0; i--) {
         const change = {...this.state.changelog[i]};
@@ -356,7 +358,7 @@ export default class CreateChartPage extends React.Component {
         }
       }
       const newDocumentAddition = {
-        ...this.state.workingDoc.records[this.state.currentPage - 1],
+        ...prevVersion,
         ...this.state.recordInput
       };
       const newChange = {
@@ -400,6 +402,7 @@ export default class CreateChartPage extends React.Component {
   }
 
   deleteChangelogItem = (type, idx) => {
+    // deleting a Chart changelog item
     if (type === 'chart') {
       let changelog = [...this.state.changelog];
       const changeToBeDeleted = changelog.splice(idx, 1)[0];
@@ -407,40 +410,82 @@ export default class CreateChartPage extends React.Component {
       const prevVersionChange = changeToBeDeleted.prevVersion;
       const prevVersionIdx = changeToBeDeleted.prevVersionIdx;
 
-      if (prevVersionChange === null) {
-        const { gameTitle, category, gameReleaseDate, leaderboardUrl } = type === 'speedrun' ? speedrunDocument : highscoreDocument;
-        const chartInput = {gameTitle: '', category: '', leaderboardUrl: undefined};
-        if (!changelog.length) {
-          changelog = [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}];
-        }
-
-        this.setState({
-          workingDoc: {
-            ...this.state.workingDoc,
-            gameTitle,
-            category,
-            gameReleaseDate,
-            leaderboardUrl
-          },
-          chartInput,
-          changelog
-        });
-      } else {
+      // Previous Version exists
+      if (prevVersionIdx !== null) {
         prevVersionChange.isPrevVersion = false;
         changelog[prevVersionIdx] = prevVersionChange;
+      }
 
-        const { gameTitle, category, leaderboardUrl } = prevVersionChange;
-        const chartInput = { gameTitle, category, leaderboardUrl };
-        
+      const workingDoc = {
+        ...prevVersionChange,
+        records: [...this.state.workingDoc.records]
+      }
+      
+      const { gameTitle, category, leaderboardUrl } = prevVersionChange;
+      const chartInput = { gameTitle, category, leaderboardUrl };
+      
+      if (!changelog.length) {
+        changelog = [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}];
+      }
+
+      this.setState({
+        changelog,
+        workingDoc,
+        chartInput
+      });
+
+    // deleting a Record changelog item
+    } else {
+      let changelog = [...this.state.changelog];
+      const changeToBeDeleted = changelog.splice(idx, 1)[0];
+
+      const prevVersionChange = changeToBeDeleted.prevVersion;
+      const prevVersionIdx = changeToBeDeleted.prevVersionIdx;
+
+      // Previous Version exists
+      if (prevVersionIdx !== null) {
+        // ONLY FOR A RECORD CHANGELOG ITEM THAT WAS AN EDIT OF AN EXISTING RECORD
+        // remove given changelog item
+        // revert given record in workingDoc to prevVersion
+        // if currentPage matches the recordPage of the deleted changelog item, revert chartInputs
+        prevVersionChange.isPrevVersion = false;
+        changelog[prevVersionIdx] = prevVersionChange;
+      }
+
+      const recordIdx = changeToBeDeleted.recordPage - 1;
+      const records = [...this.state.workingDoc.records];
+      records.splice(recordIdx, 1, prevVersionChange);
+
+      const workingDoc = {...this.state.workingDoc, records};
+
+      
+      if (!changelog.length) {
+        changelog = [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}];
+      }
+      
+      if (this.state.currentPage === changeToBeDeleted.recordPage) {
+        const { playerName, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText } = prevVersionChange;
+        const { hours, minutes, seconds, milliseconds } = spreadTimestampToHMSMs(secsToTs(prevVersionChange.mark));
+        console.log('hours:', hours);
+        console.log('minutes:', minutes);
+        console.log('seconds:', seconds);
+        console.log('milliseconds:', milliseconds);
+        const recordInput = { playerName, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText };
+
         this.setState({
-          workingDoc: {
-            ...this.state.workingDoc,
-            gameTitle,
-            category,
-            leaderboardUrl
-          },
-          chartInput,
-          changelog
+          changelog,
+          workingDoc,
+          recordInput,
+          hours,
+          minutes,
+          seconds,
+          milliseconds
+        });
+
+      } else {
+        this.setState({
+          changelog,
+          workingDoc
         });
       }
     }
