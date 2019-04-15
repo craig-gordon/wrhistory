@@ -136,6 +136,18 @@ export default class CreateChartPage extends React.Component {
           this.clearRecordInputs();
         }
       );
+    // going to new blank page to add a new Record during Edit
+    } else if (pageNum === this.state.totalPages + 1 && this.location === '/edit') {
+      this.setState(
+        () => ({
+          currentPage: this.state.totalPages + 1,
+          totalPages: this.state.totalPages + 1
+        }),
+        () => {
+          this.shouldPaginationDoubleArrowsBeActive();
+          this.clearRecordInputs();
+        }
+      );
     // going to last page during Create (last page is a blank record not in the Working Doc)
     } else if (pageNum === this.state.totalPages && this.location === '/create') {
       this.setState(
@@ -203,7 +215,13 @@ export default class CreateChartPage extends React.Component {
   clearRecordInputs = () => {
     const emptyRecordInputObj = createEmptyRecordInputObj();
     this.setState(
-      () => ({recordInput: emptyRecordInputObj}),
+      () => ({
+        recordInput: emptyRecordInputObj,
+        hours: '',
+        minutes: '',
+        seconds: '',
+        milliseconds: ''
+      }),
       () => {
         this.shouldSaveButtonBeDisabled('recordInput');
         this.shouldFinishButtonBeDisabled();
@@ -347,7 +365,7 @@ export default class CreateChartPage extends React.Component {
     
     // saving new Record data
     } else {
-      let prevVersion = this.state.workingDoc.records[this.state.currentPage - 1];
+      let prevVersion = this.state.workingDoc.records[this.state.currentPage - 1] || null;
       let prevVersionIdx = null;
       for (let i = this.state.changelog.length - 1; i >= 0; i--) {
         const change = {...this.state.changelog[i]};
@@ -442,51 +460,100 @@ export default class CreateChartPage extends React.Component {
       const prevVersionChange = changeToBeDeleted.prevVersion;
       const prevVersionIdx = changeToBeDeleted.prevVersionIdx;
 
-      // Previous Version exists
-      if (prevVersionIdx !== null) {
-        // ONLY FOR A RECORD CHANGELOG ITEM THAT WAS AN EDIT OF AN EXISTING RECORD
-        // remove given changelog item
-        // revert given record in workingDoc to prevVersion
-        // if currentPage matches the recordPage of the deleted changelog item, revert chartInputs
-        prevVersionChange.isPrevVersion = false;
-        changelog[prevVersionIdx] = prevVersionChange;
-      }
+      // Changelog Record Item being deleted was a new entry in the Document
+      if (prevVersionChange === null) {
+        const recordIdx = changeToBeDeleted.recordPage - 1;
+        const records = [...this.state.workingDoc.records];
+        records.splice(recordIdx, 1);
 
-      const recordIdx = changeToBeDeleted.recordPage - 1;
-      const records = [...this.state.workingDoc.records];
-      records.splice(recordIdx, 1, prevVersionChange);
+        const workingDoc = {...this.state.workingDoc, records};
 
-      const workingDoc = {...this.state.workingDoc, records};
+        if (!changelog.length) {
+          changelog = [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}];
+        }
 
-      
-      if (!changelog.length) {
-        changelog = [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}];
-      }
-      
-      if (this.state.currentPage === changeToBeDeleted.recordPage) {
-        const { playerName, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText } = prevVersionChange;
-        const { hours, minutes, seconds, milliseconds } = spreadTimestampToHMSMs(secsToTs(prevVersionChange.mark));
-        console.log('hours:', hours);
-        console.log('minutes:', minutes);
-        console.log('seconds:', seconds);
-        console.log('milliseconds:', milliseconds);
-        const recordInput = { playerName, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText };
-
-        this.setState({
-          changelog,
-          workingDoc,
-          recordInput,
-          hours,
-          minutes,
-          seconds,
-          milliseconds
-        });
-
+        // If Current Page is lesser than Page of Record To Be Deleted, DO NOT alter recordInput and DO NOT alter currentPage
+        if (this.state.currentPage < changeToBeDeleted.recordPage) {
+          this.setState(
+            () => ({
+              changelog,
+              workingDoc,
+              totalPages: this.state.totalPages - 1
+            }),
+            () => {
+              this.shouldPaginationDoubleArrowsBeActive();
+            }
+          );
+        // If Current Page equals Page of Record To Be Deleted, DO alter recordInput and DO NOT alter currentPage
+        } else if (this.state.currentPage === changeToBeDeleted.recordPage) {
+          this.setState(
+            () => ({
+              changelog,
+              workingDoc,
+              // If Current Page is the Last Page, then also decrement Current Page
+              currentPage: this.state.currentPage === this.state.totalPages ? this.state.currentPage - 1 : this.state.currentPage,
+              totalPages: this.state.totalPages - 1
+            }),
+            () => {
+              this.shouldPaginationDoubleArrowsBeActive();
+              this.hydratePage(this.state.currentPage);
+            }
+          );
+        // If Current Page is greater than Page of Record To Be Deleted, DO NOT alter recordInput and DO alter currentPage
+        } else if (this.state.currentPage > changeToBeDeleted.recordPage) {
+          this.setState(
+            () => ({
+              changelog,
+              workingDoc,
+              currentPage: this.state.currentPage - 1,
+              totalPages: this.state.totalPages - 1
+            }),
+            () => {
+              console.log('this.state.currentPage:', this.state.currentPage);
+              this.shouldPaginationDoubleArrowsBeActive();
+              this.hydratePage(this.state.currentPage);
+            }
+          );
+        }
       } else {
-        this.setState({
-          changelog,
-          workingDoc
-        });
+        // Previous Version exists
+        if (prevVersionIdx !== null) {
+          prevVersionChange.isPrevVersion = false;
+          changelog[prevVersionIdx] = prevVersionChange;
+        }
+
+        const recordIdx = changeToBeDeleted.recordPage - 1;
+        const records = [...this.state.workingDoc.records];
+        records.splice(recordIdx, 1, prevVersionChange);
+
+        const workingDoc = {...this.state.workingDoc, records};
+
+        
+        if (!changelog.length) {
+          changelog = [{exampleTitle: 'Example', detailedText: 'This is an example changelog item.'}];
+        }
+        
+        if (this.state.currentPage === changeToBeDeleted.recordPage) {
+          const { playerName, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText } = prevVersionChange;
+          const { hours, minutes, seconds, milliseconds } = spreadTimestampToHMSMs(secsToTs(prevVersionChange.mark));
+          const recordInput = { playerName, year, month, day, vodUrl, isMilestone, labelText, tooltipNote, detailedText };
+
+          this.setState({
+            changelog,
+            workingDoc,
+            recordInput,
+            hours,
+            minutes,
+            seconds,
+            milliseconds
+          });
+
+        } else {
+          this.setState({
+            changelog,
+            workingDoc
+          });
+        }
       }
     }
   }
@@ -559,7 +626,15 @@ export default class CreateChartPage extends React.Component {
                         </span>
                         <CurrentPageIcon>{this.state.currentPage}</CurrentPageIcon>
                       </RecordInputHeader>
-                      { this.location === '/edit' ? <EditPageNewRecordButton /> : null}
+                      {
+                        this.location === '/edit'
+                          ? <EditPageNewRecordButton
+                              currentPage={this.state.currentPage}
+                              totalPages={this.state.totalPages}
+                              changePage={this.changePage}
+                            />
+                          : null
+                      }
                     </RecordInputHeaderWrapper>
                     <RecordInputGroup
                       currentPage={this.state.currentPage}

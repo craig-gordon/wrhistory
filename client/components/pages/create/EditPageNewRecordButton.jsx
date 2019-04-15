@@ -9,7 +9,7 @@ const EditPageNewRecordButton = (props) => (
     type='primary'
     size='small'
     onClick={() => {
-      
+      props.changePage(props.totalPages + 1);
     }}
   >
     Add Record

@@ -50,7 +50,7 @@ class Chart extends React.PureComponent {
       const point = chart.series[0].data[this.props.selectedChartPoint];
       point.select();
     } else if (this.props.location === 'create') {
-      this.focusOnPoint();
+      this.focusOnPoint(prevProps.currentRecordPage);
       if (!isEqual(prevProps.document, this.props.document)) {
         this.setState(
           () => ({neverReflowFirstCheck: false}),
@@ -63,12 +63,20 @@ class Chart extends React.PureComponent {
     }
   }
 
-  focusOnPoint = (shouldSelect = true) => {
+  focusOnPoint = (prevPage, shouldSelect = true) => {
     const chart = this.refs.chart.getChart();
-    const point = chart.series[0].data[this.props.currentRecordPage - 1];
-    point.setState('hover');
-    shouldSelect && point.selected ? null : point.select();
-    chart.tooltip.refresh(point);
+    const pointsArr = chart.series[0].data;
+    if (pointsArr.length === this.props.currentRecordPage) {
+      const point = pointsArr[prevPage - 1];
+      point.setState('');
+      point.selected ? point.select() : null;
+      chart.tooltip.hide(point);
+    } else {
+      const point = pointsArr[this.props.currentRecordPage - 1];
+      point.setState('hover');
+      shouldSelect && point.selected ? null : point.select();
+      chart.tooltip.refresh(point);
+    }
   }
 
   render() {
