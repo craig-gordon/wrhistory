@@ -14,7 +14,7 @@ class Changelog extends React.PureComponent {
         showThumbs={false}
         showStatus={false}
       >
-        {createChangelogSlides(this.props.changelog, this.props.chartType, this.props.changePage, this.props.deleteChangelogItem)}
+        {createChangelogSlides(this.props.changelog, this.props.chartType, this.props.currentPage, this.props.changePage, this.props.deleteChangelogItem)}
       </Carousel>
     );
   }

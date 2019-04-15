@@ -358,10 +358,15 @@ export default class CreateChartPage extends React.Component {
         leaderboardUrl: newChange.leaderboardUrl
       };
 
-      this.setState({
-        changelog,
-        workingDoc
-      });
+      this.setState(
+        () => ({
+          changelog,
+          workingDoc
+        }),
+        () => {
+          this.shouldSaveButtonBeDisabled('chartInput');
+        }
+      );
     
     // saving new Record data
     } else {
@@ -377,7 +382,8 @@ export default class CreateChartPage extends React.Component {
       }
       const newDocumentAddition = {
         ...prevVersion,
-        ...this.state.recordInput
+        ...this.state.recordInput,
+        type: this.state.chartType === 'speedrun' ? 'time' : 'score'
       };
       const newChange = {
         ...newDocumentAddition,
@@ -390,12 +396,16 @@ export default class CreateChartPage extends React.Component {
       let allRecords = [...this.state.workingDoc.records];
       const recordsCount = allRecords.length;
 
+      let initialIdx;
+
       // if saving a new record
       if (this.state.currentPage === recordsCount + 1) {
         allRecords.push(newDocumentAddition);
+        initialIdx = allRecords.length - 1;
       // if editing an existing record
       } else {
         allRecords.splice(this.state.currentPage - 1, 1, newDocumentAddition);
+        initialIdx = this.state.currentPage - 1;
       }
 
       let changelog = this.state.changelog[0].exampleTitle
@@ -405,17 +415,53 @@ export default class CreateChartPage extends React.Component {
         const prevVersionChange = {...this.state.changelog[prevVersionIdx], isPrevVersion: true};
         changelog[prevVersionIdx] = prevVersionChange;
       }
+
+      allRecords.sort((a, b) => Date.UTC(a.year, a.month, a.day) < Date.UTC(b.year, b.month, b.day) ? -1 : 1);
+
+      if (!isEqual(newDocumentAddition, allRecords[initialIdx])) {
+        let actualIdx;
+        for (let i = 0; i < allRecords.length; i++) {
+          if (i === initialIdx) {
+            continue;
+          }
+          if (isEqual(newDocumentAddition, allRecords[i])) {
+            actualIdx = i;
+            break;
+          }
+        }
+        console.log('initialIdx:', initialIdx, 'actualIdx:', actualIdx);
+
+        for (let i = 0; i < changelog.length; i++) {
+          const change = changelog[i];
+          if (isEqual(change, newChange)) {
+            changelog[i].recordPage = actualIdx + 1;
+          } else if (initialIdx < change.recordPage && change.recordPage <= actualIdx) {
+            changelog[i].recordPage--;
+          } else if (actualIdx <= change.recordPage && change.recordPage < initialIdx) {
+            changelog[i].recordPage++;
+          }
+        }
+      }
+
       const workingDoc = {
         ...this.state.workingDoc,
         records: allRecords
       };
 
-      this.setState(() => ({
-        changelog,
-        workingDoc
-      }), () => {
-        this.location === '/create' && this.onLastPage() ? this.changePage() : null;
-      });
+      this.setState(
+        () => ({
+          changelog,
+          workingDoc
+        }),
+        () => {
+          if (this.location === '/create' && this.onLastPage()) {
+            this.changePage();
+          } else {
+            this.hydratePage(this.state.currentPage);
+          }
+          this.shouldSaveButtonBeDisabled('recordInput');
+        }
+      );
     }
   }
 
@@ -679,6 +725,7 @@ export default class CreateChartPage extends React.Component {
                     <Changelog
                       changelog={this.state.changelog}
                       chartType={this.state.chartType}
+                      currentPage={this.state.currentPage}
                       changePage={this.changePage}
                       deleteChangelogItem={this.deleteChangelogItem}
                     />

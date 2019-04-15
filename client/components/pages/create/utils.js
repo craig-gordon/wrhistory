@@ -221,7 +221,7 @@ const Slide = styled.div`
 
 // Create Changelog Slides
 
-export const createChangelogSlides = (changelog, chartType, changePage, deleteChangelogItem) => {
+export const createChangelogSlides = (changelog, chartType, currentPage, changePage, deleteChangelogItem) => {
   // 1 card = 1 chart / record / example entry
   // 1 slide = 2 cards
   const cards = changelog.map((card, i) => {
@@ -245,6 +245,7 @@ export const createChangelogSlides = (changelog, chartType, changePage, deleteCh
           cardType='record'
           card={card}
           changelogIdx={i}
+          currentPage={currentPage}
           recordPage={card.recordPage}
           changePage={changePage}
           obsolete={card.isPrevVersion}

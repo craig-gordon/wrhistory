@@ -58,8 +58,9 @@ const IconContainer = styled.div`
   align-items: center;
 `;
 
-const DeleteIcon = styled.i`
+const HeaderIcon = styled.i`
   transition: font-size .1s;
+  margin-left: 0.5em;
 
   :hover {
     color: black;
@@ -110,7 +111,6 @@ const ChangelogCard = (props) => {
       cardType={props.cardType}
       obsolete={props.obsolete}
       style={{display: props.hide ? 'none' : 'initial'}}
-      onClick={() => props.cardType === 'record' ? props.changePage(props.recordPage) : null}
     >
       <Header cardType={props.cardType}>
         {props.cardType === 'record' ? <RecordNumber cardType={props.cardType}>{props.recordPage}</RecordNumber> : <span />}
@@ -118,13 +118,29 @@ const ChangelogCard = (props) => {
         {props.cardType === 'example'
           ? null
           : <IconContainer>
-              <DeleteIcon
+              {
+                props.cardType === 'record'
+                  ? <HeaderIcon
+                      title='View Record in Editor'
+                      className='fas fa-reply'
+                      onClick={(e) => {
+                        if (props.currentPage !== props.recordPage) {
+                          props.changePage(props.recordPage);
+                        }
+                      }}
+                    />
+                  : null
+              }
+              <HeaderIcon
                 title='Undo Change'
-                className="far fa-trash-alt"
+                className='fas fa-times-circle'
                 onClick={(e) => {
-                  e.stopPropagation();
                   props.deleteChangelogItem(props.cardType, props.changelogIdx);
                 }}
+              />
+              <HeaderIcon
+                title={`Delete All Changes ${props.cardType === 'chart' ? 'to the Central Chart Information' : 'for this Record'}`}
+                className="far fa-trash-alt"
               />
             </IconContainer>}
       </Header>
