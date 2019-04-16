@@ -465,22 +465,39 @@ export default class CreateChartPage extends React.Component {
     }
   }
 
-  deleteChangelogItem = (type, idx) => {
+  deleteChangelogItem = (type, idx, cascade = false) => {
     // deleting a Chart changelog item
     if (type === 'chart') {
       let changelog = [...this.state.changelog];
-      const changeToBeDeleted = changelog.splice(idx, 1)[0];
+      let changeToBeDeleted = changelog.splice(idx, 1)[0];
 
-      const prevVersionChange = changeToBeDeleted.prevVersion;
-      const prevVersionIdx = changeToBeDeleted.prevVersionIdx;
+      let prevVersionChange = changeToBeDeleted.prevVersion;
+      let prevVersionIdx = changeToBeDeleted.prevVersionIdx;
 
-      // Previous Version exists
-      if (prevVersionIdx !== null) {
-        prevVersionChange.isPrevVersion = false;
-        changelog[prevVersionIdx] = prevVersionChange;
+      if (cascade) {
+        while (prevVersionIdx !== null) {
+          for (let i = changelog.length - 1; i >= 0; i--) {
+            const changelogChange = {...changelog[i], isPrevVersion: undefined};
+            const prevPropertyChange = {...prevVersionChange, isPrevVersion: undefined};
+            if (isEqual(changelogChange, prevPropertyChange)) {
+              changeToBeDeleted = changelog.splice(i, 1)[0];
+
+              prevVersionChange = changeToBeDeleted.prevVersion;
+              prevVersionIdx = changeToBeDeleted.prevVersionIdx;
+              break;
+            }
+          }
+        }
+      } else {
+        // Previous Version exists
+        if (prevVersionIdx !== null) {
+          prevVersionChange.isPrevVersion = false;
+          changelog[prevVersionIdx] = prevVersionChange;
+        }
       }
 
       const workingDoc = {
+        ...this.state.workingDoc,
         ...prevVersionChange,
         records: [...this.state.workingDoc.records]
       }

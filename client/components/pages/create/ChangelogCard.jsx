@@ -140,7 +140,10 @@ const ChangelogCard = (props) => {
               />
               <HeaderIcon
                 title={`Delete All Changes ${props.cardType === 'chart' ? 'to the Central Chart Information' : 'for this Record'}`}
-                className="far fa-trash-alt"
+                className="fas fa-trash-alt"
+                onClick={(e) => {
+                  props.deleteChangelogItem(props.cardType, props.changelogIdx, true);
+                }}
               />
             </IconContainer>}
       </Header>
