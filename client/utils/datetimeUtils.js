@@ -1,10 +1,14 @@
+export const setUtcOffsetMS = () => {
+  window.utcOffsetMS = new Date().getTimezoneOffset() * 60 * 1000;
+};
+
 export const convertHMSMsToSecondsStr = (h, m, s, ms) => {
-  let totalSeconds = (Number(h) * 3600) + (Number(m) * 60) + Number(s);
+  let totalSeconds = Number(h) * 3600 + Number(m) * 60 + Number(s);
   if (ms) totalSeconds = totalSeconds + Number(`0.${ms}`);
   return totalSeconds;
 };
 
-export const tsToSecs = (ts) => {
+export const tsToSecs = ts => {
   let tsArr = ts.split(':');
   let secs = Number(tsArr[tsArr.length - 1]);
   let mins = Number(tsArr[tsArr.length - 2]) || 0;
@@ -13,7 +17,7 @@ export const tsToSecs = (ts) => {
   return secs + mins * 60 + hours * 3600 + days * 86400;
 };
 
-export const secsToTs = (secs) => {
+export const secsToTs = secs => {
   let secsStr = secs.toString();
   let tsMillisecs;
   if (secsStr.indexOf('.') > -1) {
@@ -37,11 +41,11 @@ export const secsToTs = (secs) => {
   return tsArr.join(':') + (tsMillisecs ? tsMillisecs : '');
 };
 
-export const spreadTimestampToHMSMs = (ts) => {
+export const spreadTimestampToHMSMs = ts => {
   let hours = '',
-      minutes = '',
-      seconds = '',
-      milliseconds = '';
+    minutes = '',
+    seconds = '',
+    milliseconds = '';
 
   // handle milliseconds
   if (ts.includes('.')) {
@@ -55,7 +59,7 @@ export const spreadTimestampToHMSMs = (ts) => {
     ts = ts.slice(0, ts.lastIndexOf(':'));
   } else {
     seconds = ts;
-    return {hours, minutes, seconds, milliseconds};
+    return { hours, minutes, seconds, milliseconds };
   }
 
   // handle minutes
@@ -64,52 +68,57 @@ export const spreadTimestampToHMSMs = (ts) => {
     ts = ts.slice(0, ts.lastIndexOf(':'));
   } else {
     minutes = ts;
-    return {hours, minutes, seconds, milliseconds};
+    return { hours, minutes, seconds, milliseconds };
   }
 
   // handle hours
   hours = ts;
-  return {hours, minutes, seconds, milliseconds};
+  return { hours, minutes, seconds, milliseconds };
 };
 
-const getIsolatedYMDFromMS = (ms) => {
+const getIsolatedYMDFromMS = ms => {
   let years = Math.floor(ms / 31556952000);
   let yearsInMS = years * 31556952000;
-  let months = Math.floor((ms - (yearsInMS)) / 2592000000);
+  let months = Math.floor((ms - yearsInMS) / 2592000000);
   let monthsInMS = months * 2592000000;
   let days = Math.floor((ms - yearsInMS - monthsInMS) / 86400000);
-  return {years, months, days};
+  return { years, months, days };
 };
 
 export const daysToYMD = (currDateMS, nextDateMS) => {
   let diffMS = nextDateMS - currDateMS;
-  let {years, months, days} = getIsolatedYMDFromMS(diffMS);
+  let { years, months, days } = getIsolatedYMDFromMS(diffMS);
 
   let yearsStr = years > 0 ? `${years} year${years === 1 ? '' : 's'}` : ``;
   let monthsStr = months > 0 ? `${months} month${months === 1 ? '' : 's'}` : ``;
   let daysStr = days > 0 ? `${days} day${days === 1 ? '' : 's'}` : ``;
-  
-  return `${yearsStr}${yearsStr && (monthsStr || daysStr) ? ', ' : ''}${monthsStr}${monthsStr && daysStr ? ', ' : ''}${daysStr}`;
+
+  return `${yearsStr}${
+    yearsStr && (monthsStr || daysStr) ? ', ' : ''
+  }${monthsStr}${monthsStr && daysStr ? ', ' : ''}${daysStr}`;
 };
 
 export const formatUTCMillisecsToDateStr = function(utcMs) {
   let dateStrRaw = new Date(utcMs).toDateString().slice(4);
   dateStrRaw = dateStrRaw.slice(0, 6) + ', ' + dateStrRaw.slice(7);
-  dateStrRaw = dateStrRaw[4] === '0' ? dateStrRaw.slice(0, 4) + dateStrRaw.slice(5) : dateStrRaw;
+  dateStrRaw =
+    dateStrRaw[4] === '0'
+      ? dateStrRaw.slice(0, 4) + dateStrRaw.slice(5)
+      : dateStrRaw;
   let dateStr;
   const monthMap = {
-    'Jan': 'January',
-    'Feb': 'February',
-    'Mar': 'March',
-    'Apr': 'April',
-    'May': 'May',
-    'Jun': 'June',
-    'Jul': 'July',
-    'Aug': 'August',
-    'Sep': 'September',
-    'Oct': 'October',
-    'Nov': 'November',
-    'Dec': 'December'
+    Jan: 'January',
+    Feb: 'February',
+    Mar: 'March',
+    Apr: 'April',
+    May: 'May',
+    Jun: 'June',
+    Jul: 'July',
+    Aug: 'August',
+    Sep: 'September',
+    Oct: 'October',
+    Nov: 'November',
+    Dec: 'December'
   };
   for (var month in monthMap) {
     if (dateStrRaw.indexOf(month) > -1) {

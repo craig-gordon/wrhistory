@@ -3,7 +3,12 @@ import styled from 'styled-components';
 import $ from 'cash-dom';
 import Spin from 'antd/lib/spin';
 
-import { secsToTs, daysToYMD, formatUTCMillisecsToDateStr, formatYMDToDateStr } from '../../utils/datetimeUtils.js';
+import {
+  secsToTs,
+  daysToYMD,
+  formatUTCMillisecsToDateStr,
+  formatYMDToDateStr
+} from '../../utils/datetimeUtils.js';
 import '../../assets/stylesheets/classStyles.css';
 
 export const formatHighScore = function(score) {
@@ -21,17 +26,45 @@ export const formatHighScore = function(score) {
   return scoreArr.join(',');
 };
 
+const insertNewlineChars = (str, interval) => {
+  let strArr = str.split('');
+  let idx = interval;
+  while (strArr[idx] !== undefined) {
+    if (strArr[idx] !== ' ') {
+      idx++;
+      continue;
+    }
+    strArr.splice(idx, 0, '\n');
+    idx = idx + interval + 3;
+  }
+  return strArr.join('');
+};
+
 export const formatTooltip = function() {
   let dateStr = formatUTCMillisecsToDateStr(this.x);
   const typeLabel = this.point.data.type === 'time' ? 'Time' : 'Score';
-  const formattedMark = this.point.data.type === 'time' ? secsToTs(this.y / 1000) : formatHighScore(this.y);
+  const formattedMark =
+    this.point.data.type === 'time'
+      ? secsToTs(this.y / 1000)
+      : formatHighScore(this.y);
   return `
     <div>
       <div><span class='ttCategory'>${typeLabel}</span>${formattedMark}</div>
-      <div><span class='ttCategory'>Player</span>${this.point.data.playerName}</div>
+      <div><span class='ttCategory'>Player</span>${
+        this.point.data.playerName
+      }</div>
       <div><span class='ttCategory'>Date</span>${dateStr}</div>
-      <div><span class='ttCategory'>Duration</span>${daysToYMD(this.x, this.point.nextDate)} ${this.point.isCurrentRecord ? ' and counting!' : ''}</div>
-      ${this.point.data.tooltipNote ? `<div><span class='ttCategory'>Note</span>${this.point.data.tooltipNote}</div>` : ``}
+      <div><span class='ttCategory'>Duration</span>${daysToYMD(
+        this.x,
+        this.point.nextDate
+      )} ${this.point.isCurrentRecord ? ' and counting!' : ''}</div>
+      ${
+        this.point.data.tooltipNote
+          ? `<div><span class='ttCategory'>Note</span><span class='ttNote'>${
+              this.point.data.tooltipNote
+            }</span></div>`
+          : ``
+      }
     </div>
   `;
 };
@@ -44,27 +77,62 @@ export const positionTooltip = function(labelWidth, labelHeight, point) {
   if (point.plotY - labelHeight < 0) {
     y = point.plotY + this.chart.plotTop + 15;
   }
-  return {x, y};
-}
+  // if the label would be rendered outside of the horizontal viewport region,
+  // render it within the viewport instead
+  // TODO
+  return { x, y };
+};
 
 export const createPowSymbol = function(x, y) {
   return [
-    'M', x+3, y+3,
-    'L', x+9, y+5,
-    'L', x+12, y+0,
-    'L', x+15, y+5, 
-    'L', x+21, y+3, 
-    'L', x+19, y+9, 
-    'L', x+24, y+12, 
-    'L', x+19, y+15, 
-    'L', x+21, y+21, 
-    'L', x+15, y+19, 
-    'L', x+12, y+24, 
-    'L', x+9, y+19, 
-    'L', x+3, y+21, 
-    'L', x+5, y+15, 
-    'L', x+0, y+12, 
-    'L', x+5, y+9,
+    'M',
+    x + 3,
+    y + 3,
+    'L',
+    x + 9,
+    y + 5,
+    'L',
+    x + 12,
+    y + 0,
+    'L',
+    x + 15,
+    y + 5,
+    'L',
+    x + 21,
+    y + 3,
+    'L',
+    x + 19,
+    y + 9,
+    'L',
+    x + 24,
+    y + 12,
+    'L',
+    x + 19,
+    y + 15,
+    'L',
+    x + 21,
+    y + 21,
+    'L',
+    x + 15,
+    y + 19,
+    'L',
+    x + 12,
+    y + 24,
+    'L',
+    x + 9,
+    y + 19,
+    'L',
+    x + 3,
+    y + 21,
+    'L',
+    x + 5,
+    y + 15,
+    'L',
+    x + 0,
+    y + 12,
+    'L',
+    x + 5,
+    y + 9,
     'z'
   ];
 };
@@ -89,27 +157,59 @@ export const createTitleHTML = function(document) {
     <div class='chartTitle'>
       ${document.gameTitle}${document.category ? ` — ${document.category}` : ``}
     </div>
-  `
+  `;
 };
 
 export const createSubtitleHTML = function(document, currentRecord) {
-  let formattedMark = document.type === 'speedrun' ? secsToTs(currentRecord.mark) : formatHighScore(currentRecord.mark);
+  let formattedMark =
+    document.type === 'speedrun'
+      ? secsToTs(currentRecord.mark)
+      : formatHighScore(currentRecord.mark);
   return `
     <div class='chartSubtitle'>
-      <div>Current WR — <a href=${currentRecord.vodUrl} class='chartLink score'>${formattedMark}</a> by ${currentRecord.playerName}</div>
-      ${document.leaderboardUrl
-        ? `<a href=${document.leaderboardUrl} class='chartLink lbLink'>LEADERBOARD</a>`
-        : ''}
+      <div>Current WR — <a href=${
+        currentRecord.vodUrl
+      } class='chartLink score'>${formattedMark}</a> by ${
+    currentRecord.playerName
+  }</div>
+      ${
+        document.leaderboardUrl
+          ? `<a href=${
+              document.leaderboardUrl
+            } class='chartLink lbLink'>LEADERBOARD</a>`
+          : ''
+      }
     </div>
-  `
+  `;
+};
+
+export const createXAxisConfig = function(records) {
+  return {
+    title: {
+      text: 'Date'
+    },
+    type: 'datetime',
+    endOnTick: false,
+    min: Date.UTC(records && records.length > 0 ? records[0].year : 1970, 0, 1),
+    max: Date.now() + utcOffsetMS,
+    minTickInterval: 86400000,
+    // tickInterval: 31104000000,
+    dateTimeLabelFormats: {
+      year: '%Y'
+    },
+    labels: {
+      style: {
+        fontSize: window.widthType === 'lg' ? '1rem' : '0.75rem'
+      }
+    }
+  };
 };
 
 export const createYAxisConfig = function(document) {
   const configs = {
-
     speedrun: {
       title: {
-        text: 'Time'
+        text: window.widthType === 'lg' ? 'Time' : null
       },
       type: 'datetime',
       alternateGridColor: '#3f3f3f',
@@ -120,12 +220,17 @@ export const createYAxisConfig = function(document) {
         second: '%H:%M:%S',
         minute: '%M:%S',
         hour: '%H:%M:%S'
+      },
+      labels: {
+        style: {
+          fontSize: window.widthType === 'lg' ? '1rem' : '0.75rem'
+        }
       }
     },
 
     highscore: {
       title: {
-        text: 'Score'
+        text: window.widthType === 'lg' ? 'Score' : null
       },
       labels: {
         rotation: 25,
@@ -137,27 +242,33 @@ export const createYAxisConfig = function(document) {
       alternateGridColor: '#3f3f3f',
       // tickInterval: document.yAxisTickInterval,
       tickInterval: 100000,
-      tickLength: 0
+      tickLength: 0,
+      labels: {
+        style: {
+          fontSize: window.widthType === 'lg' ? '1rem' : '0.75rem'
+        }
+      }
     }
-
   };
 
   return configs[document.type];
 };
 
 export const createChartLabels = function(records) {
-  return records.filter(record => record.labelText).map(record => {
-    return {
-      point: {
-        x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
-        y: record.mark * 1000,
-        xAxis: 0,
-        yAxis: 0
-      },
-      y: -15,
-      text: record.labelText
-    }
-  });
+  return records
+    .filter(record => record.labelText)
+    .map(record => {
+      return {
+        point: {
+          x: Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+          y: record.mark * 1000,
+          xAxis: 0,
+          yAxis: 0
+        },
+        y: -15,
+        text: record.labelText
+      };
+    });
 };
 
 const convertTransparentToSolid = function(colorStr) {
@@ -206,18 +317,30 @@ export const createChartData = function(records, documentType) {
       color: convertTransparentToSolid(playerColor),
       data: record,
       isCurrentRecord,
-      nextDate: isCurrentRecord ? Date.now() : Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS,
+      nextDate: isCurrentRecord
+        ? Date.now()
+        : Date.UTC(
+            records[i + 1].year,
+            records[i + 1].month,
+            records[i + 1].day
+          ) + utcOffsetMS,
       marker: determineMarker(record, isCurrentRecord)
     };
   });
 
-  let finalDummyRecord = {...recordsArray[recordsArray.length - 1]};
+  let finalDummyRecord = { ...recordsArray[recordsArray.length - 1] };
   finalDummyRecord.x = Date.now() + 2592000000;
 
   return recordsArray.concat(finalDummyRecord);
 };
 
-export const createChartSeries = function(records = [], documentType = 'speedrun', location, changeSelectedChartPoint, changePage) {
+export const createChartSeries = function(
+  records = [],
+  documentType = 'speedrun',
+  location,
+  changeSelectedChartPoint,
+  changePage
+) {
   const playerColors = [
     'rgba(144, 238, 126, 0.7)',
     'rgba(244, 91, 91, 0.7)',
@@ -230,43 +353,45 @@ export const createChartSeries = function(records = [], documentType = 'speedrun
 
   let playerList = [];
 
-  return records.filter((record, i) => {
-    if (playerList.indexOf(record.playerName) > -1) {
-      return false;
-    } else {
-      playerList.push(record.playerName);
-      return true;
-    }
-  }).map((record, i) => {
-    if (i === 0) {
-      return {
-        grouping: false,
-        type: 'coloredline',
-        name: record.playerName,
-        color: convertTransparentToSolid(playerColors[i]),
-        step: 'left',
-        cursor: 'pointer',
-        zoneAxis: 'x',
-        events: {
-          click: function(e) {
-            if (location === 'create') {
-              changePage(e.point.index + 1);
-            } else if (location === 'game') {
-              changeSelectedChartPoint(e, records);
+  return records
+    .filter((record, i) => {
+      if (playerList.indexOf(record.playerName) > -1) {
+        return false;
+      } else {
+        playerList.push(record.playerName);
+        return true;
+      }
+    })
+    .map((record, i) => {
+      if (i === 0) {
+        return {
+          grouping: false,
+          type: 'coloredline',
+          name: record.playerName,
+          color: convertTransparentToSolid(playerColors[i]),
+          step: 'left',
+          cursor: 'pointer',
+          zoneAxis: 'x',
+          events: {
+            click: function(e) {
+              if (location === 'create') {
+                changePage(e.point.index + 1);
+              } else if (location === 'game') {
+                changeSelectedChartPoint(e, records);
+              }
             }
-          }
-        },
-        data: createChartData(records, documentType)
-      };
-    } else {
-      return {
-        grouping: false,
-        name: record.playerName,
-        color: convertTransparentToSolid(playerColors[i]),
-        data: []
-      };
-    }
-  });
+          },
+          data: createChartData(records, documentType)
+        };
+      } else {
+        return {
+          grouping: false,
+          name: record.playerName,
+          color: convertTransparentToSolid(playerColors[i]),
+          data: []
+        };
+      }
+    });
 };
 
 const Slide = styled.div`
@@ -286,31 +411,47 @@ const SubHeader = styled.h3`
 `;
 
 const Text = styled.h4`
-  ${props => props.hasDetailed ? 'font-style: normal !important;' : ''}
+  ${props => (props.hasDetailed ? 'font-style: normal !important;' : '')}
   margin: 0 !important;
 `;
 
 export const createCarouselSlides = function(records) {
   return records.map((record, i) => {
-    let formattedMark = record.type === 'time' ? secsToTs(record.mark) : formatHighScore(record.mark);
-    let recordDateStr = formatYMDToDateStr(record.year, record.month, record.day);
-    let durationStr = i === records.length - 1
-      ? daysToYMD(
-          Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
-          Date.now() + utcOffsetMS
-        ) + ' and counting!'
-      : daysToYMD(
-          Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
-          Date.UTC(records[i+1].year, records[i+1].month, records[i+1].day) + utcOffsetMS
-        );
+    let formattedMark =
+      record.type === 'time'
+        ? secsToTs(record.mark)
+        : formatHighScore(record.mark);
+    let recordDateStr = formatYMDToDateStr(
+      record.year,
+      record.month,
+      record.day
+    );
+    let durationStr =
+      i === records.length - 1
+        ? daysToYMD(
+            Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+            Date.now() + utcOffsetMS
+          ) + ' and counting!'
+        : daysToYMD(
+            Date.UTC(record.year, record.month, record.day) + utcOffsetMS,
+            Date.UTC(
+              records[i + 1].year,
+              records[i + 1].month,
+              records[i + 1].day
+            ) + utcOffsetMS
+          );
     return (
       <Slide key={i}>
-        <Header>{record.playerName} — {formattedMark}</Header>
-        <SubHeader>{recordDateStr} — held for {durationStr}</SubHeader>
-        <Text
-          hasDetailed={record.detailedText !== undefined}
-        >
-          {record.detailedText ? record.detailedText : 'No detailed description available for this record'}
+        <Header>
+          {record.playerName} — {formattedMark}
+        </Header>
+        <SubHeader>
+          {recordDateStr} — held for {durationStr}
+        </SubHeader>
+        <Text hasDetailed={record.detailedText !== undefined}>
+          {record.detailedText
+            ? record.detailedText
+            : 'No detailed description available for this record'}
         </Text>
       </Slide>
     );
@@ -318,25 +459,29 @@ export const createCarouselSlides = function(records) {
 };
 
 export const addSpinnerToChart = function() {
-  this.renderer.text(
-    `<div class="pixel-loader" />`,
-    this.chartWidth / 2,
-    this.chartHeight / 2,
-    true
-  ).add()
+  this.renderer
+    .text(
+      `<div class="pixel-loader" />`,
+      this.chartWidth / 2,
+      this.chartHeight / 2,
+      true
+    )
+    .add();
 };
 
 export const addViewFullChartButton = function(endpoint, history) {
   this.renderer
     .text(
-      `<div class="viewFullChartBtn">${window.deviceType === 'lg' ? 'View Full Chart' : 'Full'}</div>`,
-      window.deviceType === 'lg' ? 20 : 10,
-      window.deviceType === 'lg' ? 30 : 20,
+      `<div class="viewFullChartBtn">${
+        window.widthType === 'lg' ? 'View Full Chart' : 'Full'
+      }</div>`,
+      window.widthType === 'lg' ? 20 : 10,
+      window.widthType === 'lg' ? 30 : 20,
       true
     )
     .add()
-    .on('click', (e) => {
+    .on('click', e => {
       e.stopPropagation();
       history.push(`/chart${endpoint}`);
-    })
+    });
 };

@@ -13,6 +13,7 @@ import {
   createPowSymbol,
   createTitleHTML,
   createSubtitleHTML,
+  createXAxisConfig,
   createYAxisConfig,
   createChartLabels,
   createChartData,
@@ -31,11 +32,10 @@ DarkUnica(ReactHighcharts.Highcharts);
 ReactHighcharts.Highcharts.setOptions(darkUnicaMod);
 ReactHighcharts.Highcharts.SVGRenderer.prototype.symbols.pow = createPowSymbol;
 
-
 class Chart extends React.PureComponent {
   state = {
     neverReflowFirstCheck: true
-  }
+  };
 
   componentDidMount() {
     if (this.props.location === 'create') {
@@ -53,10 +53,10 @@ class Chart extends React.PureComponent {
       this.focusOnPoint(prevProps.currentRecordPage);
       if (!isEqual(prevProps.document, this.props.document)) {
         this.setState(
-          () => ({neverReflowFirstCheck: false}),
+          () => ({ neverReflowFirstCheck: false }),
           () => {
             this.focusOnPoint();
-            this.setState({neverReflowFirstCheck: true});
+            this.setState({ neverReflowFirstCheck: true });
           }
         );
       }
@@ -77,7 +77,7 @@ class Chart extends React.PureComponent {
       shouldSelect && point.selected ? null : point.select();
       chart.tooltip.refresh(point);
     }
-  }
+  };
 
   render() {
     let location = this.props.location;
@@ -94,12 +94,15 @@ class Chart extends React.PureComponent {
         zoomType: 'x',
         panning: true,
         panKey: 'shift',
+        height: window.widthType === 'lg' ? '35%' : '100%',
         events: {
           load: dataLoaded
-                  ? function() {
-                      location === 'home' ? addViewFullChartButton.call(this, gameEndpoint, history) : null;
-                    }
-                  : addSpinnerToChart
+            ? function() {
+                location === 'home'
+                  ? addViewFullChartButton.call(this, gameEndpoint, history)
+                  : null;
+              }
+            : addSpinnerToChart
         }
       },
       title: {
@@ -108,7 +111,10 @@ class Chart extends React.PureComponent {
       },
       subtitle: {
         useHTML: true,
-        text: document && currentRecord ? createSubtitleHTML(document, currentRecord) : ''
+        text:
+          document && currentRecord
+            ? createSubtitleHTML(document, currentRecord)
+            : ''
       },
       credits: false,
       plotOptions: {
@@ -127,21 +133,8 @@ class Chart extends React.PureComponent {
           stickyTracking: false
         }
       },
-      xAxis: {
-        title: {
-          text: 'Date'
-        },
-        type: 'datetime',
-        endOnTick: false,
-        min: Date.UTC(records && records.length > 0 ? records[0].year : 1970, 0, 1),
-        max: Date.now() + utcOffsetMS,
-        minTickInterval: 86400000,
-        // tickInterval: 31104000000,
-        dateTimeLabelFormats: {
-          year: '%Y'
-        }
-      },
-      yAxis: createYAxisConfig(document ? document : {type: 'speedrun'}),
+      xAxis: createXAxisConfig(records),
+      yAxis: createYAxisConfig(document ? document : { type: 'speedrun' }),
       tooltip: {
         useHTML: true,
         outside: true,
@@ -149,17 +142,25 @@ class Chart extends React.PureComponent {
         formatter: formatTooltip,
         positioner: positionTooltip
       },
-      annotations: [{
-        labelOptions: {
-          backgroundColor: '#f2f2f2',
-          style: {
-            fontSize: '13px'
-          }
-        },
-        labels: createChartLabels(records ? records : [])
-      }],
+      annotations: [
+        {
+          labelOptions: {
+            backgroundColor: '#f2f2f2',
+            style: {
+              fontSize: '13px'
+            }
+          },
+          labels:
+            window.widthType === 'lg'
+              ? createChartLabels(records ? records : [])
+              : null
+        }
+      ],
       legend: {
-        layout: 'horizontal'
+        layout: 'horizontal',
+        itemStyle: {
+          fontSize: window.widthType === 'lg' ? '1rem' : '0.65rem'
+        }
       },
       series: createChartSeries(
         records,
@@ -173,8 +174,10 @@ class Chart extends React.PureComponent {
     return (
       <ReactHighcharts
         config={config}
-        neverReflow={this.state.neverReflowFirstCheck ? this.props.neverReflow : false}
-        ref="chart"
+        neverReflow={
+          this.state.neverReflowFirstCheck ? this.props.neverReflow : false
+        }
+        ref='chart'
       />
     );
   }

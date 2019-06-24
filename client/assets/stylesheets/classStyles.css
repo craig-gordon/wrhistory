@@ -4,13 +4,16 @@
   src: url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.eot');
   /* IE9*/
 
-  src: url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.eot?#iefix') format('embedded-opentype'),
-       /* chrome、firefox */
-       url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.woff') format('woff'),
-       /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-       url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.ttf') format('truetype'),
-       /* iOS 4.1- */
-       url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.svg#iconfont') format('svg');
+  src: url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.eot?#iefix')
+      format('embedded-opentype'),
+    /* chrome、firefox */
+      url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.woff') format('woff'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.ttf')
+      format('truetype'),
+    /* iOS 4.1- */
+      url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.svg#iconfont')
+      format('svg');
 }
 
 @font-face {
@@ -24,7 +27,12 @@ body {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
 }
 
@@ -40,14 +48,8 @@ h1, h2, h3, h4, h5, h6 {
   background: #f35626;
   color: #f35626;
   margin: auto;
-  box-shadow: 15px 15px 0 0,
-              -15px -15px 0 0,
-              15px -15px 0 0,
-              -15px 15px 0 0,
-              0 15px 0 0,
-              15px 0 0 0,
-              -15px 0 0 0,
-              0 -15px 0 0;
+  box-shadow: 15px 15px 0 0, -15px -15px 0 0, 15px -15px 0 0, -15px 15px 0 0,
+    0 15px 0 0, 15px 0 0 0, -15px 0 0 0, 0 -15px 0 0;
   animation: spin 2s linear infinite;
 }
 
@@ -56,27 +58,15 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-filter: hue-rotate(0deg);
   }
   50% {
-    box-shadow: 20px 20px 0 0,
-                -20px -20px 0 0,
-                20px -20px 0 0,
-                -20px 20px 0 0,
-                0 10px 0 0,
-                10px 0 0 0,
-                -10px 0 0 0,
-                0 -10px 0 0;
+    box-shadow: 20px 20px 0 0, -20px -20px 0 0, 20px -20px 0 0, -20px 20px 0 0,
+      0 10px 0 0, 10px 0 0 0, -10px 0 0 0, 0 -10px 0 0;
   }
-  
+
   75% {
-    box-shadow: 20px 20px 0 0,
-                -20px -20px 0 0,
-                20px -20px 0 0,
-                -20px 20px 0 0,
-                0 10px 0 0,
-                10px 0 0 0,
-                -10px 0 0 0,
-                0 -10px 0 0;
+    box-shadow: 20px 20px 0 0, -20px -20px 0 0, 20px -20px 0 0, -20px 20px 0 0,
+      0 10px 0 0, 10px 0 0 0, -10px 0 0 0, 0 -10px 0 0;
   }
-  
+
   100% {
     transform: rotate(360deg);
     -webkit-filter: hue-rotate(360deg);
@@ -105,11 +95,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .chartLink.score {
-  color: #E0E0E3;
+  color: #e0e0e3;
 }
 
 .chartLink.lbLink {
-  color: #A0A0A3;
+  color: #a0a0a3;
 }
 
 .highcharts-container {
@@ -121,9 +111,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .ttCategory {
-  color: #A0A0A3;
+  color: #a0a0a3;
   font-weight: bold;
   margin-right: 5px;
+}
+
+.ttNote {
+  white-space: pre-line !important;
 }
 
 .viewFullChartBtn {
@@ -165,6 +159,12 @@ h1, h2, h3, h4, h5, h6 {
 * CAROUSELS *
 ************/
 
+.carousel-container > div {
+  position: absolute;
+  left: 20px;
+  width: calc(100% - 40px);
+}
+
 .carousel .slide {
   background: unset !important;
   overflow: hidden;
@@ -196,9 +196,11 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.45s ease-in-out;
 }
 
-.carousel .control-dots .dot {
+.dot {
   background: darkviolet !important;
-  margin-top: 50px !important;
+  margin-left: 6px !important;
+  margin-right: 6px !important;
+  margin-top: 12px !important;
 }
 
 .carousel .control-dots {
@@ -216,7 +218,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .carousel.carousel-slider .control-arrow:hover {
-  background: rgba(0,0,0,0) !important;
+  background: rgba(0, 0, 0, 0) !important;
 }
 
 /*************
@@ -230,7 +232,7 @@ h1, h2, h3, h4, h5, h6 {
 .ant-tooltip-inner {
   min-height: 0 !important;
   font-weight: 600;
-  background-color: rgba(68, 68, 68, 1) !important; 
+  background-color: rgba(68, 68, 68, 1) !important;
 }
 
 .next-btn:hover,
@@ -313,7 +315,14 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'anticon';
   src: url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.eot');
   /* IE9*/
-  src: url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.woff') format('woff'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.ttf') format('truetype'), /* iOS 4.1- */ url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.svg#iconfont') format('svg');
+  src: url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.woff')
+      format('woff'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.ttf')
+      format('truetype'),
+    /* iOS 4.1- */
+      url('https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.svg#iconfont')
+      format('svg');
 }
 
 .anticon {
@@ -330,17 +339,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .anticon:before {
   display: block;
-  font-family: "anticon" !important;
+  font-family: 'anticon' !important;
 }
 
 .anticon-double-right:before {
-  content: "\e617";
+  content: '\e617';
 }
 
 .anticon-double-left:before {
-  content: "\e618";
+  content: '\e618';
 }
 
 .anticon-delete:before {
-  content: "\e69f";
+  content: '\e69f';
 }

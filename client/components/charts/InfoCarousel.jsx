@@ -15,18 +15,17 @@ class InfoCarousel extends React.Component {
   render() {
     return (
       <Carousel
-        width='770px'
         dynamicHeight={true}
         showIndicators={true}
         showThumbs={false}
         showStatus={false}
         selectedItem={this.props.selected}
-        onChange={(e) => this.props.changeSelectedChartPoint(e, this.records)}
+        onChange={e => this.props.changeSelectedChartPoint(e, this.records)}
       >
         {createCarouselSlides(this.records)}
       </Carousel>
-    )
+    );
   }
-};
+}
 
 export default InfoCarousel;

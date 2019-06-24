@@ -1,25 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import $ from 'cash-dom';
 // import { AppContainer } from 'react-hot-loader';
 import App from './components/common/App.jsx';
+import WidthProvider from './components/common/WidthProvider.jsx';
+import { setUtcOffsetMS } from './utils/datetimeUtils.js';
+import { setWidthType } from './utils/resolutionUtils.js';
 
-window.utcOffsetMS = new Date().getTimezoneOffset() * 60 * 1000;
-const setDeviceType = () => window.deviceType = $(window).width() >= 600 ? 'lg' : 'sm';
-setDeviceType();
-window.onresize = setDeviceType;
+setUtcOffsetMS();
+setWidthType();
+window.onresize = setWidthType;
 
-const render = (Component) => {
+const render = Component => {
   ReactDOM.render(
     // <AppContainer>
-      <BrowserRouter>
+    <BrowserRouter>
+      <WidthProvider>
         <Component />
-      </BrowserRouter>,
+      </WidthProvider>
+    </BrowserRouter>,
     // </AppContainer>,
     document.getElementById('app')
   );
-}
+};
 
 render(App);
 
