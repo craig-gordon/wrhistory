@@ -22,7 +22,7 @@
     "dotenv": "^5.0.0",
     "dotenv-webpack": "^1.5.7",
     "express": "^4.16.2",
-    "highcharts": "^6.0.7",
+    "highcharts": "^8.2.0",
     "highcharts-multicolor-series": "^2.2.4",
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
